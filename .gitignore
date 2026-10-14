@@ -1,0 +1,11 @@
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Temporary & Log Files
+*.tmp
+*.temp
+*.log
