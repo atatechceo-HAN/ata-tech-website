@@ -14,6 +14,9 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- 4개국어 다국어 스위칭 엔진 & 솔루션 상세 다국어 엔진 (i18n.js) -->
+    <script src="i18n.js"></script>
+
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
@@ -100,6 +103,8 @@
 
             transform: translateY(0);
 
+            pointer-events: auto;
+
         }
 
 
@@ -171,33 +176,38 @@
             opacity: 0;
             visibility: hidden;
             transform: translateY(-6px);
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
             pointer-events: none;
+            z-index: 9999;
         }
 
-        /* 호버 브릿지: 버튼과 드롭다운 사이의 8px 간격을 채워 마우스 이동 시 꺼짐 방지 */
+        /* 호버 브릿지: 버튼과 드롭다운 사이의 간격을 넉넉히 채워 마우스 이동 시 꺼짐 완벽 방지 */
         #desktop-lang-dropdown::before {
             content: '';
             position: absolute;
             top: -16px;
-            left: 0;
-            right: 0;
-            height: 16px;
+            left: -12px;
+            right: -12px;
+            height: 20px;
             background: transparent;
+            pointer-events: auto;
         }
 
-        #desktop-lang-container:hover #desktop-lang-dropdown:not(.menu-closed) {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) !important;
-            pointer-events: auto !important;
-        }
-
+        /* 호버 상태 또는 클릭 활성화(active-dropdown) 시 메뉴 표시 및 마우스 상호작용 허용 */
+        #desktop-lang-container:hover #desktop-lang-dropdown:not(.menu-temporarily-closed),
+        #desktop-lang-dropdown:hover:not(.menu-temporarily-closed),
         #desktop-lang-dropdown.active-dropdown {
             opacity: 1 !important;
             visibility: visible !important;
             transform: translateY(0) !important;
             pointer-events: auto !important;
+        }
+
+        #desktop-lang-dropdown.menu-temporarily-closed {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateY(-6px) !important;
+            pointer-events: none !important;
         }
     </style>
 
@@ -336,72 +346,55 @@
                     </a>
 
                     <div
-                        class="dropdown-menu absolute top-full left-0 w-72 bg-[#0D1629]/95 backdrop-blur-xl text-slate-200 border border-slate-800 border-t-2 border-t-accent shadow-2xl rounded-b-lg max-h-[70vh] overflow-y-auto custom-scrollbar">
+                        class="dropdown-menu absolute top-full left-0 w-80 md:w-84 bg-[#0D1629]/95 backdrop-blur-xl text-slate-200 border border-slate-800 border-t-2 border-t-accent shadow-2xl rounded-b-lg max-h-[70vh] overflow-y-auto custom-scrollbar">
 
                         <a href="#" onclick="navigate('main', 'solution'); return false;"
                             class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800 font-bold text-accent sticky top-0 bg-[#0D1629] z-10"><span
                                 data-i18n="nav_solution_all">전체 솔루션 보기</span></a>
 
                         <a href="#" onclick="navigate('product', '택배차량 배송 자동화 시스템'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-white border-b border-slate-800/80 font-semibold text-cyan-400 bg-cyan-950/40">1.
-
-                            택배차량 배송 자동화 시스템 (NEW)</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-white border-b border-slate-800/80 font-semibold text-cyan-400 bg-cyan-950/40"><span
+                                data-i18n="nav_sol_1">1. 택배차량 배송 자동화 시스템 (NEW)</span></a>
 
                         <a href="#" onclick="navigate('product', 'NBS [Narrow Belt Sorter]'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">2.
-
-                            NBS
-
-                            [Narrow Belt Sorter]</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_2">2. NBS [Narrow Belt Sorter]</span></a>
 
                         <a href="#" onclick="navigate('product', 'CBS [Cross Belt Sorter]'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">3.
-
-                            CBS
-
-                            [Cross Belt Sorter]</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_3">3. CBS [Cross Belt Sorter]</span></a>
 
                         <a href="#" onclick="navigate('product', 'NC CBS [NC Cross Belt Sorter]'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">4.
-
-                            NC
-
-                            CBS [NC Cross Belt Sorter]</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_4">4. NC CBS [NC Cross Belt Sorter]</span></a>
 
                         <a href="#" onclick="navigate('product', 'Wheel Sorter'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">5.
-
-                            Wheel Sorter</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_5">5. Wheel Sorter</span></a>
 
                         <a href="#" onclick="navigate('product', 'Tilt Tray Sorter'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">6.
-
-                            Tilt Tray Sorter</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_6">6. Tilt Tray Sorter</span></a>
 
                         <a href="#" onclick="navigate('product', 'Conveyors & ADD-Ons'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">7.
-
-                            Conveyors & ADD-Ons</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_7">7. Conveyors & ADD-Ons</span></a>
 
                         <a href="#" onclick="navigate('product', 'Telescopic'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">8.
-
-                            Telescopic</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_8">8. Telescopic</span></a>
 
                         <a href="#" onclick="navigate('product', 'Shuttle AS/RS'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">9.
-
-                            Shuttle AS/RS</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_9">9. Shuttle AS/RS</span></a>
 
                         <a href="#" onclick="navigate('product', 'AGV & AMR'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300">10.
-
-                            AGV & AMR</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent border-b border-slate-800/80 text-slate-300"><span
+                                data-i18n="nav_sol_10">10. AGV & AMR</span></a>
 
                         <a href="#" onclick="navigate('product', 'WCS [창고제어시스템]'); return false;"
-                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent text-slate-300">11. WCS
-
-                            [창고제어시스템]</a>
+                            class="block px-6 py-3 hover:bg-slate-800/90 hover:text-accent text-slate-300"><span
+                                data-i18n="nav_sol_11">11. WCS [창고제어시스템]</span></a>
 
                     </div>
 
@@ -575,27 +568,27 @@
                     </button>
                     <div id="desktop-lang-dropdown"
                         class="dropdown-menu absolute top-full right-0 mt-2 w-36 bg-[#0D1629]/98 backdrop-blur-xl border border-slate-800 border-t-2 border-t-accent shadow-2xl rounded-xl overflow-hidden py-1 z-[9999]">
-                        <button type="button" onclick="setLanguage('ko'); closeDesktopLangDropdown();"
+                        <button type="button" onclick="setLanguage('ko'); closeDesktopLangDropdown(true);"
                             class="lang-opt w-full px-3.5 py-2.5 text-left text-xs font-semibold hover:bg-cyan-950/70 hover:text-cyan-400 flex items-center justify-between transition-colors cursor-pointer"
                             data-lang="ko">
                             <span>🇰🇷 한국어</span>
                             <i class="fa-solid fa-check text-[10px] text-cyan-400 lang-check" id="lang-check-ko"></i>
                         </button>
-                        <button type="button" onclick="setLanguage('en'); closeDesktopLangDropdown();"
+                        <button type="button" onclick="setLanguage('en'); closeDesktopLangDropdown(true);"
                             class="lang-opt w-full px-3.5 py-2.5 text-left text-xs font-semibold hover:bg-cyan-950/70 hover:text-cyan-400 flex items-center justify-between transition-colors cursor-pointer"
                             data-lang="en">
                             <span>🇺🇸 English</span>
                             <i class="fa-solid fa-check text-[10px] text-cyan-400 lang-check hidden"
                                 id="lang-check-en"></i>
                         </button>
-                        <button type="button" onclick="setLanguage('zh'); closeDesktopLangDropdown();"
+                        <button type="button" onclick="setLanguage('zh'); closeDesktopLangDropdown(true);"
                             class="lang-opt w-full px-3.5 py-2.5 text-left text-xs font-semibold hover:bg-cyan-950/70 hover:text-cyan-400 flex items-center justify-between transition-colors cursor-pointer"
                             data-lang="zh">
                             <span>🇨🇳 中文</span>
                             <i class="fa-solid fa-check text-[10px] text-cyan-400 lang-check hidden"
                                 id="lang-check-zh"></i>
                         </button>
-                        <button type="button" onclick="setLanguage('ja'); closeDesktopLangDropdown();"
+                        <button type="button" onclick="setLanguage('ja'); closeDesktopLangDropdown(true);"
                             class="lang-opt w-full px-3.5 py-2.5 text-left text-xs font-semibold hover:bg-cyan-950/70 hover:text-cyan-400 flex items-center justify-between transition-colors cursor-pointer"
                             data-lang="ja">
                             <span>🇯🇵 日本語</span>
@@ -704,25 +697,25 @@
                     <div
                         class="text-accent font-bold text-lg mb-3 border-b border-slate-800 pb-2 flex items-center justify-between">
 
-                        <span>ABOUT US</span>
+                        <span data-i18n="nav_about">ABOUT US</span>
 
-                        <span class="text-xs text-slate-500 font-normal">기업 소개</span>
+                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_sub_intro">기업 소개</span>
 
                     </div>
 
                     <div class="flex flex-col space-y-3 pl-2">
 
                         <a href="#" onclick="navigate('main', 'about-ceo'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">CEO 인사말</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_ceo">CEO 인사말</a>
 
                         <a href="#" onclick="navigate('main', 'about-history'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">연혁</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_history">연혁</a>
 
                         <a href="#" onclick="navigate('main', 'about-vision'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">비전</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_vision">비전</a>
 
                         <a href="#" onclick="navigate('main', 'about-core-tech'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">핵심기술</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_tech">핵심기술</a>
 
                     </div>
 
@@ -735,22 +728,25 @@
                     <div
                         class="text-accent font-bold text-lg mb-3 border-b border-slate-800 pb-2 flex items-center justify-between">
 
-                        <span>특허 및 인증</span>
+                        <span data-i18n="nav_patents">특허 및 인증</span>
 
-                        <span class="text-xs text-slate-500 font-normal">기술 인증</span>
+                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_sub_certs">기술 인증</span>
 
                     </div>
 
                     <div class="flex flex-col space-y-3 pl-2">
 
                         <a href="#" onclick="navigate('patents'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">특허 현황</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors"
+                            data-i18n="nav_patents_status">특허 현황</a>
 
                         <a href="#" onclick="navigate('cert-quality'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">인증 현황</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_certs_status">인증
+                            현황</a>
 
                         <a href="#" onclick="navigate('cert-awards'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">수상 내역</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors"
+                            data-i18n="nav_awards_status">수상 내역</a>
 
                     </div>
 
@@ -763,53 +759,61 @@
                     <div
                         class="text-accent font-bold text-lg mb-3 border-b border-slate-800 pb-2 flex items-center justify-between">
 
-                        <span>SOLUTION</span>
+                        <span data-i18n="nav_solution">SOLUTION</span>
 
-                        <span class="text-xs text-slate-500 font-normal">자동화 라인업</span>
+                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_sub_solutions">자동화 라인업</span>
 
                     </div>
 
                     <div class="flex flex-col space-y-3 pl-2">
 
                         <a href="#" onclick="navigate('main', 'solution'); return false;"
-                            class="text-white font-medium hover:text-cyan-400 transition-colors">전체 솔루션 보기</a>
+                            class="text-white font-medium hover:text-cyan-400 transition-colors"
+                            data-i18n="nav_solution_all">전체 솔루션 보기</a>
 
                         <a href="#" onclick="navigate('product', '택배차량 배송 자동화 시스템'); return false;"
-                            class="text-cyan-400 font-semibold hover:text-white transition-colors">1. 택배차량 배송 자동화 시스템
-
-                            (NEW)</a>
+                            class="text-cyan-400 font-semibold hover:text-white transition-colors"
+                            data-i18n="nav_sol_1">1. 택배차량 배송 자동화 시스템 (NEW)</a>
 
                         <a href="#" onclick="navigate('product', 'NBS [Narrow Belt Sorter]'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">2. NBS [Narrow Belt Sorter]</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_2">2. NBS
+                            [Narrow Belt Sorter]</a>
 
                         <a href="#" onclick="navigate('product', 'CBS [Cross Belt Sorter]'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">3. CBS [Cross Belt Sorter]</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_3">3. CBS
+                            [Cross Belt Sorter]</a>
 
                         <a href="#" onclick="navigate('product', 'NC CBS [NC Cross Belt Sorter]'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">4. NC CBS [NC Cross Belt
-
-                            Sorter]</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_4">4. NC CBS
+                            [NC Cross Belt Sorter]</a>
 
                         <a href="#" onclick="navigate('product', 'Wheel Sorter'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">5. Wheel Sorter</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_5">5. Wheel
+                            Sorter</a>
 
                         <a href="#" onclick="navigate('product', 'Tilt Tray Sorter'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">6. Tilt Tray Sorter</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_6">6. Tilt
+                            Tray Sorter</a>
 
                         <a href="#" onclick="navigate('product', 'Conveyors & ADD-Ons'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">7. Conveyors & ADD-Ons</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_7">7.
+                            Conveyors & ADD-Ons</a>
 
                         <a href="#" onclick="navigate('product', 'Telescopic'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">8. Telescopic</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_8">8.
+                            Telescopic</a>
 
                         <a href="#" onclick="navigate('product', 'Shuttle AS/RS'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">9. Shuttle AS/RS</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_9">9.
+                            Shuttle AS/RS</a>
 
                         <a href="#" onclick="navigate('product', 'AGV & AMR'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">10. AGV & AMR</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_10">10. AGV
+                            & AMR</a>
 
                         <a href="#" onclick="navigate('product', 'WCS [창고제어시스템]'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">11. WCS [창고제어시스템]</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_sol_11">11. WCS
+                            [창고제어시스템]</a>
 
                     </div>
 
@@ -822,14 +826,15 @@
                     <a href="#" onclick="navigate('reference'); return false;"
                         class="text-accent font-bold text-lg block border-b border-slate-800 pb-2 hover:text-cyan-400 transition-colors">
 
-                        REFERENCE
+                        <span data-i18n="nav_ref">REFERENCE</span>
 
                     </a>
 
                     <div class="flex flex-col space-y-3 pl-2 pt-2">
 
                         <a href="#" onclick="navigate('reference', 'all'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">주요 실적 전체 보기</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors"><span
+                                data-i18n="nav_sub_ref">주요 실적 전체 보기</span></a>
 
                     </div>
 
@@ -842,7 +847,7 @@
                     <div
                         class="text-accent font-bold text-lg mb-3 border-b border-slate-800 pb-2 flex items-center justify-between">
 
-                        <span>중국지사_제조사</span>
+                        <span data-i18n="nav_china">중국지사_제조사</span>
 
                         <span class="text-xs text-slate-500 font-normal">XingTing</span>
 
@@ -851,28 +856,26 @@
                     <div class="flex flex-col space-y-3 pl-2">
 
                         <a href="#" onclick="navigate('xingting-intro'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">중국지사_제조사 소개</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors"
+                            data-i18n="nav_china_intro">중국지사_제조사 소개</a>
 
                         <a href="#" onclick="navigate('xingting-coop'); return false;"
                             class="text-slate-300 hover:text-cyan-400 transition-colors flex items-center justify-between">
 
-                            <span>협력사업</span>
+                            <span data-i18n="nav_china_coop">협력사업</span>
 
-                            <span class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold">3대
-
-                                프로젝트</span>
+                            <span class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold"
+                                data-i18n="nav_china_projects">3대 프로젝트</span>
 
                         </a>
 
                         <a href="#" onclick="navigate('xingting-global'); return false;"
                             class="text-slate-300 hover:text-cyan-400 transition-colors flex items-center justify-between">
 
-                            <span>글로벌 네트워크</span>
+                            <span data-i18n="nav_china_global">글로벌 네트워크</span>
 
-                            <span
-                                class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold">인프라
-
-                                맵</span>
+                            <span class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold"
+                                data-i18n="nav_china_map">인프라 맵</span>
 
                         </a>
 
@@ -887,19 +890,21 @@
                     <div
                         class="text-accent font-bold text-lg mb-3 border-b border-slate-800 pb-2 flex items-center justify-between">
 
-                        <span>CONTACT</span>
+                        <span data-i18n="nav_contact">CONTACT</span>
 
-                        <span class="text-xs text-slate-500 font-normal">문의</span>
+                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_sub_inquiry">문의</span>
 
                     </div>
 
                     <div class="flex flex-col space-y-3 pl-2">
 
                         <a href="#" onclick="navigate('contact-map'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">오시는 길</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors" data-i18n="nav_contact_map">오시는
+                            길</a>
 
                         <a href="#" onclick="navigate('contact-inquiry'); return false;"
-                            class="text-slate-300 hover:text-cyan-400 transition-colors">문의하기</a>
+                            class="text-slate-300 hover:text-cyan-400 transition-colors"
+                            data-i18n="nav_contact_inquiry">문의하기</a>
 
                     </div>
 
@@ -1100,9 +1105,9 @@
 
                             <ul class="text-slate-300 mt-3 space-y-2 font-medium list-disc ml-4">
 
-                                <li>01월 - [인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 등록</li>
+                                <li data-i18n="hist_2025_1">01월 - [인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 등록</li>
 
-                                <li>01월 - CES2025 라스베가스 참가</li>
+                                <li data-i18n="hist_2025_2">01월 - CES2025 라스베가스 참가</li>
 
                             </ul>
 
@@ -1121,48 +1126,19 @@
 
                             <ul class="text-slate-300 mt-3 space-y-2 font-medium list-disc ml-4">
 
-                                <li>11월 - [운송 차량 적재물의 분류 및 이송 장치] 특허 출원</li>
+                                <li data-i18n="hist_2024_1">11월 - [운송 차량 적재물의 분류 및 이송 장치] 특허 출원</li>
 
-                                <li>06월 - 국토교통 과학기술진흥원 기업지원센터 입주 선정</li>
+                                <li data-i18n="hist_2024_2">06월 - 국토교통 과학기술진흥원 기업지원센터 입주 선정</li>
 
-                                <li>05월 - 중소벤처기업부 창업기술개발사업 최종 선정</li>
+                                <li data-i18n="hist_2024_3">05월 - 중소벤처기업부 창업기술개발사업 최종 선정</li>
 
-                                <li>04월 - 창업진흥원 초기창업패키지 선정</li>
+                                <li data-i18n="hist_2024_4">04월 - 창업진흥원 초기창업패키지 선정</li>
 
-                                <li>03월 - [물류장비 4분할 방향전환장치] 특허 출원</li>
+                                <li data-i18n="hist_2024_5">03월 - [물류장비 4분할 방향전환장치] 특허 출원</li>
 
-                                <li>03월 - [인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 출원</li>
+                                <li data-i18n="hist_2024_6">03월 - [인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 출원</li>
 
-                                <li>중소벤처기업부 R&D기획 지원 사업 선정</li>
-
-                            </ul>
-
-                        </div>
-
-
-
-                        <div class="fade-in relative">
-
-                            <div
-                                class="absolute w-4 h-4 bg-slate-600 rounded-full -left-[42px] top-1 ring-4 ring-[#0B1220]">
-
-                            </div>
-
-                            <h4 class="text-2xl font-extrabold text-slate-200">2023</h4>
-
-                            <ul class="text-slate-300 mt-3 space-y-2 font-medium list-disc ml-4">
-
-                                <li>중소 벤처기업 진흥공단 기술혁신 기업 선정</li>
-
-                                <li>벤처기업 인증</li>
-
-                                <li>중소벤처기업부 창업성장기술개발사업 디딤돌 선정</li>
-
-                                <li>연구개발 전담부서 인증</li>
-
-                                <li>중소벤처기업부 R&D 기획사업 선정</li>
-
-                                <li>독일 Cellumation社 기술 협력 및 제품 도입 추진</li>
+                                <li data-i18n="hist_2024_7">중소벤처기업부 R&D기획 지원 사업 선정</li>
 
                             </ul>
 
@@ -1177,19 +1153,21 @@
 
                             </div>
 
-                            <h4 class="text-2xl font-extrabold text-slate-200">2022</h4>
+                            <h4 class="text-2xl font-extrabold text-slate-200" data-i18n="hist_2023_title">2023</h4>
 
                             <ul class="text-slate-300 mt-3 space-y-2 font-medium list-disc ml-4">
 
-                                <li>01월 - 주식회사 에이티에이기술 설립 (ATA Technology Co., Ltd.)</li>
+                                <li data-i18n="hist_2023_1">중소 벤처기업 진흥공단 기술혁신 기업 선정</li>
 
-                                <li>원주 창조경제 혁신 센터 중,장년 기술 창업 공모전 창의상 수상</li>
+                                <li data-i18n="hist_2023_2">벤처기업 인증</li>
 
-                                <li>재도전 성공 패키지 일반형 선정 [ R&D 정부 사업 진행 ]</li>
+                                <li data-i18n="hist_2023_3">중소벤처기업부 창업성장기술개발사업 디딤돌 선정</li>
 
-                                <li>한국도로공사 상생형 창업-벤처기업 선정 [ R&D 정부 사업 진행 ]</li>
+                                <li data-i18n="hist_2023_4">연구개발 전담부서 인증</li>
 
-                                <li>재도전 성공 패키지 일반형 사업 완료 [ 최우수판정 ]</li>
+                                <li data-i18n="hist_2023_5">중소벤처기업부 R&D 기획사업 선정</li>
+
+                                <li data-i18n="hist_2023_6">독일 Cellumation社 기술 협력 및 제품 도입 추진</li>
 
                             </ul>
 
@@ -1204,19 +1182,47 @@
 
                             </div>
 
-                            <h4 class="text-2xl font-extrabold text-slate-200">2021 이전</h4>
+                            <h4 class="text-2xl font-extrabold text-slate-200" data-i18n="hist_2022_title">2022</h4>
 
                             <ul class="text-slate-300 mt-3 space-y-2 font-medium list-disc ml-4">
 
-                                <li>2021년 10월 - 자동분류 및 이송장치 특허등록</li>
+                                <li data-i18n="hist_2022_1">01월 - 주식회사 에이티에이기술 설립 (ATA Technology Co., Ltd.)</li>
 
-                                <li>적재물의 자동분류 및 이송장치 특허 출원</li>
+                                <li data-i18n="hist_2022_2">원주 창조경제 혁신 센터 중,장년 기술 창업 공모전 창의상 수상</li>
 
-                                <li>창조경제혁신센터 스마트물류 공모전 장려상 수상</li>
+                                <li data-i18n="hist_2022_3">재도전 성공 패키지 일반형 선정 [ R&D 정부 사업 진행 ]</li>
 
-                                <li>항공 수화물의 자동분류 택배 배송 시스템 및 그 시스템을 이용한 항공 수화물 택배 배송 방법 특허 출원</li>
+                                <li data-i18n="hist_2022_4">한국도로공사 상생형 창업-벤처기업 선정 [ R&D 정부 사업 진행 ]</li>
 
-                                <li>공정 수립 및 공정 개선 사업 [ 엔지니어링 서비스 ]</li>
+                                <li data-i18n="hist_2022_5">재도전 성공 패키지 일반형 사업 완료 [ 최우수판정 ]</li>
+
+                            </ul>
+
+                        </div>
+
+
+
+                        <div class="fade-in relative">
+
+                            <div
+                                class="absolute w-4 h-4 bg-slate-600 rounded-full -left-[42px] top-1 ring-4 ring-[#0B1220]">
+
+                            </div>
+
+                            <h4 class="text-2xl font-extrabold text-slate-200" data-i18n="hist_before_2021">2021 이전</h4>
+
+                            <ul class="text-slate-300 mt-3 space-y-2 font-medium list-disc ml-4">
+
+                                <li data-i18n="hist_2021_1">2021년 10월 - 자동분류 및 이송장치 특허등록</li>
+
+                                <li data-i18n="hist_2021_2">적재물의 자동분류 및 이송장치 특허 출원</li>
+
+                                <li data-i18n="hist_2021_3">창조경제혁신센터 스마트물류 공모전 장려상 수상</li>
+
+                                <li data-i18n="hist_2021_4">항공 수화물의 자동분류 택배 배송 시스템 및 그 시스템을 이용한 항공 수화물 택배 배송 방법 특허 출원
+                                </li>
+
+                                <li data-i18n="hist_2021_5">공정 수립 및 공정 개선 사업 [ 엔지니어링 서비스 ]</li>
 
                             </ul>
 
@@ -1484,7 +1490,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1546,7 +1553,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1608,7 +1616,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1670,7 +1679,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1731,7 +1741,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1793,7 +1804,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1845,7 +1857,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1904,7 +1917,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -1966,7 +1980,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -2027,7 +2042,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -2089,7 +2105,8 @@
                             class="px-6 pb-6 pt-0 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium text-slate-400 mt-auto">
 
                             <span
-                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                class="text-accent font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                data-i18n="sol_btn_detail">
 
                                 상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
 
@@ -2120,7 +2137,8 @@
         <div class="max-w-7xl mx-auto px-6">
 
             <button onclick="navigate('main', 'solution'); return false;"
-                class="flex items-center text-slate-400 hover:text-accent mb-8 font-medium transition-colors cursor-pointer">
+                class="flex items-center text-slate-400 hover:text-accent mb-8 font-medium transition-colors cursor-pointer"
+                data-i18n="btn_back_solution">
 
                 <i class="fa-solid fa-arrow-left mr-2"></i> 솔루션 목록으로 돌아가기
 
@@ -2153,13 +2171,15 @@
 
                 <div class="lg:col-span-2">
 
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-800 pb-2">솔루션 개요</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-800 pb-2"
+                        data-i18n="detail_tab_overview">솔루션 개요</h3>
 
                     <p id="product-detail-desc" class="text-slate-300 text-lg leading-relaxed mb-10"></p>
 
 
 
-                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-800 pb-2">주요 특징</h3>
+                    <h3 class="text-2xl font-bold text-white mb-4 border-b border-slate-800 pb-2"
+                        data-i18n="detail_tab_features">주요 특징</h3>
 
                     <ul id="product-detail-features" class="space-y-4 mb-10"></ul>
 
@@ -2167,10 +2187,11 @@
 
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-4">
 
-                        <h3 class="text-2xl font-bold text-white">솔루션 구동 영상</h3>
+                        <h3 class="text-2xl font-bold text-white" data-i18n="detail_tab_video">솔루션 구동 영상</h3>
 
                         <span id="product-detail-video-badge"
-                            class="text-xs font-bold px-3 py-1 bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 rounded-full flex items-center gap-1.5 shadow-sm">
+                            class="text-xs font-bold px-3 py-1 bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 rounded-full flex items-center gap-1.5 shadow-sm"
+                            data-i18n="detail_video_badge">
 
                             <i class="fa-solid fa-circle-play"></i> Full HD 시연영상
 
@@ -2202,9 +2223,11 @@
 
                             </div>
 
-                            <h4 class="text-lg font-bold text-white mb-2">구동 영상 준비 중</h4>
+                            <h4 class="text-lg font-bold text-white mb-2" data-i18n="detail_video_fallback_title">구동 영상
+                                준비 중</h4>
 
-                            <p class="text-sm text-slate-400 max-w-md">해당 솔루션의 고화질 시연 영상 및 기술 문서는 도입 문의를 통해 상세히 안내해
+                            <p class="text-sm text-slate-400 max-w-md" data-i18n="detail_video_fallback_desc">해당 솔루션의
+                                고화질 시연 영상 및 기술 문서는 도입 문의를 통해 상세히 안내해
 
                                 드립니다.</p>
 
@@ -2218,18 +2241,20 @@
 
                 <div class="bg-[#0D1629] rounded-2xl p-8 border border-slate-800 h-fit sticky top-28 shadow-2xl">
 
-                    <h4 class="text-xl font-bold text-white mb-4">도입 문의</h4>
+                    <h4 class="text-xl font-bold text-white mb-4" data-i18n="detail_inquiry_title">도입 문의</h4>
 
-                    <p class="text-sm text-slate-400 mb-6">전문 컨설턴트가 비즈니스 환경에 맞는 최적의 솔루션을 제안해 드립니다.</p>
+                    <p class="text-sm text-slate-400 mb-6" data-i18n="detail_inquiry_desc">전문 컨설턴트가 비즈니스 환경에 맞는 최적의 솔루션을
+                        제안해 드립니다.</p>
 
                     <button onclick="openConsultModal()"
                         class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all mb-3 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-headset text-sm"></i>
-                        <span>도입 상담 신청</span>
+                        <span data-i18n="detail_inquiry_btn">도입 상담 신청</span>
                     </button>
 
-                    <button onclick="alert('제품 브로셔 PDF가 곧 업데이트될 예정입니다. 도입 문의를 남겨주시면 담당자가 이메일로 최신 카탈로그를 발송해 드립니다.');"
-                        class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-3 px-4 rounded-xl transition-colors">브로셔
+                    <button onclick="handleBrochureDownload()"
+                        class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-3 px-4 rounded-xl transition-colors"
+                        data-i18n="detail_download_brochure">브로셔
 
                         다운로드</button>
 
@@ -2268,11 +2293,12 @@
 
                     <i class="fa-solid fa-stamp text-amber-400"></i>
 
-                    <span>KIPO REGISTRATION & PROPRIETARY IP PORTFOLIO</span>
+                    <span data-i18n="pat_badge">KIPO REGISTRATION & PROPRIETARY IP PORTFOLIO</span>
 
                 </div>
 
-                <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight">
+                <h2 class="text-3xl md:text-5xl font-black text-white tracking-tight leading-tight"
+                    data-i18n="pat_heading">
 
                     특허 현황
 
@@ -2282,7 +2308,7 @@
 
                 </h2>
 
-                <p class="text-slate-300 mt-5 text-base md:text-lg leading-relaxed font-normal">
+                <p class="text-slate-300 mt-5 text-base md:text-lg leading-relaxed font-normal" data-i18n="pat_desc">
 
                     주식회사 에이티에이기술은 물류 자동화 메카트로닉스와 지능형 물류 제어 분야에서 독자 R&D를 통해 대한민국 특허청에 정식 등록된 4건의 핵심 원천 특허를 보유하고 있습니다. 확고한
 
@@ -2299,35 +2325,41 @@
 
                     <div class="text-center p-2 border-r border-slate-800 last:border-r-0">
 
-                        <div class="text-2xl md:text-3xl font-black text-amber-400">4<span
+                        <div class="text-2xl md:text-3xl font-black text-amber-400" data-i18n="pat_stat_1_val">4<span
                                 class="text-base font-normal text-slate-400 ml-1">건</span></div>
 
-                        <div class="text-xs font-semibold text-slate-300 mt-1">등록 특허 (100% 등록 완료)</div>
+                        <div class="text-xs font-semibold text-slate-300 mt-1" data-i18n="pat_stat_1_lbl">등록 특허 (100% 등록
+                            완료)</div>
 
                     </div>
 
                     <div class="text-center p-2 border-r border-slate-800 last:border-r-0">
 
-                        <div class="text-2xl md:text-3xl font-black text-white">100<span
+                        <div class="text-2xl md:text-3xl font-black text-white" data-i18n="pat_stat_2_val">100<span
                                 class="text-base font-normal text-slate-400 ml-1">%</span></div>
 
-                        <div class="text-xs font-semibold text-slate-300 mt-1">원천 독점 권리 확보</div>
+                        <div class="text-xs font-semibold text-slate-300 mt-1" data-i18n="pat_stat_2_lbl">원천 독점 권리 확보
+                        </div>
 
                     </div>
 
                     <div class="text-center p-2 border-r border-slate-800 last:border-r-0">
 
-                        <div class="text-lg md:text-xl font-bold text-white tracking-tight mt-1 truncate">에이티에이기술</div>
+                        <div class="text-lg md:text-xl font-bold text-white tracking-tight mt-1 truncate"
+                            data-i18n="pat_stat_3_val">에이티에이기술</div>
 
-                        <div class="text-xs font-semibold text-slate-300 mt-1">특허권자 (법인)</div>
+                        <div class="text-xs font-semibold text-slate-300 mt-1" data-i18n="pat_stat_3_lbl">특허권자 (법인)
+                        </div>
 
                     </div>
 
                     <div class="text-center p-2">
 
-                        <div class="text-lg md:text-xl font-bold text-amber-300 tracking-tight mt-1">특허법 제66조</div>
+                        <div class="text-lg md:text-xl font-bold text-amber-300 tracking-tight mt-1"
+                            data-i18n="pat_stat_4_val">특허법 제66조</div>
 
-                        <div class="text-xs font-semibold text-slate-300 mt-1">법적 독점 배타권 보유</div>
+                        <div class="text-xs font-semibold text-slate-300 mt-1" data-i18n="pat_stat_4_lbl">법적 독점 배타권 보유
+                        </div>
 
                     </div>
 
@@ -2360,7 +2392,8 @@
                         <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-800">
 
                             <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider">
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider"
+                                data-i18n="pat_lbl_kipo">
 
                                 <i class="fa-solid fa-certificate text-amber-400"></i> 대한민국 특허청 등록
 
@@ -2379,8 +2412,8 @@
 
                         <!-- 발명의 명칭 -->
 
-                        <h4
-                            class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors">
+                        <h4 class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors"
+                            data-i18n="pat_1_title">
 
                             탑차 적재물의 자동 분류 및 이송장치
 
@@ -2390,7 +2423,8 @@
 
                         <!-- 기술 해설 -->
 
-                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]">
+                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]"
+                            data-i18n="pat_1_desc">
 
                             물류 운송 탑차 적재함 내부에서 화물을 자동으로 감지하여 분류 및 하역 지점으로 신속하게 이송하는 메카트로닉스 장치로, 상하차 작업 시간을 대폭 단축시키고 작업자의
 
@@ -2407,7 +2441,8 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원번호</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_no">출원번호</span>
 
                                 <span class="font-mono font-semibold text-slate-200">10-2020-0143070</span>
 
@@ -2415,25 +2450,29 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원일자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_date">출원일자</span>
 
-                                <span class="font-medium text-slate-200">2020년 10월 30일</span>
-
-                            </div>
-
-                            <div>
-
-                                <span class="text-slate-500 block text-[11px] font-medium">등록일자</span>
-
-                                <span class="font-bold text-amber-300">2021년 10월 19일</span>
+                                <span class="font-medium text-slate-200" data-i18n="pat_1_app_date">2020년 10월 30일</span>
 
                             </div>
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">특허권자 / 발명자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_reg_date">등록일자</span>
 
-                                <span class="font-medium text-slate-200">(주)에이티에이기술 / 한윤규</span>
+                                <span class="font-bold text-amber-300" data-i18n="pat_1_reg_date">2021년 10월 19일</span>
+
+                            </div>
+
+                            <div>
+
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_assignee">특허권자 / 발명자</span>
+
+                                <span class="font-medium text-slate-200" data-i18n="pat_assignee_val">(주)에이티에이기술 /
+                                    한윤규</span>
 
                             </div>
 
@@ -2460,7 +2499,8 @@
                     <div class="pt-2">
 
                         <a href="docs/1. [특허증]10-2317010.pdf" target="_blank"
-                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn">
+                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn"
+                            data-i18n="pat_btn_pdf">
 
                             <i
                                 class="fa-solid fa-file-pdf text-red-400 group-hover/btn:text-slate-950 transition-colors"></i>
@@ -2496,7 +2536,8 @@
                         <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-800">
 
                             <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider">
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider"
+                                data-i18n="pat_lbl_kipo">
 
                                 <i class="fa-solid fa-certificate text-amber-400"></i> 대한민국 특허청 등록
 
@@ -2515,8 +2556,8 @@
 
                         <!-- 발명의 명칭 -->
 
-                        <h4
-                            class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors">
+                        <h4 class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors"
+                            data-i18n="pat_2_title">
 
                             인공지능 기반 스마트 체형 교정 및 유지 시스템
 
@@ -2526,7 +2567,8 @@
 
                         <!-- 기술 해설 -->
 
-                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]">
+                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]"
+                            data-i18n="pat_2_desc">
 
                             물류·제조 현장 고중량물 핸들링 작업자의 관절 및 골격 부하 데이터를 실시간 분석하고, 인공지능(AI) 알고리즘을 통해 인체공학적 위험 요소를 사전에 감지하여 체형
 
@@ -2543,7 +2585,8 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원번호</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_no">출원번호</span>
 
                                 <span class="font-mono font-semibold text-slate-200">10-2024-0040942</span>
 
@@ -2551,25 +2594,29 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원일자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_date">출원일자</span>
 
-                                <span class="font-medium text-slate-200">2024년 03월 26일</span>
-
-                            </div>
-
-                            <div>
-
-                                <span class="text-slate-500 block text-[11px] font-medium">등록일자</span>
-
-                                <span class="font-bold text-amber-300">2025년 01월 17일</span>
+                                <span class="font-medium text-slate-200" data-i18n="pat_2_app_date">2024년 03월 26일</span>
 
                             </div>
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">특허권자 / 발명자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_reg_date">등록일자</span>
 
-                                <span class="font-medium text-slate-200">(주)에이티에이기술 / 한윤규</span>
+                                <span class="font-bold text-amber-300" data-i18n="pat_2_reg_date">2025년 01월 17일</span>
+
+                            </div>
+
+                            <div>
+
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_assignee">특허권자 / 발명자</span>
+
+                                <span class="font-medium text-slate-200" data-i18n="pat_assignee_val">(주)에이티에이기술 /
+                                    한윤규</span>
 
                             </div>
 
@@ -2596,7 +2643,8 @@
                     <div class="pt-2">
 
                         <a href="docs/1.[특허증]10-2758800.pdf" target="_blank"
-                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn">
+                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn"
+                            data-i18n="pat_btn_pdf">
 
                             <i
                                 class="fa-solid fa-file-pdf text-red-400 group-hover/btn:text-slate-950 transition-colors"></i>
@@ -2632,7 +2680,8 @@
                         <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-800">
 
                             <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider">
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider"
+                                data-i18n="pat_lbl_kipo">
 
                                 <i class="fa-solid fa-certificate text-amber-400"></i> 대한민국 특허청 등록
 
@@ -2651,8 +2700,8 @@
 
                         <!-- 발명의 명칭 -->
 
-                        <h4
-                            class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors">
+                        <h4 class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors"
+                            data-i18n="pat_3_title">
 
                             운송 차량 적재물 분류 및 이송 시스템
 
@@ -2662,7 +2711,8 @@
 
                         <!-- 기술 해설 -->
 
-                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]">
+                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]"
+                            data-i18n="pat_3_desc">
 
                             대형 운송 차량과 물류 허브 터미널 간 적재 화물을 규격 및 목적지별로 연속 고속 자동 분류하고, 지능형 연계 메커니즘을 통해 차량 탑재부와 물류 라인을 직결하여
 
@@ -2679,7 +2729,8 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원번호</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_no">출원번호</span>
 
                                 <span class="font-mono font-semibold text-slate-200">10-2024-0175340</span>
 
@@ -2687,25 +2738,29 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원일자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_date">출원일자</span>
 
-                                <span class="font-medium text-slate-200">2024년 11월 29일</span>
-
-                            </div>
-
-                            <div>
-
-                                <span class="text-slate-500 block text-[11px] font-medium">등록일자</span>
-
-                                <span class="font-bold text-amber-300">2025년 03월 11일</span>
+                                <span class="font-medium text-slate-200" data-i18n="pat_3_app_date">2024년 11월 29일</span>
 
                             </div>
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">특허권자 / 발명자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_reg_date">등록일자</span>
 
-                                <span class="font-medium text-slate-200">(주)에이티에이기술 / 한윤규</span>
+                                <span class="font-bold text-amber-300" data-i18n="pat_3_reg_date">2025년 03월 11일</span>
+
+                            </div>
+
+                            <div>
+
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_assignee">특허권자 / 발명자</span>
+
+                                <span class="font-medium text-slate-200" data-i18n="pat_assignee_val">(주)에이티에이기술 /
+                                    한윤규</span>
 
                             </div>
 
@@ -2732,7 +2787,8 @@
                     <div class="pt-2">
 
                         <a href="docs/1.[특허증]10-2782386.pdf" target="_blank"
-                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn">
+                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn"
+                            data-i18n="pat_btn_pdf">
 
                             <i
                                 class="fa-solid fa-file-pdf text-red-400 group-hover/btn:text-slate-950 transition-colors"></i>
@@ -2768,7 +2824,8 @@
                         <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-800">
 
                             <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider">
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-400 font-bold text-xs tracking-wider"
+                                data-i18n="pat_lbl_kipo">
 
                                 <i class="fa-solid fa-certificate text-amber-400"></i> 대한민국 특허청 등록
 
@@ -2787,8 +2844,8 @@
 
                         <!-- 발명의 명칭 -->
 
-                        <h4
-                            class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors">
+                        <h4 class="text-xl md:text-2xl font-extrabold text-white mb-3 tracking-tight group-hover:text-amber-300 transition-colors"
+                            data-i18n="pat_4_title">
 
                             컨베이어 물류 분류용 4분할 방향 전환 장치
 
@@ -2798,7 +2855,8 @@
 
                         <!-- 기술 해설 -->
 
-                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]">
+                        <p class="text-sm text-slate-300 mb-5 leading-relaxed font-normal min-h-[48px]"
+                            data-i18n="pat_4_desc">
 
                             고속 물류 컨베이어 라인에서 이송 화물의 흐름을 정밀한 4분할 메커니즘을 통해 다방향으로 무충격 급속 전환하여 화물 손상을 방지하고, 분류 병목을 원천 해소하여 단위
 
@@ -2815,7 +2873,8 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원번호</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_no">출원번호</span>
 
                                 <span class="font-mono font-semibold text-slate-200">10-2024-0093852</span>
 
@@ -2823,25 +2882,29 @@
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">출원일자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_app_date">출원일자</span>
 
-                                <span class="font-medium text-slate-200">2024년 07월 16일</span>
-
-                            </div>
-
-                            <div>
-
-                                <span class="text-slate-500 block text-[11px] font-medium">등록일자</span>
-
-                                <span class="font-bold text-amber-300">2026년 04월 17일</span>
+                                <span class="font-medium text-slate-200" data-i18n="pat_4_app_date">2024년 07월 16일</span>
 
                             </div>
 
                             <div>
 
-                                <span class="text-slate-500 block text-[11px] font-medium">특허권자 / 발명자</span>
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_reg_date">등록일자</span>
 
-                                <span class="font-medium text-slate-200">(주)에이티에이기술 / 한윤규</span>
+                                <span class="font-bold text-amber-300" data-i18n="pat_4_reg_date">2026년 04월 17일</span>
+
+                            </div>
+
+                            <div>
+
+                                <span class="text-slate-500 block text-[11px] font-medium"
+                                    data-i18n="pat_lbl_assignee">특허권자 / 발명자</span>
+
+                                <span class="font-medium text-slate-200" data-i18n="pat_assignee_val">(주)에이티에이기술 /
+                                    한윤규</span>
 
                             </div>
 
@@ -2868,7 +2931,8 @@
                     <div class="pt-2">
 
                         <a href="docs/1.[특허증]10-2956028.pdf" target="_blank"
-                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn">
+                            class="w-full inline-flex justify-center items-center gap-2.5 px-4 py-3 bg-slate-800/90 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 hover:border-amber-500 text-slate-200 text-sm font-bold rounded-xl transition-all duration-200 shadow-md group/btn"
+                            data-i18n="pat_btn_pdf">
 
                             <i
                                 class="fa-solid fa-file-pdf text-red-400 group-hover/btn:text-slate-950 transition-colors"></i>
@@ -2926,9 +2990,9 @@
 
                 <span class="text-accent font-semibold tracking-wider text-sm uppercase">Certifications</span>
 
-                <h2 class="text-3xl font-extrabold text-white mt-2">인증 현황</h2>
+                <h2 class="text-3xl font-extrabold text-white mt-2" data-i18n="cert_heading">인증 현황</h2>
 
-                <p class="text-slate-400 mt-4">에이티에이기술이 획득한 다양한 품질 및 환경, 기술 인증서를 확인하실 수 있습니다.</p>
+                <p class="text-slate-400 mt-4" data-i18n="cert_desc">에이티에이기술이 획득한 다양한 품질 및 환경, 기술 인증서를 확인하실 수 있습니다.</p>
 
             </div>
 
@@ -2947,8 +3011,8 @@
 
                     <div class="flex items-center gap-2 mb-4">
 
-                        <span
-                            class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white">품질경영시스템</span>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
+                            data-i18n="cert_1_badge">품질경영시스템</span>
 
                         <span
                             class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">ISO
@@ -2957,9 +3021,10 @@
 
                     </div>
 
-                    <h4 class="text-xl font-bold text-white mb-2">ISO 9001 인증서</h4>
+                    <h4 class="text-xl font-bold text-white mb-2" data-i18n="cert_1_title">ISO 9001 인증서</h4>
 
-                    <p class="text-sm text-slate-300 mb-4 flex-grow">국제 표준화 기구(ISO)에서 제정한 품질경영시스템에 관한 국제 규격을 획득하여 품질 보증
+                    <p class="text-sm text-slate-300 mb-4 flex-grow" data-i18n="cert_1_desc">국제 표준화 기구(ISO)에서 제정한
+                        품질경영시스템에 관한 국제 규격을 획득하여 품질 보증
 
                         및 고객 신뢰 체계를 공인받았습니다.
 
@@ -2974,8 +3039,8 @@
                     </div>
 
                     <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"><i
-                            class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
+                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"
+                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
 
                 </div>
 
@@ -2988,8 +3053,8 @@
 
                     <div class="flex items-center gap-2 mb-4">
 
-                        <span
-                            class="text-xs font-bold px-2.5 py-1 rounded-full bg-teal-600/90 text-white">환경경영시스템</span>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-teal-600/90 text-white"
+                            data-i18n="cert_2_badge">환경경영시스템</span>
 
                         <span
                             class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">ISO
@@ -2998,9 +3063,10 @@
 
                     </div>
 
-                    <h4 class="text-xl font-bold text-white mb-2">ISO 14001 인증서</h4>
+                    <h4 class="text-xl font-bold text-white mb-2" data-i18n="cert_2_title">ISO 14001 인증서</h4>
 
-                    <p class="text-sm text-slate-300 mb-4 flex-grow">국제 표준화 기구(ISO)에서 제정한 환경경영시스템에 관한 국제 규격을 획득하여 친환경 경영
+                    <p class="text-sm text-slate-300 mb-4 flex-grow" data-i18n="cert_2_desc">국제 표준화 기구(ISO)에서 제정한
+                        환경경영시스템에 관한 국제 규격을 획득하여 친환경 경영
 
                         및 지속가능한 환경 관리 체계를 공인받았습니다.
 
@@ -3015,8 +3081,8 @@
                     </div>
 
                     <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"><i
-                            class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
+                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"
+                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
 
                 </div>
 
@@ -3029,15 +3095,17 @@
 
                     <div class="flex items-center gap-2 mb-4">
 
-                        <span
-                            class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white">기업인증</span><span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">벤처기업확인서</span>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
+                            data-i18n="cert_3_badge_1">벤처기업 인증</span><span
+                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700"
+                            data-i18n="cert_3_badge_2">벤처기업확인서</span>
 
                     </div>
 
-                    <h4 class="text-xl font-bold text-white mb-2">벤처기업확인서</h4>
+                    <h4 class="text-xl font-bold text-white mb-2" data-i18n="cert_3_title">벤처기업확인서</h4>
 
-                    <p class="text-sm text-slate-300 mb-4 flex-grow">혁신적인 기술력과 성장 가능성을 인정받아 벤처기업으로 확인되었습니다.</p>
+                    <p class="text-sm text-slate-300 mb-4 flex-grow" data-i18n="cert_3_desc">혁신적인 기술력과 성장 가능성을 인정받아
+                        벤처기업으로 확인되었습니다.</p>
 
                     <div class="w-full bg-slate-950 rounded-xl overflow-hidden mb-4 border border-slate-800"
                         style="height: 320px;">
@@ -3047,8 +3115,8 @@
                     </div>
 
                     <a href="docs/벤처기업확인서.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"><i
-                            class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
+                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"
+                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
 
                 </div>
 
@@ -3061,15 +3129,17 @@
 
                     <div class="flex items-center gap-2 mb-4">
 
-                        <span
-                            class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white">기업인증</span><span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">창업기업확인서</span>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
+                            data-i18n="cert_4_badge_1">정부 공인 창업기업</span><span
+                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700"
+                            data-i18n="cert_4_badge_2">중소벤처기업부</span>
 
                     </div>
 
-                    <h4 class="text-xl font-bold text-white mb-2">창업기업확인서</h4>
+                    <h4 class="text-xl font-bold text-white mb-2" data-i18n="cert_4_title">창업기업확인서</h4>
 
-                    <p class="text-sm text-slate-300 mb-4 flex-grow">우수한 기술력과 아이디어를 바탕으로 창업기업으로 확인되었습니다.</p>
+                    <p class="text-sm text-slate-300 mb-4 flex-grow" data-i18n="cert_4_desc">우수한 기술력과 아이디어를 바탕으로 창업기업으로
+                        확인되었습니다.</p>
 
                     <div class="w-full bg-slate-950 rounded-xl overflow-hidden mb-4 border border-slate-800"
                         style="height: 320px;">
@@ -3079,8 +3149,8 @@
                     </div>
 
                     <a href="docs/창업기업확인서.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"><i
-                            class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
+                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"
+                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
 
                 </div>
 
@@ -3093,15 +3163,17 @@
 
                     <div class="flex items-center gap-2 mb-4">
 
-                        <span
-                            class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white">기업부설연구소</span><span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">연구개발전담부서</span>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
+                            data-i18n="cert_5_badge_1">기업부설 연구전담부서</span><span
+                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700"
+                            data-i18n="cert_5_badge_2">한국산업기술진흥협회 (KOITA)</span>
 
                     </div>
 
-                    <h4 class="text-xl font-bold text-white mb-2">연구개발전담부서 인정서</h4>
+                    <h4 class="text-xl font-bold text-white mb-2" data-i18n="cert_5_title">연구개발전담부서 인정서</h4>
 
-                    <p class="text-sm text-slate-300 mb-4 flex-grow">지속적인 R&D 투자를 통해 독자적인 기술 개발을 수행하는 연구개발전담부서를 운영하고
+                    <p class="text-sm text-slate-300 mb-4 flex-grow" data-i18n="cert_5_desc">지속적인 R&D 투자를 통해 독자적인 기술 개발을
+                        수행하는 연구개발전담부서를 운영하고
 
                         있습니다.</p>
 
@@ -3113,8 +3185,8 @@
                     </div>
 
                     <a href="docs/연구개발전담부서인정서.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"><i
-                            class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
+                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition"
+                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
 
                 </div>
 
@@ -3136,9 +3208,9 @@
 
                 <span class="text-accent font-semibold tracking-wider text-sm uppercase">Awards & Certificates</span>
 
-                <h2 class="text-3xl font-extrabold text-white mt-2">수상 및 수료 내역</h2>
+                <h2 class="text-3xl font-extrabold text-white mt-2" data-i18n="award_heading">수상 및 수료 내역</h2>
 
-                <p class="text-slate-400 mt-4">에이티에이기술의 끊임없는 혁신과 기술력을 대외적으로 인정받은 발자취입니다.</p>
+                <p class="text-slate-400 mt-4" data-i18n="award_desc">에이티에이기술의 끊임없는 혁신과 기술력을 대외적으로 인정받은 발자취입니다.</p>
 
             </div>
 
@@ -3151,9 +3223,9 @@
                 <div
                     class="bg-[#0D1629] border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-slate-700 transition flex flex-col text-center">
 
-                    <span class="text-accent font-bold text-sm mb-2 block">수상 내역</span>
+                    <span class="text-accent font-bold text-sm mb-2 block" data-i18n="award_1_badge">수상 내역</span>
 
-                    <h3 class="text-xl font-extrabold text-white mb-4">강원창조경제혁신센터</h3>
+                    <h3 class="text-xl font-extrabold text-white mb-4" data-i18n="award_1_title">강원창조경제혁신센터</h3>
 
                     <div class="w-full bg-slate-950 rounded-xl overflow-hidden mb-4 border border-slate-800 flex-grow"
                         style="height: 320px;">
@@ -3163,7 +3235,8 @@
                     </div>
 
                     <a href="docs/강원창조경제혁신센터.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition mt-auto">
+                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition mt-auto"
+                        data-i18n="cert_btn_view">
 
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기
 
@@ -3178,9 +3251,9 @@
                 <div
                     class="bg-[#0D1629] border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-slate-700 transition flex flex-col text-center">
 
-                    <span class="text-accent font-bold text-sm mb-2 block">수상 내역</span>
+                    <span class="text-accent font-bold text-sm mb-2 block" data-i18n="award_2_badge">수상 내역</span>
 
-                    <h3 class="text-xl font-extrabold text-white mb-4">인천창조경제혁신센터</h3>
+                    <h3 class="text-xl font-extrabold text-white mb-4" data-i18n="award_2_title">인천창조경제혁신센터</h3>
 
                     <div class="w-full bg-slate-950 rounded-xl overflow-hidden mb-4 border border-slate-800 flex-grow"
                         style="height: 320px;">
@@ -3206,9 +3279,9 @@
                 <div
                     class="bg-[#0D1629] border border-slate-800 rounded-2xl p-6 shadow-xl hover:border-slate-700 transition flex flex-col text-center">
 
-                    <span class="text-accent font-bold text-sm mb-2 block">수료증</span>
+                    <span class="text-accent font-bold text-sm mb-2 block" data-i18n="award_3_badge">수료 내역</span>
 
-                    <h3 class="text-xl font-extrabold text-white mb-4">RnD 실무교육 수료증</h3>
+                    <h3 class="text-xl font-extrabold text-white mb-4" data-i18n="award_3_title">RnD 실무교육 수료증</h3>
 
                     <div class="w-full bg-slate-950 rounded-xl overflow-hidden mb-4 border border-slate-800 flex-grow"
                         style="height: 320px;">
@@ -3219,7 +3292,8 @@
                     </div>
 
                     <a href="docs/RnD 실무교육 수료증.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition mt-auto">
+                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-semibold rounded-lg transition mt-auto"
+                        data-i18n="cert_btn_view">
 
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기
 
@@ -3245,16 +3319,16 @@
 
             <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
 
-                <span class="text-accent font-bold tracking-widest text-xs uppercase mb-3 block">PROVEN TRACK
+                <span class="text-accent font-bold tracking-widest text-xs uppercase mb-3 block"
+                    data-i18n="ref_badge">PROVEN TRACK RECORD</span>
 
-                    RECORD</span>
-
-                <h2 class="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">주요 구축 실적 <span
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight" data-i18n="ref_heading">주요 구축
+                    실적 <span
                         class="text-accent font-normal text-2xl md:text-3xl block sm:inline sm:ml-2">(REFERENCE)</span>
 
                 </h2>
 
-                <p class="text-slate-400 text-base md:text-lg leading-relaxed">
+                <p class="text-slate-400 text-base md:text-lg leading-relaxed" data-i18n="ref_desc">
 
                     이커머스/유통, 식음료/콜드체인, 제조/자동차 등 다양한 산업군에서 검증된 주식회사 에이티에이기술의 혁신 물류 자동화 솔루션 구축 실적입니다.
 
@@ -3271,7 +3345,7 @@
                 <button type="button" onclick="filterReference('all')" id="ref-tab-all"
                     class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white ring-2 ring-cyan-400">
 
-                    전체 보기 <span
+                    <span data-i18n="ref_tab_all">전체 보기</span> <span
                         class="ref-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white">7</span>
 
                 </button>
@@ -3279,7 +3353,8 @@
                 <button type="button" onclick="filterReference('ecommerce')" id="ref-tab-ecommerce"
                     class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-[#0D1629] text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700">
 
-                    <i class="fa-solid fa-cart-shopping mr-1.5 text-blue-400"></i>이커머스 / 유통 <span
+                    <i class="fa-solid fa-cart-shopping mr-1.5 text-blue-400"></i><span
+                        data-i18n="ref_tab_ecommerce">이커머스 / 유통</span> <span
                         class="ref-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">2</span>
 
                 </button>
@@ -3287,7 +3362,8 @@
                 <button type="button" onclick="filterReference('food')" id="ref-tab-food"
                     class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-[#0D1629] text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700">
 
-                    <i class="fa-solid fa-snowflake mr-1.5 text-cyan-400"></i>식음료 / 콜드체인 <span
+                    <i class="fa-solid fa-snowflake mr-1.5 text-cyan-400"></i><span data-i18n="ref_tab_food">식음료 /
+                        콜드체인</span> <span
                         class="ref-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">2</span>
 
                 </button>
@@ -3295,7 +3371,8 @@
                 <button type="button" onclick="filterReference('manu')" id="ref-tab-manu"
                     class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-[#0D1629] text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700">
 
-                    <i class="fa-solid fa-industry mr-1.5 text-amber-400"></i>제조 / 자동차 <span
+                    <i class="fa-solid fa-industry mr-1.5 text-amber-400"></i><span data-i18n="ref_tab_manu">제조 /
+                        자동차</span> <span
                         class="ref-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">3</span>
 
                 </button>
@@ -3304,635 +3381,290 @@
 
 
 
-            <!-- 레퍼런스 카드 그리드 (7개 실적 통합) -->
-
+                        <!-- 레퍼런스 카드 그리드 (7개 실적 통합) -->
             <div id="reference-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-
                 <!-- 1. 이커머스: C사 메가 허브 터미널 -->
-
                 <div class="ref-card group bg-[#0D1629] rounded-2xl overflow-hidden border border-slate-800 shadow-xl hover:shadow-2xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between"
                     data-category="ecommerce">
-
                     <div>
-
                         <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer"
-                            onclick="openImageModal('H00_레퍼런스_이커머스_1.jpg', '국내 최대 이커머스 C사 메가 허브 터미널')">
-
+                            onclick="openImageModal('H00_레퍼런스_이커머스_1.jpg', 'ref_c1_title')">
                             <img src="H00_레퍼런스_이커머스_1.jpg"
                                 onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=800'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="국내 최대 이커머스 C사 메가 허브 터미널">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-
-                            </div>
-
-                            <span
-                                class="absolute top-3 left-3 bg-blue-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
-
-                                <i class="fa-solid fa-cart-shopping text-[10px]"></i> 이커머스 / 유통
-
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute top-3 left-3 bg-blue-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-cart-shopping text-[10px]"></i> <span data-i18n="ref_badge_ecom">이커머스 / 유통</span>
                             </span>
-
-                            <span
-                                class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-
-                                <i class="fa-solid fa-expand text-[10px]"></i> 확대보기
-
+                            <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">확대보기</span>
                             </span>
-
                         </div>
-
                         <div class="p-6">
-
-                            <h3
-                                class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug">
-
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug cursor-pointer"
+                                onclick="openImageModal('H00_레퍼런스_이커머스_1.jpg', 'ref_c1_title')" data-i18n="ref_c1_title">
                                 국내 최대 이커머스 C사 메가 허브 터미널
-
                             </h3>
-
                             <div class="flex flex-wrap gap-1.5 mb-3">
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">Cross
-
-                                    Belt Sorter</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">WCS</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">텔레스코픽</span>
-
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c1_tag1">Cross Belt Sorter</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c1_tag2">WCS</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c1_tag3">텔레스코픽</span>
                             </div>
-
-                            <p class="text-sm text-slate-300 leading-relaxed">
-
-                                일 200만 건 이상의 압도적인 물동량을 소화하기 위해 초고속 크로스 벨트 소터 및 자동 상하차 시스템을 구축하여 전국 익일 배송의 핵심 인프라를
-
-                                완성했습니다.
-
+                            <p class="text-sm text-slate-300 leading-relaxed" data-i18n="ref_c1_desc">
+                                일 200만 건 이상의 압도적인 물동량을 소화하기 위해 초고속 크로스 벨트 소터 및 자동 상하차 시스템을 구축하여 전국 익일 배송의 핵심 인프라를 완성했습니다.
                             </p>
-
                         </div>
-
                     </div>
-
-                    <div
-                        class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-
-                        <span class="font-medium text-slate-500">구축 분야</span>
-
-                        <span class="font-semibold text-cyan-400">대형 풀필먼트 허브</span>
-
+                    <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span class="font-medium text-slate-500" data-i18n="ref_field_label">구축 분야</span>
+                        <span class="font-semibold text-cyan-400" data-i18n="ref_c1_field">대형 풀필먼트 허브</span>
                     </div>
-
                 </div>
 
-
-
                 <!-- 2. 이커머스: S사 풀필먼트 센터 -->
-
                 <div class="ref-card group bg-[#0D1629] rounded-2xl overflow-hidden border border-slate-800 shadow-xl hover:shadow-2xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between"
                     data-category="ecommerce">
-
                     <div>
-
                         <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer"
-                            onclick="openImageModal('H00_레퍼런스_이커머스_2.jpg', '글로벌 종합 유통 S사 수도권 풀필먼트 센터')">
-
+                            onclick="openImageModal('H00_레퍼런스_이커머스_2.jpg', 'ref_c2_title')">
                             <img src="H00_레퍼런스_이커머스_2.jpg"
                                 onerror="this.src='https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=800'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="글로벌 종합 유통 S사 수도권 풀필먼트 센터">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-
-                            </div>
-
-                            <span
-                                class="absolute top-3 left-3 bg-blue-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
-
-                                <i class="fa-solid fa-cart-shopping text-[10px]"></i> 이커머스 / 유통
-
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute top-3 left-3 bg-blue-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-cart-shopping text-[10px]"></i> <span data-i18n="ref_badge_ecom">이커머스 / 유통</span>
                             </span>
-
-                            <span
-                                class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-
-                                <i class="fa-solid fa-expand text-[10px]"></i> 확대보기
-
+                            <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">확대보기</span>
                             </span>
-
                         </div>
-
                         <div class="p-6">
-
-                            <h3
-                                class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug">
-
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug cursor-pointer"
+                                onclick="openImageModal('H00_레퍼런스_이커머스_2.jpg', 'ref_c2_title')" data-i18n="ref_c2_title">
                                 글로벌 종합 유통 S사 수도권 풀필먼트 센터
-
                             </h3>
-
                             <div class="flex flex-wrap gap-1.5 mb-3">
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">AGV
-
-                                    & AMR</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">Shuttle
-
-                                    AS/RS</span>
-
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c2_tag1">AGV & AMR</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c2_tag2">Shuttle AS/RS</span>
                             </div>
-
-                            <p class="text-sm text-slate-300 leading-relaxed">
-
-                                다양한 규격의 소비재를 보관 및 피킹하기 위해 셔틀 타입의 자동 창고와 AGV 로봇을 결합하여 G2P(Goods-to-Person) 하이브리드 물류 센터를
-
-                                구축했습니다.
-
+                            <p class="text-sm text-slate-300 leading-relaxed" data-i18n="ref_c2_desc">
+                                다양한 규격의 소비재를 보관 및 피킹하기 위해 셔틀 타입의 자동 창고와 AGV 로봇을 결합하여 G2P(Goods-to-Person) 하이브리드 물류 센터를 구축했습니다.
                             </p>
-
                         </div>
-
                     </div>
-
-                    <div
-                        class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-
-                        <span class="font-medium text-slate-500">구축 분야</span>
-
-                        <span class="font-semibold text-cyan-400">G2P 하이브리드 센터</span>
-
+                    <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span class="font-medium text-slate-500" data-i18n="ref_field_label">구축 분야</span>
+                        <span class="font-semibold text-cyan-400" data-i18n="ref_c2_field">G2P 하이브리드 센터</span>
                     </div>
-
                 </div>
 
-
-
                 <!-- 3. 식음료: F사 냉동 자동화 창고 -->
-
                 <div class="ref-card group bg-[#0D1629] rounded-2xl overflow-hidden border border-slate-800 shadow-xl hover:shadow-2xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between"
                     data-category="food">
-
                     <div>
-
                         <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer"
-                            onclick="openImageModal('H00_레퍼런스_콜드체인_1.jpg', 'F&B 전문기업 F사 냉동 자동화 창고')">
-
+                            onclick="openImageModal('H00_레퍼런스_콜드체인_1.jpg', 'ref_c3_title')">
                             <img src="H00_레퍼런스_콜드체인_1.jpg"
                                 onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="F&B 전문기업 F사 냉동 자동화 창고">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-
-                            </div>
-
-                            <span
-                                class="absolute top-3 left-3 bg-cyan-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
-
-                                <i class="fa-solid fa-snowflake text-[10px]"></i> 식음료 / 콜드체인
-
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute top-3 left-3 bg-cyan-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-snowflake text-[10px]"></i> <span data-i18n="ref_badge_food">식음료 / 콜드체인</span>
                             </span>
-
-                            <span
-                                class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-
-                                <i class="fa-solid fa-expand text-[10px]"></i> 확대보기
-
+                            <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">확대보기</span>
                             </span>
-
                         </div>
-
                         <div class="p-6">
-
                             <div class="flex items-center gap-2 mb-2">
-
-                                <span
-                                    class="text-xs font-bold px-2 py-0.5 bg-blue-950/80 text-blue-300 rounded border border-blue-800/80">영하
-
-                                    20℃ 냉동창고</span>
-
+                                <span class="text-xs font-bold px-2 py-0.5 bg-blue-950/80 text-blue-300 border border-blue-800/80 rounded" data-i18n="ref_c3_subbadge">영하 20℃ 냉동창고</span>
                             </div>
-
-                            <h3
-                                class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug">
-
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug cursor-pointer"
+                                onclick="openImageModal('H00_레퍼런스_콜드체인_1.jpg', 'ref_c3_title')" data-i18n="ref_c3_title">
                                 F&B 전문기업 F사 냉동 자동화 창고
-
                             </h3>
-
                             <div class="flex flex-wrap gap-1.5 mb-3">
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">저온형
-
-                                    AS/RS</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">콜드체인
-
-                                    특화 WCS</span>
-
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c3_tag1">저온형 AS/RS</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c3_tag2">콜드체인 특화 WCS</span>
                             </div>
-
-                            <p class="text-sm text-slate-300 leading-relaxed">
-
+                            <p class="text-sm text-slate-300 leading-relaxed" data-i18n="ref_c3_desc">
                                 극한의 저온 환경에서도 안정적으로 구동되는 특수 윤활 및 히팅 기술이 적용된 AS/RS 스태커 크레인을 구축하여 작업자의 위험 노출을 최소화했습니다.
-
                             </p>
-
                         </div>
-
                     </div>
-
-                    <div
-                        class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-
-                        <span class="font-medium text-slate-500">구축 분야</span>
-
-                        <span class="font-semibold text-cyan-400">스마트 저온 물류</span>
-
+                    <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span class="font-medium text-slate-500" data-i18n="ref_field_label">구축 분야</span>
+                        <span class="font-semibold text-cyan-400" data-i18n="ref_c3_field">스마트 저온 물류</span>
                     </div>
-
                 </div>
 
-
-
                 <!-- 4. 식음료: M사 신선 물류 허브 -->
-
                 <div class="ref-card group bg-[#0D1629] rounded-2xl overflow-hidden border border-slate-800 shadow-xl hover:shadow-2xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between"
                     data-category="food">
-
                     <div>
-
                         <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer"
-                            onclick="openImageModal('H00_레퍼런스_콜드체인_2.jpg', '대형 마트 M사 신선 물류 허브')">
-
+                            onclick="openImageModal('H00_레퍼런스_콜드체인_2.jpg', 'ref_c4_title')">
                             <img src="H00_레퍼런스_콜드체인_2.jpg"
                                 onerror="this.src='https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="대형 마트 M사 신선 물류 허브">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-
-                            </div>
-
-                            <span
-                                class="absolute top-3 left-3 bg-cyan-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
-
-                                <i class="fa-solid fa-snowflake text-[10px]"></i> 식음료 / 콜드체인
-
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute top-3 left-3 bg-cyan-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-snowflake text-[10px]"></i> <span data-i18n="ref_badge_food">식음료 / 콜드체인</span>
                             </span>
-
-                            <span
-                                class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-
-                                <i class="fa-solid fa-expand text-[10px]"></i> 확대보기
-
+                            <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">확대보기</span>
                             </span>
-
                         </div>
-
                         <div class="p-6">
-
                             <div class="flex items-center gap-2 mb-2">
-
-                                <span
-                                    class="text-xs font-bold px-2 py-0.5 bg-emerald-950/80 text-emerald-300 rounded border border-emerald-800/80">신선식품
-
-                                    당일배송</span>
-
+                                <span class="text-xs font-bold px-2 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-800/80 rounded" data-i18n="ref_c4_subbadge">신선식품 당일배송</span>
                             </div>
-
-                            <h3
-                                class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug">
-
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug cursor-pointer"
+                                onclick="openImageModal('H00_레퍼런스_콜드체인_2.jpg', 'ref_c4_title')" data-i18n="ref_c4_title">
                                 대형 마트 M사 신선 물류 허브
-
                             </h3>
-
                             <div class="flex flex-wrap gap-1.5 mb-3">
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">Tilt
-
-                                    Tray Sorter</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">위생
-
-                                    스테인리스 컨베이어</span>
-
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c4_tag1">Tilt Tray Sorter</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c4_tag2">위생 스테인리스 컨베이어</span>
                             </div>
-
-                            <p class="text-sm text-slate-300 leading-relaxed">
-
+                            <p class="text-sm text-slate-300 leading-relaxed" data-i18n="ref_c4_desc">
                                 신선도가 생명인 농축수산물을 산지에서 매장 및 고객에게 빠르게 배송하기 위해 초고속 Tilt Tray Sorter 기반의 분류 라인을 설계했습니다.
-
                             </p>
-
                         </div>
-
                     </div>
-
-                    <div
-                        class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-
-                        <span class="font-medium text-slate-500">구축 분야</span>
-
-                        <span class="font-semibold text-cyan-400">신선 유통 분류</span>
-
+                    <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span class="font-medium text-slate-500" data-i18n="ref_field_label">구축 분야</span>
+                        <span class="font-semibold text-cyan-400" data-i18n="ref_c4_field">신선 유통 분류</span>
                     </div>
-
                 </div>
 
-
-
-                <!-- 5. 제조/자동차: 글로벌 자동차 H사 공장 -->
-
+                <!-- 5. 제조/자동차: 글로벌 자동차 H사 공장 조립 라인 -->
                 <div class="ref-card group bg-[#0D1629] rounded-2xl overflow-hidden border border-slate-800 shadow-xl hover:shadow-2xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between"
                     data-category="manu">
-
                     <div>
-
                         <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer"
-                            onclick="openImageModal('H00_레퍼런스_제조_1.jpg', '글로벌 자동차 H사 공장 조립 라인')">
-
+                            onclick="openImageModal('H00_레퍼런스_제조_1.jpg', 'ref_c5_title')">
                             <img src="H00_레퍼런스_제조_1.jpg"
                                 onerror="this.src='https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                alt="글로벌 자동차 H사 공장">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-
-                            </div>
-
-                            <span
-                                class="absolute top-3 left-3 bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 border border-slate-700">
-
-                                <i class="fa-solid fa-industry text-[10px]"></i> 제조 / 자동차
-
+                                alt="글로벌 자동차 H사 공장 조립 라인">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute top-3 left-3 bg-slate-800 text-white border border-slate-700 text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-industry text-[10px]"></i> <span data-i18n="ref_badge_manu">제조 / 자동차</span>
                             </span>
-
-                            <span
-                                class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-
-                                <i class="fa-solid fa-expand text-[10px]"></i> 확대보기
-
+                            <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">확대보기</span>
                             </span>
-
                         </div>
-
                         <div class="p-6">
-
                             <div class="flex items-center gap-2 mb-2">
-
-                                <span
-                                    class="text-xs font-bold px-2 py-0.5 bg-slate-800 text-slate-300 rounded border border-slate-700">완성차
-
-                                    조립 라인</span>
-
+                                <span class="text-xs font-bold px-2 py-0.5 bg-slate-800 text-slate-300 border border-slate-700 rounded" data-i18n="ref_c5_subbadge">완성차 조립 라인</span>
                             </div>
-
-                            <h3
-                                class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug">
-
-                                글로벌 자동차 H사 공장
-
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug cursor-pointer"
+                                onclick="openImageModal('H00_레퍼런스_제조_1.jpg', 'ref_c5_title')" data-i18n="ref_c5_title">
+                                글로벌 자동차 H사 공장 조립 라인
                             </h3>
-
                             <div class="flex flex-wrap gap-1.5 mb-3">
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">Heavy
-
-                                    Duty 컨베이어</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">AGV
-
-                                    이송 시스템</span>
-
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c5_tag1">Heavy Duty 컨베이어</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c5_tag2">AGV 이송 시스템</span>
                             </div>
-
-                            <p class="text-sm text-slate-300 leading-relaxed">
-
+                            <p class="text-sm text-slate-300 leading-relaxed" data-i18n="ref_c5_desc">
                                 중량물인 자동차 부품(엔진, 섀시 등)을 라인 간 오차 없이 이송하는 Heavy Duty 컨베이어 및 AGV 이송 시스템을 구축했습니다.
-
                             </p>
-
                         </div>
-
                     </div>
-
-                    <div
-                        class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-
-                        <span class="font-medium text-slate-500">구축 분야</span>
-
-                        <span class="font-semibold text-cyan-400">완성차 부품 이송</span>
-
+                    <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span class="font-medium text-slate-500" data-i18n="ref_field_label">구축 분야</span>
+                        <span class="font-semibold text-cyan-400" data-i18n="ref_c5_field">완성차 부품 이송</span>
                     </div>
-
                 </div>
 
-
-
                 <!-- 6. 제조/자동차: 배터리 제조 L사 셀 생산 라인 -->
-
                 <div class="ref-card group bg-[#0D1629] rounded-2xl overflow-hidden border border-slate-800 shadow-xl hover:shadow-2xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between"
                     data-category="manu">
-
                     <div>
-
                         <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer"
-                            onclick="openImageModal('H00_레퍼런스_제조_2.jpg', '배터리 제조 L사 셀 생산 라인')">
-
+                            onclick="openImageModal('H00_레퍼런스_제조_2.jpg', 'ref_c6_title')">
                             <img src="H00_레퍼런스_제조_2.jpg"
                                 onerror="this.src='https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="배터리 제조 L사 셀 생산 라인">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-
-                            </div>
-
-                            <span
-                                class="absolute top-3 left-3 bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 border border-slate-700">
-
-                                <i class="fa-solid fa-industry text-[10px]"></i> 제조 / 자동차
-
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute top-3 left-3 bg-slate-800 text-white border border-slate-700 text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-industry text-[10px]"></i> <span data-i18n="ref_badge_manu">제조 / 자동차</span>
                             </span>
-
-                            <span
-                                class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-
-                                <i class="fa-solid fa-expand text-[10px]"></i> 확대보기
-
+                            <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">확대보기</span>
                             </span>
-
                         </div>
-
                         <div class="p-6">
-
                             <div class="flex items-center gap-2 mb-2">
-
-                                <span
-                                    class="text-xs font-bold px-2 py-0.5 bg-amber-950/80 text-amber-300 rounded border border-amber-800/80">2차전지
-
-                                    배터리</span>
-
+                                <span class="text-xs font-bold px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-800/80 rounded" data-i18n="ref_c6_subbadge">2차전지 배터리</span>
                             </div>
-
-                            <h3
-                                class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug">
-
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug cursor-pointer"
+                                onclick="openImageModal('H00_레퍼런스_제조_2.jpg', 'ref_c6_title')" data-i18n="ref_c6_title">
                                 배터리 제조 L사 셀 생산 라인
-
                             </h3>
-
                             <div class="flex flex-wrap gap-1.5 mb-3">
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">클린룸
-
-                                    로봇 팔레타이징</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">정밀
-
-                                    롤러 컨베이어</span>
-
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c6_tag1">클린룸 로봇 팔레타이징</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c6_tag2">정밀 롤러 컨베이어</span>
                             </div>
-
-                            <p class="text-sm text-slate-300 leading-relaxed">
-
+                            <p class="text-sm text-slate-300 leading-relaxed" data-i18n="ref_c6_desc">
                                 분진 발생을 원천 차단하는 클린룸 특화 로봇 팔레타이징 시스템 및 고정밀 셀 이송 롤러 컨베이어를 성공적으로 설계 및 시공했습니다.
-
                             </p>
-
                         </div>
-
                     </div>
-
-                    <div
-                        class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-
-                        <span class="font-medium text-slate-500">구축 분야</span>
-
-                        <span class="font-semibold text-cyan-400">클린룸 2차전지 라인</span>
-
+                    <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span class="font-medium text-slate-500" data-i18n="ref_field_label">구축 분야</span>
+                        <span class="font-semibold text-cyan-400" data-i18n="ref_c6_field">클린룸 2차전지 라인</span>
                     </div>
-
                 </div>
 
-
-
                 <!-- 7. 제조/자동차: 국내 1위 타이어 K사 물류센터 -->
-
                 <div class="ref-card group bg-[#0D1629] rounded-2xl overflow-hidden border border-slate-800 shadow-xl hover:shadow-2xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between"
                     data-category="manu">
-
                     <div>
-
                         <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer"
-                            onclick="openImageModal('H00_레퍼런스_제조_3.jpg', '국내 1위 타이어 K사 물류센터')">
-
+                            onclick="openImageModal('H00_레퍼런스_제조_3.jpg', 'ref_c7_title')">
                             <img src="H00_레퍼런스_제조_3.jpg"
                                 onerror="this.src='https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="국내 1위 타이어 K사 물류센터">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-
-                            </div>
-
-                            <span
-                                class="absolute top-3 left-3 bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 border border-slate-700">
-
-                                <i class="fa-solid fa-industry text-[10px]"></i> 제조 / 자동차
-
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute top-3 left-3 bg-slate-800 text-white border border-slate-700 text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-industry text-[10px]"></i> <span data-i18n="ref_badge_manu">제조 / 자동차</span>
                             </span>
-
-                            <span
-                                class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-
-                                <i class="fa-solid fa-expand text-[10px]"></i> 확대보기
-
+                            <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">확대보기</span>
                             </span>
-
                         </div>
-
                         <div class="p-6">
-
                             <div class="flex items-center gap-2 mb-2">
-
-                                <span
-                                    class="text-xs font-bold px-2 py-0.5 bg-slate-800 text-slate-300 rounded border border-slate-700">타이어
-
-                                    및 부품</span>
-
+                                <span class="text-xs font-bold px-2 py-0.5 bg-slate-800 text-slate-300 border border-slate-700 rounded" data-i18n="ref_c7_subbadge">타이어 및 부품</span>
                             </div>
-
-                            <h3
-                                class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug">
-
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors leading-snug cursor-pointer"
+                                onclick="openImageModal('H00_레퍼런스_제조_3.jpg', 'ref_c7_title')" data-i18n="ref_c7_title">
                                 국내 1위 타이어 K사 물류센터
-
                             </h3>
-
                             <div class="flex flex-wrap gap-1.5 mb-3">
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">비전
-
-                                    바코드 인식</span>
-
-                                <span
-                                    class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60">비정형
-
-                                    특화 소터 라인</span>
-
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c7_tag1">비전 바코드 인식</span>
+                                <span class="text-[11px] font-semibold bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700/60" data-i18n="ref_c7_tag2">비정형 특화 소터 라인</span>
                             </div>
-
-                            <p class="text-sm text-slate-300 leading-relaxed">
-
+                            <p class="text-sm text-slate-300 leading-relaxed" data-i18n="ref_c7_desc">
                                 비정형화된 대형 고무 타이어 화물을 바코드 비전 인식과 결합하여 목적지별로 자동 분류하는 특화 소터 라인을 구축했습니다.
-
                             </p>
-
                         </div>
-
                     </div>
-
-                    <div
-                        class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-
-                        <span class="font-medium text-slate-500">구축 분야</span>
-
-                        <span class="font-semibold text-cyan-400">비정형 대형물류 자동화</span>
-
+                    <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                        <span class="font-medium text-slate-500" data-i18n="ref_field_label">구축 분야</span>
+                        <span class="font-semibold text-cyan-400" data-i18n="ref_c7_field">비정형 대형물류 자동화</span>
                     </div>
-
                 </div>
-
             </div>
-
-
 
             <!-- 하단 도입 상담 CTA 배너 -->
 
@@ -3990,12 +3722,11 @@
 
                 <div class="w-full lg:w-1/2 fade-in">
 
-                    <span class="text-accent font-bold tracking-widest text-sm mb-4 block">GLOBAL PARTNERSHIP &
+                    <span class="text-accent font-bold tracking-widest text-sm mb-4 block"
+                        data-i18n="china_intro_badge">GLOBAL PARTNERSHIP & MANUFACTURING BASE</span>
 
-                        MANUFACTURING BASE</span>
-
-                    <h2 class="text-4xl font-extrabold mb-6 leading-tight">글로벌 물류 로보틱스 선도기업,<br><span
-                            class="text-cyan-400">중국지사_제조사 (XingTing)</span></h2>
+                    <h2 class="text-4xl font-extrabold mb-6 leading-tight" data-i18n="china_intro_title">글로벌 물류 로보틱스
+                        선도기업,<br><span class="text-cyan-400">중국지사_제조사 (XingTing)</span></h2>
 
                     <p class="text-slate-300 text-lg leading-relaxed mb-6">
 
@@ -4075,7 +3806,7 @@
 
                         NAVIGATION</span>
 
-                    <h3 class="text-2xl font-bold text-white">중국지사_제조사 핵심 하위 메뉴 바로가기</h3>
+                    <h3 class="text-2xl font-bold text-white" data-i18n="china_subnav_title">중국지사_제조사 핵심 하위 메뉴 바로가기</h3>
 
                 </div>
 
@@ -4201,7 +3932,8 @@
 
                     Business</span>
 
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">에이티에이기술 ✕ 중국지사_제조사 주요 협력사업</h2>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4" data-i18n="china_coop_title">에이티에이기술 ✕
+                    중국지사_제조사 주요 협력사업</h2>
 
                 <p class="text-slate-400 leading-relaxed">
 
@@ -4257,7 +3989,8 @@
 
                             </div>
 
-                            <h3 class="text-xl font-bold text-white mb-3">하드웨어-소프트웨어 융합 R&D</h3>
+                            <h3 class="text-xl font-bold text-white mb-3" data-i18n="china_coop_1_title">하드웨어-소프트웨어 융합
+                                R&D</h3>
 
                             <p class="text-slate-300 leading-relaxed text-sm mb-4">
 
@@ -4323,7 +4056,8 @@
 
                             </div>
 
-                            <h3 class="text-xl font-bold text-white mb-3">국내 대형 풀필먼트 공동 수주</h3>
+                            <h3 class="text-xl font-bold text-white mb-3" data-i18n="china_coop_2_title">국내 대형 풀필먼트 공동
+                                수주</h3>
 
                             <p class="text-slate-300 leading-relaxed text-sm mb-4">
 
@@ -4389,7 +4123,8 @@
 
                             </div>
 
-                            <h3 class="text-xl font-bold text-white mb-3">로컬라이징 및 A/S 전담 센터</h3>
+                            <h3 class="text-xl font-bold text-white mb-3" data-i18n="china_coop_3_title">로컬라이징 및 A/S 전담
+                                센터</h3>
 
                             <p class="text-slate-300 leading-relaxed text-sm mb-4">
 
@@ -4433,7 +4168,8 @@
 
                     Network</span>
 
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">글로벌 물류 인프라 네트워크</h2>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4" data-i18n="china_global_title">글로벌 물류
+                    인프라 네트워크</h2>
 
                 <p class="text-slate-400">한국 본사와 중국 R&D/생산 거점을 잇는 단단한 파트너십을 기반으로 아시아를 넘어 세계로 뻗어나갑니다.</p>
 
@@ -4548,11 +4284,13 @@
 
             <div class="text-center mb-12 fade-in">
 
-                <span class="text-accent font-semibold tracking-widest text-sm mb-2 block">LOCATION</span>
+                <span class="text-accent font-semibold tracking-widest text-sm mb-2 block"
+                    data-i18n="contact_map_badge">LOCATION</span>
 
-                <h2 class="text-3xl font-bold text-white mb-4">오시는 길</h2>
+                <h2 class="text-3xl font-bold text-white mb-4" data-i18n="contact_map_title">오시는 길</h2>
 
-                <p class="text-slate-300 text-lg font-medium">경기도 오산시 수목원로 88번길 35 현대테라타워 CMC 지식산업센터 B동 1402호</p>
+                <p class="text-slate-300 text-lg font-medium" data-i18n="contact_map_address">경기도 오산시 수목원로 88번길 35
+                    현대테라타워 CMC 지식산업센터 B동 1402호</p>
 
             </div>
 
@@ -4579,11 +4317,13 @@
 
             <div class="text-center mb-16 fade-in">
 
-                <span class="text-accent font-semibold tracking-widest text-sm mb-2 block">CONTACT US</span>
+                <span class="text-accent font-semibold tracking-widest text-sm mb-2 block"
+                    data-i18n="contact_inquiry_badge">CONTACT US</span>
 
-                <h2 class="text-3xl font-bold text-white mb-4">도입 문의 및 연락처</h2>
+                <h2 class="text-3xl font-bold text-white mb-4" data-i18n="contact_inquiry_title">도입 문의 및 연락처</h2>
 
-                <p class="text-slate-400 max-w-2xl mx-auto mb-6">물류 자동화 솔루션 도입과 관련하여 궁금하신 점이 있으시면 언제든지 아래 명함의 연락처로 문의해
+                <p class="text-slate-400 max-w-2xl mx-auto mb-6" data-i18n="contact_inquiry_desc">물류 자동화 솔루션 도입과 관련하여
+                    궁금하신 점이 있으시면 언제든지 아래 명함의 연락처로 문의해
                     주시기
                     바랍니다. 전문가가 친절하게 상담해 드립니다.</p>
 
@@ -4591,7 +4331,7 @@
                     <button onclick="openConsultModal()"
                         class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-7 py-3.5 rounded-xl shadow-lg shadow-cyan-500/25 transition-all transform hover:scale-105 active:scale-95 text-sm flex items-center gap-2 border border-cyan-400/30">
                         <i class="fa-solid fa-headset text-xs"></i>
-                        <span>온라인 도입 상담 신청하기</span>
+                        <span data-i18n="contact_inquiry_btn">온라인 도입 상담 신청하기</span>
                     </button>
                 </div>
 
@@ -4672,27 +4412,33 @@
 
                         <li><a href="#" onclick="navigate('main', 'about-ceo'); return false;"
                                 class="hover:text-accent transition-colors flex items-center"><i
-                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i>ABOUT US</a></li>
+                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i><span
+                                    data-i18n="nav_about">ABOUT US</span></a></li>
 
                         <li><a href="#" onclick="navigate('patents'); return false;"
                                 class="hover:text-accent transition-colors flex items-center"><i
-                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i>특허 및 인증</a></li>
+                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i><span
+                                    data-i18n="nav_patents">특허 및 인증</span></a></li>
 
                         <li><a href="#" onclick="navigate('main', 'solution'); return false;"
                                 class="hover:text-accent transition-colors flex items-center"><i
-                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i>SOLUTION</a></li>
+                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i><span
+                                    data-i18n="nav_solution">SOLUTION</span></a></li>
 
                         <li><a href="#" onclick="navigate('reference'); return false;"
                                 class="hover:text-accent transition-colors flex items-center"><i
-                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i>REFERENCE</a></li>
+                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i><span
+                                    data-i18n="nav_ref">REFERENCE</span></a></li>
 
                         <li><a href="#" onclick="navigate('xingting-intro'); return false;"
                                 class="hover:text-accent transition-colors flex items-center"><i
-                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i>중국지사_제조사</a></li>
+                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i><span
+                                    data-i18n="nav_china">중국지사_제조사</span></a></li>
 
                         <li><a href="#" onclick="navigate('contact-map'); return false;"
                                 class="hover:text-accent transition-colors flex items-center"><i
-                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i>CONTACT</a></li>
+                                    class="fa-solid fa-angle-right text-xs mr-2 text-accent"></i><span
+                                    data-i18n="nav_contact">CONTACT</span></a></li>
 
                     </ul>
 
@@ -4706,9 +4452,8 @@
 
                     <ul class="space-y-3 text-sm text-slate-400">
 
-                        <li class="text-white font-semibold">(주)에이티에이기술 <span class="text-slate-400 font-normal">| 대표
-
-                                한윤규</span></li>
+                        <li class="text-white font-semibold" data-i18n="footer_ceo_info">(주)에이티에이기술 <span
+                                class="text-slate-400 font-normal">| 대표 한윤규</span></li>
 
                         <li class="pt-1 text-white">M. <a href="tel:010-8062-1262"
                                 class="hover:text-accent transition-colors">010-8062-1262</a></li>
@@ -5296,82 +5041,14 @@
 
                 filterReference(param1 || 'all');
 
-            } else if (viewId === 'product' && param1) {
-
-                const productInfo = productDb[param1];
-
-                if (productInfo) {
-
-                    document.getElementById('product-detail-title').innerText = param1;
-
-                    document.getElementById('product-detail-desc').innerText = productInfo.desc;
-
-                    document.getElementById('product-detail-img').src = productInfo.img;
-
-
-
-                    const featuresUl = document.getElementById('product-detail-features');
-
-                    featuresUl.innerHTML = '';
-
-                    productInfo.features.forEach(feature => {
-
-                        const li = document.createElement('li');
-
-                        li.className = 'flex items-start';
-
-                        const icon = document.createElement('i');
-
-                        icon.className = 'fa-solid fa-check text-accent mt-1 mr-3';
-
-                        const span = document.createElement('span');
-
-                        span.className = 'text-slate-200 font-medium';
-
-                        span.textContent = feature;
-
-                        li.appendChild(icon);
-
-                        li.appendChild(span);
-
-                        featuresUl.appendChild(li);
-
-                    });
-
-
-
-                    // 비디오 동적 연동
-
-                    const videoEl = document.getElementById('product-detail-video');
-
-                    const videoSrcEl = document.getElementById('product-detail-video-source');
-
-                    const videoFallback = document.getElementById('product-detail-video-fallback');
-
-                    const videoBadge = document.getElementById('product-detail-video-badge');
-
-
-
-                    if (productInfo.video) {
-
-                        videoEl.classList.remove('hidden');
-
-                        if (videoFallback) videoFallback.classList.add('hidden');
-
-                        if (videoBadge) videoBadge.classList.remove('hidden');
-
-                        videoSrcEl.src = productInfo.video;
-
-                        videoEl.load();
-
-                    } else {
-
-                        showDetailVideoFallback();
-
-                    }
-
+            } else if (viewId === 'product') {
+                var curLang = window.currentLanguage || (function () {
+                    try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
+                })();
+                if (curLang === 'zh') curLang = 'cn';
+                if (typeof window.renderProductDetail === 'function') {
+                    window.renderProductDetail(param1 || window.currentProductId || 'delivery-vehicle', curLang);
                 }
-
             }
 
         }
@@ -6038,7 +5715,25 @@
 
             const modalTitle = document.getElementById('image-view-modal-title');
 
-            if (modalTitle) modalTitle.innerText = title || '고화질 상세 인포그래픽';
+            const curLang = window.currentLanguage || (function () {
+                try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
+            })();
+            const dict = (window.i18nData && (window.i18nData[curLang] || window.i18nData.ko)) || {};
+
+            let resolvedTitle = title;
+            if (title && dict && dict[title] !== undefined) {
+                resolvedTitle = dict[title];
+                if (modalTitle) modalTitle.setAttribute('data-i18n', title);
+            } else if (modalTitle) {
+                if (!title) {
+                    modalTitle.setAttribute('data-i18n', 'image_modal_title');
+                    resolvedTitle = dict['image_modal_title'] || '고화질 상세 인포그래픽';
+                } else {
+                    modalTitle.removeAttribute('data-i18n');
+                }
+            }
+
+            if (modalTitle) modalTitle.innerHTML = resolvedTitle || '고화질 상세 인포그래픽';
 
             if (modalImg) {
 
@@ -6502,7 +6197,8 @@
                 <span class="text-slate-400 text-xs sm:text-sm">주식회사 에이티에이기술 물류 자동화 솔루션 공식 시연 영상</span>
 
                 <button id="solution-modal-detail-btn"
-                    class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold px-4 py-2 rounded-lg text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 shadow-md">
+                    class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold px-4 py-2 rounded-lg text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 shadow-md"
+                    data-i18n="sol_btn_detail">
 
                     솔루션 상세 정보 보기 <i class="fa-solid fa-arrow-right text-xs"></i>
 
@@ -6531,9 +6227,7 @@
 
                     <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
 
-                    <h3 id="image-view-modal-title" class="text-base sm:text-lg font-bold text-white truncate">상세 인포그래픽
-
-                        보기</h3>
+                    <h3 id="image-view-modal-title" class="text-base sm:text-lg font-bold text-white truncate" data-i18n="image_modal_title">고화질 상세 인포그래픽</h3>
 
                 </div>
 
@@ -6557,12 +6251,12 @@
             <div
                 class="px-6 py-3 bg-[#0A1020] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
 
-                <span>클릭 및 드래그로 고화질 인포그래픽을 원본 해상도로 확인하실 수 있습니다.</span>
+                <span data-i18n="image_modal_tip">클릭 및 드래그로 고화질 인포그래픽을 원본 해상도로 확인하실 수 있습니다.</span>
 
                 <button onclick="closeImageModal()"
                     class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-1.5 rounded-lg transition-colors font-medium">
 
-                    닫기
+                    <span data-i18n="btn_close">닫기</span>
 
                 </button>
 
@@ -6646,8 +6340,10 @@
                             <!-- 명함 연락처 요약 -->
                             <div class="bg-[#070B14]/80 rounded-xl p-3.5 border border-slate-800/80 text-xs space-y-2">
                                 <div class="flex items-center justify-between pb-1.5 border-b border-slate-800">
-                                    <span class="text-white font-bold text-sm">한윤규 <span
-                                            class="text-xs text-slate-400 font-normal">대표 / 기술이사</span></span>
+                                    <span class="text-white font-bold text-sm"><span
+                                            data-i18n="modal_card_ceo_name">한윤규</span> <span
+                                            class="text-xs text-slate-400 font-normal"
+                                            data-i18n="modal_card_ceo_title">대표 / 기술이사</span></span>
                                     <span
                                         class="text-[10px] text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/40">주식회사
                                         에이티에이기술</span>
@@ -6845,7 +6541,8 @@
                                 <h4 class="text-xl font-bold text-white mb-1.5">도입 상담 신청이 접수되었습니다!</h4>
                                 <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
                                     남겨주신 문의 정보가 성공적으로 등록되었습니다.<br>
-                                    담당자(<strong class="text-cyan-400">한윤규 대표 / 기술이사</strong>)가 검토 후 신속히 연락드리겠습니다.
+                                    담당자(<strong class="text-cyan-400" data-i18n="modal_contact_person">한윤규 대표 /
+                                        기술이사</strong>)가 검토 후 신속히 연락드리겠습니다.
                                 </p>
                             </div>
                             <div id="consult-summary-box"
@@ -6888,753 +6585,6 @@
 
     </div>
 
-    <!-- 4개국어 다국어 스위칭 엔진 (인라인 통합 탑재: 오프라인/로컬/서버 완전 독립 구동) -->
-    <script id="ata-i18n-engine">
-/**
- * ATA Technology - 4-Language (KO, EN, ZH, JA) i18n Engine
- * Always Transforming Automation
- */
-
-var i18nData = window.i18nData = window.i18nData || {
-    ko: {
-        // Navigation
-        nav_about: 'ABOUT US',
-        nav_ceo: 'CEO 인사말',
-        nav_history: '연혁',
-        nav_vision: '비전',
-        nav_tech: '핵심기술',
-        nav_patents: '특허 및 인증',
-        nav_patents_status: '특허 현황',
-        nav_certs_status: '인증 현황',
-        nav_awards_status: '수상 내역',
-        nav_solution: 'SOLUTION',
-        nav_solution_all: '전체 솔루션 보기',
-        nav_ref: 'REFERENCE',
-        nav_china: '중국지사_제조사',
-        nav_china_intro: '중국지사_제조사 소개',
-        nav_china_intro_sub: '글로벌 하드웨어 제조 & 파트너십',
-        nav_china_coop: '협력사업',
-        nav_china_coop_sub: 'R&D 융합, 대형수주, A/S 전담',
-        nav_china_global: '글로벌 네트워크',
-        nav_china_global_sub: '한-중 융합 인프라 거점 맵',
-        nav_contact: 'CONTACT',
-        nav_contact_consult: '<i class="fa-solid fa-headset text-xs mr-1"></i>도입 상담 신청',
-        nav_contact_map: '오시는 길',
-        nav_contact_inquiry: '문의하기',
-        btn_consult: '도입 상담',
-        btn_consult_mobile: '도입 상담 신청 (온라인 간편 문의)',
-
-        // Hero Section
-        hero_badge: '🚀 라스트마일 _ 배송의 완전 자동화 실현',
-        hero_sub: 'Always Transforming Automation',
-        hero_title: '물류 자동화 솔루션 전문 기업,<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00A8CC] to-[#4db8ff] drop-shadow-md">주식회사 에이티에이기술</span>',
-        hero_desc: '물류에 대한 고객 이상을 실현합니다.',
-        hero_btn_consult: '<i class="fa-solid fa-headset mr-1.5"></i>도입 상담',
-        hero_btn_explore: '솔루션 살펴보기 <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // CEO Greeting
-        ceo_company: '주식회사 에이티에이기술',
-        ceo_company_sub: '고객과 함께 성장하는 스마트 물류 솔루션 파트너',
-        ceo_badge: 'CEO MESSAGE',
-        ceo_heading: '"가족경영, 지식경영, 미래경영을 경영이념으로,<br>초일류를 지향합니다."',
-        ceo_quote: '[ You will never fail with (주)에이티에이기술 ]',
-        ceo_p1: '저희 <strong class="text-white">(주)에이티에이기술</strong>은 고객사와 협력사, 그리고 임직원이 동반자처럼 함께 성장하는 <strong class="text-cyan-400">상생경영</strong>을 하고 있습니다.',
-        ceo_p2: '기술개발에 열정적인 투자를 바탕으로 지식 및 기반 시스템을 고도화시키고, 창의적인 사고와 적극적인 실천을 통하여 고객사의 요구에 한발 앞선 혁신적인 제품 개발을 창조하는 <strong class="text-cyan-400">지식경영</strong>을 하고 있습니다.',
-        ceo_p3: '항상 먼 미래를 바라보고, 원대한 꿈을 열망하고 공감하며, 이를 실현하기 위하여 지금 현재 해야 할 일을 가장 우선적으로 정하고 민첩하게 실천하는 <strong class="text-cyan-400">미래경영</strong>을 하고 있습니다.',
-        ceo_p4: '(주)에이티에이기술은 <strong class="text-white">"World Wide Business"</strong>를 지향하고 <strong class="text-cyan-400">"World Best Product"</strong>, <strong class="text-cyan-400">"World First Process"</strong>를 제공하기 위한 열정과 노력으로 초일류 글로벌 기업으로 발전할 수 있도록 최선의 노력을 다하겠습니다.',
-        ceo_sign: '주식회사 에이티에이기술 대표이사 <span class="text-2xl text-cyan-400 font-black ml-2 tracking-wide">한 윤 규</span>',
-
-        // Section Headings & Details
-        hist_title: '회사 연혁',
-        vis_heading: 'Connect all things in the world',
-        vis_lead: '우리가 하는 모든 것의 중심엔 언제나 사람이 있습니다.',
-        vis_trust_desc: '신뢰를 최우선으로 정직한 기술을 실현하는 기업으로 고객만족에 믿음과 책임감을 더하겠습니다.',
-        vis_innov_desc: '고객이 원하는 최적의 솔루션과 자체 보유 기술력으로 끊임없는 소프트웨어 연구개발이 이루어지고 있습니다.',
-        tech_title: '핵심 기술 개요',
-        tech_lead: '에이티에이기술만의 독자적인 하드웨어 및 소프트웨어 융합 핵심 기술 메커니즘입니다.',
-        tech_card_1: '고객사 상황에 부합한<br>데이터 수집 및 적용',
-        tech_card_2: '최고의 H/W 설계<br>최적의 S/W 설계',
-        tech_card_3: '차별화된 공정 및 설비<br>지식재산권 확보',
-        tech_card_4: '맞춤형 현장설치<br>손쉬운 운영',
-        tech_card_5: '세계 각국 인프라에 맞는<br>현지화 시스템',
-        tech_card_6: '고객사 투자-효율<br>데이터 분석',
-
-        // Solutions Header & Buttons
-        sol_heading: '고객이 원하는 물류 솔루션,<br>우리가 제공합니다.',
-        sol_lead: '우리는 고객의 비즈니스 수준을 높이기 위해 일합니다.',
-        sol_btn_detail: '상세 정보 보기',
-        sol_btn_video: '영상 보기',
-        sol_label_video: '시연영상 포함',
-
-        // Solutions 11 Cards
-        sol_c1_title: '택배차량 배송 자동화 시스템',
-        sol_c1_desc: '차량 내 공간 활용 극대화 및 작업자 피로도를 줄이는 차세대 배송·적재 자동화 솔루션',
-        sol_c2_title: 'NBS [Narrow Belt Sorter]',
-        sol_c2_desc: '소형 화물을 빠르고 정확하게 분류하는 좁은 면적의 고효율 특화 소터',
-        sol_c3_title: 'CBS [Cross Belt Sorter]',
-        sol_c3_desc: '양방향 크로스 벨트 메커니즘으로 대용량 화물을 초고속 정밀 분류하는 대표 소터',
-        sol_c4_title: 'NC CBS [NC Cross Belt Sorter]',
-        sol_c4_desc: '흔들림 없이 초고속으로 대량 분류를 처리하는 차세대 정밀 제어 크로스 벨트 소터',
-        sol_c5_title: 'Wheel Sorter',
-        sol_c5_desc: '회전 휠의 각도 제어를 통해 다양한 크기의 박스 및 파우치를 유연하게 분기·분류하는 시스템',
-        sol_c6_title: 'Tilt Tray Sorter',
-        sol_c6_desc: '트레이를 부드럽게 기울여 파손 위험을 줄인 안정적인 다목적 경사 트레이 분류기',
-        sol_c7_title: 'Conveyors & ADD-Ons',
-        sol_c7_desc: '다양한 물류 현장 환경에 대응하는 맞춤형 롤러·벨트 컨베이어 및 부가 확장 설비',
-        sol_c8_title: 'Telescopic',
-        sol_c8_desc: '화물 차량 내부 깊숙이 신축 연장되어 상하차 작업 효율을 극대화하는 텔레스코픽 컨베이어',
-        sol_c9_title: 'Shuttle AS/RS',
-        sol_c9_desc: '선반 사이를 자유로이 움직이며 상품을 적재/인출하는 고밀도 자동 보관 시스템',
-        sol_c10_title: 'AGV & AMR',
-        sol_c10_desc: '자율이송 및 무인 물류 로봇을 통한 유연한 상품 이송과 물류센터 무인화 솔루션',
-        sol_c11_title: 'WCS [창고제어시스템]',
-        sol_c11_desc: '전체 설비 제어 및 트래픽 분산, 장비 상태를 실시간 모니터링하는 최상위 통합 관제 시스템',
-
-        // Bottom CTA
-        cta_title: '귀사의 비즈니스에 맞는 최적의 자동화 실적과 설계를 제안합니다.',
-        cta_desc: '산업 환경, 일일 처리 물동량, 레이아웃에 최적화된 맞춤형 물류 자동화 솔루션 도입을 전문가와 상의해 보세요.',
-        cta_btn: '도입 문의 및 상담 신청 <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // Footer
-        footer_slogan: '고객의 신뢰를 바탕으로 첨단 물류 자동화 솔루션을 제공하며, 대한민국 물류 산업의 미래를 이끌어갑니다.',
-        footer_copyright: 'Copyrightsⓒ 주식회사 에이티에이기술. ALL RIGHTS RESERVED.',
-
-        // Consultation Modal
-        modal_title: '도입 상담 신청',
-        modal_badge: '1:1 맞춤 컨설팅',
-        modal_sub: '물류 자동화 솔루션 도입 검토, 현장 레이아웃 및 맞춤 견적을 신속히 안내해 드립니다.',
-        modal_card_title: '대표 명함',
-        modal_call_btn: '바로 통화',
-        modal_email_btn: '메일 보내기',
-        modal_form_title: '문의자 정보 입력',
-        modal_form_sub: '상담을 위해 아래 항목을 입력해 주시면 신속하고 상세한 답변을 드립니다.',
-        modal_lbl_company: '회사명',
-        modal_lbl_position: '직함 / 부서',
-        modal_lbl_name: '문의자 성함',
-        modal_lbl_phone: '연락처 (휴대전화)',
-        modal_lbl_email: '이메일 주소',
-        modal_lbl_solution: '관심 및 검토 솔루션',
-        modal_lbl_message: '도입 상담 및 문의 내용',
-        modal_lbl_optional: '(선택)',
-        form_submit: '도입 상담 신청 완료',
-
-        // Placeholders
-        ph_company: '예: (주)한국물류',
-        ph_position: '예: 물류기획팀 팀장 / 부장',
-        ph_name: '예: 홍길동',
-        ph_phone: '예: 010-1234-5678',
-        ph_email: '예: customer@company.com',
-        ph_message: '도입 예정 설비, 일일 물동량, 센터 면적 및 희망 일정 등을 자유롭게 작성해 주세요.'
-    },
-
-    en: {
-        // Navigation
-        nav_about: 'ABOUT US',
-        nav_ceo: 'CEO Greeting',
-        nav_history: 'History',
-        nav_vision: 'Vision',
-        nav_tech: 'Core Tech',
-        nav_patents: 'Patents & Certs',
-        nav_patents_status: 'Patents Status',
-        nav_certs_status: 'Certificates',
-        nav_awards_status: 'Awards',
-        nav_solution: 'SOLUTIONS',
-        nav_solution_all: 'View All Solutions',
-        nav_ref: 'REFERENCES',
-        nav_china: 'China Branch & Factory',
-        nav_china_intro: 'China Branch Introduction',
-        nav_china_intro_sub: 'Global Hardware Manufacturing & Partnership',
-        nav_china_coop: 'Cooperative Business',
-        nav_china_coop_sub: 'R&D Convergence, Large Orders, Dedicated Support',
-        nav_china_global: 'Global Network',
-        nav_china_global_sub: 'Korea-China Convergence Infrastructure Map',
-        nav_contact: 'CONTACT',
-        nav_contact_consult: '<i class="fa-solid fa-headset text-xs mr-1"></i>Request Consultation',
-        nav_contact_map: 'Location & Map',
-        nav_contact_inquiry: 'Online Inquiry',
-        btn_consult: 'Consultation',
-        btn_consult_mobile: 'Request Consultation (Quick Inquiry)',
-
-        // Hero Section
-        hero_badge: '🚀 Last-Mile _ Fully Automated Delivery Realized',
-        hero_sub: 'Always Transforming Automation',
-        hero_title: 'Smart Logistics Automation Pioneer,<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00A8CC] to-[#4db8ff] drop-shadow-md">ATA Technology Co., Ltd.</span>',
-        hero_desc: 'Transforming customer ideals into next-generation automated logistics reality.',
-        hero_btn_consult: '<i class="fa-solid fa-headset mr-1.5"></i>Consultation',
-        hero_btn_explore: 'Explore Solutions <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // CEO Greeting
-        ceo_company: 'ATA Technology Co., Ltd.',
-        ceo_company_sub: 'Smart logistics solution partner growing together with customers',
-        ceo_badge: 'CEO MESSAGE',
-        ceo_heading: '"Guided by Family Management, Knowledge Management, and Future Management to achieve global excellence."',
-        ceo_quote: '[ You will never fail with ATA Technology Co., Ltd. ]',
-        ceo_p1: 'At <strong class="text-white">ATA Technology</strong>, we practice <strong class="text-cyan-400">Win-Win Management</strong> where clients, partners, and employees grow together as lifelong companions.',
-        ceo_p2: 'Through enthusiastic R&D investments, we enhance our core knowledge systems and pioneer innovative product developments ahead of market demands under <strong class="text-cyan-400">Knowledge Management</strong>.',
-        ceo_p3: 'With eyes fixed on the distant future, we embrace bold visions and execute today\'s priorities with agile precision through <strong class="text-cyan-400">Future Management</strong>.',
-        ceo_p4: 'ATA Technology is committed to providing <strong class="text-white">"World Wide Business"</strong>, <strong class="text-cyan-400">"World Best Product"</strong>, and <strong class="text-cyan-400">"World First Process"</strong> as we grow into a premier global enterprise.',
-        ceo_sign: 'CEO & CTO of ATA Technology Co., Ltd. <span class="text-2xl text-cyan-400 font-black ml-2 tracking-wide">Yoon-Gyu Han</span>',
-
-        // Section Headings & Details
-        hist_title: 'Company History',
-        vis_heading: 'Connect all things in the world',
-        vis_lead: 'People are always at the heart of everything we create.',
-        vis_trust_desc: 'Delivering honest technology with trust as our highest priority, ensuring unwavering confidence and accountability.',
-        vis_innov_desc: 'Continuous software research and development fueled by optimal custom solutions and proprietary engineering capabilities.',
-        tech_title: 'Core Technology Overview',
-        tech_lead: 'Proprietary hardware & software convergence mechanism engineered exclusively by ATA Technology.',
-        tech_card_1: 'Data Acquisition & Custom Application<br>Tailored to Client Operations',
-        tech_card_2: 'State-of-the-Art H/W Design &<br>Optimized S/W Control Systems',
-        tech_card_3: 'Differentiated Process Engineering &<br>Robust Intellectual Property Assets',
-        tech_card_4: 'Turnkey On-Site Deployment &<br>Intuitive Operation',
-        tech_card_5: 'Global Infrastructure Compatible<br>Localized Customization System',
-        tech_card_6: 'Client Investment & ROI<br>Comprehensive Big Data Analytics',
-
-        // Solutions Header & Buttons
-        sol_heading: 'The Logistics Solutions You Need,<br>Engineered and Delivered.',
-        sol_lead: 'We innovate tirelessly to elevate our clients\' operational performance to new heights.',
-        sol_btn_detail: 'View Details',
-        sol_btn_video: 'Watch Video',
-        sol_label_video: 'Demo Video Included',
-
-        // Solutions 11 Cards
-        sol_c1_title: 'Delivery Vehicle Automation System',
-        sol_c1_desc: 'Next-gen vehicle loading and delivery automation maximizing cargo volume and reducing driver physical strain.',
-        sol_c2_title: 'NBS [Narrow Belt Sorter]',
-        sol_c2_desc: 'High-speed, compact footprint sortation system engineered for precise handling of small parcels.',
-        sol_c3_title: 'CBS [Cross Belt Sorter]',
-        sol_c3_desc: 'Bidirectional high-speed sortation mechanism delivering pinpoint accuracy for ultra-high throughput centers.',
-        sol_c4_title: 'NC CBS [NC Cross Belt Sorter]',
-        sol_c4_desc: 'Next-generation vibration-free cross belt sorter engineered for stable ultra-fast large-scale package handling.',
-        sol_c5_title: 'Wheel Sorter',
-        sol_c5_desc: 'Dynamic motorized steerable wheel system offering flexible diverts for cartons, totes, and bags.',
-        sol_c6_title: 'Tilt Tray Sorter',
-        sol_c6_desc: 'Gentle tilting tray mechanism designed for safe handling and damage prevention across diverse SKU profiles.',
-        sol_c7_title: 'Conveyors & ADD-Ons',
-        sol_c7_desc: 'Modular motorized roller and belt conveyor systems tailored with intelligent add-on expansions.',
-        sol_c8_title: 'Telescopic Boom Conveyor',
-        sol_c8_desc: 'Extendable boom conveyor reaching deep into freight trailers to maximize loading and unloading speed.',
-        sol_c9_title: 'Shuttle AS/RS',
-        sol_c9_desc: 'High-density automated storage and retrieval system operating swiftly across multi-tier racking.',
-        sol_c10_title: 'AGV & AMR Fleet',
-        sol_c10_desc: 'Autonomous mobile robot fleet enabling agile material flow and fully lights-out logistics centers.',
-        sol_c11_title: 'WCS [Warehouse Control System]',
-        sol_c11_desc: 'Top-tier supervisory control and data platform orchestrating real-time equipment routing and bottleneck mitigation.',
-
-        // Bottom CTA
-        cta_title: 'We propose optimal automation designs customized for your business scale.',
-        cta_desc: 'Consult with our engineering experts to configure smart logistics automation tailored to your facility environment, volume, and throughput.',
-        cta_btn: 'Inquire & Request Consultation <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // Footer
-        footer_slogan: 'Delivering cutting-edge logistics automation based on customer trust and leading the future of the smart logistics industry.',
-        footer_copyright: 'Copyrightsⓒ ATA Technology Co., Ltd. ALL RIGHTS RESERVED.',
-
-        // Consultation Modal
-        modal_title: 'Consultation Request',
-        modal_badge: '1:1 Expert Consulting',
-        modal_sub: 'Prompt guidance on logistics automation adoption, facility layout engineering, and custom quotes.',
-        modal_card_title: 'Representative Biz Card',
-        modal_call_btn: 'Call Direct',
-        modal_email_btn: 'Send Email',
-        modal_form_title: 'Inquirer Information',
-        modal_form_sub: 'Please enter your details below and our technical consulting team will respond swiftly.',
-        modal_lbl_company: 'Company Name',
-        modal_lbl_position: 'Title / Department',
-        modal_lbl_name: 'Contact Name',
-        modal_lbl_phone: 'Mobile / Phone',
-        modal_lbl_email: 'Email Address',
-        modal_lbl_solution: 'Solution of Interest',
-        modal_lbl_message: 'Inquiry & Requirements',
-        modal_lbl_optional: '(Optional)',
-        form_submit: 'Submit Consultation Request',
-
-        // Placeholders
-        ph_company: 'e.g. Global Logistics Inc.',
-        ph_position: 'e.g. Logistics Director / Manager',
-        ph_name: 'e.g. John Doe',
-        ph_phone: 'e.g. +82-10-1234-5678',
-        ph_email: 'e.g. name@company.com',
-        ph_message: 'Please describe target facility size, expected throughput, timeline, or equipment requirements.'
-    },
-
-    zh: {
-        // Navigation
-        nav_about: '关于我们',
-        nav_ceo: 'CEO致辞',
-        nav_history: '发展历程',
-        nav_vision: '企业愿景',
-        nav_tech: '核心技术',
-        nav_patents: '专利与认证',
-        nav_patents_status: '专利现状',
-        nav_certs_status: '认证资质',
-        nav_awards_status: '获奖荣誉',
-        nav_solution: '解决方案',
-        nav_solution_all: '查看全部解决方案',
-        nav_ref: '客户案例',
-        nav_china: '中国分公司与制造基地',
-        nav_china_intro: '分公司与制造基地介绍',
-        nav_china_intro_sub: '全球智能硬件制造与深度合作',
-        nav_china_coop: '合作业务',
-        nav_china_coop_sub: '软硬件融合研发、大型项目承接与售后',
-        nav_china_global: '全球网络',
-        nav_china_global_sub: '韩中融合物流基础设施分布图',
-        nav_contact: '联系我们',
-        nav_contact_consult: '<i class="fa-solid fa-headset text-xs mr-1"></i>申请方案咨询',
-        nav_contact_map: '公司地址',
-        nav_contact_inquiry: '在线留言',
-        btn_consult: '方案咨询',
-        btn_consult_mobile: '申请方案咨询（在线快速联系）',
-
-        // Hero Section
-        hero_badge: '🚀 最后一公里 _ 实现末端配送全面自动化',
-        hero_sub: 'Always Transforming Automation',
-        hero_title: '物流自动化解决方案领军企业，<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00A8CC] to-[#4db8ff] drop-shadow-md">株式会社 ATA Technology</span>',
-        hero_desc: '将客户对智慧物流的所有理想转化为卓越现实。',
-        hero_btn_consult: '<i class="fa-solid fa-headset mr-1.5"></i>方案咨询',
-        hero_btn_explore: '探索解决方案 <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // CEO Greeting
-        ceo_company: '株式会社 ATA Technology',
-        ceo_company_sub: '与客户携手共进的智能物流解决方案全球合作伙伴',
-        ceo_badge: 'CEO MESSAGE',
-        ceo_heading: '"以家族式经营、知识型经营、未来型经营为理念，<br>追求超一流品质与服务。"',
-        ceo_quote: '[ You will never fail with ATA Technology ]',
-        ceo_p1: '<strong class="text-white">ATA Technology</strong>始终奉行客户、合作伙伴与员工携手并进的<strong class="text-cyan-400">共赢经营</strong>理念。',
-        ceo_p2: '我们持续对前沿科技进行大力研发投入，以创造性思维和果断行动引领客户需求，实践创新型<strong class="text-cyan-400">知识经营</strong>。',
-        ceo_p3: '我们放眼长远未来，凝聚宏伟蓝图，以敏捷高效的行动优先完成当下关键使命，实践前瞻型<strong class="text-cyan-400">未来经营</strong>。',
-        ceo_p4: 'ATA Technology立志拓展<strong class="text-white">"全球化业务"</strong>，倾力提供<strong class="text-cyan-400">"全球最佳产品"</strong>与<strong class="text-cyan-400">"全球首创工艺"</strong>，全力迈向世界一流跨国企业。',
-        ceo_sign: '株式会社 ATA Technology 代表理事 <span class="text-2xl text-cyan-400 font-black ml-2 tracking-wide">韩 允 奎</span>',
-
-        // Section Headings & Details
-        hist_title: '企业历程',
-        vis_heading: 'Connect all things in the world',
-        vis_lead: '以人为本，是我们一切创新与技术的核心。',
-        vis_trust_desc: '视信誉为第一生命，以严谨求实的工匠精神为客户创造值得信赖的产品与服务。',
-        vis_innov_desc: '基于强大的自主研发实力，持续为全球客户定制开发行业领先的软硬件控制系统。',
-        tech_title: '核心技术概览',
-        tech_lead: 'ATA Technology独家研发的软硬件深度融合核心控制架构。',
-        tech_card_1: '贴合客户现场工况的<br>精准数据采集与应用',
-        tech_card_2: '顶级硬件结构设计与<br>最佳算法控制软件',
-        tech_card_3: '差异化工艺与设备<br>雄厚自主知识产权储备',
-        tech_card_4: '定制化现场高效安装<br>极简人机操作界面',
-        tech_card_5: '适配全球各类基建标准的<br>本地化运行系统',
-        tech_card_6: '客户投资回报率(ROI)<br>大数据量化分析',
-
-        // Solutions Header & Buttons
-        sol_heading: '精准满足客户需求的智能物流解决方案，<br>由我们倾力呈现。',
-        sol_lead: '我们致力于全面提升客户的仓储物流效率与商业竞争力。',
-        sol_btn_detail: '查看详情',
-        sol_btn_video: '观看视频',
-        sol_label_video: '含实机演示视频',
-
-        // Solutions 11 Cards
-        sol_c1_title: '快递配送车辆自动装卸系统',
-        sol_c1_desc: '最大化利用车厢内部空间，大幅减轻装卸劳动强度的次世代车辆内部自动配送与装载系统。',
-        sol_c2_title: 'NBS [窄带分拣机]',
-        sol_c2_desc: '占地极小、分拣精准迅速，专为中小件包裹高效分流打造的高密度窄带分拣系统。',
-        sol_c3_title: 'CBS [交叉带分拣机]',
-        sol_c3_desc: '双向高精度交叉带驱动单元，超高速稳定分拣海量复杂件型的行业标杆分拣设备。',
-        sol_c4_title: 'NC CBS [新型数控交叉带分拣机]',
-        sol_c4_desc: '运行平稳无震动，兼具极高速度与高精度控制的大吞吐量次世代交叉带分拣设备。',
-        sol_c5_title: 'Wheel Sorter [斜轮分拣机]',
-        sol_c5_desc: '通过精密电动舵轮角度转向控制，实现纸箱、胶框与包裹多角度平滑分流的模块化系统。',
-        sol_c6_title: 'Tilt Tray Sorter [翻盘分拣机]',
-        sol_c6_desc: '平滑倾斜托盘轻柔落料，有效消除货品磕碰破损隐患的高可靠性多品类分拣机。',
-        sol_c7_title: '输送机系列及辅助扩展设备',
-        sol_c7_desc: '全面适配各类仓储工况的定制化辊筒、皮带输送机及智能称重、扫码等配套扩展设备。',
-        sol_c8_title: '伸缩式皮带装卸机 (Telescopic)',
-        sol_c8_desc: '自由伸缩深入集装箱或货车内腔，成倍提高装车卸货周转效率的重型伸缩输送机。',
-        sol_c9_title: 'Shuttle AS/RS [多层穿梭车立体库]',
-        sol_c9_desc: '穿梭车在货架多层轨道高速穿行，实现高密度空间利用与极速出入库的自动化立库系统。',
-        sol_c10_title: 'AGV & AMR [移动机器人车队]',
-        sol_c10_desc: '基于激光SLAM与自主导航算法，实现物料柔性搬运与智慧物流中心无人化搬运。',
-        sol_c11_title: 'WCS [仓库控制系统]',
-        sol_c11_desc: '统一调度与监控全场各类自动化设备、动态分流防堵塞与设备健康诊断的核心中枢控制平台。',
-
-        // Bottom CTA
-        cta_title: '为您量身定制最契合企业业务规模的自动化规划与设计方案。',
-        cta_desc: '欢迎与我们的资深物流规划专家探讨符合您作业环境、日均吞吐量及车间布局的最佳自动化方案。',
-        cta_btn: '咨询洽谈与申请方案 <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // Footer
-        footer_slogan: '以客户信赖为基石，提供尖端物流自动化系统，引领未来智慧物流产业发展。',
-        footer_copyright: 'Copyrightsⓒ 株式会社 ATA Technology. ALL RIGHTS RESERVED.',
-
-        // Consultation Modal
-        modal_title: '方案咨询申请',
-        modal_badge: '1:1 定制化咨询',
-        modal_sub: '快速为您提供物流自动化导入评估、现场布局规划方案及定制报价。',
-        modal_card_title: '代表名片',
-        modal_call_btn: '直接拨号',
-        modal_email_btn: '发送邮件',
-        modal_form_title: '咨询客户信息填写',
-        modal_form_sub: '请在下方填写您的基本需求，我们的专业工程师将在第一时间为您详细解答。',
-        modal_lbl_company: '企业名称',
-        modal_lbl_position: '职务 / 部门',
-        modal_lbl_name: '您的姓名',
-        modal_lbl_phone: '联系电话 (手机)',
-        modal_lbl_email: '电子邮箱',
-        modal_lbl_solution: '关注的解决方案',
-        modal_lbl_message: '具体咨询需求及现场概况',
-        modal_lbl_optional: '(选填)',
-        form_submit: '完成咨询申请提交',
-
-        // Placeholders
-        ph_company: '例如：某某供应链物流有限公司',
-        ph_position: '例如：物流规划部 经理 / 总监',
-        ph_name: '例如：张经理',
-        ph_phone: '例如：138-0000-0000 / 010-8062-1262',
-        ph_email: '例如：user@company.com',
-        ph_message: '请自由填写拟导入设备、日处理货量、场地面积、期望交期等具体需求。'
-    },
-
-    ja: {
-        // Navigation
-        nav_about: '会社案内',
-        nav_ceo: 'CEOご挨拶',
-        nav_history: '沿革',
-        nav_vision: '企業理念',
-        nav_tech: 'コア技術',
-        nav_patents: '特許・認証',
-        nav_patents_status: '特許実績',
-        nav_certs_status: '認証取得',
-        nav_awards_status: '受賞歴',
-        nav_solution: 'ソリューション',
-        nav_solution_all: '全ソリューション一覧',
-        nav_ref: '納入実績',
-        nav_china: '中国支社・製造拠点',
-        nav_china_intro: '中国支社・製造拠点紹介',
-        nav_china_intro_sub: 'グローバルハードウェア製造＆パートナーシップ',
-        nav_china_coop: '協業事業',
-        nav_china_coop_sub: 'R&D融合、大型受注、専任保守サポート',
-        nav_china_global: 'グローバルネットワーク',
-        nav_china_global_sub: '日中韓融合インフラ拠点マップ',
-        nav_contact: 'お問い合わせ',
-        nav_contact_consult: '<i class="fa-solid fa-headset text-xs mr-1"></i>導入相談申込み',
-        nav_contact_map: 'アクセス',
-        nav_contact_inquiry: 'お問い合わせフォーム',
-        btn_consult: '導入相談',
-        btn_consult_mobile: '導入相談申込み（オンライン簡単受付）',
-
-        // Hero Section
-        hero_badge: '🚀 ラストワンマイル _ 配送の完全自動化を実現',
-        hero_sub: 'Always Transforming Automation',
-        hero_title: 'スマート物流自動化のリーディングカンパニー<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00A8CC] to-[#4db8ff] drop-shadow-md">株式会社ATAテクノロジー</span>',
-        hero_desc: '物流に関するお客様のあらゆる理想を最先端技術で具現化します。',
-        hero_btn_consult: '<i class="fa-solid fa-headset mr-1.5"></i>導入相談',
-        hero_btn_explore: 'ソリューションを見る <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // CEO Greeting
-        ceo_company: '株式会社ATAテクノロジー',
-        ceo_company_sub: 'お客様と共に成長するスマート物流ソリューションパートナー',
-        ceo_badge: 'CEO MESSAGE',
-        ceo_heading: '「家族経営・知識経営・未来経営を理念とし、<br>世界超一流の企業を目指します」',
-        ceo_quote: '[ You will never fail with ATA Technology ]',
-        ceo_p1: '私たち<strong class="text-white">株式会社ATAテクノロジー</strong>は、お客様、協力企業、そして全社員がパートナーとして共に成長する<strong class="text-cyan-400">共生経営</strong>を推進しています。',
-        ceo_p2: '積極的な研究開発投資を通じて知的資産システムを高度化し、創造的な発想と実践でお客様の期待を超える製品を創出する<strong class="text-cyan-400">知識経営</strong>を行っています。',
-        ceo_p3: '常に遠い未来を見据えて大きな夢を共有し、その実現のために今なすべき最優先課題を敏捷に実践する<strong class="text-cyan-400">未来経営</strong>を徹底しています。',
-        ceo_p4: 'ATAテクノロジーは<strong class="text-white">「World Wide Business」</strong>を志向し、<strong class="text-cyan-400">「World Best Product」</strong>、<strong class="text-cyan-400">「World First Process」</strong>をお届けする情熱と技術で、世界最高峰のグローバル企業へと発展してまいります。',
-        ceo_sign: '株式会社ATAテクノロジー 代表取締役 <span class="text-2xl text-cyan-400 font-black ml-2 tracking-wide">韓 允 奎 (ハン・ユンギュ)</span>',
-
-        // Section Headings & Details
-        hist_title: '会社沿革',
-        vis_heading: 'Connect all things in the world',
-        vis_lead: '私たちが手がけるすべての中心には、常に「人」がいます。',
-        vis_trust_desc: '信頼を最優先に誠実な技術を実現し、お客様の満足と確かな安心感をお届けします。',
-        vis_innov_desc: 'お客様が求める最適なソリューションと自社保有の技術力で、絶え間ないソフトウェア研究開発を推進しています。',
-        tech_title: 'コア技術概要',
-        tech_lead: 'ATAテクノロジー独自開発によるハードウェアとソフトウェア融合のコアメカニズム。',
-        tech_card_1: 'お客様の運用環境に応じた<br>データ収集・自動適用',
-        tech_card_2: '最高水準のH/W設計＆<br>最適化されたS/W制御システム',
-        tech_card_3: '差別化された独自工程・設備<br>知的財産権の確立',
-        tech_card_4: '現場オーダーメイド設置＆<br>直感的な運用性',
-        tech_card_5: '各国のインフラ標準に準拠した<br>ローカライズシステム',
-        tech_card_6: 'お客様の設備投資対効果(ROI)<br>データ分析・診断',
-
-        // Solutions Header & Buttons
-        sol_heading: 'お客様が求める最適な物流ソリューションを、<br>私たちがご提案・提供します。',
-        sol_lead: '私たちはお客様のビジネスステージを革新するために挑み続けます。',
-        sol_btn_detail: '詳細情報を見る',
-        sol_btn_video: '動画を見る',
-        sol_label_video: 'デモ動画あり',
-
-        // Solutions 11 Cards
-        sol_c1_title: '配送車両 荷役自動化システム',
-        sol_c1_desc: '車両内スペースの積載率を極大化し、ドライバーの重労働負担を劇的に軽減する次世代配送・積載自動化ソリューション。',
-        sol_c2_title: 'NBS [Narrow Belt Sorter / ナローベルトソーター]',
-        sol_c2_desc: '小型荷物を高速かつ高精度に仕分ける、省スペース・高効率の特化型ソーターシステム。',
-        sol_c3_title: 'CBS [Cross Belt Sorter / クロスベルトソーター]',
-        sol_c3_desc: '双方向クロスベルト機構により、大量の荷物を超高速で精密仕分けする業界標準ソーター。',
-        sol_c4_title: 'NC CBS [NCクロスベルトソーター]',
-        sol_c4_desc: '振動のない安定した超高速搬送で大量仕分けを迅速に処理する次世代精密制御クロスベルトソーター。',
-        sol_c5_title: 'Wheel Sorter [ホイールソーター]',
-        sol_c5_desc: 'ステアリングホイールの角度制御により、大小様々な段ボールや小包を柔軟に分岐・仕分けするシステム。',
-        sol_c6_title: 'Tilt Tray Sorter [チルトトレイソーター]',
-        sol_c6_desc: 'トレイを緩やかに傾斜させて荷物の破損リスクを抑えた高信頼性の多目的チルトソーター。',
-        sol_c7_title: 'Conveyors & ADD-Ons [各種コンベヤ＆拡張設備]',
-        sol_c7_desc: '多様な現場環境に対応するカスタマイズ型ローラー・ベルトコンベヤおよび自動計測・検査拡張設備。',
-        sol_c8_title: 'Telescopic [伸縮式テレスコピックコンベヤ]',
-        sol_c8_desc: 'トラックやコンテナの深部まで伸縮して荷役作業効率を劇的に高めるテレスコピックコンベヤ。',
-        sol_c9_title: 'Shuttle AS/RS [シャトル式自動倉庫]',
-        sol_c9_desc: 'ラック間をシャトルが高速移動し、高密度保管と高速入出庫を両立する立体自動倉庫システム。',
-        sol_c10_title: 'AGV & AMR [無人搬送ロボット]',
-        sol_c10_desc: '自律走行と高度ナビゲーションにより柔軟な搬送を実現し、物流センターの完全無人化を支援。',
-        sol_c11_title: 'WCS [倉庫制御システム]',
-        sol_c11_desc: '全マテハン設備のリアルタイム一元制御、トラフィック分散、稼働状態監視を担う統合制御プラットフォーム。',
-
-        // Bottom CTA
-        cta_title: 'お客様のビジネス規模に合わせた最適な自動化実績と設計をご提案します。',
-        cta_desc: '作業環境、1日の物流量、施設レイアウトに最適化されたスマート物流自動化の導入について、専門エンジニアにご相談ください。',
-        cta_btn: '導入相談・見積り依頼 <i class="fa-solid fa-arrow-right text-xs ml-1"></i>',
-
-        // Footer
-        footer_slogan: 'お客様の信頼を第一に先端物流自動化ソリューションを提供し、スマート物流産業の未来を切り拓きます。',
-        footer_copyright: 'Copyrightsⓒ 株式会社ATAテクノロジー. ALL RIGHTS RESERVED.',
-
-        // Consultation Modal
-        modal_title: '導入相談のお申込み',
-        modal_badge: '1:1 オーダーメイド相談',
-        modal_sub: '物流自動化設備の導入検討、現場レイアウト設計、カスタマイズ見積りを迅速にご案内いたします。',
-        modal_card_title: '代表名刺',
-        modal_call_btn: 'お電話',
-        modal_email_btn: 'メール送信',
-        modal_form_title: 'お客様情報のご入力',
-        modal_form_sub: '下記項目をご入力いただければ、専門エンジニアより迅速かつ詳細にご回答申し上げます。',
-        modal_lbl_company: '貴社名',
-        modal_lbl_position: 'お役職 / ご所属部署',
-        modal_lbl_name: 'ご担当者様氏名',
-        modal_lbl_phone: 'ご連絡先 (電話番号)',
-        modal_lbl_email: 'メールアドレス',
-        modal_lbl_solution: 'ご関心のあるソリューション',
-        modal_lbl_message: 'ご相談・お問い合わせ内容',
-        modal_lbl_optional: '(任意)',
-        form_submit: '導入相談を申し込む',
-
-        // Placeholders
-        ph_company: '例：株式会社ロジスティクス',
-        ph_position: '例：物流企画部 部長 / 課長',
-        ph_name: '例：山田 太郎',
-        ph_phone: '例：090-1234-5678',
-        ph_email: '例：yamada@company.com',
-        ph_message: '導入検討中の設備、1日の想定物流量、センター面積、希望納期などをご自由にご記入ください。'
-    }
-};
-
-/**
- * 언어 변경 실행 함수
- * @param {string} lang - 'ko' | 'en' | 'zh' | 'ja'
- */
-window.setLanguage = setLanguage;
-function setLanguage(lang) {
-    if (!i18nData[lang]) {
-        lang = 'ko';
-    }
-
-    console.log('[i18n] Setting language to:', lang);
-
-    // 1. HTML lang 속성
-    document.documentElement.lang = lang;
-
-    // 2. localStorage 저장
-    try {
-        localStorage.setItem('ata_language', lang);
-    } catch (e) {
-        console.warn('localStorage access failed:', e);
-    }
-
-    const dict = i18nData[lang];
-
-    // 3. data-i18n 속성 텍스트 변경
-    const elements = document.querySelectorAll('[data-i18n]');
-    elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key] !== undefined) {
-            el.innerHTML = dict[key];
-        }
-    });
-
-    // 4. data-i18n-placeholder 속성 변경
-    const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
-    placeholders.forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (dict[key] !== undefined) {
-            el.placeholder = dict[key];
-        }
-    });
-
-    // 5. UI 버튼 및 체크마크 업데이트
-    updateLangUI(lang);
-
-    // 6. 드롭다운 닫기
-    closeDesktopLangDropdown();
-    closeMobileLangDropdown();
-
-    // 7. 모달 명함 이미지 국문/영문 자동 연동
-    if (typeof switchCardLang === 'function') {
-        if (lang === 'ko') {
-            switchCardLang('ko');
-        } else {
-            switchCardLang('en');
-        }
-    }
-}
-
-/**
- * 언어 셀렉터 UI 라벨 및 체크마크 동기화
- */
-window.updateLangUI = updateLangUI;
-function updateLangUI(lang) {
-    const labels = {
-        ko: '🇰🇷 한국어',
-        en: '🇺🇸 English',
-        zh: '🇨🇳 中文',
-        ja: '🇯🇵 日本語'
-    };
-
-    const shortLabels = {
-        ko: 'KO',
-        en: 'EN',
-        zh: 'ZH',
-        ja: 'JA'
-    };
-
-    // 데스크톱 라벨
-    const desktopLabel = document.getElementById('current-lang-label');
-    if (desktopLabel) {
-        desktopLabel.textContent = labels[lang] || labels.ko;
-    }
-
-    // 모바일 헤더 라벨
-    const mobileLabel = document.getElementById('mobile-current-lang-label');
-    if (mobileLabel) {
-        mobileLabel.textContent = shortLabels[lang] || 'KO';
-    }
-
-    // 데스크톱 체크마크 토글
-    ['ko', 'en', 'zh', 'ja'].forEach(l => {
-        const check = document.getElementById('lang-check-' + l);
-        if (check) {
-            if (l === lang) {
-                check.classList.remove('hidden');
-            } else {
-                check.classList.add('hidden');
-            }
-        }
-
-        // 모바일 슬라이드 메뉴 버튼 활성화 스타일 토글
-        const mBtn = document.getElementById('m-lang-' + l);
-        if (mBtn) {
-            if (l === lang) {
-                mBtn.className = 'py-2 rounded-lg font-bold bg-cyan-950 text-cyan-400 border border-cyan-800/60 transition-all cursor-pointer';
-            } else {
-                mBtn.className = 'py-2 rounded-lg font-medium text-slate-400 hover:text-white transition-all cursor-pointer';
-            }
-        }
-    });
-}
-
-/**
- * 데스크톱 언어 드롭다운 토글
- */
-window.toggleDesktopLangDropdown = toggleDesktopLangDropdown;
-function toggleDesktopLangDropdown(e) {
-    if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    }
-    const dropdown = document.getElementById('desktop-lang-dropdown');
-    if (dropdown) {
-        dropdown.classList.remove('menu-closed');
-        dropdown.classList.toggle('active-dropdown');
-    }
-}
-
-window.closeDesktopLangDropdown = closeDesktopLangDropdown;
-function closeDesktopLangDropdown() {
-    const dropdown = document.getElementById('desktop-lang-dropdown');
-    if (dropdown) {
-        dropdown.classList.remove('active-dropdown');
-        dropdown.classList.add('menu-closed');
-    }
-}
-
-/**
- * 모바일 언어 드롭다운 토글
- */
-window.toggleMobileLangDropdown = toggleMobileLangDropdown;
-function toggleMobileLangDropdown(e) {
-    if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    }
-    const dropdown = document.getElementById('mobile-lang-dropdown');
-    if (dropdown) {
-        dropdown.classList.toggle('hidden');
-    }
-}
-
-window.closeMobileLangDropdown = closeMobileLangDropdown;
-function closeMobileLangDropdown() {
-    const dropdown = document.getElementById('mobile-lang-dropdown');
-    if (dropdown) {
-        dropdown.classList.add('hidden');
-    }
-}
-
-// 바깥 클릭 시 모든 언어 드롭다운 닫기
-document.addEventListener('click', function (e) {
-    const dContainer = document.getElementById('desktop-lang-container');
-    if (dContainer && !dContainer.contains(e.target)) {
-        closeDesktopLangDropdown();
-    }
-    const mBtn = document.getElementById('mobile-lang-btn');
-    const mDropdown = document.getElementById('mobile-lang-dropdown');
-    if (mDropdown && !mDropdown.classList.contains('hidden')) {
-        if (mBtn && !mBtn.contains(e.target) && !mDropdown.contains(e.target)) {
-            closeMobileLangDropdown();
-        }
-    }
-});
-
-
-// 호버 벗어났을 때 menu-closed 해제 (다시 호버 시 열리도록)
-document.addEventListener('DOMContentLoaded', function() {
-    const dContainer = document.getElementById('desktop-lang-container');
-    if (dContainer) {
-        dContainer.addEventListener('mouseleave', function() {
-            const dropdown = document.getElementById('desktop-lang-dropdown');
-            if (dropdown) {
-                dropdown.classList.remove('menu-closed');
-            }
-        });
-    }
-});
-
-// ESC 키 입력 시 닫기
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeDesktopLangDropdown();
-        closeMobileLangDropdown();
-    }
-});
-
-// 페이지 로드 시 저장된 언어 초기화
-(function initI18n() {
-    let saved = 'ko';
-    try {
-        saved = localStorage.getItem('ata_language') || 'ko';
-    } catch (e) {
-        saved = 'ko';
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => setLanguage(saved));
-    } else {
-        setLanguage(saved);
-    }
-})();
-
-    </script>
 </body>
 
 </html>
