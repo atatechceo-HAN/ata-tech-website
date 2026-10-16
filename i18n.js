@@ -2553,6 +2553,11 @@ function setLanguage(lang, byUserSelection) {
         window.updateConsultSolutions(lang);
     }
 
+    // 6-2. 공지사항 게시판 4개국어 실시간 동적 동기화 (목록 및 모달 실시간 재렌더링)
+    if (typeof window.syncNoticeLanguage === 'function') {
+        window.syncNoticeLanguage(lang);
+    }
+
     // 7. UI 버튼 및 체크마크 업데이트
     updateLangUI(lang);
 
@@ -2774,3 +2779,798 @@ document.addEventListener('keydown', function(e) {
         setLanguage(saved, false);
     }
 })();
+
+// ==========================================================================
+// [공지사항 게시판] 4개국어(KO, EN, CN, JA) 다국어 텍스트 및 데이터베이스 엔진
+// ==========================================================================
+
+/**
+ * 1. 공지사항 전용 4개국어 UI 라벨 사전
+ * 네비게이션, 카테고리 탭, 검색창, 테이블 헤더, 상세 모달 등에 사용되는 다국어 텍스트입니다.
+ */
+var noticeI18nData = {
+    "ko": {
+        "nav_notice": "공지사항",
+        "nav_sub_notice": "새소식 & 공지",
+        "notice_badge": "ATA NEWS & NOTICE",
+        "notice_title": "공지사항",
+        "notice_desc": "주식회사 에이티에이기술의 최신 소식과 기술 개발, 프로젝트 실적을 신속하게 전해드립니다.",
+        "notice_tab_all": "전체",
+        "notice_tab_notice": "중요 공지",
+        "notice_tab_tech": "기술 & 솔루션",
+        "notice_tab_press": "보도자료 & 행사",
+        "notice_search_ph": "제목 또는 내용으로 검색...",
+        "notice_search_btn": "검색",
+        "notice_reset_btn": "초기화",
+        "notice_col_no": "번호",
+        "notice_col_category": "구분",
+        "notice_col_title": "제목",
+        "notice_col_date": "등록일",
+        "notice_col_views": "조회수",
+        "notice_pinned_badge": "중요",
+        "notice_empty": "검색된 공지사항이 없습니다.",
+        "notice_detail_back": "목록으로",
+        "notice_detail_prev": "이전글",
+        "notice_detail_next": "다음글",
+        "notice_detail_author": "작성자",
+        "notice_author_val": "에이티에이기술 관리자"
+    },
+    "en": {
+        "nav_notice": "NOTICE",
+        "nav_sub_notice": "News & Notice",
+        "notice_badge": "ATA NEWS & NOTICE",
+        "notice_title": "Notice & News",
+        "notice_desc": "Stay informed with the latest updates, technological breakthroughs, and project milestones from ATA Technology.",
+        "notice_tab_all": "All",
+        "notice_tab_notice": "Notices",
+        "notice_tab_tech": "Tech & Solutions",
+        "notice_tab_press": "Press & Events",
+        "notice_search_ph": "Search by title or content...",
+        "notice_search_btn": "Search",
+        "notice_reset_btn": "Reset",
+        "notice_col_no": "No.",
+        "notice_col_category": "Category",
+        "notice_col_title": "Title",
+        "notice_col_date": "Date",
+        "notice_col_views": "Views",
+        "notice_pinned_badge": "NOTICE",
+        "notice_empty": "No announcements found matching your criteria.",
+        "notice_detail_back": "Back to List",
+        "notice_detail_prev": "Previous",
+        "notice_detail_next": "Next",
+        "notice_detail_author": "Author",
+        "notice_author_val": "ATA Admin"
+    },
+    "cn": {
+        "nav_notice": "公告资讯",
+        "nav_sub_notice": "官方公告与动态",
+        "notice_badge": "ATA 官方公告与资讯",
+        "notice_title": "官方公告与新闻",
+        "notice_desc": "为您实时提供株式会社 ATA Technology的最新官方公告、核心技术研发动态与工程项目实绩。",
+        "notice_tab_all": "全部",
+        "notice_tab_notice": "重要公告",
+        "notice_tab_tech": "技术与方案",
+        "notice_tab_press": "新闻与展会",
+        "notice_search_ph": "输入标题或正文关键词搜索...",
+        "notice_search_btn": "搜索",
+        "notice_reset_btn": "重置",
+        "notice_col_no": "序号",
+        "notice_col_category": "分类",
+        "notice_col_title": "公告标题",
+        "notice_col_date": "发布日期",
+        "notice_col_views": "浏览量",
+        "notice_pinned_badge": "置顶",
+        "notice_empty": "未检索到符合条件的公告内容。",
+        "notice_detail_back": "返回列表",
+        "notice_detail_prev": "上一篇",
+        "notice_detail_next": "下一篇",
+        "notice_detail_author": "发布者",
+        "notice_author_val": "ATA官方管理员"
+    },
+    "zh": {
+        "nav_notice": "公告资讯",
+        "nav_sub_notice": "官方公告与动态",
+        "notice_badge": "ATA 官方公告与资讯",
+        "notice_title": "官方公告与新闻",
+        "notice_desc": "为您实时提供株式会社 ATA Technology的最新官方公告、核心技术研发动态与工程项目实绩。",
+        "notice_tab_all": "全部",
+        "notice_tab_notice": "重要公告",
+        "notice_tab_tech": "技术与方案",
+        "notice_tab_press": "新闻与展会",
+        "notice_search_ph": "输入标题或正文关键词搜索...",
+        "notice_search_btn": "搜索",
+        "notice_reset_btn": "重置",
+        "notice_col_no": "序号",
+        "notice_col_category": "分类",
+        "notice_col_title": "公告标题",
+        "notice_col_date": "发布日期",
+        "notice_col_views": "浏览量",
+        "notice_pinned_badge": "置顶",
+        "notice_empty": "未检索到符合条件的公告内容。",
+        "notice_detail_back": "返回列表",
+        "notice_detail_prev": "上一篇",
+        "notice_detail_next": "下一篇",
+        "notice_detail_author": "发布者",
+        "notice_author_val": "ATA官方管理员"
+    },
+    "ja": {
+        "nav_notice": "お知らせ",
+        "nav_sub_notice": "新着情報・告知",
+        "notice_badge": "ATA NEWS & NOTICE",
+        "notice_title": "お知らせ & ニュース",
+        "notice_desc": "株式会社ATAテクノロジーの最新情報、次世代技術開発成果、プロジェクト納入実績をお届けします。",
+        "notice_tab_all": "すべて",
+        "notice_tab_notice": "重要なお知らせ",
+        "notice_tab_tech": "技術・ソリューション",
+        "notice_tab_press": "プレス・イベント",
+        "notice_search_ph": "タイトルまたは本文で検索...",
+        "notice_search_btn": "検索",
+        "notice_reset_btn": "リセット",
+        "notice_col_no": "番号",
+        "notice_col_category": "区分",
+        "notice_col_title": "件名",
+        "notice_col_date": "掲載日",
+        "notice_col_views": "閲覧数",
+        "notice_pinned_badge": "重要",
+        "notice_empty": "該当するお知らせは見つかりませんでした。",
+        "notice_detail_back": "一覧へ戻る",
+        "notice_detail_prev": "前の記事",
+        "notice_detail_next": "次の記事",
+        "notice_detail_author": "作成者",
+        "notice_author_val": "ATAテクノロジー管理者"
+    }
+};
+
+// 메인 다국어 데이터셋(i18nData)에 공지사항 텍스트 즉시 병합
+['ko', 'en', 'zh', 'ja', 'cn'].forEach(function(lang) {
+    if (window.i18nData && window.i18nData[lang] && noticeI18nData[lang]) {
+        Object.assign(window.i18nData[lang], noticeI18nData[lang]);
+    }
+});
+
+/**
+ * 2. 공지사항 데이터베이스 (noticeBoardDB)
+ * 4개국어(한국어, 영어, 중국어, 일본어)로 완전히 작성된 실제 공지 데이터 모음입니다.
+ */
+var noticeBoardDB = window.noticeBoardDB = [
+    {
+        id: "notice-001",
+        pinned: true,
+        category: "notice",
+        date: "2026-03-15",
+        views: 1420,
+        badgeText: { ko: "중요", en: "NOTICE", cn: "置顶", ja: "重要" },
+        categoryLabel: { ko: "공지사항", en: "Notice", cn: "官方公告", ja: "お知らせ" },
+        title: {
+            ko: "[공지] 주식회사 에이티에이기술 공식 웹사이트 리뉴얼 및 4개국어 글로벌 서비스 오픈 안내",
+            en: "[Notice] ATA Technology Official Website Renewal & 4-Language Global Service Launch",
+            cn: "[公告] 株式会社 ATA Technology 官方网站全面焕新及4国语言全球服务开通通知",
+            ja: "[お知らせ] 株式会社ATAテクノロジー 公式ウェブサイトのリニューアルおよび4言語グローバルサービス開始のご案内"
+        },
+        summary: {
+            ko: "글로벌 스마트 물류 자동화 선도 기업으로 도약하기 위해 공식 웹사이트를 리뉴얼하고 한국어, 영어, 중국어, 일본어 4개국어 서비스를 오픈했습니다.",
+            en: "To leap forward as a global leader in smart logistics automation, we have revamped our official website and launched full services in Korean, English, Chinese, and Japanese.",
+            cn: "为加速迈向全球智能物流自动化领军企业，我司官方网站已全面升级，并正式开通韩语、英语、中文、日语四国语言全球服务。",
+            ja: "グローバルスマート物流自動化ソリューションの先駆企業として更なる飛躍を遂げるため、公式ウェブサイトをリニューアルし、日本語・韓国語・英語・中国語の4言語サービスを開始いたしました。"
+        },
+        content: {
+            ko: `
+                <p class="mb-4 text-base leading-relaxed">안녕하세요, <strong class="text-white">주식회사 에이티에이기술</strong>입니다.</p>
+                <p class="mb-4 text-base leading-relaxed">당사를 성원해 주시는 고객사와 국내외 협력사, 그리고 관계자 여러분께 깊은 감사의 말씀을 드립니다. 고객 중심의 스마트 물류 자동화 솔루션을 보다 직관적이고 상세하게 소개하고자 <strong class="text-cyan-400">공식 웹사이트 리뉴얼</strong>을 완료하였습니다.</p>
+                
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                    <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-sparkles"></i> 이번 공식 웹사이트 리뉴얼의 주요 포인트
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">4개국어(한국어, 영어, 중국어, 일본어) 실시간 다국어 지원</strong> : 글로벌 비즈니스 파트너십 확대를 위한 원클릭 실시간 언어 전환 엔진 탑재</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">11대 핵심 물류 솔루션 상세 카탈로그</strong> : 택배차량 자동화, 소터(NBS, CBS, NC CBS, Wheel, Tilt Tray), 컨베이어, 텔레스코픽, AGV/AMR 등 상세 사양 및 실제 구동 영상 제공</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">온라인 간편 1:1 도입 상담 신청 시스템</strong> : 고객사 현장 맞춤형 설비 검토, 레이아웃 설계 및 상세 견적 안내 프로세스 간소화</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">중국지사(XingTing) 글로벌 제조 네트워크 안내</strong> : 한-중 융합 하드웨어 제조 및 소프트웨어 시너지 인프라 거점 공개</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <p class="mb-4 text-base leading-relaxed">앞으로도 본 공지사항 게시판을 통해 에이티에이기술의 혁신 기술 개발 소식, 주요 프로젝트 수주 및 납품 실적, 국내외 전시회 참가 소식을 투명하고 신속하게 전해드리겠습니다.</p>
+                <p class="text-base leading-relaxed text-slate-300">물류에 대한 고객의 이상을 완벽히 실현하는 든든한 기술 동반자가 되겠습니다. 앞으로도 많은 관심과 성원을 부탁드립니다. 감사합니다.</p>
+            `,
+            en: `
+                <p class="mb-4 text-base leading-relaxed">Hello, this is <strong class="text-white">ATA Technology Co., Ltd.</strong></p>
+                <p class="mb-4 text-base leading-relaxed">We would like to express our deepest gratitude to our valued clients, global partners, and stakeholders. In order to present our customer-centric smart logistics automation solutions more intuitively and comprehensively, we have successfully completed our <strong class="text-cyan-400">official website renewal</strong>.</p>
+                
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                    <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-sparkles"></i> Key Highlights of the Website Renewal
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">4-Language Real-time Global Support</strong>: Seamless instant switching between Korean, English, Chinese, and Japanese for international clients and partners.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">11 Core Logistics Automation Lineup</strong>: Comprehensive technical specifications and live demo videos for Delivery Vehicle Automation, Sorters (NBS, CBS, NC CBS, Wheel, Tilt Tray), Conveyors, Telescopic Boom Conveyors, and AGV/AMR robotics.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">1:1 Online Consultation Request System</strong>: Streamlined process for requesting custom warehouse layout engineering, throughput analysis, and official quotation.</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">China Branch & Manufacturing Base (XingTing)</strong>: In-depth introduction to our cross-border hardware-software convergence infrastructure.</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <p class="mb-4 text-base leading-relaxed">We will continue to share our latest technology breakthroughs, major fulfillment deployments, and global exhibition news through this official board.</p>
+                <p class="text-base leading-relaxed text-slate-300">Thank you for partnering with ATA Technology — Always Transforming Automation.</p>
+            `,
+            cn: `
+                <p class="mb-4 text-base leading-relaxed">尊敬的全球客户与合作伙伴，您好！这里是 <strong class="text-white">株式会社 ATA Technology</strong>。</p>
+                <p class="mb-4 text-base leading-relaxed">衷心感谢各位一直以来对ATA Technology的信任与支持。为了更直观、全面地向全球客户展示我司尖端智能物流自动化解决方案，我们正式完成了 <strong class="text-cyan-400">官方网站的全面焕新升级</strong>。</p>
+                
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                    <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-sparkles"></i> 官方网站升级核心亮点
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">四国语言实时全球切换</strong>：全面支持中文、韩语、英语、日语四国语言，实现国际业务的高效无缝对接。</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">11大核心物流自动化产品矩阵</strong>：全面展示快递车辆自动化装卸、高速分拣机系列（NBS、CBS、NC CBS、斜轮、翻盘）、输送机、伸缩机及AGV/AMR移动机器人的详尽技术参数与实机高清演示。</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">1对1专属方案在线咨询系统</strong>：便于客户根据现场场地布局、日处理量等定制需求，快速获取专业工程设计与商务报价。</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">中国分公司与制造基地（XingTing）协同网络</strong>：详细公开韩中软硬件深度融合研发与全球化高标准生产制造基地布局。</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <p class="mb-4 text-base leading-relaxed">我们将通过此公告栏持续发布最新研发成果、行业标杆客户案例落地、海内外重要展会等动态资讯。</p>
+                <p class="text-base leading-relaxed text-slate-300">ATA Technology将始终以客户需求为导向，全力践行“Always Transforming Automation”的技术使命。谢谢！</p>
+            `,
+            ja: `
+                <p class="mb-4 text-base leading-relaxed">平素は格別のご高配を賜り、厚く御礼申し上げます。<strong class="text-white">株式会社ATAテクノロジー</strong>でございます。</p>
+                <p class="mb-4 text-base leading-relaxed">お客様の物流現場に最適なスマート自動化ソリューションをより分かりやすく、詳細にご案内するため、この度<strong class="text-cyan-400">公式ウェブサイトを全面リニューアル</strong>いたしました。</p>
+                
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                    <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-sparkles"></i> 公式ウェブサイトリニューアルの主要ポイント
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">4言語（日本語・韓国語・英語・中国語）のリアルタイム切替</strong>：グローバルビジネスパートナーに向けた快適な閲覧環境を構築。</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">11大基幹物流ソリューションの詳細情報</strong>：宅配車両自動化システム、各種ソーター（NBS、CBS、NC CBS、ホイール、チルトトレイ）、コンベヤ、テレスコピック、AGV/AMRロボットの実機動画および技術仕様を網羅。</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">1:1 オンライン導入相談窓口の新設</strong>：お客様のセンターレイアウトや処理荷量に応じた迅速なお見積り・技術相談に対応。</div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">•</span>
+                            <div><strong class="text-white">中国支社・製造拠点（XingTing）のグローバル製造拠点案内</strong>：日韓中を繋ぐハードウェア・ソフトウェア融合体制のご紹介。</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <p class="mb-4 text-base leading-relaxed">今後も本お知らせ掲示板を通じ、新技術の開発成果や展示会出展情報、導入実績などを迅速にお届けしてまいります。</p>
+                <p class="text-base leading-relaxed text-slate-300">今後とも株式会社ATAテクノロジーをよろしくお願い申し上げます。</p>
+            `
+        }
+    },
+    {
+        id: "notice-002",
+        pinned: false,
+        category: "tech",
+        date: "2026-02-20",
+        views: 890,
+        badgeText: { ko: "기술", en: "TECH", cn: "技术", ja: "技術" },
+        categoryLabel: { ko: "기술 & 솔루션", en: "Tech & Solutions", cn: "技术与解决方案", ja: "技術・ソリューション" },
+        title: {
+            ko: "[신기술] 차세대 택배차량 배송 자동화 시스템 특허 등록 및 상용화 공급 개시",
+            en: "[Tech] Patent Registration and Commercial Supply of Next-Gen Delivery Vehicle Automation System",
+            cn: "[技术] 新一代快递车辆配送自动化系统专利正式授权及商用批量交付启动",
+            ja: "[技術] 次世代宅配車両配送自動化システムの特許登録完了および商用供給開始のお知らせ"
+        },
+        summary: {
+            ko: "택배 차량 내 적재 공간 활용성을 극대화하고 작업자의 상하차 피로도를 획기적으로 줄여주는 독자 특허 기술의 상용 공급을 본격 시작합니다.",
+            en: "We have launched the commercial supply of our patented technology, which maximizes cargo space in delivery vehicles and drastically reduces worker fatigue.",
+            cn: "我司自主研发的快递货车内部自动化装卸专利系统正式进入商用量产阶段，显著提升车厢容积率并极大减轻人工劳动强度。",
+            ja: "宅配車両内の積載スペース効率を最大化し、作業者の荷役疲労を飛躍的に軽減する独自特許技術の商用供給を本格的に開始いたしました。"
+        },
+        content: {
+            ko: `
+                <p class="mb-4 text-base leading-relaxed">(주)에이티에이기술은 라스트마일 배송 현장의 오랜 난제였던 차량 내부 적재 및 하차 작업을 완전 자동화하는 <strong class="text-cyan-400">'차세대 택배차량 배송 자동화 시스템'</strong>의 특허 등록을 완료하고 본격적인 상용화 공급에 돌입했습니다.</p>
+                <p class="mb-4 text-base leading-relaxed">본 시스템은 차량 내부 바닥 및 상부 구조에 내장된 고정밀 컨베이어 모듈과 자동 제어 메커니즘을 결합하여, 작업자가 차 안으로 깊숙이 들어가지 않고도 원터치로 택배 화물을 순차 정렬 및 하차할 수 있도록 지원합니다.</p>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                    <div>• <strong class="text-white">차량 적재율 25% 이상 향상</strong> : 버려지는 데드스페이스를 없앤 고밀도 적재 제어</div>
+                    <div>• <strong class="text-white">상하차 작업 시간 40% 이상 단축</strong> : 작업자의 허리 굽힘과 반복 이동 최소화로 안전성 강화</div>
+                    <div>• <strong class="text-white">차종별 맞춤형 설계 지원</strong> : 1톤 소형 탑차부터 대형 윙바디 화물차까지 유연한 모듈 커스텀 탑재</div>
+                </div>
+                <p class="text-base leading-relaxed text-slate-300">물류 현장의 작업 환경을 개선하고 고객사의 배송 경쟁력을 극대화할 수 있도록 현장 맞춤 엔지니어링 서비스를 제공하겠습니다.</p>
+            `,
+            en: `
+                <p class="mb-4 text-base leading-relaxed">ATA Technology Co., Ltd. has successfully completed the patent registration and begun the commercial rollout of our <strong class="text-cyan-400">'Next-Generation Delivery Vehicle Automation System'</strong>, addressing long-standing last-mile logistics bottlenecks.</p>
+                <p class="mb-4 text-base leading-relaxed">Integrating precision conveyor modules built into vehicle cargo beds with intelligent motion control, this system allows operators to load and unload packages with one-touch ease, eliminating the need to physically crawl inside cargo spaces.</p>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                    <div>• <strong class="text-white">Over 25% Increase in Payload Volume</strong>: High-density volumetric utilization eliminating dead space.</div>
+                    <div>• <strong class="text-white">Over 40% Reduction in Loading/Unloading Time</strong>: Drastically reduces physical strain and repetitive worker motion.</div>
+                    <div>• <strong class="text-white">Custom Vehicle Compatibility</strong>: Modular fit from 1-ton city delivery vans to full-sized heavy freight trucks.</div>
+                </div>
+                <p class="text-base leading-relaxed text-slate-300">We are dedicated to enhancing logistics workplace ergonomics while empowering our partners with unmatched delivery efficiency.</p>
+            `,
+            cn: `
+                <p class="mb-4 text-base leading-relaxed">株式会社 ATA Technology自主研发的<strong class="text-cyan-400">“新一代快递车辆配送自动化系统”</strong>已正式获得国家发明专利授权，并全面启动商业化量产与供货交付。</p>
+                <p class="mb-4 text-base leading-relaxed">该系统在厢式货车车厢底板与内部空间深度集成微型精密输送模组与智能驱动机构。装卸工人无需费力弯腰钻入车厢深处，只需一键指令即可实现货物的平稳自动递送与快速卸车。</p>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                    <div>• <strong class="text-white">车厢空间利用率提升25%以上</strong>：消除无效死角，实现高密度紧凑装载。</div>
+                    <div>• <strong class="text-white">装卸作业耗时缩短40%以上</strong>：彻底改善作业工效，消除一线搬运劳损隐患。</div>
+                    <div>• <strong class="text-white">全面适配多级别商用车型</strong>：支持从1吨级城市配送轻卡至重型翼开式干线货车的柔性定制。</div>
+                </div>
+                <p class="text-base leading-relaxed text-slate-300">我们将继续致力于以尖端技术赋能物流一线，助力客户降本增效。</p>
+            `,
+            ja: `
+                <p class="mb-4 text-base leading-relaxed">株式会社ATAテクノロジーは、ラストワンマイル物流における長年の課題であった車内での荷役作業を自動化する<strong class="text-cyan-400">「次世代宅配車両配送自動化システム」</strong>の特許登録を完了し、商用納入を本格的に開始いたしました。</p>
+                <p class="mb-4 text-base leading-relaxed">本システムは、車両荷台に組み込まれた超薄型コンベヤモジュールと自動制御技術を融合。ドライバーが車内奥深くまで腰をかがめて入り込むことなく、ワンタッチ操作で荷物を手元まで自動搬送・整列させます。</p>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                    <div>• <strong class="text-white">車両積載効率25%以上向上</strong>：デッドスペースを徹底排除した高密度積載制御。</div>
+                    <div>• <strong class="text-white">荷役作業時間40%以上短縮</strong>：腰痛リスクや身体的負荷を大幅に低減し作業安全性を向上。</div>
+                    <div>• <strong class="text-white">多種多様な車種に対応</strong>：1t小型バンから大型ウイング車まで柔軟なモジュール設計が可能。</div>
+                </div>
+                <p class="text-base leading-relaxed text-slate-300">物流業界の労働環境改善と配送効率の飛躍的向上に貢献してまいります。</p>
+            `
+        }
+    },
+    {
+        id: "notice-003",
+        pinned: false,
+        category: "press",
+        date: "2026-01-18",
+        views: 654,
+        badgeText: { ko: "전시", en: "EXPO", cn: "展会", ja: "展示" },
+        categoryLabel: { ko: "보도자료 & 행사", en: "Press & Events", cn: "新闻与展会", ja: "プレス・イベント" },
+        title: {
+            ko: "[전시회] 글로벌 스마트 물류 엑스포(LogiTech Expo 2026) 기술 시연 성료",
+            en: "[Expo] Successful Technology Demonstration at Global Smart Logistics Expo (LogiTech Expo 2026)",
+            cn: "[展会] 2026全球智慧物流科技博览会 (LogiTech Expo 2026) 现场实机演示圆满落幕",
+            ja: "[展示会] グローバルスマート物流エキスポ (LogiTech Expo 2026) 実機デモ展示レポート"
+        },
+        summary: {
+            ko: "초고속 크로스벨트 소터(NC CBS)와 자율이송 AGV 로봇 군집 제어 시연을 선보이며 국내외 바이어들의 큰 호응을 얻었습니다.",
+            en: "We demonstrated our high-speed NC Cross Belt Sorter and AGV fleet control, receiving enthusiastic responses from global buyers.",
+            cn: "我司现场展示了高速数控交叉带分拣机（NC CBS）与移动机器人（AGV/AMR）集群协同运作，备受全球海内外客商瞩目。",
+            ja: "高速クロスベルトソーター(NC CBS)およびAGV群制御デモを実演し、国内外の多くのバイヤー様より高い評価をいただきました。"
+        },
+        content: {
+            ko: `
+                <p class="mb-4 text-base leading-relaxed">주식회사 에이티에이기술은 지난 1월 15일부터 17일까지 개최된 <strong class="text-white">'LogiTech Expo 2026'</strong>에 참가하여 당사의 주력 자동화 라인업을 성황리에 시연하였습니다.</p>
+                <p class="mb-4 text-base leading-relaxed">특히 이번 부스에서는 <strong class="text-cyan-400">NC CBS(수치제어 크로스 벨트 소터)</strong>와 <strong class="text-cyan-400">자율주행 모바일 로봇(AGV/AMR)</strong>이 실시간으로 물류 데이터를 주고받으며 오차 없이 화물을 분류·이송하는 엔드투엔드(End-to-End) 스마트 풀필먼트 프로세스를 공개하여 관람객과 바이어들의 주목을 받았습니다.</p>
+                <p class="mb-4 text-base leading-relaxed">전시 기간 동안 국내외 120여 개 기업과 현장 도입 상담을 진행하였으며, 앞으로도 글로벌 전시회를 통해 당사의 독보적인 엔지니어링 역량을 적극 알려나갈 예정입니다.</p>
+                <p class="text-base leading-relaxed text-slate-300">부스를 찾아주신 모든 분들께 다시 한번 감사드립니다.</p>
+            `,
+            en: `
+                <p class="mb-4 text-base leading-relaxed">ATA Technology Co., Ltd. successfully exhibited at <strong class="text-white">'LogiTech Expo 2026'</strong> held from January 15 to 17, showcasing our cutting-edge automation lineup.</p>
+                <p class="mb-4 text-base leading-relaxed">The centerpiece of our booth was an end-to-end smart fulfillment demonstration where our <strong class="text-cyan-400">NC Cross Belt Sorter</strong> and <strong class="text-cyan-400">Autonomous Mobile Robots (AGV/AMR)</strong> interlocked seamlessly via real-time WCS protocols to sort and convey parcels with zero error.</p>
+                <p class="mb-4 text-base leading-relaxed">Over the course of the exhibition, we conducted technical consultation meetings with over 120 domestic and international enterprises. We look forward to advancing these partnerships.</p>
+                <p class="text-base leading-relaxed text-slate-300">Thank you to everyone who visited our booth.</p>
+            `,
+            cn: `
+                <p class="mb-4 text-base leading-relaxed">株式会社 ATA Technology 于1月15日至17日亮相<strong class="text-white">“LogiTech Expo 2026 全球智慧物流博览会”</strong>，成功举办了多场高水平的实机运行联合演示。</p>
+                <p class="mb-4 text-base leading-relaxed">展会现场重点展示了<strong class="text-cyan-400">NC CBS数控高精度交叉带分拣机</strong>与<strong class="text-cyan-400">激光导航AGV/AMR移动机器人车队</strong>的端到端联动作业，通过自主研发的WCS控制系统实现了毫秒级数据交互与零误差柔性分流。</p>
+                <p class="mb-4 text-base leading-relaxed">为期3天的展期内，我司技术团队共接待了来自全球的120余家企业代表并达成了多项前期方案设计意向。</p>
+                <p class="text-base leading-relaxed text-slate-300">感谢莅临展位交流指导的所有行业同仁与合作伙伴！</p>
+            `,
+            ja: `
+                <p class="mb-4 text-base leading-relaxed">株式会社ATAテクノロジーは、1月15日から17日まで開催された<strong class="text-white">「LogiTech Expo 2026」</strong>に出展し、主力自動化ラインの実演デモンストレーションを大盛況のうちに終了いたしました。</p>
+                <p class="mb-4 text-base leading-relaxed">会場では、独自開発の<strong class="text-cyan-400">NC CBS（数値制御クロスベルトソーター）</strong>と<strong class="text-cyan-400">AGV/AMR自律搬送ロボット</strong>がリアルタイムに連携し、ミリ秒単位のWCS制御により荷物を一切のミスなく高速仕分け・搬送するエンドツーエンドの最新工程を公開いたしました。</p>
+                <p class="mb-4 text-base leading-relaxed">会期中、国内外から120社を超える企業の皆様がブースを訪問され、具体的な導入に向けた熱心な商談が行われました。</p>
+                <p class="text-base leading-relaxed text-slate-300">ご来場いただきました皆様に心より御礼申し上げます。</p>
+            `
+        }
+    },
+    {
+        id: "notice-004",
+        pinned: false,
+        category: "notice",
+        date: "2025-11-10",
+        views: 512,
+        badgeText: { ko: "인증", en: "CERT", cn: "认证", ja: "認証" },
+        categoryLabel: { ko: "공지사항", en: "Notice", cn: "官方公告", ja: "お知らせ" },
+        title: {
+            ko: "[인증] 국제표준 품질경영(ISO 9001) 및 환경경영(ISO 14001) 인증 갱신 획득",
+            en: "[Certification] Renewal of ISO 9001 & ISO 14001 International Quality & Environmental Standards",
+            cn: "[资质] 顺利通过国际标准化组织 ISO 9001 与 ISO 14001 体系换证权威认证",
+            ja: "[認証] 国際規格 ISO 9001 (品質) および ISO 14001 (環境) 更新認証取得のお知らせ"
+        },
+        summary: {
+            ko: "국제 규격에 부합하는 철저한 품질 관리와 친환경 엔지니어링 프로세스를 공식 재검증받았습니다.",
+            en: "We have officially re-certified our rigorous quality control and eco-friendly engineering processes under international standards.",
+            cn: "严格依循国际高标准规范，我司全流程质量保证与绿色环保工程体系顺利通过权威复审。",
+            ja: "国際規格に準拠した徹底した品質管理体制および環境配慮型エンジニアリングプロセスの更新審査を完了いたしました。"
+        },
+        content: {
+            ko: `
+                <p class="mb-4 text-base leading-relaxed">당사는 설계, 제조, 설치, 시운전 전 과정에 걸쳐 국제 표준 규격을 준수하고 있음을 공인하는 <strong class="text-cyan-400">ISO 9001(품질경영시스템)</strong> 및 <strong class="text-cyan-400">ISO 14001(환경경영시스템)</strong> 인증 갱신 심사를 우수한 성적으로 완료하였습니다.</p>
+                <p class="mb-4 text-base leading-relaxed">에이티에이기술은 하드웨어와 소프트웨어 융합 설비의 기획부터 납품 이후의 사후관리(A/S)까지 표준화된 고품질 프로세스를 고수하고 있으며, 에너지 절감형 모터와 친환경 자재를 사용하여 지속 가능한 스마트 물류를 실천하고 있습니다.</p>
+                <p class="text-base leading-relaxed text-slate-300">앞으로도 고객 여러분께서 안심하고 설비를 도입하실 수 있도록 무결점 품질 경영을 변함없이 이어나가겠습니다.</p>
+            `,
+            en: `
+                <p class="mb-4 text-base leading-relaxed">ATA Technology has successfully passed the audit renewal for both <strong class="text-cyan-400">ISO 9001 (Quality Management System)</strong> and <strong class="text-cyan-400">ISO 14001 (Environmental Management System)</strong> certifications, validating our adherence to world-class standards.</p>
+                <p class="mb-4 text-base leading-relaxed">From initial planning and engineering design to delivery, on-site commissioning, and comprehensive lifecycle support, we maintain rigorous standardized quality controls while adopting high-efficiency, energy-saving components.</p>
+                <p class="text-base leading-relaxed text-slate-300">We remain steadfast in our commitment to zero-defect quality and sustainable engineering.</p>
+            `,
+            cn: `
+                <p class="mb-4 text-base leading-relaxed">株式会社 ATA Technology 顺利通过了国际标准化组织 <strong class="text-cyan-400">ISO 9001 质量管理体系</strong>与 <strong class="text-cyan-400">ISO 14001 环境管理体系</strong>的双项年度监督与换证权威审核。</p>
+                <p class="mb-4 text-base leading-relaxed">这标志着我司在智能物流装备的研发设计、精益制造、现场安装调试及全生命周期运维各环节，始终坚守国际顶级质量标准，并积极采用节能低耗元器件与绿色环保工艺。</p>
+                <p class="text-base leading-relaxed text-slate-300">我们将一如既往地为全球客户提供经得起时间检验的高可靠品质保证。</p>
+            `,
+            ja: `
+                <p class="mb-4 text-base leading-relaxed">当社は、設計・製造・据付工事・試運転に至る全プロセスにおいて、国際標準化機構が定める規格への適合性を証明する<strong class="text-cyan-400">ISO 9001（品質マネジメントシステム）</strong>および<strong class="text-cyan-400">ISO 14001（環境マネジメントシステム）</strong>の更新審査を完了いたしました。</p>
+                <p class="mb-4 text-base leading-relaxed">ATAテクノロジーは、高精度なハードウェアとソフトウェアが融合した物流設備の企画段階から納入後のアフターメンテナンスに至るまで、徹底した標準化品質基準を遵守し、省エネ型高効率モーターや環境配慮型素材を採用しています。</p>
+                <p class="text-base leading-relaxed text-slate-300">これからもお客様に最高水準の信頼と安心をお届けできるよう、全社一丸となって品質向上に努めてまいります。</p>
+            `
+        }
+    },
+    {
+        id: "notice-005",
+        pinned: false,
+        category: "tech",
+        date: "2025-08-05",
+        views: 740,
+        badgeText: { ko: "양산", en: "PROD", cn: "量产", ja: "量産" },
+        categoryLabel: { ko: "기술 & 솔루션", en: "Tech & Solutions", cn: "技术与解决方案", ja: "技術・ソリューション" },
+        title: {
+            ko: "[솔루션] 중국지사·제조사(XingTing) 협력 초고속 4분할 방향전환 소터 양산 본격화",
+            en: "[Solution] Full-scale Mass Production of 4-Way Diverting Sorter with XingTing Manufacturing Base",
+            cn: "[方案] 携手中国分公司/制造基地(XingTing) 启动4向超高速分流转向机全面量产",
+            ja: "[ソリューション] 中国支社・製造拠点(XingTing)との協業による4分割高速仕分け方向転換装置の量産本格化"
+        },
+        summary: {
+            ko: "컨베이어 물류 분류용 독자 특허 기술을 기반으로 중국 제조 거점과의 융합 양산 체제를 구축하고 글로벌 공급을 개시합니다.",
+            en: "Leveraging our proprietary 4-way diverting patent, we established a mass-production infrastructure with our China base for global supply.",
+            cn: "依托独家专利技术与中国先进制造基地的协同量产体系，4向高效换向分拣模块正式开启全球规模化稳定供货。",
+            ja: "コンベヤ仕分け用独自特許技術に基づき、中国製造拠点との連携による量産体制を確立し、グローバル供給体制を整えました。"
+        },
+        content: {
+            ko: `
+                <p class="mb-4 text-base leading-relaxed">에이티에이기술의 독자 특허인 <strong class="text-cyan-400">'컨베이어 물류 분류용 4분할 방향 전환 장치(특허 제10-2956028호)'</strong>의 대량 양산 및 국내외 물류센터 본격 납품 체계가 구축되었습니다.</p>
+                <p class="mb-4 text-base leading-relaxed">본 설비는 고속으로 주행하는 메인 컨베이어 흐름을 차단하지 않고 직진, 좌, 우, 대각선 등 4방향으로 화물을 즉시 부드럽게 분기하는 획기적인 장치로, 좁은 센터 면적에서도 초대형 크로스벨트 소터에 필적하는 분당 수백 건의 분기 처리량을 발휘합니다.</p>
+                <p class="text-base leading-relaxed text-slate-300">중국지사·제조사(XingTing)의 고품질 양산 인프라를 통해 원가 경쟁력과 납기를 혁신적으로 개선하였으며, 국내 전문 엔지니어링 팀이 24시간 철저한 설치 및 기술 지원을 약속드립니다.</p>
+            `,
+            en: `
+                <p class="mb-4 text-base leading-relaxed">Mass production and international logistics deployment have commenced for our proprietary patent, the <strong class="text-cyan-400">'4-Way Diverting Apparatus for Conveyor Logistics Sortation'</strong>.</p>
+                <p class="mb-4 text-base leading-relaxed">This groundbreaking mechanism diverts parcels into four distinct directions (straight, left, right, and diagonal) without interrupting mainline conveyor speed, delivering high sorting throughput even in space-constrained facilities.</p>
+                <p class="text-base leading-relaxed text-slate-300">Combined with the advanced manufacturing capabilities of our China base (XingTing), we offer competitive pricing and shortened lead times backed by our dedicated 24/7 technical support team.</p>
+            `,
+            cn: `
+                <p class="mb-4 text-base leading-relaxed">株式会社 ATA Technology独家发明专利<strong class="text-cyan-400">“输送机物流分拣用4分割转向装置”</strong>正式完成产业化导入并步入大批量产交付阶段。</p>
+                <p class="mb-4 text-base leading-relaxed">该设备颠覆传统分流方式，在不降低主输送线通行速度的前提下，能够以极高频率向直行、左转、右转等多流向精准分流各类货物箱体，兼备极小占地面积与媲美大型交叉带分拣机的处理效能。</p>
+                <p class="text-base leading-relaxed text-slate-300">依托中国分公司与制造基地（XingTing）完备的精密制造供应链，该系统具备极具竞争力的交付周期与造价优势，并由韩国总部专业工程团队提供全天候技术护航。</p>
+            `,
+            ja: `
+                <p class="mb-4 text-base leading-relaxed">ATAテクノロジーが保有する中核特許<strong class="text-cyan-400">「コンベヤ物流仕分け用4分割方向転換装置」</strong>の量産および国内外物流センターへの本格納入体制が確立いたしました。</p>
+                <p class="mb-4 text-base leading-relaxed">本装置は、高速走行するメインコンベヤの流れを滞留させることなく、直進・左右・斜めを含む4方向に荷物を瞬時に滑らかに仕分ける革新的メカニズムを搭載。省スペースな現場環境でも最高水準の仕分け処理能力を発揮します。</p>
+                <p class="text-base leading-relaxed text-slate-300">中国支社・製造拠点（XingTing）の高度な生産ラインを活用することで、優れたコストパフォーマンスと短納期を実現。国内専任エンジニアチームによる安心の保守サポートを提供いたします。</p>
+            `
+        }
+    }
+];
+
+/**
+ * 3. 공지사항 상태 관리 변수
+ */
+window.currentNoticeCategory = 'all';
+window.currentNoticeSearchQuery = '';
+window.currentNoticePage = 1;
+window.currentOpenNoticeId = null;
+
+/**
+ * 현재 활성화된 언어 코드 반환 헬퍼 ('ko' | 'en' | 'cn' | 'ja')
+ */
+function getActiveLang() {
+    var lang = window.currentLanguage || 'ko';
+    try {
+        lang = localStorage.getItem('ata_language') || lang;
+    } catch(e) {}
+    if (lang === 'zh') lang = 'cn';
+    if (!noticeI18nData[lang]) lang = 'ko';
+    return lang;
+}
+
+/**
+ * 날짜 포맷팅 헬퍼
+ */
+function formatNoticeDate(dateStr, lang) {
+    if (!dateStr) return '';
+    var parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    var y = parts[0], m = parts[1], d = parts[2];
+    if (lang === 'en') {
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var monthName = months[parseInt(m, 10) - 1] || m;
+        return monthName + ' ' + d + ', ' + y;
+    } else if (lang === 'cn' || lang === 'zh') {
+        return y + '年' + m + '月' + d + '日';
+    } else if (lang === 'ja') {
+        return y + '年' + m + '月' + d + '日';
+    } else {
+        return y + '.' + m + '.' + d;
+    }
+}
+
+/**
+ * 4. 공지사항 목록 렌더링 함수
+ * 카테고리 필터링, 검색어, 페이지네이션 및 현재 언어에 맞춰 목록을 동적으로 구성합니다.
+ */
+window.renderNoticeList = function(category, query, page) {
+    var container = document.getElementById('notice-list-container');
+    if (!container) return; // 아직 DOM에 notice 컨테이너가 없는 경우 안전하게 리턴
+
+    if (category !== undefined) window.currentNoticeCategory = category;
+    if (query !== undefined) window.currentNoticeSearchQuery = query.trim();
+    if (page !== undefined) window.currentNoticePage = page;
+
+    var curLang = getActiveLang();
+    var dict = (window.i18nData && window.i18nData[curLang]) || noticeI18nData[curLang] || noticeI18nData.ko;
+
+    // 카테고리 탭 UI 활성화 스타일 동기화
+    var tabs = ['all', 'notice', 'tech', 'press'];
+    tabs.forEach(function(t) {
+        var btn = document.getElementById('notice-tab-' + t);
+        if (btn) {
+            if (t === window.currentNoticeCategory) {
+                btn.className = 'notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-cyan-950 text-cyan-400 border border-cyan-800/80 shadow-md transition-all cursor-pointer';
+            } else {
+                btn.className = 'notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800 transition-all cursor-pointer';
+            }
+        }
+    });
+
+    // 필터링 적용 (카테고리 & 검색어)
+    var filtered = window.noticeBoardDB.filter(function(item) {
+        // 카테고리 필터
+        if (window.currentNoticeCategory !== 'all' && item.category !== window.currentNoticeCategory) {
+            return false;
+        }
+        // 검색어 필터
+        if (window.currentNoticeSearchQuery) {
+            var q = window.currentNoticeSearchQuery.toLowerCase();
+            var titleText = ((item.title && item.title[curLang]) || '').toLowerCase();
+            var summaryText = ((item.summary && item.summary[curLang]) || '').toLowerCase();
+            var contentText = ((item.content && item.content[curLang]) || '').toLowerCase();
+            if (!titleText.includes(q) && !summaryText.includes(q) && !contentText.includes(q)) {
+                return false;
+            }
+        }
+        return true;
+    });
+
+    // 정렬: 상단 고정(pinned) 공지 우선, 그 다음 날짜 최신순
+    filtered.sort(function(a, b) {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        return new Date(b.date) - new Date(a.date);
+    });
+
+    // 공지사항 갯수 표시 뱃지 갱신
+    var countBadge = document.getElementById('notice-total-count');
+    if (countBadge) {
+        countBadge.textContent = filtered.length;
+    }
+
+    // 결과가 없을 때 안내창 렌더링
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div class="py-16 text-center text-slate-400 space-y-3">
+                <div class="w-16 h-16 mx-auto rounded-full bg-slate-900 flex items-center justify-center border border-slate-800 text-slate-500">
+                    <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+                </div>
+                <p class="text-base font-semibold text-slate-300">${dict.notice_empty || '검색된 공지사항이 없습니다.'}</p>
+                <button type="button" onclick="resetNoticeFilter()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-semibold transition-colors cursor-pointer">
+                    <i class="fa-solid fa-rotate-left"></i> ${dict.notice_reset_btn || '검색 초기화'}
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    // 공지사항 리스트 HTML 동적 빌드
+    var html = '<div class="space-y-3">';
+    filtered.forEach(function(item, idx) {
+        var itemTitle = (item.title && item.title[curLang]) || item.title.ko;
+        var itemSummary = (item.summary && item.summary[curLang]) || item.summary.ko;
+        var itemCategory = (item.categoryLabel && item.categoryLabel[curLang]) || item.categoryLabel.ko;
+        var itemBadgeText = (item.badgeText && item.badgeText[curLang]) || item.badgeText.ko;
+        var formattedDate = formatNoticeDate(item.date, curLang);
+
+        // 상단 고정 중요 공지 스타일
+        var isPinned = item.pinned;
+        var cardBorder = isPinned ? 'border-cyan-500/40 bg-gradient-to-r from-[#0F1E36]/90 via-[#0B1527]/90 to-[#070B14]/90' : 'border-slate-800/80 bg-[#0B1325]/70 hover:bg-[#0D172E]';
+        var pinBadgeHtml = isPinned
+            ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-950 text-cyan-400 border border-cyan-800/70 shadow-sm shrink-0">
+                 <i class="fa-solid fa-thumbtack text-[10px]"></i> ${itemBadgeText}
+               </span>`
+            : `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-800/80 text-slate-400 border border-slate-700/60 shrink-0">
+                 ${itemCategory}
+               </span>`;
+
+        html += `
+            <article onclick="openNoticeDetail('${item.id}')"
+                class="group p-4 sm:p-5 rounded-2xl border ${cardBorder} shadow-lg hover:shadow-cyan-500/10 transition-all duration-300 cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4">
+                
+                <div class="flex-1 min-w-0 space-y-1.5">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        ${pinBadgeHtml}
+                        <h4 class="text-sm sm:text-base font-bold text-white group-hover:text-cyan-400 transition-colors line-clamp-1">
+                            ${itemTitle}
+                        </h4>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400 line-clamp-2 leading-relaxed">
+                        ${itemSummary}
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-between md:justify-end gap-4 text-xs text-slate-400 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800/60">
+                    <div class="flex items-center gap-3">
+                        <span class="flex items-center gap-1">
+                            <i class="fa-regular fa-calendar text-slate-500 text-[11px]"></i>
+                            <span>${formattedDate}</span>
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i class="fa-regular fa-eye text-slate-500 text-[11px]"></i>
+                            <span>${item.views.toLocaleString()}</span>
+                        </span>
+                    </div>
+                    <span class="w-8 h-8 rounded-full bg-slate-800/80 group-hover:bg-cyan-500 text-slate-400 group-hover:text-slate-950 flex items-center justify-center transition-all shadow-sm">
+                        <i class="fa-solid fa-chevron-right text-xs transform group-hover:translate-x-0.5 transition-transform"></i>
+                    </span>
+                </div>
+            </article>
+        `;
+    });
+    html += '</div>';
+
+    container.innerHTML = html;
+};
+
+/**
+ * 카테고리 필터링 제어
+ */
+window.filterNoticeCategory = function(cat) {
+    window.currentNoticeCategory = cat;
+    window.renderNoticeList(cat, window.currentNoticeSearchQuery, 1);
+};
+
+/**
+ * 실시간 검색 실행
+ */
+window.searchNotice = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var input = document.getElementById('notice-search-input');
+    var query = input ? input.value : '';
+    window.currentNoticeSearchQuery = query;
+    window.renderNoticeList(window.currentNoticeCategory, query, 1);
+};
+
+/**
+ * 검색 초기화
+ */
+window.resetNoticeFilter = function() {
+    var input = document.getElementById('notice-search-input');
+    if (input) input.value = '';
+    window.currentNoticeCategory = 'all';
+    window.currentNoticeSearchQuery = '';
+    window.renderNoticeList('all', '', 1);
+};
+
+/**
+ * 5. 공지사항 상세 모달 열기
+ */
+window.openNoticeDetail = function(noticeId) {
+    var item = window.noticeBoardDB.find(n => n.id === noticeId);
+    if (!item) return;
+
+    window.currentOpenNoticeId = noticeId;
+    item.views += 1; // 조회수 증가
+
+    var curLang = getActiveLang();
+    var dict = (window.i18nData && window.i18nData[curLang]) || noticeI18nData[curLang] || noticeI18nData.ko;
+
+    var modal = document.getElementById('notice-detail-modal');
+    var modalCategory = document.getElementById('notice-modal-category');
+    var modalDate = document.getElementById('notice-modal-date');
+    var modalViews = document.getElementById('notice-modal-views');
+    var modalTitle = document.getElementById('notice-modal-title');
+    var modalBody = document.getElementById('notice-modal-body');
+    var modalAuthor = document.getElementById('notice-modal-author');
+
+    if (modalCategory) {
+        modalCategory.textContent = (item.categoryLabel && item.categoryLabel[curLang]) || item.categoryLabel.ko;
+    }
+    if (modalDate) {
+        modalDate.textContent = formatNoticeDate(item.date, curLang);
+    }
+    if (modalViews) {
+        modalViews.textContent = item.views.toLocaleString();
+    }
+    if (modalTitle) {
+        modalTitle.textContent = (item.title && item.title[curLang]) || item.title.ko;
+    }
+    if (modalBody) {
+        modalBody.innerHTML = (item.content && item.content[curLang]) || item.content.ko;
+    }
+    if (modalAuthor) {
+        modalAuthor.textContent = dict.notice_author_val || '에이티에이기술 관리자';
+    }
+
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    if (typeof syncBodyScrollLock === 'function') {
+        syncBodyScrollLock();
+    }
+};
+
+/**
+ * 공지사항 상세 모달 닫기
+ */
+window.closeNoticeDetail = function() {
+    var modal = document.getElementById('notice-detail-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    window.currentOpenNoticeId = null;
+
+    if (typeof syncBodyScrollLock === 'function') {
+        syncBodyScrollLock();
+    }
+};
+
+/**
+ * 6. 언어 변경 시 공지사항 목록 및 열려있는 모달 동기화 함수
+ */
+window.syncNoticeLanguage = function(lang) {
+    // 1. 공지사항 목록 재렌더링
+    if (typeof window.renderNoticeList === 'function') {
+        window.renderNoticeList();
+    }
+
+    // 2. 만약 현재 공지사항 상세 모달이 열려 있다면 본문도 즉시 해당 언어로 동기화
+    var modal = document.getElementById('notice-detail-modal');
+    if (modal && !modal.classList.contains('hidden') && window.currentOpenNoticeId) {
+        window.openNoticeDetail(window.currentOpenNoticeId);
+    }
+};
+
+// 키보드 ESC 누를 시 공지사항 모달도 닫히도록 리스너 등록
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        window.closeNoticeDetail();
+    }
+});
+
