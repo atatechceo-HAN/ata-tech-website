@@ -16,21 +16,38 @@
     'use strict';
 
     // 1. 상수 정의
-    var STORAGE_KEY_HISTORY = "ata_company_history_db"; // 로컬스토리지 저장 키
+    var STORAGE_KEY_HISTORY = "ata_company_history_db_v3"; // 로컬스토리지 저장 키 (최신 공지사항 동기화 버전)
 
-    // 2. 초기 기본 연혁 데이터 (공식 데이터)
+    // 2. 초기 기본 연혁 데이터 (공식 데이터 - 공지사항 실적 및 인증 내역과 100% 동기화)
     var INITIAL_HISTORY_DATA = [
+        {
+            id: "hist_2026",
+            year: "2026",
+            shortYear: "26",
+            themeBadge: "NEXT-GEN LOGISTICS & IP",
+            themeIcon: "fa-rocket",
+            isLatest: true,
+            tags: ["#방향전환특허등록", "#웹사이트리뉴얼", "#차량자동화상용화", "#글로벌물류엑스포"],
+            items: [
+                { id: "item_2026_1", badge: "04월", content: "[컨베이어 물류 분류용 4분할 방향 전환 장치] 특허 등록 (제 10-2956028 호)", i18nKey: "hist_2026_1" },
+                { id: "item_2026_2", badge: "03월", content: "공식 웹사이트 리뉴얼 및 4개국어(한국어, 영어, 중국어, 일본어) 글로벌 서비스 오픈", i18nKey: "hist_2026_2" },
+                { id: "item_2026_3", badge: "02월", content: "[차세대 택배차량 배송 자동화 시스템] 특허 등록 및 상용화 공급 개시", i18nKey: "hist_2026_3" },
+                { id: "item_2026_4", badge: "01월", content: "글로벌 스마트 물류 엑스포(LogiTech Expo 2026) 기술 시연 성료", i18nKey: "hist_2026_4" }
+            ]
+        },
         {
             id: "hist_2025",
             year: "2025",
             shortYear: "25",
             themeBadge: "GLOBAL & INNOVATION",
             themeIcon: "fa-earth-americas",
-            isLatest: true,
-            tags: ["#CES 2025", "#AI특허등록", "#글로벌진출"],
+            isLatest: false,
+            tags: ["#CES2025", "#운송차량특허등록", "#AI특허등록", "#중국지사양산"],
             items: [
-                { id: "item_2025_1", badge: "01월", content: "[인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 등록", i18nKey: "hist_2025_1" },
-                { id: "item_2025_2", badge: "01월", content: "CES2025 라스베가스 참가", i18nKey: "hist_2025_2" }
+                { id: "item_2025_1", badge: "08월", content: "[솔루션] 중국지사·제조사(XingTing) 협력 초고속 4분할 방향전환 소터 양산 본격화", i18nKey: "hist_2025_1" },
+                { id: "item_2025_2", badge: "03월", content: "[운송 차량 적재물 분류 및 이송 시스템] 특허 정식 등록 (제 10-2782386 호)", i18nKey: "hist_2025_2" },
+                { id: "item_2025_3", badge: "01월", content: "[인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 등록 (제 10-2758800 호)", i18nKey: "hist_2025_3" },
+                { id: "item_2025_4", badge: "01월", content: "세계 최대 전자·IT 전시회 'CES 2025' 라스베이거스 K-스타트업 통합관 참가 성료", i18nKey: "hist_2025_4" }
             ]
         },
         {
@@ -40,64 +57,66 @@
             themeBadge: "EXPANSION & IP",
             themeIcon: "fa-file-shield",
             isLatest: false,
-            tags: ["#초기창업패키지", "#방향전환특허", "#국토교통진흥원"],
+            tags: ["#ISO9001_14001", "#벤처기업인증", "#연구개발전담부서", "#R&D최우수판정", "#도로공사상생기업"],
             items: [
-                { id: "item_2024_1", badge: "11월", content: "[운송 차량 적재물의 분류 및 이송 장치] 특허 출원", i18nKey: "hist_2024_1" },
-                { id: "item_2024_2", badge: "06월", content: "국토교통 과학기술진흥원 기업지원센터 입주 선정", i18nKey: "hist_2024_2" },
-                { id: "item_2024_3", badge: "05월", content: "중소벤처기업부 창업기술개발사업 최종 선정", i18nKey: "hist_2024_3" },
-                { id: "item_2024_4", badge: "04월", content: "창업진흥원 초기창업패키지 선정", i18nKey: "hist_2024_4" },
-                { id: "item_2024_5", badge: "03월", content: "[물류장비 4분할 방향전환장치] 특허 출원", i18nKey: "hist_2024_5" },
-                { id: "item_2024_6", badge: "03월", content: "[인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 출원", i18nKey: "hist_2024_6" },
-                { id: "item_2024_7", badge: "R&D", content: "중소벤처기업부 R&D기획 지원 사업 선정", i18nKey: "hist_2024_7" }
+                { id: "item_2024_1", badge: "11월", content: "ISO 9001 (품질경영시스템) & ISO 14001 (환경경영시스템) 국제표준 공식 인증 획득", i18nKey: "hist_2024_1" },
+                { id: "item_2024_2", badge: "11월", content: "[운송 차량 적재물의 분류 및 이송 장치] 특허 출원 (10-2024-0164627)", i18nKey: "hist_2024_2" },
+                { id: "item_2024_3", badge: "10월", content: "국가 R&D 연구개발 전문인력 실무 교육과정 수료", i18nKey: "hist_2024_3" },
+                { id: "item_2024_4", badge: "09월", content: "한국도로공사 상생협력형 창업·벤처기업 공식 파트너 선정 (2024.09.10)", i18nKey: "hist_2024_4" },
+                { id: "item_2024_5", badge: "07월", content: "중소벤처기업부 국가 R&D 지원사업 최종 성과평가 최고등급 [최우수 판정] 획득 (2024.07.20)", i18nKey: "hist_2024_5" },
+                { id: "item_2024_6", badge: "06월", content: "중소벤처기업진흥공단 혁신성장유형 '벤처기업확인서' 획득 (2024.06.15)", i18nKey: "hist_2024_6" },
+                { id: "item_2024_7", badge: "06월", content: "국토교통 과학기술진흥원(KAIA) 기업지원센터 입주 선정", i18nKey: "hist_2024_7" },
+                { id: "item_2024_8", badge: "05월", content: "인천창조경제혁신센터 스마트 물류 창업 공모전 [장려상] 수상 (2024.05.20)", i18nKey: "hist_2024_8" },
+                { id: "item_2024_9", badge: "05월", content: "중소벤처기업부 창업기술개발사업 최종 선정", i18nKey: "hist_2024_9" },
+                { id: "item_2024_10", badge: "04월", content: "과학기술정보통신부 · KOITA 공식 '연구개발전담부서' 인정 획득 (2024.04.10)", i18nKey: "hist_2024_10" },
+                { id: "item_2024_11", badge: "04월", content: "창업진흥원 초기창업패키지 지원사업 선정", i18nKey: "hist_2024_11" },
+                { id: "item_2024_12", badge: "03월", content: "[물류장비 4분할 방향전환장치] 및 [AI 스마트 체형교정] 특허 출원", i18nKey: "hist_2024_12" },
+                { id: "item_2024_13", badge: "02월", content: "중소벤처기업부 공식 '창업기업확인서' 획득 (2024.02.26)", i18nKey: "hist_2024_13" }
             ]
         },
         {
             id: "hist_2023",
             year: "2023",
             shortYear: "23",
-            themeBadge: "R&D & CERTIFICATION",
+            themeBadge: "R&D & TECH INNOVATION",
             themeIcon: "fa-award",
             isLatest: false,
-            tags: ["#기술혁신기업", "#벤처기업인증", "#독일협력"],
+            tags: ["#창의상수상", "#기술혁신기업", "#창업성장디딤돌", "#독일기술협력"],
             items: [
-                { id: "item_2023_1", badge: "선정", content: "중소 벤처기업 진흥공단 기술혁신 기업 선정", i18nKey: "hist_2023_1" },
-                { id: "item_2023_2", badge: "인증", content: "벤처기업 인증", i18nKey: "hist_2023_2" },
-                { id: "item_2023_3", badge: "선정", content: "중소벤처기업부 창업성장기술개발사업 디딤돌 선정", i18nKey: "hist_2023_3" },
-                { id: "item_2023_4", badge: "인증", content: "연구개발 전담부서 인증", i18nKey: "hist_2023_4" },
-                { id: "item_2023_5", badge: "선정", content: "중소벤처기업부 R&D 기획사업 선정", i18nKey: "hist_2023_5" },
-                { id: "item_2023_6", badge: "글로벌", content: "독일 Cellumation社 기술 협력 및 제품 도입 추진", i18nKey: "hist_2023_6" }
+                { id: "item_2023_1", badge: "11월", content: "강원창조경제혁신센터(원주) 중·장년 기술창업 공모전 [창의상] 수상 (2023.11.15)", i18nKey: "hist_2023_1" },
+                { id: "item_2023_2", badge: "선정", content: "중소벤처기업진흥공단 기술혁신 기업 선정", i18nKey: "hist_2023_2" },
+                { id: "item_2023_3", badge: "선정", content: "중소벤처기업부 창업성장기술개발사업 디딤돌 지원사업 선정", i18nKey: "hist_2023_3" },
+                { id: "item_2023_4", badge: "선정", content: "중소벤처기업부 R&D 기획사업 선정", i18nKey: "hist_2023_4" },
+                { id: "item_2023_5", badge: "글로벌", content: "독일 Cellumation社 기술 협력 및 스마트 물류 모듈 도입 추진", i18nKey: "hist_2023_5" }
             ]
         },
         {
             id: "hist_2022",
             year: "2022",
             shortYear: "22",
-            themeBadge: "FOUNDATION & GROWTH",
+            themeBadge: "FOUNDATION & INFRA",
             themeIcon: "fa-building-flag",
             isLatest: false,
-            tags: ["#법인설립", "#재도전패키지최우수", "#도로공사상생기업"],
+            tags: ["#법인설립", "#재도전성공패키지", "#스마트물류설계"],
             items: [
                 { id: "item_2022_1", badge: "01월", content: "주식회사 에이티에이기술 설립 (ATA Technology Co., Ltd.)", i18nKey: "hist_2022_1" },
-                { id: "item_2022_2", badge: "수상", content: "원주 창조경제 혁신 센터 중,장년 기술 창업 공모전 창의상 수상", i18nKey: "hist_2022_2" },
-                { id: "item_2022_3", badge: "선정", content: "재도전 성공 패키지 일반형 선정 [ R&D 정부 사업 진행 ]", i18nKey: "hist_2022_3" },
-                { id: "item_2022_4", badge: "선정", content: "한국도로공사 상생형 창업-벤처기업 선정 [ R&D 정부 사업 진행 ]", i18nKey: "hist_2022_4" },
-                { id: "item_2022_5", badge: "최우수", content: "재도전 성공 패키지 일반형 사업 완료 [ 최우수판정 ]", i18nKey: "hist_2022_5" }
+                { id: "item_2022_2", badge: "선정", content: "중소벤처기업부 재도전 성공 패키지 일반형 사업 선정 (R&D)", i18nKey: "hist_2022_2" },
+                { id: "item_2022_3", badge: "엔지니어링", content: "스마트 물류 자동화 설비 기획 및 엔지니어링 인프라 구축", i18nKey: "hist_2022_3" }
             ]
         },
         {
             id: "hist_before_2021",
             year: "2021 이전",
             shortYear: "~21",
-            themeBadge: "ORIGIN & PATENT",
+            themeBadge: "ORIGIN & CORE PATENT",
             themeIcon: "fa-lightbulb",
             isLatest: false,
-            tags: ["#원천특허등록", "#스마트물류공모전", "#엔지니어링"],
+            tags: ["#원천특허등록", "#택배차량자동화", "#물류엔지니어링"],
             items: [
-                { id: "item_2021_1", badge: "등록", content: "2021년 10월 - 자동분류 및 이송장치 특허등록", i18nKey: "hist_2021_1" },
-                { id: "item_2021_2", badge: "출원", content: "적재물의 자동분류 및 이송장치 특허 출원", i18nKey: "hist_2021_2" },
-                { id: "item_2021_3", badge: "수상", content: "창조경제혁신센터 스마트물류 공모전 장려상 수상", i18nKey: "hist_2021_3" },
-                { id: "item_2021_4", badge: "출원", content: "항공 수화물의 자동분류 택배 배송 시스템 및 그 시스템을 이용한 항공 수화물 택배 배송 방법 특허 출원", i18nKey: "hist_2021_4" },
-                { id: "item_2021_5", badge: "사업", content: "공정 수립 및 공정 개선 사업 [ 엔지니어링 서비스 ]", i18nKey: "hist_2021_5" }
+                { id: "item_2021_1", badge: "10월", content: "[탑차 적재물의 자동 분류 및 이송장치] 핵심 원천 특허 등록 (제 10-2317010 호)", i18nKey: "hist_2021_1" },
+                { id: "item_2021_2", badge: "출원", content: "[적재물의 자동분류 및 이송장치] 특허 출원 (2020.10)", i18nKey: "hist_2021_2" },
+                { id: "item_2021_3", badge: "출원", content: "항공 수화물의 자동분류 택배 배송 시스템 및 그 시스템을 이용한 항공 수화물 택배 배송 방법 특허 출원", i18nKey: "hist_2021_3" },
+                { id: "item_2021_4", badge: "사업", content: "대형 물류센터 공정 수립 및 공정 개선 엔지니어링 서비스 사업 수행", i18nKey: "hist_2021_4" }
             ]
         }
     ];
@@ -109,6 +128,7 @@
     /**
      * 로컬 저장소에서 연혁 카드 목록을 가져옵니다.
      * 없으면 초기 기본 데이터를 저장한 후 반환합니다.
+     * (2026년 최신 공식 연혁이 누락되어 있을 경우 자동으로 최상단에 병합 동기화합니다)
      */
     function getHistoryList() {
         try {
@@ -116,6 +136,16 @@
             if (raw) {
                 var parsed = JSON.parse(raw);
                 if (Array.isArray(parsed) && parsed.length > 0) {
+                    // 2026년 최신 공식 연혁 누락 시 자동 추가 및 isLatest 플래그 동기화
+                    var has2026 = parsed.some(function (c) { return c.year === "2026" || c.id === "hist_2026"; });
+                    if (!has2026) {
+                        var item2026 = INITIAL_HISTORY_DATA.find(function (c) { return c.id === "hist_2026"; });
+                        if (item2026) {
+                            parsed.forEach(function (c) { c.isLatest = false; });
+                            parsed.unshift(JSON.parse(JSON.stringify(item2026)));
+                            saveHistoryList(parsed);
+                        }
+                    }
                     return parsed;
                 }
             }
@@ -184,14 +214,14 @@
         historyList.forEach(function (card, index) {
             var isHighlight = card.isLatest === true;
 
-            // 카드 스타일 설정 (최신 연도 하이라이트 vs 일반 연도)
+            // 카드 스타일 설정 (최신 연도 하이라이트 vs 최신년도 이전 연도 카드 색상 차별화)
             var cardBorderClass = isHighlight
-                ? 'border-2 border-blue-500/80 shadow-[0_10px_30px_rgba(2,132,199,0.12)] hover:shadow-[0_15px_40px_rgba(2,132,199,0.2)] bg-gradient-to-br from-blue-50/70 via-sky-50/40 to-white text-slate-800'
-                : 'border border-slate-200 hover:border-blue-400 hover:bg-slate-50/50 shadow-sm hover:shadow-xl bg-white text-slate-700';
+                ? 'border-2 border-blue-500/90 shadow-[0_12px_32px_rgba(2,132,199,0.18)] hover:shadow-[0_18px_45px_rgba(2,132,199,0.28)] bg-gradient-to-br from-blue-50/90 via-sky-50/60 to-white text-slate-900 ring-2 ring-blue-400/25'
+                : 'border border-slate-300/80 hover:border-slate-400 shadow-sm hover:shadow-lg bg-gradient-to-br from-slate-100/95 via-slate-50 to-slate-100/70 hover:bg-white text-slate-700';
 
             var badgeBg = isHighlight
-                ? 'bg-blue-100 border border-blue-300 text-blue-700'
-                : 'bg-slate-100 border border-slate-200 text-slate-700';
+                ? 'bg-blue-600 text-white shadow-md'
+                : 'bg-slate-200/90 border border-slate-300 text-slate-700 shadow-inner';
 
             html += '<div class="fade-in group relative rounded-2xl p-7 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between ' + cardBorderClass + '" id="card-' + card.id + '">';
 
@@ -228,10 +258,10 @@
             html += '        </div>';
             html += '        <div>';
             html += '          <h4 class="text-2xl font-black text-slate-900 tracking-tight">' + card.year + '</h4>';
-            html += '          <span class="text-xs ' + (isHighlight ? 'text-blue-600 font-semibold' : 'text-slate-500 font-semibold') + ' font-medium">' + card.themeBadge + '</span>';
+            html += '          <span class="text-xs ' + (isHighlight ? 'text-blue-600 font-bold' : 'text-slate-500 font-semibold') + ' font-medium">' + card.themeBadge + '</span>';
             html += '        </div>';
             html += '      </div>';
-            html += '      <div class="w-9 h-9 rounded-lg ' + (isHighlight ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-slate-100 text-slate-500 border border-slate-200') + ' flex items-center justify-center group-hover:scale-110 transition-transform">';
+            html += '      <div class="w-9 h-9 rounded-lg ' + (isHighlight ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-slate-200/80 text-slate-600 border border-slate-300') + ' flex items-center justify-center group-hover:scale-110 transition-transform">';
             html += '        <i class="fa-solid ' + (card.themeIcon || 'fa-award') + '"></i>';
             html += '      </div>';
             html += '    </div>';
@@ -241,8 +271,8 @@
             if (Array.isArray(card.items) && card.items.length > 0) {
                 card.items.forEach(function (item) {
                     var itemBadgeStyle = isHighlight
-                        ? 'bg-blue-100 text-blue-700 border-blue-200'
-                        : 'bg-slate-100 text-slate-700 border-slate-200';
+                        ? 'bg-blue-100 text-blue-800 border-blue-300'
+                        : 'bg-slate-200/90 text-slate-700 border-slate-300';
 
                     html += '      <li class="flex items-start gap-2.5">';
                     html += '        <span class="px-2 py-0.5 text-[11px] font-bold rounded ' + itemBadgeStyle + ' border shrink-0 mt-0.5">' + (item.badge || '월') + '</span>';
@@ -260,12 +290,12 @@
             html += '  </div>';
 
             // 카드 하단 태그 영역
-            html += '  <div class="mt-6 pt-4 border-t ' + (isHighlight ? 'border-blue-100' : 'border-slate-100') + ' flex flex-wrap gap-1.5">';
+            html += '  <div class="mt-6 pt-4 border-t ' + (isHighlight ? 'border-blue-100' : 'border-slate-200') + ' flex flex-wrap gap-1.5">';
             if (Array.isArray(card.tags) && card.tags.length > 0) {
                 card.tags.forEach(function (tag) {
                     var tagStyle = isHighlight
                         ? 'bg-blue-50 text-blue-700 border-blue-200'
-                        : 'bg-slate-100 text-slate-600 border-slate-200';
+                        : 'bg-slate-200/80 text-slate-700 border-slate-300';
                     html += '    <span class="text-[11px] px-2 py-0.5 rounded ' + tagStyle + ' border">' + tag + '</span>';
                 });
             }

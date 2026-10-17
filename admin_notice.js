@@ -434,13 +434,47 @@
     };
 
     /**
-     * 관리자 로그인 모달 닫기
+     * 관리자 로그인 모달 닫기 (비밀번호 입력값 및 보기 상태 안전 초기화)
      */
     window.closeAdminLoginModal = function () {
         var modal = document.getElementById('admin-login-modal');
         if (modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+        }
+        var pwInput = document.getElementById('admin-login-pw');
+        if (pwInput) {
+            pwInput.value = '';
+            pwInput.type = 'password';
+        }
+        var icon = document.getElementById('admin-login-pw-toggle-icon');
+        if (icon) {
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        }
+        var errBox = document.getElementById('admin-login-error');
+        if (errBox) errBox.classList.add('hidden');
+    };
+
+    /**
+     * 관리자 로그인 모달의 비밀번호 보이기/숨기기 토글
+     */
+    window.toggleLoginPasswordVisibility = function () {
+        var pwInput = document.getElementById('admin-login-pw');
+        var icon = document.getElementById('admin-login-pw-toggle-icon');
+        if (!pwInput) return;
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            if (icon) {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        } else {
+            pwInput.type = 'password';
+            if (icon) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
         }
     };
 

@@ -337,7 +337,7 @@
 
                         <a href="#" onclick="navigate('cert-awards'); return false;"
                             class="block px-6 py-3 hover:bg-blue-50/70 hover:text-blue-600 transition-colors"><span
-                                data-i18n="nav_awards_status">수상 내역</span></a>
+                                data-i18n="nav_awards_status">수상현황 (수상 내역)</span></a>
 
                     </div>
 
@@ -349,7 +349,7 @@
 
                 <div class="relative group h-full flex items-center">
 
-                    <a href="#" onclick="navigate('main', 'solution'); return false;"
+                    <a href="#" onclick="navigate('solutions'); return false;"
                         class="hover:text-blue-600 transition-colors flex items-center text-slate-700">
 
                         <span data-i18n="nav_solution">SOLUTION</span> <i
@@ -360,7 +360,7 @@
                     <div
                         class="dropdown-menu absolute top-full left-0 w-80 md:w-84 bg-white text-slate-700 border border-slate-200 border-t-2 border-t-blue-600 shadow-2xl rounded-b-xl max-h-[70vh] overflow-y-auto custom-scrollbar">
 
-                        <a href="#" onclick="navigate('main', 'solution'); return false;"
+                        <a href="#" onclick="navigate('solutions'); return false;"
                             class="block px-6 py-3 hover:bg-slate-50 hover:text-blue-700 border-b border-slate-200 font-bold text-blue-600 sticky top-0 bg-white z-10"><span
                                 data-i18n="nav_solution_all">전체 솔루션 보기</span></a>
 
@@ -766,7 +766,7 @@
 
                         <a href="#" onclick="navigate('cert-awards'); return false;"
                             class="text-slate-600 hover:text-blue-600 transition-colors"
-                            data-i18n="nav_awards_status">수상 내역</a>
+                            data-i18n="nav_awards_status">수상현황 (수상 내역)</a>
 
                     </div>
 
@@ -787,7 +787,7 @@
 
                     <div class="flex flex-col space-y-3 pl-2">
 
-                        <a href="#" onclick="navigate('main', 'solution'); return false;"
+                        <a href="#" onclick="navigate('solutions'); return false;"
                             class="text-blue-600 font-bold hover:text-blue-800 transition-colors"
                             data-i18n="nav_solution_all">전체 솔루션 보기</a>
 
@@ -1217,843 +1217,423 @@
 
 
 
-            <!-- 핵심 기술 개요 (글자가 절대 잘리지 않도록 여백과 object-contain 최적화) -->
-
+            <!-- 핵심 기술 개요 (배경과 텍스트가 조화롭게 어우러지는 황금비율 최적화) -->
             <section id="about-core-tech" class="py-24 bg-[#F8FAFC] border-b border-slate-200/80 text-slate-700">
-
                 <div class="max-w-7xl mx-auto px-6 text-center fade-in">
-
-                    <span class="text-accent font-semibold tracking-widest text-sm mb-2 block">CORE TECHNOLOGY</span>
-
-                    <h3 class="text-3xl md:text-4xl font-extrabold mb-4 text-slate-900" data-i18n="tech_title">핵심 기술 개요
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold tracking-widest uppercase mb-3">
+                        <i class="fa-solid fa-microchip text-blue-600"></i> CORE TECHNOLOGY
+                    </span>
+                    <h3 class="text-3xl md:text-4xl font-extrabold mb-4 text-slate-900 tracking-tight" data-i18n="tech_title">
+                        핵심 기술 개요
                     </h3>
+                    <p class="text-slate-600 max-w-2xl mx-auto mb-10 text-sm md:text-base leading-relaxed font-medium" data-i18n="tech_lead">
+                        에이티에이기술만의 독자적인 하드웨어 및 소프트웨어 융합 핵심 기술 메커니즘입니다.
+                    </p>
 
-                    <p class="text-slate-400 max-w-2xl mx-auto mb-12 text-sm md:text-base" data-i18n="tech_lead">
-                        에이티에이기술만의 독자적인 하드웨어 및 소프트웨어 융합 핵심 기술 메커니즘입니다.</p>
-
-
-
-                    <!-- 핵심 기술 3D 과학기술 아키텍처 비주얼 컨테이너 -->
-
-                    <div
-                        class="max-w-5xl mx-auto bg-white rounded-3xl p-3 sm:p-5 md:p-6 border border-slate-200 shadow-xl mb-16 overflow-hidden relative group">
-
-                        <div class="relative rounded-2xl overflow-hidden shadow-2xl">
-
+                    <!-- 핵심 기술 3D 과학기술 아키텍처 조화로운 비주얼 프레임 컨테이너 -->
+                    <div class="max-w-4xl mx-auto bg-gradient-to-b from-[#0F1E36] via-[#091222] to-[#040812] rounded-3xl p-3 sm:p-5 md:p-6 border border-cyan-500/30 shadow-[0_20px_50px_rgba(2,132,199,0.16)] mb-14 relative group overflow-hidden">
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-[#030A16]">
                             <img src="핵심기술개요_3d.jpg" alt="ATA 핵심 기술 3D 아키텍처"
                                 onerror="if(!this.dataset.triedOrig){this.dataset.triedOrig='1';this.src='핵심기술개요.png';}else{this.onerror=null;this.src='https://placehold.co/1000x550/0D1629/00C0E8?text=ATA+Core+Technology+Architecture';}"
-                                class="w-full h-auto max-h-[720px] object-cover sm:object-contain mx-auto block rounded-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-
-                            <div
-                                class="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-blue-200 text-blue-700 text-xs font-semibold tracking-wider shadow-sm">
-
+                                class="w-full h-auto max-h-[540px] object-contain mx-auto block rounded-2xl transition-transform duration-700 group-hover:scale-[1.015]">
+                            <div class="absolute top-3.5 left-3.5 sm:top-5 sm:left-5 flex items-center gap-2 bg-[#0B1528]/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-cyan-500/40 text-cyan-300 text-xs font-semibold tracking-wider shadow-lg">
                                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-
                                 <span>3D ARCHITECTURE MECHANISM</span>
-
                             </div>
-
                         </div>
-
                     </div>
-
-
 
                     <!-- 핵심 기술 6대 특징 그리드 카드 -->
-
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                        <div
-                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
-
+                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-database"></i></div>
-
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_1">고객사 상황에 부합한<br>데이터 수집 및
-                                적용</h4>
-
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_1">고객사 상황에 부합한<br>데이터 수집 및 적용</h4>
                         </div>
-
-                        <div
-                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
-
+                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-microchip"></i></div>
-
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_2">최고의 H/W 설계<br>최적의 S/W
-                                설계</h4>
-
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_2">최고의 H/W 설계<br>최적의 S/W 설계</h4>
                         </div>
-
-                        <div
-                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
-
+                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-shield-halved"></i></div>
-
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_3">차별화된 공정 및 설비<br>지식재산권
-                                확보</h4>
-
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_3">차별화된 공정 및 설비<br>지식재산권 확보</h4>
                         </div>
-
-                        <div
-                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
-
+                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-
                             <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_4">맞춤형 현장설치<br>손쉬운 운영</h4>
-
                         </div>
-
-                        <div
-                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
-
+                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-earth-americas"></i></div>
-
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_5">세계 각국 인프라에 맞는<br>현지화
-                                시스템</h4>
-
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_5">세계 각국 인프라에 맞는<br>현지화 시스템</h4>
                         </div>
-
-                        <div
-                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
-
+                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-chart-pie"></i></div>
-
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_6">고객사 투자-효율<br>데이터 분석
-                            </h4>
-
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_6">고객사 투자-효율<br>데이터 분석</h4>
                         </div>
-
                     </div>
-
                 </div>
-
             </section>
-
         </div>
 
-
-
-        <section id="solution" class="py-24 bg-white border-b border-slate-200/80">
-
-            <div class="max-w-7xl mx-auto px-6">
-
-                <div class="mb-16 fade-in">
-
-                    <span class="text-accent font-semibold tracking-widest text-sm mb-2 block">SOLUTION</span>
-
-                    <h3 class="text-4xl font-extrabold text-slate-900 mb-6" data-i18n="sol_heading">고객이 원하는 물류
-                        솔루션,<br>우리가 제공합니다.
-                    </h3>
-
-                    <p class="text-slate-400" data-i18n="sol_lead">우리는 고객의 비즈니스 수준을 높이기 위해 일합니다.</p>
-
+        <!-- 메인페이지 솔루션 안내 콤팩트 배너 (11개 전체 항목은 전용 SOLUTION 페이지 view-solutions로 분리) -->
+        <section class="py-16 bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white relative overflow-hidden border-t border-b border-slate-800">
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div>
+                    <span class="text-cyan-400 font-bold tracking-widest text-xs uppercase block mb-2">Total Logistics Automation</span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-3" data-i18n="sol_heading">고객이 원하는 물류 솔루션,<br class="hidden sm:inline"> 우리가 제공합니다.</h3>
+                    <p class="text-slate-300 text-sm md:text-base max-w-xl" data-i18n="sol_lead">택배차량 배송 자동화, AGV/AMR, WCS 통합 관제 등 ATA의 11대 스마트 물류 솔루션을 전용 페이지에서 확인해보세요.</p>
                 </div>
-
-
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- 1. 택배차량 배송 자동화 시스템 -->
-
-                    <div onclick="navigate('product', '택배차량 배송 자동화 시스템')"
-                        class="bg-white border-2 border-blue-500/80 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:border-blue-600 transition-all duration-300 group cursor-pointer fade-in ring-2 ring-blue-400/30 flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg"
-                                    onerror="this.src='https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="택배차량 배송 자동화 시스템">
-
-                                <div
-                                    class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
-
-                                    NEW</div>
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('택배차량 배송 자동화 시스템', '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">01.
-
-                                    Automation System</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c1_title">택배차량 배송 자동화 시스템
-                                </h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c1_desc">차량 내 공간 활용 극대화 및
-                                    작업자 피로도를 줄이는 차세대 배송·적재 자동화 솔루션</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 2. NBS [Narrow Belt Sorter] -->
-
-                    <div onclick="navigate('product', 'NBS [Narrow Belt Sorter]')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/NBS.jpg"
-                                    onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="NBS [Narrow Belt Sorter]">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('NBS [Narrow Belt Sorter]', '[ Insert Data ]/SOLUTION/NBS.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">02.
-
-                                    Sorting Solution</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c2_title">NBS [Narrow Belt
-                                    Sorter]</h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c2_desc">소형 화물을 빠르고 정확하게
-                                    분류하는 좁은 면적의 고효율 특화 소터</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 3. CBS [Cross Belt Sorter] -->
-
-                    <div onclick="navigate('product', 'CBS [Cross Belt Sorter]')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/CBS.jpg"
-                                    onerror="this.src='https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="CBS [Cross Belt Sorter]">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('CBS [Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/CBS.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">03.
-
-                                    High-Speed Sorter</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c3_title">CBS [Cross Belt
-                                    Sorter]</h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c3_desc">양방향 크로스 벨트 메커니즘으로
-                                    대용량 화물을 초고속 정밀 분류하는 대표 소터</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 4. NC CBS [NC Cross Belt Sorter] -->
-
-                    <div onclick="navigate('product', 'NC CBS [NC Cross Belt Sorter]')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/NC CBS.jpg"
-                                    onerror="this.src='https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="NC CBS [NC Cross Belt Sorter]">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('NC CBS [NC Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/NC CBS.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">04.
-
-                                    Precision Sorter</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c4_title">NC CBS [NC Cross
-                                    Belt Sorter]</h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c4_desc">흔들림 없이 초고속으로 대량
-                                    분류를 처리하는 차세대 정밀 제어 크로스 벨트 소터</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 5. Wheel Sorter -->
-
-                    <div onclick="navigate('product', 'Wheel Sorter')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/Wheel Sorter.jpg"
-                                    onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="Wheel Sorter">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('Wheel Sorter', '[ Insert Data ]/SOLUTION/Wheel Sorter.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">05.
-
-                                    Divert Sorter</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c5_title">Wheel Sorter</h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c5_desc">회전 휠의 각도 제어를 통해
-                                    다양한 크기의 박스 및 파우치를 유연하게 분기·분류하는 시스템</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 6. Tilt Tray Sorter -->
-
-                    <div onclick="navigate('product', 'Tilt Tray Sorter')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png"
-                                    onerror="this.src='https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="Tilt Tray Sorter">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('Tilt Tray Sorter', '[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">06.
-                                    Tilt
-
-                                    Sorter</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c6_title">Tilt Tray Sorter
-                                </h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c6_desc">트레이를 부드럽게 기울여 파손
-                                    위험을 줄인 안정적인 다목적 경사 트레이 분류기</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 7. Conveyors & ADD-Ons -->
-
-                    <div onclick="navigate('product', 'Conveyors & ADD-Ons')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg"
-                                    onerror="if(!this.dataset.triedRoot){this.dataset.triedRoot='1';this.src='Conveyors & ADD-Ons.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x340/0D1629/00C0E8?text=Conveyors+%26+ADD-Ons';}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="Conveyors & ADD-Ons 물류 창고 이송 및 분류">
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">07.
-
-                                    Conveyor System</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c7_title">Conveyors &
-                                    ADD-Ons</h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c7_desc">다양한 물류 현장 환경에
-                                    대응하는 맞춤형 롤러·벨트 컨베이어 및 부가 확장 설비</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400">맞춤형 설계</span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 8. Telescopic -->
-
-                    <div onclick="navigate('product', 'Telescopic')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/Telescopic.png"
-                                    onerror="this.src='https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="Telescopic">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('Telescopic', '[ Insert Data ]/SOLUTION/Telescopic.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">08.
-
-                                    Loading System</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c8_title">Telescopic</h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c8_desc">화물 차량 내부 깊숙이 신축
-                                    연장되어 상하차 작업 효율을 극대화하는 텔레스코픽 컨베이어</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 9. Shuttle AS/RS -->
-
-                    <div onclick="navigate('product', 'Shuttle AS/RS')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/shuttle ASRS.png"
-                                    onerror="this.src='https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="Shuttle AS/RS">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('Shuttle AS/RS', '[ Insert Data ]/SOLUTION/shuttle ASRS.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">09.
-
-                                    Storage AS/RS</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c9_title">Shuttle AS/RS
-                                </h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c9_desc">선반 사이를 자유로이 움직이며
-                                    상품을 적재/인출하는 고밀도 자동 보관 시스템</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 10. AGV & AMR -->
-
-                    <div onclick="navigate('product', 'AGV & AMR')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/AGV & AMR.png"
-                                    onerror="this.src='https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="AGV & AMR">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('AGV & AMR', '[ Insert Data ]/SOLUTION/AGV & AMR.mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">10.
-
-                                    Autonomous Mobile Robot</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c10_title">AGV & AMR</h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c10_desc">자율이송 및 무인 물류 로봇을
-                                    통한 유연한 상품 이송과 물류센터 무인화 솔루션</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 11. WCS [창고제어시스템] -->
-
-                    <div onclick="navigate('product', 'WCS [창고제어시스템]')"
-                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-
-                        <div>
-
-                            <div class="aspect-video bg-slate-100 relative overflow-hidden">
-
-                                <img src="[ Insert Data ]/SOLUTION/WCS [창고제어시스템].png"
-                                    onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    alt="WCS [창고제어시스템]">
-
-                                <button
-                                    onclick="event.stopPropagation(); openSolutionVideoModal('WCS [창고제어시스템]', '[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4');"
-                                    class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                    title="구동 영상 보기">
-
-                                    <i class="fa-solid fa-circle-play text-accent"></i> <span
-                                        data-i18n="sol_btn_video">영상 보기</span>
-
-                                </button>
-
-                            </div>
-
-                            <div class="p-6">
-
-                                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">11.
-
-                                    Warehouse Control System</span>
-
-                                <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                    data-i18n="sol_c11_title">WCS [창고제어시스템]
-                                </h4>
-
-                                <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c11_desc">전체 설비 제어 및 트래픽
-                                    분산, 장비 상태를 실시간 모니터링하는 최상위 통합 관제 시스템</p>
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-
-                            <span
-                                class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                                data-i18n="sol_btn_detail">
-
-                                상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-
-                            </span>
-
-                            <span class="flex items-center gap-1 text-slate-400"><i
-                                    class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                    포함</span></span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+                <button onclick="navigate('solutions'); return false;" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-cyan-500/40 transition-all flex items-center gap-3 shrink-0 text-base group">
+                    <span data-i18n="nav_solution">솔루션 전체 둘러보기</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
             </div>
-
         </section>
 
     </div> <!-- view-main 끝 -->
 
+    <!-- ========================================== -->
+    <!-- 솔루션(SOLUTION) 전용 독립 페이지 뷰 -->
+    <!-- ========================================== -->
+    <div id="view-solutions" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <!-- 브레드크럼 네비게이션 -->
+            <div class="flex items-center gap-2 text-sm text-slate-500 mb-6">
+                <button onclick="navigate('main'); return false;" class="hover:text-blue-600 transition-colors flex items-center gap-1">
+                    <i class="fa-solid fa-house text-xs"></i> HOME
+                </button>
+                <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                <span class="text-blue-600 font-semibold">SOLUTION</span>
+            </div>
 
+            <!-- 솔루션 헤더 타이틀 -->
+            <div class="mb-12">
+                <span class="text-accent font-semibold tracking-widest text-sm mb-2 block uppercase">TOTAL LOGISTICS AUTOMATION</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4" data-i18n="sol_heading">고객이 원하는 물류 솔루션,<br>우리가 제공합니다.</h2>
+                <p class="text-slate-600 max-w-2xl text-base" data-i18n="sol_lead">우리는 고객의 비즈니스 수준을 높이기 위해 일합니다. 11대 핵심 스마트 물류 자동화 솔루션을 만나보세요.</p>
+            </div>
+
+            <!-- 11대 솔루션 카드 그리드 (독립 뷰로 완벽 제공) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- 1. 택배차량 배송 자동화 시스템 -->
+                <div onclick="navigate('product', '택배차량 배송 자동화 시스템')"
+                    class="bg-white border-2 border-blue-500/80 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:border-blue-600 transition-all duration-300 group cursor-pointer fade-in ring-2 ring-blue-400/30 flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg"
+                                onerror="this.src='https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="택배차량 배송 자동화 시스템">
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">NEW</div>
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('택배차량 배송 자동화 시스템', '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">01. Automation System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c1_title">택배차량 배송 자동화 시스템</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c1_desc">차량 내 공간 활용 극대화 및 작업자 피로도를 줄이는 차세대 배송·적재 자동화 솔루션</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 2. NBS [Narrow Belt Sorter] -->
+                <div onclick="navigate('product', 'NBS [Narrow Belt Sorter]')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/NBS.jpg"
+                                onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="NBS [Narrow Belt Sorter]">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('NBS [Narrow Belt Sorter]', '[ Insert Data ]/SOLUTION/NBS.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">02. Sorting Solution</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c2_title">NBS [Narrow Belt Sorter]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c2_desc">소형 화물을 빠르고 정확하게 분류하는 좁은 면적의 고효율 특화 소터</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 3. CBS [Cross Belt Sorter] -->
+                <div onclick="navigate('product', 'CBS [Cross Belt Sorter]')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/CBS.jpg"
+                                onerror="this.src='https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="CBS [Cross Belt Sorter]">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('CBS [Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/CBS.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">03. High-Speed Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c3_title">CBS [Cross Belt Sorter]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c3_desc">양방향 크로스 벨트 메커니즘으로 대용량 화물을 초고속 정밀 분류하는 대표 소터</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 4. NC CBS [NC Cross Belt Sorter] -->
+                <div onclick="navigate('product', 'NC CBS [NC Cross Belt Sorter]')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/NC CBS.jpg"
+                                onerror="this.src='https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="NC CBS [NC Cross Belt Sorter]">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('NC CBS [NC Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/NC CBS.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">04. Precision Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c4_title">NC CBS [NC Cross Belt Sorter]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c4_desc">흔들림 없이 초고속으로 대량 분류를 처리하는 차세대 정밀 제어 크로스 벨트 소터</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 5. Wheel Sorter -->
+                <div onclick="navigate('product', 'Wheel Sorter')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/Wheel Sorter.jpg"
+                                onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="Wheel Sorter">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Wheel Sorter', '[ Insert Data ]/SOLUTION/Wheel Sorter.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">05. Divert Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c5_title">Wheel Sorter</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c5_desc">회전 휠의 각도 제어를 통해 다양한 크기의 박스 및 파우치를 유연하게 분기·분류하는 시스템</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 6. Tilt Tray Sorter -->
+                <div onclick="navigate('product', 'Tilt Tray Sorter')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png"
+                                onerror="this.src='https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="Tilt Tray Sorter">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Tilt Tray Sorter', '[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">06. Tilt Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c6_title">Tilt Tray Sorter</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c6_desc">트레이를 부드럽게 기울여 파손 위험을 줄인 안정적인 다목적 경사 트레이 분류기</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 7. Conveyors & ADD-Ons -->
+                <div onclick="navigate('product', 'Conveyors & ADD-Ons')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg"
+                                onerror="if(!this.dataset.triedRoot){this.dataset.triedRoot='1';this.src='Conveyors & ADD-Ons.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x340/0D1629/00C0E8?text=Conveyors+%26+ADD-Ons';}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="Conveyors & ADD-Ons 물류 창고 이송 및 분류">
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">07. Conveyor System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c7_title">Conveyors & ADD-Ons</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c7_desc">다양한 물류 현장 환경에 대응하는 맞춤형 롤러·벨트 컨베이어 및 부가 확장 설비</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400">맞춤형 설계</span>
+                    </div>
+                </div>
+
+                <!-- 8. Telescopic -->
+                <div onclick="navigate('product', 'Telescopic')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/Telescopic.png"
+                                onerror="this.src='https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="Telescopic">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Telescopic', '[ Insert Data ]/SOLUTION/Telescopic.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">08. Loading System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c8_title">Telescopic</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c8_desc">화물 차량 내부 깊숙이 신축 연장되어 상하차 작업 효율을 극대화하는 텔레스코픽 컨베이어</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 9. Shuttle AS/RS -->
+                <div onclick="navigate('product', 'Shuttle AS/RS')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/shuttle ASRS.png"
+                                onerror="this.src='https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="Shuttle AS/RS">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Shuttle AS/RS', '[ Insert Data ]/SOLUTION/shuttle ASRS.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">09. Storage AS/RS</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c9_title">Shuttle AS/RS</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c9_desc">선반 사이를 자유로이 움직이며 상품을 적재/인출하는 고밀도 자동 보관 시스템</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 10. AGV & AMR -->
+                <div onclick="navigate('product', 'AGV & AMR')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/AGV & AMR.png"
+                                onerror="this.src='https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="AGV & AMR">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('AGV & AMR', '[ Insert Data ]/SOLUTION/AGV & AMR.mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">10. Autonomous Mobile Robot</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c10_title">AGV & AMR</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c10_desc">자율이송 및 무인 물류 로봇을 통한 유연한 상품 이송과 물류센터 무인화 솔루션</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+                <!-- 11. WCS [창고제어시스템] -->
+                <div onclick="navigate('product', 'WCS [창고제어시스템]')"
+                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                            <img src="[ Insert Data ]/SOLUTION/WCS [창고제어시스템].png"
+                                onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                alt="WCS [창고제어시스템]">
+                            <button onclick="event.stopPropagation(); openSolutionVideoModal('WCS [창고제어시스템]', '[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4');"
+                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
+                                title="구동 영상 보기">
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">11. Warehouse Control System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c11_title">WCS [창고제어시스템]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c11_desc">전체 설비 제어 및 트래픽 분산, 장비 상태를 실시간 모니터링하는 최상위 통합 관제 시스템</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </span>
+                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- 제품 상세 페이지 (동적) -->
 
@@ -2061,7 +1641,7 @@
 
         <div class="max-w-7xl mx-auto px-6">
 
-            <button onclick="navigate('main', 'solution'); return false;"
+            <button onclick="navigate('solutions'); return false;"
                 class="flex items-center text-slate-400 hover:text-accent mb-8 font-medium transition-colors cursor-pointer"
                 data-i18n="btn_back_solution">
 
@@ -3149,21 +2729,9 @@
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-4" data-i18n="award_1_title">강원창조경제혁신센터</h3>
                     
-                    <!-- 상장 전체가 한눈에 다 보이는 A4 캔버스 컨테이너 -->
-                    <div class="relative w-full rounded-xl overflow-hidden mb-4 border border-slate-200 bg-slate-50 aspect-[1/1.414] shadow-inner flex items-center justify-center cursor-pointer group/canvas"
-                         onclick="openAwardModal('award-canvas-1', 'award_1_title')" title="클릭하여 고화질 확대 보기">
-                        <canvas id="award-canvas-1" class="w-full h-full object-contain transition-transform duration-300 group-hover/canvas:scale-[1.02]"></canvas>
-                        <!-- 로딩 표시자 -->
-                        <div id="award-loading-1" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 text-slate-500 gap-2">
-                            <i class="fa-solid fa-spinner fa-spin text-blue-600 text-2xl"></i>
-                            <span class="text-xs font-medium">상장 불러오는 중...</span>
-                        </div>
-                        <!-- 호버 시 확대 오버레이 -->
-                        <div class="absolute inset-0 bg-blue-900/15 opacity-0 group-hover/canvas:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                            <span class="px-3.5 py-1.5 bg-slate-900/85 backdrop-blur text-white text-xs font-semibold rounded-full shadow flex items-center gap-1.5">
-                                <i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대
-                            </span>
-                        </div>
+                    <!-- 상장 A4 고화질 프레임 뷰어 -->
+                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
+                        <iframe src="docs/강원창조경제혁신센터.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 rounded-xl" title="강원창조경제혁신센터 상장"></iframe>
                     </div>
 
                     <a href="docs/강원창조경제혁신센터.pdf" target="_blank"
@@ -3181,21 +2749,9 @@
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-4" data-i18n="award_2_title">인천창조경제혁신센터</h3>
                     
-                    <!-- 상장 전체가 한눈에 다 보이는 A4 캔버스 컨테이너 -->
-                    <div class="relative w-full rounded-xl overflow-hidden mb-4 border border-slate-200 bg-slate-50 aspect-[1/1.414] shadow-inner flex items-center justify-center cursor-pointer group/canvas"
-                         onclick="openAwardModal('award-canvas-2', 'award_2_title')" title="클릭하여 고화질 확대 보기">
-                        <canvas id="award-canvas-2" class="w-full h-full object-contain transition-transform duration-300 group-hover/canvas:scale-[1.02]"></canvas>
-                        <!-- 로딩 표시자 -->
-                        <div id="award-loading-2" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 text-slate-500 gap-2">
-                            <i class="fa-solid fa-spinner fa-spin text-blue-600 text-2xl"></i>
-                            <span class="text-xs font-medium">상장 불러오는 중...</span>
-                        </div>
-                        <!-- 호버 시 확대 오버레이 -->
-                        <div class="absolute inset-0 bg-blue-900/15 opacity-0 group-hover/canvas:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                            <span class="px-3.5 py-1.5 bg-slate-900/85 backdrop-blur text-white text-xs font-semibold rounded-full shadow flex items-center gap-1.5">
-                                <i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대
-                            </span>
-                        </div>
+                    <!-- 상장 A4 고화질 프레임 뷰어 -->
+                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
+                        <iframe src="docs/인천창조경제혁신센터-개인자격수상.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 rounded-xl" title="인천창조경제혁신센터 상장"></iframe>
                     </div>
 
                     <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank"
@@ -3212,21 +2768,9 @@
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-4" data-i18n="award_3_title">RnD 실무교육 수료증</h3>
                     
-                    <!-- 상장 전체가 한눈에 다 보이는 A4 캔버스 컨테이너 -->
-                    <div class="relative w-full rounded-xl overflow-hidden mb-4 border border-slate-200 bg-slate-50 aspect-[1/1.414] shadow-inner flex items-center justify-center cursor-pointer group/canvas"
-                         onclick="openAwardModal('award-canvas-3', 'award_3_title')" title="클릭하여 고화질 확대 보기">
-                        <canvas id="award-canvas-3" class="w-full h-full object-contain transition-transform duration-300 group-hover/canvas:scale-[1.02]"></canvas>
-                        <!-- 로딩 표시자 -->
-                        <div id="award-loading-3" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 text-slate-500 gap-2">
-                            <i class="fa-solid fa-spinner fa-spin text-blue-600 text-2xl"></i>
-                            <span class="text-xs font-medium">수료증 불러오는 중...</span>
-                        </div>
-                        <!-- 호버 시 확대 오버레이 -->
-                        <div class="absolute inset-0 bg-blue-900/15 opacity-0 group-hover/canvas:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                            <span class="px-3.5 py-1.5 bg-slate-900/85 backdrop-blur text-white text-xs font-semibold rounded-full shadow flex items-center gap-1.5">
-                                <i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 확대
-                            </span>
-                        </div>
+                    <!-- 상장 A4 고화질 프레임 뷰어 -->
+                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
+                        <iframe src="docs/RnD 실무교육 수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 rounded-xl" title="RnD 실무교육 수료증"></iframe>
                     </div>
 
                     <a href="docs/RnD 실무교육 수료증.pdf" target="_blank"
@@ -3828,124 +3372,6 @@
             </div>
 
 
-
-            <!-- 하위 메뉴 핵심 섹션 바로가기 네비게이션 카드 -->
-
-            <div class="border-t border-slate-200 pt-12">
-
-                <div class="text-center mb-8">
-
-                    <span class="text-accent text-xs font-bold uppercase tracking-widest block mb-2"
-                        data-i18n="china_subnav_badge">SUB MENU NAVIGATION</span>
-
-                    <h3 class="text-2xl font-bold text-slate-900" data-i18n="china_subnav_title">중국지사(제조사) 핵심 하위 메뉴 바로가기
-                    </h3>
-
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                    <!-- 하위메뉴 1: 협력사업 카드 -->
-
-                    <div onclick="navigate('xingting-coop')"
-                        class="bg-white hover:border-blue-400 border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer shadow-xl flex flex-col justify-between">
-
-                        <div
-                            class="aspect-video rounded-xl overflow-hidden mb-6 bg-slate-100 border border-slate-200 relative">
-
-                            <img src="[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png"
-                                onerror="handleAssetImgError(this, 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600')"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="주요 협력사업">
-
-                            <span
-                                class="absolute top-3 left-3 bg-blue-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow"
-                                data-i18n="china_subnav_c1_badge">하위 메뉴 1</span>
-
-                        </div>
-
-                        <div>
-
-                            <h4
-                                class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors flex items-center justify-between">
-
-                                <span data-i18n="china_subnav_c1_title">주요 협력사업 (3대 프로젝트)</span>
-
-                                <i
-                                    class="fa-solid fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
-
-                            </h4>
-
-                            <p class="text-slate-600 text-sm leading-relaxed mb-4" data-i18n="china_subnav_c1_desc">
-
-                                하드웨어-소프트웨어 융합 R&D, 대형 풀필먼트 공동 수주, 국내 24시간 로컬라이징 및 A/S 전담 센터 구축
-
-                            </p>
-
-                        </div>
-
-                        <div
-                            class="pt-4 border-t border-slate-100 flex items-center text-xs text-blue-600 font-semibold">
-
-                            <span data-i18n="china_subnav_c1_link">협력사업 세부 인포그래픽 확인하기 →</span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- 하위메뉴 2: 글로벌 네트워크 카드 -->
-
-                    <div onclick="navigate('xingting-global')"
-                        class="bg-white hover:border-blue-400 border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer shadow-xl flex flex-col justify-between">
-
-                        <div
-                            class="aspect-video rounded-xl overflow-hidden mb-6 bg-slate-100 border border-slate-200 relative">
-
-                            <img src="[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png"
-                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=600'"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="글로벌 네트워크">
-
-                            <span
-                                class="absolute top-3 left-3 bg-emerald-600/90 text-white text-xs font-bold px-3 py-1 rounded-full shadow"
-                                data-i18n="china_subnav_c2_badge">하위 메뉴 2</span>
-
-                        </div>
-
-                        <div>
-
-                            <h4
-                                class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors flex items-center justify-between">
-
-                                <span data-i18n="china_subnav_c2_title">글로벌 네트워크 인프라</span>
-
-                                <i
-                                    class="fa-solid fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
-
-                            </h4>
-
-                            <p class="text-slate-600 text-sm leading-relaxed mb-4" data-i18n="china_subnav_c2_desc">
-
-                                한국 본사와 중국 R&D/양산 거점을 유기적으로 잇는 아시아 및 글로벌 물류 공급망 인프라 맵
-
-                            </p>
-
-                        </div>
-
-                        <div
-                            class="pt-4 border-t border-slate-100 flex items-center text-xs text-blue-600 font-semibold">
-
-                            <span data-i18n="china_subnav_c2_link">글로벌 네트워크 인프라 맵 확인하기 →</span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
 
         </div>
 
@@ -5082,6 +4508,12 @@
         // 네비게이션 제어
 
         function navigate(viewId, param1) {
+
+            // 솔루션 뷰 독립 분리 호환성 리다이렉트
+            if (viewId === 'main' && param1 === 'solution') {
+                viewId = 'solutions';
+                param1 = null;
+            }
 
             // 이전 레퍼런스 하위 뷰 호환성 리다이렉트
 
@@ -7031,18 +6463,21 @@
                     </label>
                     <div class="relative">
                         <i class="fa-solid fa-key absolute left-3.5 top-3 text-slate-500 text-xs"></i>
-                        <input type="password" id="admin-login-pw" required placeholder="비밀번호 입력"
-                            class="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+                        <input type="password" id="admin-login-pw" required placeholder="비밀번호 입력" autocomplete="current-password"
+                            class="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
+                        <button type="button" onclick="toggleLoginPasswordVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700 p-1 cursor-pointer" title="비밀번호 표시/숨김">
+                            <i id="admin-login-pw-toggle-icon" class="fa-solid fa-eye-slash text-xs"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- 안내 박스 -->
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px] text-slate-400 space-y-1">
-                    <div class="flex items-center gap-1.5 text-cyan-400 font-semibold">
+                <!-- 보안 안내 박스 (비밀번호 평문 비노출 처리) -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px] text-slate-500 space-y-1">
+                    <div class="flex items-center gap-1.5 text-blue-600 font-semibold">
                         <i class="fa-solid fa-shield-halved"></i> 보안 안내
                     </div>
-                    <div>초기 기본 비밀번호: <strong class="text-blue-600 font-bold">ata2026!</strong></div>
-                    <div class="text-slate-500">비밀번호는 SHA-256 단방향 암호화로 보호되며, 로그인 후 언제든 변경하실 수 있습니다.</div>
+                    <div>관리자 인증 후 시스템 관리 기능을 이용하실 수 있습니다.</div>
+                    <div class="text-slate-400">비밀번호는 SHA-256 표준 단방향 암호화로 안전하게 보호됩니다.</div>
                 </div>
 
                 <!-- 제출 버튼 -->
