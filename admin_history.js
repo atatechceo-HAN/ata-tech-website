@@ -364,15 +364,18 @@
                 '    </div>',
                 '    <div>',
                 '      <div class="flex items-center gap-2">',
-                '        <h5 class="text-sm font-extrabold text-white">회사 연혁 관리자 모드 활성화</h5>',
-                '        <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-950 text-emerald-400 border border-emerald-700/60 font-semibold">인증됨</span>',
+                '        <h5 class="text-sm font-extrabold text-slate-900">회사 연혁 관리자 모드 활성화</h5>',
+                '        <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300 font-semibold">인증됨</span>',
                 '      </div>',
                 '      <p class="text-xs text-slate-600 mt-0.5">연도별 카드를 추가하거나 각 카드의 수정/삭제 버튼을 눌러 연혁을 편집할 수 있습니다.</p>',
                 '    </div>',
                 '  </div>',
-                '  <div class="flex items-center gap-2">',
-                '    <button type="button" onclick="window.HistoryAdmin.openCreateModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md hover:shadow-cyan-500/30 transition-all cursor-pointer">',
+                '  <div class="flex items-center gap-2 flex-wrap">',
+                '    <button type="button" onclick="window.HistoryAdmin.openCreateModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md hover:shadow-blue-500/30 transition-all cursor-pointer">',
                 '      <i class="fa-solid fa-plus"></i> 새 연도 카드 추가',
+                '    </button>',
+                '    <button type="button" onclick="window.HistoryAdmin.syncAllNoticesToHistory()" class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs border border-indigo-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="공지사항 게시판의 최신 글들을 연혁과 실시간 동기화">',
+                '      <i class="fa-solid fa-arrows-rotate text-indigo-600"></i> 공지사항 연혁 동기화',
                 '    </button>',
                 '    <button type="button" onclick="window.HistoryAdmin.resetToDefault()" class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="최초 기본 데이터 복원">',
                 '      <i class="fa-solid fa-rotate-left"></i> 기본값 복원',
@@ -598,6 +601,184 @@
         alert("[" + card.year + "년] 카드가 삭제되었습니다.");
     }
 
+    // ==========================================================================
+    // 6-1. 공지사항(Notice) <-> 회사 연혁(History) 자동 동기화 엔진
+    // ==========================================================================
+
+    /**
+     * 특정 공지사항이 이미 연혁 마일스톤에 등록되어 있는지 여부를 검사합니다.
+     * @param {string} noticeId - 공지사항 고유 ID
+     * @returns {boolean}
+     */
+    function hasNoticeMilestone(noticeId) {
+        if (!noticeId) return false;
+        var list = getHistoryList();
+        return list.some(function (card) {
+            return Array.isArray(card.items) && card.items.some(function (it) {
+                return it.noticeId === noticeId || it.id === ("notice_item_" + noticeId);
+            });
+        });
+    }
+
+    /**
+     * 공지사항 데이터를 바탕으로 해당 연도 및 월의 회사 연혁 카드에 마일스톤 항목을 자동 추가/동기화합니다.
+     * @param {Object} notice - 공지사항 객체 { id, date, title, titleKo, category }
+     * @returns {Object} 결과 { success: boolean, year: string, month: string }
+     */
+    function syncNoticeToHistory(notice) {
+        if (!notice) return { success: false, message: "공지사항 데이터가 없습니다." };
+
+        var noticeId = notice.id || ('notice_' + Date.now());
+        var dateStr = notice.date || new Date().toISOString().split('T')[0];
+        var parts = dateStr.split('-');
+        var year = parts[0] || String(new Date().getFullYear());
+        var monthNum = parts[1] ? parseInt(parts[1], 10) : (new Date().getMonth() + 1);
+        var badgeText = (monthNum < 10 ? '0' + monthNum : '' + monthNum) + '월';
+
+        // 공지 제목 추출 (다국어 객체 또는 문자열 대응)
+        var titleText = "";
+        if (notice.title && typeof notice.title === 'object') {
+            titleText = notice.title.ko || notice.title.en || Object.values(notice.title)[0] || "";
+        } else if (notice.titleKo) {
+            titleText = notice.titleKo;
+        } else if (typeof notice.title === 'string') {
+            titleText = notice.title;
+        }
+        titleText = titleText.trim();
+        if (!titleText) return { success: false, message: "공지사항 제목이 비어있습니다." };
+
+        var list = getHistoryList();
+
+        // 1. 혹시 다른 연도나 기존 위치에 남아있던 동일 공지 마일스톤 정리 (날짜 변경 등에 대응)
+        list.forEach(function (card) {
+            if (Array.isArray(card.items)) {
+                card.items = card.items.filter(function (it) {
+                    return it.noticeId !== noticeId && it.id !== ("notice_item_" + noticeId);
+                });
+            }
+        });
+
+        // 2. 해당 연도 카드 탐색 (2021년 이전 레거시 카드 포함)
+        var targetCard = list.find(function (c) {
+            return String(c.year) === String(year) || (parseInt(year, 10) <= 2021 && c.id === "hist_before_2021");
+        });
+
+        var noticeItemId = "notice_item_" + noticeId;
+        var newMilestone = {
+            id: noticeItemId,
+            badge: badgeText,
+            content: titleText,
+            noticeId: noticeId
+        };
+
+        if (targetCard) {
+            if (!Array.isArray(targetCard.items)) targetCard.items = [];
+            // 월 내림차순(최신 월 상단)에 맞추어 적절한 위치에 삽입
+            var inserted = false;
+            for (var i = 0; i < targetCard.items.length; i++) {
+                var itemBadge = targetCard.items[i].badge || '';
+                var itemMonth = parseInt(itemBadge, 10);
+                if (!isNaN(itemMonth) && monthNum >= itemMonth) {
+                    targetCard.items.splice(i, 0, newMilestone);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) {
+                targetCard.items.push(newMilestone);
+            }
+        } else {
+            // 해당 연도 카드가 없으면 신규 연도 카드 자동 생성
+            var maxYear = 0;
+            list.forEach(function (c) {
+                var y = parseInt(c.year, 10);
+                if (!isNaN(y) && y > maxYear) maxYear = y;
+            });
+            var isNewLatest = parseInt(year, 10) >= maxYear;
+            if (isNewLatest) {
+                list.forEach(function (c) { c.isLatest = false; });
+            }
+
+            var categoryIcons = {
+                patent: "fa-certificate",
+                cert: "fa-file-shield",
+                award: "fa-award",
+                tech: "fa-microchip",
+                press: "fa-newspaper",
+                notice: "fa-rocket"
+            };
+
+            var newCard = {
+                id: "hist_" + year,
+                year: year,
+                shortYear: year.length > 2 ? year.slice(-2) : year,
+                themeBadge: (notice.category ? notice.category.toUpperCase() : "INNOVATION") + " & MILESTONES",
+                themeIcon: categoryIcons[notice.category] || "fa-award",
+                isLatest: isNewLatest,
+                tags: ["#" + year + "공지사항", "#스마트물류", "#실적동기화"],
+                items: [newMilestone]
+            };
+
+            var insertIdx = list.findIndex(function (c) { return parseInt(c.year, 10) < parseInt(year, 10); });
+            if (insertIdx >= 0) {
+                list.splice(insertIdx, 0, newCard);
+            } else {
+                list.push(newCard);
+            }
+        }
+
+        saveHistoryList(list);
+        renderHistoryCards();
+        return { success: true, year: year, month: badgeText };
+    }
+
+    /**
+     * 공지사항 삭제 시 연동된 연혁 마일스톤 항목도 동시 삭제
+     * @param {string} noticeId - 삭제할 공지사항 고유 ID
+     */
+    function removeMilestoneByNoticeId(noticeId) {
+        if (!noticeId) return false;
+        var list = getHistoryList();
+        var modified = false;
+
+        list.forEach(function (card) {
+            if (Array.isArray(card.items)) {
+                var initialLen = card.items.length;
+                card.items = card.items.filter(function (it) {
+                    return it.noticeId !== noticeId && it.id !== ("notice_item_" + noticeId);
+                });
+                if (card.items.length < initialLen) {
+                    modified = true;
+                }
+            }
+        });
+
+        if (modified) {
+            saveHistoryList(list);
+            renderHistoryCards();
+        }
+        return modified;
+    }
+
+    /**
+     * 공지사항 데이터베이스(window.noticeBoardDB)의 모든 글을 회사 연혁 카드에 일괄 동기화
+     */
+    function syncAllNoticesToHistory() {
+        var notices = window.noticeBoardDB;
+        if (!Array.isArray(notices) || notices.length === 0) {
+            alert("동기화할 공지사항 데이터가 없습니다.");
+            return;
+        }
+
+        var count = 0;
+        notices.forEach(function (notice) {
+            var res = syncNoticeToHistory(notice);
+            if (res && res.success) count++;
+        });
+
+        alert("총 " + count + "건의 공지사항이 회사 연혁 카드에 성공적으로 동시 적용(동기화)되었습니다.");
+    }
+
     /**
      * 모달 DOM 동적 생성
      */
@@ -762,6 +943,10 @@
         saveModalData: saveHistoryModalData,
         deleteCard: deleteHistoryCard,
         resetToDefault: resetHistoryData,
+        syncNoticeToHistory: syncNoticeToHistory,
+        removeMilestoneByNoticeId: removeMilestoneByNoticeId,
+        hasNoticeMilestone: hasNoticeMilestone,
+        syncAllNoticesToHistory: syncAllNoticesToHistory,
         triggerLoginModal: function () {
             if (typeof window.openAdminLoginModal === 'function') {
                 window.openAdminLoginModal();

@@ -628,12 +628,28 @@
                     .replace(/<[^>]+>/g, ""); // 태그 제거 후 텍스트만 추출하거나 원본 유지
                 document.getElementById('notice-edit-content-ko').value = cleanContent || rawContent;
             }
+
+            // 회사 연혁 동시 등록 체크박스 상태 (기존 연혁 연동 여부 확인)
+            var syncHistoryCheckbox = document.getElementById('notice-edit-sync-history');
+            if (syncHistoryCheckbox) {
+                var isLinked = false;
+                if (window.HistoryAdmin && typeof window.HistoryAdmin.hasNoticeMilestone === 'function') {
+                    isLinked = window.HistoryAdmin.hasNoticeMilestone(noticeId);
+                }
+                syncHistoryCheckbox.checked = isLinked;
+            }
         } else {
             // 신규 작성 모드
             if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-plus-circle text-cyan-400 mr-2"></i>새 공지사항 등록하기';
             document.getElementById('notice-edit-category').value = 'notice';
             document.getElementById('notice-edit-pinned').checked = false;
             document.getElementById('notice-edit-author').value = "주식회사 에이티에이기술 관리자";
+
+            // 신규 등록 시 기본적으로 회사 연혁 동시 등록 체크
+            var syncHistoryCheckboxNew = document.getElementById('notice-edit-sync-history');
+            if (syncHistoryCheckboxNew) {
+                syncHistoryCheckboxNew.checked = true;
+            }
         }
 
         if (modal) {
@@ -655,7 +671,7 @@
     };
 
     /**
-     * 공지사항 저장 (신규 등록 또는 수정 완료)
+     * 공지사항 저장 (신규 등록 또는 수정 완료 + 회사 연혁 동시 자동 반영)
      */
     window.handleNoticeEditorSubmit = function (e) {
         if (e && e.preventDefault) e.preventDefault();
@@ -667,6 +683,13 @@
         var titleKo = document.getElementById('notice-edit-title-ko').value.trim();
         var summaryKo = document.getElementById('notice-edit-summary-ko').value.trim();
         var rawContent = document.getElementById('notice-edit-content-ko').value.trim();
+
+        // 회사 연혁 동시 등록 체크박스 상태
+        var syncToHistory = false;
+        var syncHistoryCheckbox = document.getElementById('notice-edit-sync-history');
+        if (syncHistoryCheckbox) {
+            syncToHistory = syncHistoryCheckbox.checked;
+        }
 
         if (!titleKo) {
             alert("공지사항 제목을 입력해 주세요.");
@@ -695,14 +718,36 @@
             contentKo: formattedContentHtml
         };
 
+        var historySyncRes = null;
+
         if (currentEditingNoticeId) {
             // 기존 공지 수정
-            window.NoticeStore.updateNotice(currentEditingNoticeId, noticePayload);
-            alert("공지사항이 성공적으로 수정되었습니다.");
+            var updatedNotice = window.NoticeStore.updateNotice(currentEditingNoticeId, noticePayload);
+
+            // 회사 연혁 동시 반영 또는 연결 해제 처리
+            if (syncToHistory && window.HistoryAdmin && typeof window.HistoryAdmin.syncNoticeToHistory === 'function') {
+                historySyncRes = window.HistoryAdmin.syncNoticeToHistory(updatedNotice || Object.assign({ id: currentEditingNoticeId }, noticePayload));
+            } else if (!syncToHistory && window.HistoryAdmin && typeof window.HistoryAdmin.removeMilestoneByNoticeId === 'function') {
+                window.HistoryAdmin.removeMilestoneByNoticeId(currentEditingNoticeId);
+            }
+
+            var syncMsg = (historySyncRes && historySyncRes.success)
+                ? `\n(회사 연혁 ${historySyncRes.year}년 [${historySyncRes.month}] 마일스톤에도 동시 반영되었습니다.)`
+                : '';
+            alert("공지사항이 성공적으로 수정되었습니다." + syncMsg);
         } else {
             // 새 공지 등록
-            window.NoticeStore.createNotice(noticePayload);
-            alert("새 공지사항이 성공적으로 등록되었습니다.");
+            var newNotice = window.NoticeStore.createNotice(noticePayload);
+
+            // 회사 연혁 동시 반영
+            if (syncToHistory && window.HistoryAdmin && typeof window.HistoryAdmin.syncNoticeToHistory === 'function') {
+                historySyncRes = window.HistoryAdmin.syncNoticeToHistory(newNotice);
+            }
+
+            var syncMsg = (historySyncRes && historySyncRes.success)
+                ? `\n(회사 연혁 ${historySyncRes.year}년 [${historySyncRes.month}] 마일스톤에도 동시 반영되었습니다.)`
+                : '';
+            alert("새 공지사항이 성공적으로 등록되었습니다." + syncMsg);
         }
 
         window.closeNoticeEditor();
@@ -717,7 +762,7 @@
     };
 
     /**
-     * 공지사항 삭제 처리
+     * 공지사항 삭제 처리 (연동된 연혁 마일스톤도 함께 정리)
      */
     window.handleDeleteNotice = function (noticeId, noticeTitle) {
         if (!window.AdminAuth.isLoggedIn()) {
@@ -726,8 +771,13 @@
             return;
         }
 
-        var confirmMsg = `정말 아래 공지사항을 삭제하시겠습니까?\n\n[제목]: ${noticeTitle || noticeId}\n\n※ 삭제된 공지사항은 즉시 제거됩니다.`;
+        var confirmMsg = `정말 아래 공지사항을 삭제하시겠습니까?\n\n[제목]: ${noticeTitle || noticeId}\n\n※ 삭제 시 연동된 회사 연혁 마일스톤 항목도 함께 정리됩니다.`;
         if (confirm(confirmMsg)) {
+            // 연관된 연혁 마일스톤 동시 삭제
+            if (window.HistoryAdmin && typeof window.HistoryAdmin.removeMilestoneByNoticeId === 'function') {
+                window.HistoryAdmin.removeMilestoneByNoticeId(noticeId);
+            }
+
             var deleted = window.NoticeStore.deleteNotice(noticeId);
             if (deleted) {
                 alert("공지사항이 성공적으로 삭제되었습니다.");
