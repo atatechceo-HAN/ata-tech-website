@@ -101,6 +101,14 @@
                 } catch (e) {
                     console.warn("SessionStorage access error:", e);
                 }
+                // 회사 연혁 관리자 UI 실시간 동기화
+                if (window.HistoryAdmin && typeof window.HistoryAdmin.render === 'function') {
+                    window.HistoryAdmin.render();
+                }
+                // 주요 구축 실적(Reference) 관리자 UI 실시간 동기화
+                if (window.ReferenceAdmin && typeof window.ReferenceAdmin.render === 'function') {
+                    window.ReferenceAdmin.render();
+                }
                 return { success: true };
             } else {
                 return { success: false, message: "비밀번호가 일치하지 않습니다. 다시 확인해 주세요." };
@@ -115,6 +123,14 @@
                 sessionStorage.removeItem(SESSION_KEY_AUTH);
             } catch (e) {
                 console.warn(e);
+            }
+            // 회사 연혁 관리자 UI 실시간 동기화
+            if (window.HistoryAdmin && typeof window.HistoryAdmin.render === 'function') {
+                window.HistoryAdmin.render();
+            }
+            // 주요 구축 실적(Reference) 관리자 UI 실시간 동기화
+            if (window.ReferenceAdmin && typeof window.ReferenceAdmin.render === 'function') {
+                window.ReferenceAdmin.render();
             }
         },
 
@@ -149,22 +165,72 @@
     window.NoticeStore = {
         /**
          * 로컬스토리지에서 공지사항 데이터를 불러와 `window.noticeBoardDB`에 동기화합니다.
-         * 만약 로컬스토리지에 기존 데이터가 없으면, i18n.js에 정의된 초기 DB를 로컬스토리지에 저장합니다.
+         * 만약 로컬스토리지에 기존 데이터가 없으면 초기 DB를 저장하고,
+         * 기존 데이터가 있더라도 기본 DB에 새로 추가된 필수 공지사항(특허, 인증, 수상 등)이 누락되지 않도록 지능적으로 병합합니다.
          */
         init: function () {
             try {
                 var stored = localStorage.getItem(STORAGE_KEY_NOTICES);
+                var defaultDB = (window.noticeBoardDB && Array.isArray(window.noticeBoardDB)) ? window.noticeBoardDB : [];
+
+                // 레거시 묶음 공지 ID 목록 (개별 분리 게시로 대체된 구형 ID 정리)
+                var legacyIds = ['notice-patent-core', 'notice-cert-comprehensive', 'notice-awards-honors', 'notice-004'];
+
                 if (stored) {
                     var parsed = JSON.parse(stored);
                     if (Array.isArray(parsed) && parsed.length > 0) {
+                        // 1. 구형 묶음 공지사항 항목 제거
+                        parsed = parsed.filter(function (p) {
+                            return !legacyIds.includes(p.id);
+                        });
+
+                        // 2. 기본 DB에 있는 공지사항(특허 4건, 인증 5건, 수상 4건 등) 자동 동기화 및 누락 항목 추가
+                        var hasChanges = false;
+                        defaultDB.forEach(function (defItem) {
+                            var existingIdx = parsed.findIndex(function (p) { return p.id === defItem.id; });
+                            if (existingIdx === -1) {
+                                parsed.push(defItem);
+                                hasChanges = true;
+                            } else {
+                                // 공식 기본 DB 공지는 최신 서식 및 내용으로 업데이트 유지
+                                parsed[existingIdx] = defItem;
+                                hasChanges = true;
+                            }
+                        });
+
+                        // 핀 고정(pinned) 우선, 그 후 날짜 내림차순 정렬
+                        parsed.sort(function (a, b) {
+                            if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+                            return (b.date || '').localeCompare(a.date || '');
+                        });
+
                         window.noticeBoardDB = parsed;
+                        this.save();
+                        return;
                     }
-                } else if (window.noticeBoardDB && Array.isArray(window.noticeBoardDB)) {
-                    // 최초 실행 시 기본 데이터를 로컬스토리지에 저장하여 동기화 시작
+                }
+
+                if (defaultDB.length > 0) {
+                    window.noticeBoardDB = defaultDB;
                     this.save();
                 }
             } catch (e) {
                 console.warn("NoticeStore init error:", e);
+            }
+        },
+
+        /**
+         * 공지사항 데이터를 최초 공식 기본 데이터베이스로 초기화/복원합니다.
+         */
+        resetToDefault: function () {
+            if (!confirm("공지사항 목록을 공식 기본 데이터베이스로 복원하시겠습니까?\n(직접 작성하거나 수정한 사용자 공지사항이 초기화될 수 있습니다.)")) {
+                return;
+            }
+            try {
+                localStorage.removeItem(STORAGE_KEY_NOTICES);
+                location.reload();
+            } catch (e) {
+                console.error("공지사항 초기화 실패:", e);
             }
         },
 
@@ -194,16 +260,28 @@
             // 카테고리별 라벨 매핑
             var categoryLabels = {
                 notice: { ko: "공지사항", en: "Notice", cn: "官方公告", ja: "お知らせ" },
+                patent: { ko: "특허", en: "Patent", cn: "专利", ja: "特許" },
+                cert: { ko: "인증", en: "Certification", cn: "资质认证", ja: "認証" },
+                award: { ko: "수상 & 실적", en: "Awards & Honors", cn: "荣誉奖项", ja: "受賞・実績" },
                 tech: { ko: "기술 & 솔루션", en: "Tech & Solutions", cn: "技术与方案", ja: "技術＆ソリューション" },
                 press: { ko: "보도자료 & 행사", en: "Press & Events", cn: "新闻与展会", ja: "報道＆イベント" }
             };
 
-            var badgeTexts = {
-                ko: data.pinned ? "중요" : "일반",
-                en: data.pinned ? "NOTICE" : "POST",
-                cn: data.pinned ? "置顶" : "普通",
-                ja: data.pinned ? "重要" : "一般"
+            var defaultBadges = {
+                patent: { ko: "특허", en: "PATENT", cn: "专利", ja: "特許" },
+                cert: { ko: "인증", en: "CERT", cn: "认证", ja: "認証" },
+                award: { ko: "수상", en: "AWARD", cn: "荣誉", ja: "受賞" },
+                tech: { ko: "기술", en: "TECH", cn: "技术", ja: "技術" },
+                press: { ko: "행사", en: "EVENT", cn: "展会", ja: "展示" },
+                notice: { ko: "일반", en: "POST", cn: "普通", ja: "一般" }
             };
+
+            var badgeTexts = data.pinned ? {
+                ko: "중요",
+                en: "NOTICE",
+                cn: "置顶",
+                ja: "重要"
+            } : (defaultBadges[data.category] || defaultBadges.notice);
 
             var newNotice = {
                 id: newId,
@@ -251,8 +329,20 @@
 
             var categoryLabels = {
                 notice: { ko: "공지사항", en: "Notice", cn: "官方公告", ja: "お知らせ" },
+                patent: { ko: "특허", en: "Patent", cn: "专利", ja: "特許" },
+                cert: { ko: "인증", en: "Certification", cn: "资质认证", ja: "認証" },
+                award: { ko: "수상 & 실적", en: "Awards & Honors", cn: "荣誉奖项", ja: "受賞・実績" },
                 tech: { ko: "기술 & 솔루션", en: "Tech & Solutions", cn: "技术与方案", ja: "技術＆ソリューション" },
                 press: { ko: "보도자료 & 행사", en: "Press & Events", cn: "新闻与展会", ja: "報道＆イベント" }
+            };
+
+            var defaultBadges = {
+                patent: { ko: "특허", en: "PATENT", cn: "专利", ja: "特許" },
+                cert: { ko: "인증", en: "CERT", cn: "认证", ja: "認証" },
+                award: { ko: "수상", en: "AWARD", cn: "荣誉", ja: "受賞" },
+                tech: { ko: "기술", en: "TECH", cn: "技术", ja: "技術" },
+                press: { ko: "행사", en: "EVENT", cn: "展会", ja: "展示" },
+                notice: { ko: "일반", en: "POST", cn: "普通", ja: "一般" }
             };
 
             target.pinned = !!data.pinned;
@@ -261,12 +351,12 @@
             if (data.date) target.date = data.date;
             if (data.author) target.author = data.author;
 
-            target.badgeText = {
-                ko: target.pinned ? "중요" : "일반",
-                en: target.pinned ? "NOTICE" : "POST",
-                cn: target.pinned ? "置顶" : "普通",
-                ja: target.pinned ? "重要" : "一般"
-            };
+            target.badgeText = target.pinned ? {
+                ko: "중요",
+                en: "NOTICE",
+                cn: "置顶",
+                ja: "重要"
+            } : (defaultBadges[target.category] || defaultBadges.notice);
 
             // 제목 갱신
             if (!target.title) target.title = {};
@@ -558,7 +648,7 @@
         var paragraphs = rawContent.split(/\n\s*\n/);
         var formattedContentHtml = paragraphs.map(function (p) {
             var lineWithBreaks = p.trim().replace(/\n/g, '<br>');
-            return '<p class="mb-4 text-base leading-relaxed text-slate-200">' + lineWithBreaks + '</p>';
+            return '<p class="mb-4 text-base leading-relaxed text-slate-700">' + lineWithBreaks + '</p>';
         }).join('');
 
         var noticePayload = {
@@ -663,6 +753,14 @@
                 detailAdminActions.classList.remove('flex');
             }
         }
+
+        // 4. 회사 연혁 및 주요 구축 실적(Reference) 관리자 UI 동기화
+        if (window.HistoryAdmin && typeof window.HistoryAdmin.render === 'function') {
+            window.HistoryAdmin.render();
+        }
+        if (window.ReferenceAdmin && typeof window.ReferenceAdmin.render === 'function') {
+            window.ReferenceAdmin.render();
+        }
     };
 
     // ==========================================================================
@@ -698,17 +796,17 @@
                         if (article.querySelector('.admin-card-actions')) return;
 
                         var actionsDiv = document.createElement('div');
-                        actionsDiv.className = 'admin-card-actions flex items-center gap-1.5 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800/80';
+                        actionsDiv.className = 'admin-card-actions flex items-center gap-1.5 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-200';
                         actionsDiv.onclick = function (e) { e.stopPropagation(); }; // 카드 클릭 상세 열림 방지
 
                         actionsDiv.innerHTML = `
                             <button type="button" onclick="event.stopPropagation(); window.openNoticeEditor('${noticeId}')"
-                                class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/40 transition-all flex items-center gap-1 cursor-pointer"
+                                class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white border border-blue-200 transition-all flex items-center gap-1 cursor-pointer"
                                 title="이 공지사항 수정">
                                 <i class="fa-solid fa-pen-to-square text-[11px]"></i> 수정
                             </button>
                             <button type="button" onclick="event.stopPropagation(); window.handleDeleteNotice('${noticeId}', '${safeTitle}')"
-                                class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-red-600/30 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 transition-all flex items-center gap-1 cursor-pointer"
+                                class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white border border-rose-200 transition-all flex items-center gap-1 cursor-pointer"
                                 title="이 공지사항 삭제">
                                 <i class="fa-solid fa-trash text-[11px]"></i> 삭제
                             </button>
