@@ -44,7 +44,7 @@
             isLatest: false,
             tags: ["#CES2025", "#운송차량특허등록", "#AI특허등록", "#중국지사양산"],
             items: [
-                { id: "item_2025_1", badge: "08월", content: "[솔루션] 중국지사·제조사(XingTing) 협력 초고속 4분할 방향전환 소터 양산 본격화", i18nKey: "hist_2025_1" },
+                { id: "item_2025_1", badge: "08월", content: "[솔루션] 중국지사(제조사) 협력 초고속 4분할 방향전환 소터 양산 본격화", i18nKey: "hist_2025_1" },
                 { id: "item_2025_2", badge: "03월", content: "[운송 차량 적재물 분류 및 이송 시스템] 특허 정식 등록 (제 10-2782386 호)", i18nKey: "hist_2025_2" },
                 { id: "item_2025_3", badge: "01월", content: "[인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 등록 (제 10-2758800 호)", i18nKey: "hist_2025_3" },
                 { id: "item_2025_4", badge: "01월", content: "세계 최대 전자·IT 전시회 'CES 2025' 라스베이거스 K-스타트업 통합관 참가 성료", i18nKey: "hist_2025_4" }
@@ -126,6 +126,70 @@
     // ==========================================================================
 
     /**
+     * 마일스톤 항목의 시간 점수 계산 (최신순 내림차순 정렬용: 12월 -> 01월)
+     */
+    function getMilestoneTimeScore(item) {
+        if (!item) return 0;
+        var text = (item.content || '') + ' ' + (item.badge || '');
+        var ymdMatch = text.match(/(?:19|20)\d{2}[.\-/](\d{1,2})[.\-/](\d{1,2})/);
+        if (ymdMatch) {
+            return (parseInt(ymdMatch[1], 10) * 100) + parseInt(ymdMatch[2], 10);
+        }
+        var mdMatch = text.match(/\((\d{1,2})[.\-/](\d{1,2})\)/);
+        if (mdMatch) {
+            return (parseInt(mdMatch[1], 10) * 100) + parseInt(mdMatch[2], 10);
+        }
+        var bMatch = (item.badge || '').match(/(\d{1,2})\s*월/);
+        if (bMatch) {
+            return (parseInt(bMatch[1], 10) * 100) + 1;
+        }
+        var numMatch = (item.badge || '').match(/\d+/);
+        if (numMatch) {
+            return (parseInt(numMatch[0], 10) * 100);
+        }
+        return 0;
+    }
+
+    /**
+     * 마일스톤 항목들을 시간별 내림차순(최신순: 12월 -> 11월 -> ... -> 01월)으로 정렬
+     */
+    function sortMilestones(items) {
+        if (!Array.isArray(items)) return items;
+        return items.slice().sort(function (a, b) {
+            return getMilestoneTimeScore(b) - getMilestoneTimeScore(a);
+        });
+    }
+
+    /**
+     * 연혁 연도 점수 계산 (예: 2026, 2025, '2021 이전' -> 2021)
+     */
+    function getYearScore(yearStr) {
+        var str = (yearStr || '').toString();
+        var yMatch = str.match(/\d{4}/);
+        if (yMatch) return parseInt(yMatch[0], 10);
+        var nMatch = str.match(/\d+/);
+        if (nMatch) return parseInt(nMatch[0], 10);
+        return 0;
+    }
+
+    /**
+     * 연혁 카드 목록을 연도별 최신순으로 정렬하고 각 카드의 마일스톤도 시간별 정렬
+     */
+    function sortHistoryCards(list) {
+        if (!Array.isArray(list)) return list;
+        var sorted = list.slice().sort(function (a, b) {
+            return getYearScore(b.year) - getYearScore(a.year);
+        });
+        sorted.forEach(function (card, idx) {
+            if (card.items && Array.isArray(card.items)) {
+                card.items = sortMilestones(card.items);
+            }
+            card.isLatest = (idx === 0);
+        });
+        return sorted;
+    }
+
+    /**
      * 로컬 저장소에서 연혁 카드 목록을 가져옵니다.
      * 없으면 초기 기본 데이터를 저장한 후 반환합니다.
      * (2026년 최신 공식 연혁이 누락되어 있을 경우 자동으로 최상단에 병합 동기화합니다)
@@ -146,7 +210,7 @@
                             saveHistoryList(parsed);
                         }
                     }
-                    return parsed;
+                    return sortHistoryCards(parsed);
                 }
             }
         } catch (e) {
@@ -469,8 +533,9 @@
         var container = document.getElementById('hist-milestones-container');
         if (!container) return;
 
+        var sortedItems = sortMilestones(items);
         var html = '';
-        items.forEach(function (item, idx) {
+        sortedItems.forEach(function (item, idx) {
             html += '<div class="milestone-row flex items-center gap-2 p-2 bg-slate-50 rounded-xl border border-slate-200" data-id="' + (item.id || ('item_' + Date.now() + '_' + idx)) + '">';
             html += '  <input type="text" class="milestone-badge w-20 px-2.5 py-1.5 bg-[#0D1629] border border-slate-700 rounded-lg text-xs font-bold text-cyan-300 text-center focus:border-cyan-400 focus:outline-none" placeholder="01월" value="' + (item.badge || '월') + '">';
             html += '  <input type="text" class="milestone-content flex-1 px-3 py-1.5 bg-[#0D1629] border border-slate-700 rounded-lg text-xs text-slate-200 focus:border-cyan-400 focus:outline-none" placeholder="연혁 세부 내용 입력" value="' + (item.content ? item.content.replace(/"/g, '&quot;') : '') + '">';
@@ -550,6 +615,9 @@
             return;
         }
 
+        // [핵심] 마일스톤 항목을 시간별 내림차순(최신순: 12월 -> 11월 -> ... -> 01월)으로 자동 정렬
+        items = sortMilestones(items);
+
         var list = getHistoryList();
         var existingIdx = list.findIndex(function (c) { return c.id === cardId; });
 
@@ -577,10 +645,13 @@
             list.unshift(newCard);
         }
 
+        // [핵심] 연혁 카드 목록 전체를 최신 연도순으로 재정렬
+        list = sortHistoryCards(list);
+
         saveHistoryList(list);
         closeHistoryEditModal();
         renderHistoryCards();
-        alert(year + "년 연혁 카드가 성공적으로 저장되었습니다!");
+        alert(year + "년 연혁 카드가 시간별로 자동 정렬되어 성공적으로 저장되었습니다!");
     }
 
     /**
@@ -727,6 +798,7 @@
             }
         }
 
+        list = sortHistoryCards(list);
         saveHistoryList(list);
         renderHistoryCards();
         return { success: true, year: year, month: badgeText };

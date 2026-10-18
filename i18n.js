@@ -28,8 +28,8 @@ var i18nData = window.i18nData = window.i18nData || {
         "nav_sol_10": "10. AGV & AMR",
         "nav_sol_11": "11. WCS [창고제어시스템]",
         "nav_ref": "REFERENCE",
-        "nav_china": "중국지사_제조사",
-        "nav_china_intro": "중국지사_제조사 소개",
+        "nav_china": "중국지사(제조사)",
+        "nav_china_intro": "중국지사(제조사) 소개",
         "nav_china_intro_sub": "글로벌 하드웨어 제조 & 파트너십",
         "nav_china_coop": "협력사업",
         "nav_china_coop_sub": "R&D 융합, 대형수주, A/S 전담",
@@ -142,7 +142,7 @@ var i18nData = window.i18nData = window.i18nData || {
         "hist_2026_2": "공식 웹사이트 리뉴얼 및 4개국어(한국어, 영어, 중국어, 일본어) 글로벌 서비스 오픈",
         "hist_2026_3": "[차세대 택배차량 배송 자동화 시스템] 특허 등록 및 상용화 공급 개시",
         "hist_2026_4": "글로벌 스마트 물류 엑스포(LogiTech Expo 2026) 기술 시연 성료",
-        "hist_2025_1": "[솔루션] 중국지사·제조사(XingTing) 협력 초고속 4분할 방향전환 소터 양산 본격화",
+        "hist_2025_1": "[솔루션] 중국지사(제조사) 협력 초고속 4분할 방향전환 소터 양산 본격화",
         "hist_2025_2": "[운송 차량 적재물 분류 및 이송 시스템] 특허 정식 등록 (제 10-2782386 호)",
         "hist_2025_3": "[인공지능 기반 스마트 체형 교정 및 유지 시스템] 특허 등록 (제 10-2758800 호)",
         "hist_2025_4": "세계 최대 전자·IT 전시회 'CES 2025' 라스베이거스 K-스타트업 통합관 참가 성료",
@@ -330,7 +330,7 @@ var i18nData = window.i18nData = window.i18nData || {
         "hist_2026_2": "Official website renewal & 4-language global service launch",
         "hist_2026_3": "Patent registered & commercial supply of Next-Gen Delivery Vehicle Automation System",
         "hist_2026_4": "Successful live demo at Global Smart Logistics Expo (LogiTech Expo 2026)",
-        "hist_2025_1": "[Solution] Mass production launch of ultra-fast 4-way diverting sorter in partnership with China branch (XingTing)",
+        "hist_2025_1": "[Solution] Mass production launch of ultra-fast 4-way diverting sorter in partnership with China branch & factory",
         "hist_2025_2": "Official patent registered: Cargo Sorting & Transfer System for Delivery Vehicles (No. 10-2782386)",
         "hist_2025_3": "Patent registered: AI-based smart body alignment and maintenance system (No. 10-2758800)",
         "hist_2025_4": "Successful participation in CES 2025 Las Vegas (K-Startup Pavilion)",
@@ -518,7 +518,7 @@ var i18nData = window.i18nData = window.i18nData || {
         "hist_2026_2": "官方网站全新升级并正式开通4国语言全球服务",
         "hist_2026_3": "[新一代快递车辆配送自动化系统]获得专利授权并启动商用交付",
         "hist_2026_4": "2026全球智慧物流科技博览会 (LogiTech Expo) 技术演示圆满落幕",
-        "hist_2025_1": "[解决方案] 携手中国分公司及制造基地(XingTing)全面量产超高速4分割换向分拣机",
+        "hist_2025_1": "[解决方案] 携手中国分公司(制造基地)全面量产超高速4分割换向分拣机",
         "hist_2025_2": "[运输车辆装载物分类及传送系统] 获得正式专利授权 (第10-2782386号)",
         "hist_2025_3": "[基于人工智能的智能体型矫正及维持系统] 获得专利授权 (第10-2758800号)",
         "hist_2025_4": "参展世界最大消费电子展 'CES 2025' 拉斯维加斯 K-Startup联合馆圆满成功",
@@ -706,7 +706,7 @@ var i18nData = window.i18nData = window.i18nData || {
         "hist_2026_2": "公式ウェブサイトリニューアルおよび4言語グローバルサービス開始",
         "hist_2026_3": "[次世代宅配車両配送自動化システム] 特許登録および商用供給開始",
         "hist_2026_4": "グローバルスマート物流エキスポ (LogiTech Expo 2026) 実機デモ展示成功",
-        "hist_2025_1": "[ソリューション] 中国支社・製造工場(XingTing)との協業による超高速4分割方向転換ソーター量産本格化",
+        "hist_2025_1": "[ソリューション] 中国支社(製造拠点)との協業による超高速4分割方向転換ソーター量産本格化",
         "hist_2025_2": "[運送車両積載物の自動仕分け・搬送システム] 正式特許登録 (第10-2782386号)",
         "hist_2025_3": "[AI基盤スマート体型補正・維持システム] 特許登録完了 (第10-2758800号)",
         "hist_2025_4": "世界最大級の家電・IT見本市「CES 2025」ラスベガス K-Startup統合館出展成功",
@@ -894,7 +894,7 @@ var i18nData = window.i18nData = window.i18nData || {
         "hist_2026_2": "官方网站全新升级并正式开通4国语言全球服务",
         "hist_2026_3": "[新一代快递车辆配送自动化系统]获得专利授权并启动商用交付",
         "hist_2026_4": "2026全球智慧物流科技博览会 (LogiTech Expo) 技术演示圆满落幕",
-        "hist_2025_1": "[解决方案] 携手中国分公司及制造基地(XingTing)全面量产超高速4分割换向分拣机",
+        "hist_2025_1": "[解决方案] 携手中国分公司(制造基地)全面量产超高速4分割换向分拣机",
         "hist_2025_2": "[运输车辆装载物分类及传送系统] 获得正式专利授权 (第10-2782386号)",
         "hist_2025_3": "[基于人工智能的智能体型矫正及维持系统] 获得专利授权 (第10-2758800号)",
         "hist_2025_4": "参展世界最大消费电子展 'CES 2025' 拉斯维加斯 K-Startup联合馆圆满成功",
@@ -968,8 +968,8 @@ const extendedI18nData = {
         "nav_sol_9": "9. Shuttle AS/RS",
         "nav_sol_10": "10. AGV & AMR",
         "nav_sol_11": "11. WCS [창고제어시스템]",
-        "nav_china": "중국지사_제조사",
-        "nav_china_intro": "중국지사_제조사 소개",
+        "nav_china": "중국지사(제조사)",
+        "nav_china_intro": "중국지사(제조사) 소개",
         "nav_china_intro_sub": "글로벌 하드웨어 제조 & 파트너십",
         "nav_china_coop": "협력사업",
         "nav_china_coop_sub": "R&D 융합, 대형수주, A/S 전담",
@@ -2565,11 +2565,11 @@ window.renderProductDetail = function (productQuery, lang) {
         var feats = (p.features && (p.features[curLang] || p.features.ko)) || [];
         feats.forEach(function (feat) {
             var li = document.createElement('li');
-            li.className = 'flex items-start';
+            li.className = 'flex items-start gap-3.5 p-4 rounded-xl bg-white border border-slate-200/90 shadow-sm hover:border-blue-400/60 hover:shadow-md transition-all duration-200';
             var icon = document.createElement('i');
-            icon.className = 'fa-solid fa-circle-check text-blue-600 mt-1 mr-3 text-base shrink-0';
+            icon.className = 'fa-solid fa-check text-sm font-black text-blue-600 mt-1 mr-3 text-base shrink-0';
             var span = document.createElement('span');
-            span.className = 'text-slate-800 font-semibold text-base leading-relaxed';
+            span.className = 'text-slate-950 font-bold text-base sm:text-lg leading-relaxed tracking-tight';
             span.textContent = feat;
             li.appendChild(icon);
             li.appendChild(span);
@@ -2608,6 +2608,11 @@ window.renderProductDetail = function (productQuery, lang) {
 };
 
 window.handleBrochureDownload = function () {
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    if (isMobile) {
+        alert('모바일 환경에서는 자료 다운로드가 제한됩니다.\n도입 상담 신청 시 이메일로 최신 카탈로그를 발송해 드립니다.');
+        return;
+    }
     var curLang = window.currentLanguage || (function () {
         try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
     })();
@@ -3163,7 +3168,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 <p class="mb-4 text-base leading-relaxed">안녕하세요, <strong class="text-slate-900 font-bold">주식회사 에이티에이기술</strong>입니다.</p>
                 <p class="mb-4 text-base leading-relaxed">당사를 성원해 주시는 고객사와 국내외 협력사, 그리고 관계자 여러분께 깊은 감사의 말씀을 드립니다. 고객 중심의 스마트 물류 자동화 솔루션을 보다 직관적이고 상세하게 소개하고자 <strong class="text-blue-600 font-bold">공식 웹사이트 리뉴얼</strong>을 완료하였습니다.</p>
                 
-                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-white border border-blue-200/90 my-6 shadow-md space-y-3">
                     <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-sparkles"></i> 이번 공식 웹사이트 리뉴얼의 주요 포인트
                     </div>
@@ -3194,7 +3199,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 <p class="mb-4 text-base leading-relaxed">Hello, this is <strong class="text-slate-900 font-bold">ATA Technology Co., Ltd.</strong></p>
                 <p class="mb-4 text-base leading-relaxed">We would like to express our deepest gratitude to our valued clients, global partners, and stakeholders. In order to present our customer-centric smart logistics automation solutions more intuitively and comprehensively, we have successfully completed our <strong class="text-blue-600 font-bold">official website renewal</strong>.</p>
                 
-                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-white border border-blue-200/90 my-6 shadow-md space-y-3">
                     <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-sparkles"></i> Key Highlights of the Website Renewal
                     </div>
@@ -3225,7 +3230,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 <p class="mb-4 text-base leading-relaxed">尊敬的全球客户与合作伙伴，您好！这里是 <strong class="text-slate-900 font-bold">株式会社 ATA Technology</strong>。</p>
                 <p class="mb-4 text-base leading-relaxed">衷心感谢各位一直以来对ATA Technology的信任与支持。为了更直观、全面地向全球客户展示我司尖端智能物流自动化解决方案，我们正式完成了 <strong class="text-blue-600 font-bold">官方网站的全面焕新升级</strong>。</p>
                 
-                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-white border border-blue-200/90 my-6 shadow-md space-y-3">
                     <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-sparkles"></i> 官方网站升级核心亮点
                     </div>
@@ -3256,7 +3261,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 <p class="mb-4 text-base leading-relaxed">平素は格別のご高配を賜り、厚く御礼申し上げます。<strong class="text-slate-900 font-bold">株式会社ATAテクノロジー</strong>でございます。</p>
                 <p class="mb-4 text-base leading-relaxed">お客様の物流現場に最適なスマート自動化ソリューションをより分かりやすく、詳細にご案内するため、この度<strong class="text-blue-600 font-bold">公式ウェブサイトを全面リニューアル</strong>いたしました。</p>
                 
-                <div class="p-5 rounded-2xl bg-gradient-to-r from-[#0F1E36] to-[#0A1526] border border-cyan-500/30 my-6 shadow-xl space-y-3">
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-white border border-blue-200/90 my-6 shadow-md space-y-3">
                     <div class="font-bold text-cyan-400 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-sparkles"></i> 公式ウェブサイトリニューアルの主要ポイント
                     </div>
@@ -3424,7 +3429,7 @@ var noticeBoardDB = window.noticeBoardDB = [
             ko: `
 <p class="mb-4 text-base leading-relaxed">(주)에이티에이기술은 라스트마일 배송 현장의 오랜 난제였던 차량 내부 적재 및 하차 작업을 완전 자동화하는 <strong class="text-blue-600 font-bold">'차세대 택배차량 배송 자동화 시스템'</strong>의 특허 등록을 완료하고 본격적인 상용화 공급에 돌입했습니다.</p>
                 <p class="mb-4 text-base leading-relaxed">본 시스템은 차량 내부 바닥 및 상부 구조에 내장된 고정밀 컨베이어 모듈과 자동 제어 메커니즘을 결합하여, 작업자가 차 안으로 깊숙이 들어가지 않고도 원터치로 택배 화물을 순차 정렬 및 하차할 수 있도록 지원합니다.</p>
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                <div class="p-4 rounded-xl bg-blue-50/90 border border-blue-200/90 my-4 text-sm sm:text-base space-y-2.5 shadow-sm text-slate-800">
                     <div>• <strong class="text-slate-900 font-bold">차량 적재율 25% 이상 향상</strong> : 버려지는 데드스페이스를 없앤 고밀도 적재 제어</div>
                     <div>• <strong class="text-slate-900 font-bold">상하차 작업 시간 40% 이상 단축</strong> : 작업자의 허리 굽힘과 반복 이동 최소화로 안전성 강화</div>
                     <div>• <strong class="text-slate-900 font-bold">차종별 맞춤형 설계 지원</strong> : 1톤 소형 탑차부터 대형 윙바디 화물차까지 유연한 모듈 커스텀 탑재</div>
@@ -3434,7 +3439,7 @@ var noticeBoardDB = window.noticeBoardDB = [
             en: `
 <p class="mb-4 text-base leading-relaxed">ATA Technology Co., Ltd. has successfully completed the patent registration and begun the commercial rollout of our <strong class="text-blue-600 font-bold">'Next-Generation Delivery Vehicle Automation System'</strong>, addressing long-standing last-mile logistics bottlenecks.</p>
                 <p class="mb-4 text-base leading-relaxed">Integrating precision conveyor modules built into vehicle cargo beds with intelligent motion control, this system allows operators to load and unload packages with one-touch ease, eliminating the need to physically crawl inside cargo spaces.</p>
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                <div class="p-4 rounded-xl bg-blue-50/90 border border-blue-200/90 my-4 text-sm sm:text-base space-y-2.5 shadow-sm text-slate-800">
                     <div>• <strong class="text-slate-900 font-bold">Over 25% Increase in Payload Volume</strong>: High-density volumetric utilization eliminating dead space.</div>
                     <div>• <strong class="text-slate-900 font-bold">Over 40% Reduction in Loading/Unloading Time</strong>: Drastically reduces physical strain and repetitive worker motion.</div>
                     <div>• <strong class="text-slate-900 font-bold">Custom Vehicle Compatibility</strong>: Modular fit from 1-ton city delivery vans to full-sized heavy freight trucks.</div>
@@ -3444,7 +3449,7 @@ var noticeBoardDB = window.noticeBoardDB = [
             cn: `
 <p class="mb-4 text-base leading-relaxed">株式会社 ATA Technology自主研发的<strong class="text-blue-600 font-bold">“新一代快递车辆配送自动化系统”</strong>已正式获得国家发明专利授权，并全面启动商业化量产与供货交付。</p>
                 <p class="mb-4 text-base leading-relaxed">该系统在厢式货车车厢底板与内部空间深度集成微型精密输送模组与智能驱动机构。装卸工人无需费力弯腰钻入车厢深处，只需一键指令即可实现货物的平稳自动递送与快速卸车。</p>
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                <div class="p-4 rounded-xl bg-blue-50/90 border border-blue-200/90 my-4 text-sm sm:text-base space-y-2.5 shadow-sm text-slate-800">
                     <div>• <strong class="text-slate-900 font-bold">车厢空间利用率提升25%以上</strong>：消除无效死角，实现高密度紧凑装载。</div>
                     <div>• <strong class="text-slate-900 font-bold">装卸作业耗时缩短40%以上</strong>：彻底改善作业工效，消除一线搬运劳损隐患。</div>
                     <div>• <strong class="text-slate-900 font-bold">全面适配多级别商用车型</strong>：支持从1吨级城市配送轻卡至重型翼开式干线货车的柔性定制。</div>
@@ -3454,7 +3459,7 @@ var noticeBoardDB = window.noticeBoardDB = [
             ja: `
 <p class="mb-4 text-base leading-relaxed">株式会社ATAテクノロジーは、ラストワンマイル物流における長年の課題であった車内での荷役作業を自動化する<strong class="text-blue-600 font-bold">「次世代宅配車両配送自動化システム」</strong>の特許登録を完了し、商用納入を本格的に開始いたしました。</p>
                 <p class="mb-4 text-base leading-relaxed">本システムは、車両荷台に組み込まれた超薄型コンベヤモジュールと自動制御技術を融合。ドライバーが車内奥深くまで腰をかがめて入り込むことなく、ワンタッチ操作で荷物を手元まで自動搬送・整列させます。</p>
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 my-4 text-sm space-y-2">
+                <div class="p-4 rounded-xl bg-blue-50/90 border border-blue-200/90 my-4 text-sm sm:text-base space-y-2.5 shadow-sm text-slate-800">
                     <div>• <strong class="text-slate-900 font-bold">車両積載効率25%以上向上</strong>：デッドスペースを徹底排除した高密度積載制御。</div>
                     <div>• <strong class="text-slate-900 font-bold">荷役作業時間40%以上短縮</strong>：腰痛リスクや身体的負荷を大幅に低減し作業安全性を向上。</div>
                     <div>• <strong class="text-slate-900 font-bold">多種多様な車種に対応</strong>：1t小型バンから大型ウイング車まで柔軟なモジュール設計が可能。</div>
@@ -3519,10 +3524,10 @@ var noticeBoardDB = window.noticeBoardDB = [
         badgeText: { "ko": "양산", "en": "PROD", "cn": "量产", "ja": "量産" },
         categoryLabel: { "ko": "기술 & 솔루션", "en": "Tech & Solutions", "cn": "技术与解决方案", "ja": "技術・ソリューション" },
         title: {
-            "ko": "[솔루션] 중국지사·제조사(XingTing) 협력 초고속 4분할 방향전환 소터 양산 본격화",
-            "en": "[Solution] Full-scale Mass Production of 4-Way Diverting Sorter with XingTing Manufacturing Base",
-            "cn": "[方案] 携手中国分公司/制造基地(XingTing) 启动4向超高速分流转向机全面量产",
-            "ja": "[ソリューション] 中国支社・製造拠点(XingTing)との協業による4分割高速仕分け方向転換装置の量産本格化"
+            "ko": "[솔루션] 중국지사(제조사) 협력 초고속 4분할 방향전환 소터 양산 본격화",
+            "en": "[Solution] Full-scale Mass Production of 4-Way Diverting Sorter with China Branch & Factory",
+            "cn": "[方案] 携手中国分公司(制造基地) 启动4向超高速分流转向机全面量产",
+            "ja": "[ソリューション] 中国支社(製造拠点)との協業による4分割高速仕分け方向転換装置の量産本格化"
         },
         summary: {
             "ko": "컨베이어 물류 분류용 독자 특허 기술을 기반으로 중국 제조 거점과의 융합 양산 체제를 구축하고 글로벌 공급을 개시합니다.",
@@ -3534,22 +3539,22 @@ var noticeBoardDB = window.noticeBoardDB = [
             ko: `
 <p class="mb-4 text-base leading-relaxed">에이티에이기술의 독자 특허인 <strong class="text-blue-600 font-bold">'컨베이어 물류 분류용 4분할 방향 전환 장치(특허 제10-2956028호)'</strong>의 대량 양산 및 국내외 물류센터 본격 납품 체계가 구축되었습니다.</p>
                 <p class="mb-4 text-base leading-relaxed">본 설비는 고속으로 주행하는 메인 컨베이어 흐름을 차단하지 않고 직진, 좌, 우, 대각선 등 4방향으로 화물을 즉시 부드럽게 분기하는 획기적인 장치로, 좁은 센터 면적에서도 초대형 크로스벨트 소터에 필적하는 분당 수백 건의 분기 처리량을 발휘합니다.</p>
-                <p class="text-base leading-relaxed text-slate-700">중국지사·제조사(XingTing)의 고품질 양산 인프라를 통해 원가 경쟁력과 납기를 혁신적으로 개선하였으며, 국내 전문 엔지니어링 팀이 24시간 철저한 설치 및 기술 지원을 약속드립니다.</p>
+                <p class="text-base leading-relaxed text-slate-700">중국지사(제조사)의 고품질 양산 인프라를 통해 원가 경쟁력과 납기를 혁신적으로 개선하였으며, 국내 전문 엔지니어링 팀이 24시간 철저한 설치 및 기술 지원을 약속드립니다.</p>
             `,
             en: `
 <p class="mb-4 text-base leading-relaxed">Mass production and international logistics deployment have commenced for our proprietary patent, the <strong class="text-blue-600 font-bold">'4-Way Diverting Apparatus for Conveyor Logistics Sortation'</strong>.</p>
                 <p class="mb-4 text-base leading-relaxed">This groundbreaking mechanism diverts parcels into four distinct directions (straight, left, right, and diagonal) without interrupting mainline conveyor speed, delivering high sorting throughput even in space-constrained facilities.</p>
-                <p class="text-base leading-relaxed text-slate-700">Combined with the advanced manufacturing capabilities of our China base (XingTing), we offer competitive pricing and shortened lead times backed by our dedicated 24/7 technical support team.</p>
+                <p class="text-base leading-relaxed text-slate-700">Combined with the advanced manufacturing capabilities of our China base, we offer competitive pricing and shortened lead times backed by our dedicated 24/7 technical support team.</p>
             `,
             cn: `
 <p class="mb-4 text-base leading-relaxed">株式会社 ATA Technology独家发明专利<strong class="text-blue-600 font-bold">“输送机物流分拣用4分割转向装置”</strong>正式完成产业化导入并步入大批量产交付阶段。</p>
                 <p class="mb-4 text-base leading-relaxed">该设备颠覆传统分流方式，在不降低主输送线通行速度的前提下，能够以极高频率向直行、左转、右转等多流向精准分流各类货物箱体，兼备极小占地面积与媲美大型交叉带分拣机的处理效能。</p>
-                <p class="text-base leading-relaxed text-slate-700">依托中国分公司与制造基地（XingTing）完备的精密制造供应链，该系统具备极具竞争力的交付周期与造价优势，并由韩国总部专业工程团队提供全天候技术护航。</p>
+                <p class="text-base leading-relaxed text-slate-700">依托中国分公司(制造基地)完备的精密制造供应链，该系统具备极具竞争力的交付周期与造价优势，并由韩国总部专业工程团队提供全天候技术护航。</p>
             `,
             ja: `
 <p class="mb-4 text-base leading-relaxed">ATAテクノロジーが保有する中核特許<strong class="text-blue-600 font-bold">「コンベヤ物流仕分け用4分割方向転換装置」</strong>の量産および国内外物流センターへの本格納入体制が確立いたしました。</p>
                 <p class="mb-4 text-base leading-relaxed">本装置は、高速走行するメインコンベヤの流れを滞留させることなく、直進・左右・斜めを含む4方向に荷物を瞬時に滑らかに仕分ける革新的メカニズムを搭載。省スペースな現場環境でも最高水準の仕分け処理能力を発揮します。</p>
-                <p class="text-base leading-relaxed text-slate-700">中国支社・製造拠点（XingTing）の高度な生産ラインを活用することで、優れたコストパフォーマンスと短納期を実現。国内専任エンジニアチームによる安心の保守サポートを提供いたします。</p>
+                <p class="text-base leading-relaxed text-slate-700">中国支社(製造拠点)の高度な生産ラインを活用することで、優れたコストパフォーマンスと短納期を実現。国内専任エンジニアチームによる安心の保守サポートを提供いたします。</p>
             `
         }
     },
@@ -5207,7 +5212,17 @@ window.openNoticeDetail = function (noticeId) {
         modalTitle.textContent = (item.title && item.title[curLang]) || item.title.ko;
     }
     if (modalBody) {
-        modalBody.innerHTML = (item.content && item.content[curLang]) || item.content.ko;
+                var rawContent = "";
+        if (item.content && typeof item.content === 'object') {
+            rawContent = item.content[curLang] || item.content.ko || Object.values(item.content)[0] || "";
+        } else if (typeof item.content === 'string') {
+            rawContent = item.content;
+        }
+        if (!rawContent && item.summary) {
+            var sumText = (typeof item.summary === 'object') ? (item.summary[curLang] || item.summary.ko || Object.values(item.summary)[0]) : item.summary;
+            if (sumText) rawContent = '<p class="text-base leading-relaxed text-slate-800 font-medium">' + sumText + '</p>';
+        }
+        modalBody.innerHTML = rawContent || '<p class="text-slate-600 font-medium">\ub4f1\ub85d\ub42f \uacf5\uc9c0 \ub0b4\uc6a9\uc774 \uc5c6\uc2b5\ub2c8\ub2e4.</p>';
     }
     if (modalAuthor) {
         modalAuthor.textContent = dict.notice_author_val || '에이티에이기술 관리자';

@@ -224,6 +224,109 @@
         #navbar {
             background-color: #FFFFFF !important;
         }
+    
+        /* Mobile responsiveness and typography contrast optimization */
+        html, body {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+            position: relative;
+            width: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #product-detail-features li {
+            background-color: #ffffff !important;
+            color: #020617 !important;
+            font-weight: 700 !important;
+        }
+        #product-detail-features li span {
+            color: #020617 !important;
+            font-weight: 700 !important;
+        }
+        #product-detail-desc {
+            color: #0f172a !important;
+        }
+
+        #notice-modal-body {
+            color: #0f172a !important;
+        }
+        #notice-modal-body p {
+            color: #1e293b !important;
+            font-size: 1.025rem !important;
+            line-height: 1.75 !important;
+        }
+        #notice-modal-body strong {
+            color: #020617 !important;
+            font-weight: 700 !important;
+        }
+        #notice-modal-body .text-slate-400,
+        #notice-modal-body .text-slate-500,
+        #notice-modal-body .text-slate-600,
+        #notice-modal-body .text-slate-700 {
+            color: #334155 !important;
+        }
+        #notice-modal-body div[class*="from-[#0F1E36]"],
+        #notice-modal-body div[class*="bg-slate-900"] {
+            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 50%, #ffffff 100%) !important;
+            border: 1px solid #bae6fd !important;
+            color: #0f172a !important;
+        }
+        #notice-modal-body div[class*="from-[#0F1E36]"] *,
+        #notice-modal-body div[class*="bg-slate-900"] * {
+            color: #0f172a !important;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden !important;
+                width: 100vw;
+            }
+
+            .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl, .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            img, video, iframe, canvas, svg {
+                max-width: 100% !important;
+                height: auto;
+            }
+
+            h1, h2, h3, h4, h5, h6, p, span, a, li {
+                overflow-wrap: break-word;
+                word-break: keep-all;
+            }
+
+            .subpage {
+                padding-top: 84px !important;
+                padding-bottom: 40px !important;
+            }
+
+            #notice-detail-modal > div,
+            #consultation-modal > div,
+            #admin-auth-modal > div,
+            #product-detail-modal > div {
+                max-width: 95vw !important;
+                margin: 0.5rem auto !important;
+            }
+
+            #product-detail-features li {
+                padding: 0.875rem !important;
+            }
+            #product-detail-features li span {
+                font-size: 0.95rem !important;
+            }
+
+            .notice-tab-btn {
+                white-space: nowrap !important;
+            }
+        }
     </style>
 
     <script>
@@ -953,7 +1056,7 @@
 
             <div class="absolute inset-0 z-0 bg-black">
 
-                <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+                <video autoplay loop muted playsinline webkit-playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover opacity-60">
 
                     <source src="gemini_generated_video_58322012.mp4" type="video/mp4">
 
@@ -1114,7 +1217,7 @@
                 class="py-24 bg-[#F8FAFC] border-b border-slate-200/80 text-slate-700 relative overflow-hidden">
                 <!-- 배경 은은한 그라데이션 글로우 효과 -->
                 <div
-                    class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none">
+                    class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] max-w-full h-[350px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none">
                 </div>
 
                 <div class="max-w-7xl mx-auto px-6 relative z-10 fade-in">
@@ -1679,14 +1782,14 @@
                     <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-200 pb-2"
                         data-i18n="detail_tab_overview">솔루션 개요</h3>
 
-                    <p id="product-detail-desc" class="text-slate-600 text-lg leading-relaxed mb-10"></p>
+                    <p id="product-detail-desc" class="text-slate-900 font-medium text-base sm:text-lg leading-relaxed mb-10 bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm"></p>
 
 
 
                     <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-200 pb-2"
                         data-i18n="detail_tab_features">주요 특징</h3>
 
-                    <ul id="product-detail-features" class="space-y-4 mb-10"></ul>
+                    <ul id="product-detail-features" class="grid grid-cols-1 gap-3.5 mb-10"></ul>
 
 
 
@@ -1988,7 +2091,7 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe src="docs/1. [특허증]10-2317010.pdf" class="w-full h-full border-0"
+                            <iframe data-pdf-src="docs/1. [특허증]10-2317010.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2317010 - 탑차 적재물의 자동 분류 및 이송장치"></iframe>
 
                         </div>
@@ -2132,7 +2235,7 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe src="docs/1.[특허증]10-2758800.pdf" class="w-full h-full border-0"
+                            <iframe data-pdf-src="docs/1.[특허증]10-2758800.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2758800 - 인공지능 기반 스마트 체형 교정 및 유지 시스템"></iframe>
 
                         </div>
@@ -2276,7 +2379,7 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe src="docs/1.[특허증]10-2782386.pdf" class="w-full h-full border-0"
+                            <iframe data-pdf-src="docs/1.[특허증]10-2782386.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2782386 - 운송 차량 적재물 분류 및 이송 시스템"></iframe>
 
                         </div>
@@ -2420,7 +2523,7 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe src="docs/1.[특허증]10-2956028.pdf" class="w-full h-full border-0"
+                            <iframe data-pdf-src="docs/1.[특허증]10-2956028.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2956028 - 컨베이어 물류 분류용 4분할 방향 전환 장치"></iframe>
 
                         </div>
@@ -2536,7 +2639,7 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe src="docs/(주)에이티에이기술 ISO 9001.pdf" class="w-full h-full border-0"
+                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 9001.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
                             title="ISO 9001 품질경영시스템 인증서"></iframe>
 
                     </div>
@@ -2578,7 +2681,7 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe src="docs/(주)에이티에이기술 ISO 14001.pdf" class="w-full h-full border-0"
+                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 14001.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
                             title="ISO 14001 환경경영시스템 인증서"></iframe>
 
                     </div>
@@ -2613,7 +2716,7 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe src="docs/벤처기업확인서.pdf" class="w-full h-full border-0" title="벤처기업확인서"></iframe>
+                        <iframe data-pdf-src="docs/벤처기업확인서.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame" title="벤처기업확인서"></iframe>
 
                     </div>
 
@@ -2647,7 +2750,7 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe src="docs/창업기업확인서.pdf" class="w-full h-full border-0" title="창업기업확인서"></iframe>
+                        <iframe data-pdf-src="docs/창업기업확인서.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame" title="창업기업확인서"></iframe>
 
                     </div>
 
@@ -2683,7 +2786,7 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe src="docs/연구개발전담부서인정서.pdf" class="w-full h-full border-0" title="연구개발전담부서인정서"></iframe>
+                        <iframe data-pdf-src="docs/연구개발전담부서인정서.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame" title="연구개발전담부서인정서"></iframe>
 
                     </div>
 
@@ -2731,7 +2834,7 @@
                     
                     <!-- 상장 A4 고화질 프레임 뷰어 -->
                     <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
-                        <iframe src="docs/강원창조경제혁신센터.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 rounded-xl" title="강원창조경제혁신센터 상장"></iframe>
+                        <iframe data-pdf-src="docs/강원창조경제혁신센터.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame" title="강원창조경제혁신센터 상장"></iframe>
                     </div>
 
                     <a href="docs/강원창조경제혁신센터.pdf" target="_blank"
@@ -2751,7 +2854,7 @@
                     
                     <!-- 상장 A4 고화질 프레임 뷰어 -->
                     <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
-                        <iframe src="docs/인천창조경제혁신센터-개인자격수상.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 rounded-xl" title="인천창조경제혁신센터 상장"></iframe>
+                        <iframe data-pdf-src="docs/인천창조경제혁신센터-개인자격수상.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame" title="인천창조경제혁신센터 상장"></iframe>
                     </div>
 
                     <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank"
@@ -2770,7 +2873,7 @@
                     
                     <!-- 상장 A4 고화질 프레임 뷰어 -->
                     <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
-                        <iframe src="docs/RnD 실무교육 수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 rounded-xl" title="RnD 실무교육 수료증"></iframe>
+                        <iframe data-pdf-src="docs/RnD 실무교육 수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame" title="RnD 실무교육 수료증"></iframe>
                     </div>
 
                     <a href="docs/RnD 실무교육 수료증.pdf" target="_blank"
@@ -3922,7 +4025,7 @@
 
 
             <!-- 공지사항 게시물 리스트 컨테이너 (JS 동적 렌더링) -->
-            <div id="notice-list-container" class="fade-in min-h-[300px]">
+            <div id="notice-list-container" class="min-h-[300px]">
                 <!-- JavaScript renderNoticeList() 함수에 의해 4개국어로 동적 렌더링됩니다 -->
             </div>
 
@@ -4931,9 +5034,7 @@
             }
 
             // 수상내역 상장 PDF 3개 고화질 캔버스 렌더링 초기화
-            if (typeof initAwardPdfs === 'function') {
-                initAwardPdfs();
-            }
+            // initAwardPdfs is now called on demand when switching to cert-awards view
 
         });
 
@@ -6728,6 +6829,36 @@
 
     </div>
 
+    <!-- Mobile PDF Guard & Desktop Lazy Loader Engine -->
+    <script>
+        (function() {
+            var isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            var pdfFrames = document.querySelectorAll('.pdf-lazy-frame');
+
+            pdfFrames.forEach(function(frame) {
+                var pdfSrc = frame.getAttribute('data-pdf-src');
+                var parent = frame.parentElement;
+
+                if (isMobileDevice) {
+                    if (parent) {
+                        parent.innerHTML = [
+                            '<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white border border-slate-200 rounded-xl shadow-inner select-none">',
+                            '    <div class="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3 border border-blue-100 shadow-sm">',
+                            '        <i class="fa-solid fa-file-pdf text-2xl text-red-500"></i>',
+                            '    </div>',
+                            '    <h5 class="text-sm font-bold text-slate-800 mb-1">\uacf5\uc2dd \uc778\uc99d \ubb38\uc11c (PDF)</h5>',
+                            '    <p class="text-xs text-slate-500 mb-0">\ubaa8\ubc14\uc77c\uc5d0\uc11c\ub294 \uc544\ub798 [\uc5f4\ub78c] \ubc84\ud2bc\uc744 \ub20c\ub7ec \ubb38\uc11c\ub97c \ud655\uc778\ud558\uc138\uc694.</p>',
+                            '</div>'
+                        ].join('\n');
+                    }
+                } else {
+                    if (pdfSrc) {
+                        frame.src = pdfSrc;
+                    }
+                }
+            });
+        })();
+    </script>
 </body>
 
 </html>
