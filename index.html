@@ -224,9 +224,10 @@
         #navbar {
             background-color: #FFFFFF !important;
         }
-    
+
         /* Mobile responsiveness and typography contrast optimization */
-        html, body {
+        html,
+        body {
             max-width: 100vw !important;
             overflow-x: hidden !important;
             position: relative;
@@ -243,10 +244,12 @@
             color: #020617 !important;
             font-weight: 700 !important;
         }
+
         #product-detail-features li span {
             color: #020617 !important;
             font-weight: 700 !important;
         }
+
         #product-detail-desc {
             color: #0f172a !important;
         }
@@ -254,51 +257,76 @@
         #notice-modal-body {
             color: #0f172a !important;
         }
+
         #notice-modal-body p {
             color: #1e293b !important;
             font-size: 1.025rem !important;
             line-height: 1.75 !important;
         }
+
         #notice-modal-body strong {
             color: #020617 !important;
             font-weight: 700 !important;
         }
+
         #notice-modal-body .text-slate-400,
         #notice-modal-body .text-slate-500,
         #notice-modal-body .text-slate-600,
         #notice-modal-body .text-slate-700 {
             color: #334155 !important;
         }
+
         #notice-modal-body div[class*="from-[#0F1E36]"],
         #notice-modal-body div[class*="bg-slate-900"] {
             background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 50%, #ffffff 100%) !important;
             border: 1px solid #bae6fd !important;
             color: #0f172a !important;
         }
+
         #notice-modal-body div[class*="from-[#0F1E36]"] *,
         #notice-modal-body div[class*="bg-slate-900"] * {
             color: #0f172a !important;
         }
 
         @media (max-width: 768px) {
+            /* 100vw는 모바일 브라우저의 스크롤바와 여백을 포함하여 우측 버튼을 화면 밖으로 밀어내므로 100%로 정상화 */
             body {
                 overflow-x: hidden !important;
-                width: 100vw;
+                width: 100% !important;
+                max-width: 100% !important;
             }
 
-            .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl, .container {
+            .max-w-7xl,
+            .max-w-6xl,
+            .max-w-5xl,
+            .max-w-4xl,
+            .max-w-3xl,
+            .container {
                 width: 100% !important;
                 max-width: 100% !important;
                 padding-left: 1rem !important;
                 padding-right: 1rem !important;
             }
 
-            img, video, iframe, canvas, svg {
+            img,
+            video,
+            iframe,
+            canvas,
+            svg {
                 max-width: 100% !important;
                 height: auto;
             }
 
-            h1, h2, h3, h4, h5, h6, p, span, a, li {
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p,
+            span,
+            a,
+            li {
                 overflow-wrap: break-word;
                 word-break: keep-all;
             }
@@ -308,10 +336,11 @@
                 padding-bottom: 40px !important;
             }
 
-            #notice-detail-modal > div,
-            #consultation-modal > div,
-            #admin-auth-modal > div,
-            #product-detail-modal > div {
+            /* 모달 컨테이너 모바일 안전 여백 */
+            #notice-detail-modal>div,
+            #consultation-modal>div,
+            #admin-auth-modal>div,
+            #product-detail-modal>div {
                 max-width: 95vw !important;
                 margin: 0.5rem auto !important;
             }
@@ -319,12 +348,105 @@
             #product-detail-features li {
                 padding: 0.875rem !important;
             }
+
             #product-detail-features li span {
                 font-size: 0.95rem !important;
             }
 
             .notice-tab-btn {
                 white-space: nowrap !important;
+            }
+
+            /* ========================================================
+             * [모바일 터치 최적화 1단계] 300ms 딜레이 제거 및 탭 반응성 향상
+             * ======================================================== */
+            button,
+            a,
+            input,
+            select,
+            textarea,
+            [role="button"],
+            .cursor-pointer,
+            [onclick] {
+                touch-action: manipulation !important;
+                -webkit-tap-highlight-color: rgba(37, 99, 235, 0.15);
+            }
+
+            /* 모바일 헤더 언어 선택 버튼 터치 히트박스 (최소 44px 높이/너비 보장) */
+            #mobile-lang-btn {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0.5rem 0.75rem !important;
+                touch-action: manipulation !important;
+            }
+
+            /* 모바일 헤더 도입 상담 버튼 터치 히트박스 */
+            .header-consult-btn-mobile {
+                min-height: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0.5rem 0.875rem !important;
+                touch-action: manipulation !important;
+            }
+
+            /* 모바일 햄버거 토글 버튼 터치 히트박스 (최소 44px × 44px) */
+            #mobile-menu-toggle-btn {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0.625rem !important;
+                touch-action: manipulation !important;
+            }
+
+            /* 모바일 메뉴 컨테이너: 상단 헤더와의 충돌 없는 최상위 z-index(250) 및 관성 스크롤 보장 */
+            #mobile-menu {
+                z-index: 250 !important;
+                background-color: #FFFFFF !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            /* 모바일 메뉴 내부 네비게이션 링크 탭 영역(Hitbox) 확대 */
+            #mobile-menu a {
+                min-height: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+                padding-top: 0.75rem !important;
+                padding-bottom: 0.75rem !important;
+                touch-action: manipulation !important;
+            }
+
+            /* 모바일 메뉴 4개국어 언어 버튼 터치 영역 */
+            #mobile-menu [id^="m-lang-"] {
+                min-height: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                touch-action: manipulation !important;
+            }
+
+            /* 솔루션 카드의 '영상 보기' 버튼 모바일 터치 히트박스(최소 40px) 확보 */
+            [onclick*="openSolutionVideoModal"] {
+                min-height: 40px !important;
+                min-width: 84px !important;
+                padding: 0.5rem 0.875rem !important;
+                touch-action: manipulation !important;
+                z-index: 20 !important;
+            }
+
+            /* 모든 팝업 모달의 닫기 버튼 모바일 터치 영역 (44px × 44px) */
+            [onclick*="close"] {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                touch-action: manipulation !important;
             }
         }
     </style>
@@ -736,10 +858,10 @@
 
             <div class="flex items-center lg:hidden gap-2">
 
-                <!-- 모바일 헤더 언어 선택 버튼 -->
+                <!-- 모바일 헤더 언어 선택 버튼 (터치 히트박스 44px 확보) -->
                 <div class="relative">
                     <button type="button" onclick="toggleMobileLangDropdown(event)" id="mobile-lang-btn"
-                        class="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold cursor-pointer">
+                        class="flex items-center gap-1 px-3 py-2 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold cursor-pointer">
                         <i class="fa-solid fa-globe text-blue-600 text-xs"></i>
                         <span id="mobile-current-lang-label">KO</span>
                         <i class="fa-solid fa-chevron-down text-[8px] opacity-70"></i>
@@ -765,17 +887,20 @@
                     </div>
                 </div>
 
+                <!-- 모바일 도입 상담 버튼 (터치 히트박스 44px 확보) -->
                 <button onclick="openConsultModal()"
-                    class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs px-3 py-1.5 rounded-full shadow flex items-center gap-1.5 border border-cyan-400/30">
+                    class="header-consult-btn-mobile bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs px-3.5 py-2 rounded-full shadow flex items-center gap-1.5 border border-cyan-400/30 cursor-pointer">
 
-                    <i class="fa-solid fa-headset text-[11px]"></i>
+                    <i class="fa-solid fa-headset text-[12px]"></i>
 
                     <span data-i18n="btn_consult">도입 상담</span>
 
                 </button>
 
-                <button onclick="toggleMobileMenu()"
-                    class="text-slate-800 hover:text-blue-600 z-[210] relative p-2 focus:outline-none transition-colors">
+                <!-- 모바일 햄버거 토글 버튼 (z-index 260 및 히트박스 확보) -->
+                <button id="mobile-menu-toggle-btn" onclick="toggleMobileMenu()"
+                    class="text-slate-800 hover:text-blue-600 z-[260] relative p-2 focus:outline-none transition-colors flex items-center justify-center cursor-pointer"
+                    aria-label="모바일 메뉴 열기/닫기">
 
                     <i id="mobile-menu-icon" class="fa-solid fa-bars text-2xl"></i>
 
@@ -787,12 +912,24 @@
 
 
 
-        <!-- 모바일 전체 메뉴 -->
+        <!-- 모바일 전체 메뉴 (Z-index 250, 부드러운 스크롤) -->
 
         <div id="mobile-menu"
-            class="fixed inset-0 bg-white z-[205] hidden flex-col pt-24 pb-8 px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl">
+            class="fixed inset-0 bg-white z-[250] hidden flex-col pt-20 pb-8 px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl">
 
-            <div class="flex-1 overflow-y-auto custom-scrollbar pb-20 space-y-8">
+            <div class="flex-1 overflow-y-auto custom-scrollbar pb-20 space-y-6">
+
+                <!-- 모바일 메뉴 상단 전용 닫기 바 -->
+                <div class="flex items-center justify-between pb-3 border-b border-slate-200 shrink-0">
+                    <span class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                        <i class="fa-solid fa-bars text-blue-600 text-xs"></i> 전체 메뉴
+                    </span>
+                    <button type="button" onclick="toggleMobileMenu()"
+                        class="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors flex items-center justify-center min-w-[44px] min-h-[44px] cursor-pointer"
+                        aria-label="메뉴 닫기">
+                        <i class="fa-solid fa-xmark text-xl text-slate-700"></i>
+                    </button>
+                </div>
 
                 <!-- 모바일 메뉴 언어 선택 바 (4개국어) -->
                 <div class="pt-1 space-y-3">
@@ -1056,7 +1193,8 @@
 
             <div class="absolute inset-0 z-0 bg-black">
 
-                <video autoplay loop muted playsinline webkit-playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                <video autoplay loop muted playsinline webkit-playsinline preload="metadata"
+                    class="absolute inset-0 w-full h-full object-cover opacity-60">
 
                     <source src="gemini_generated_video_58322012.mp4" type="video/mp4">
 
@@ -1323,23 +1461,28 @@
             <!-- 핵심 기술 개요 (배경과 텍스트가 조화롭게 어우러지는 황금비율 최적화) -->
             <section id="about-core-tech" class="py-24 bg-[#F8FAFC] border-b border-slate-200/80 text-slate-700">
                 <div class="max-w-7xl mx-auto px-6 text-center fade-in">
-                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold tracking-widest uppercase mb-3">
+                    <span
+                        class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold tracking-widest uppercase mb-3">
                         <i class="fa-solid fa-microchip text-blue-600"></i> CORE TECHNOLOGY
                     </span>
-                    <h3 class="text-3xl md:text-4xl font-extrabold mb-4 text-slate-900 tracking-tight" data-i18n="tech_title">
+                    <h3 class="text-3xl md:text-4xl font-extrabold mb-4 text-slate-900 tracking-tight"
+                        data-i18n="tech_title">
                         핵심 기술 개요
                     </h3>
-                    <p class="text-slate-600 max-w-2xl mx-auto mb-10 text-sm md:text-base leading-relaxed font-medium" data-i18n="tech_lead">
+                    <p class="text-slate-600 max-w-2xl mx-auto mb-10 text-sm md:text-base leading-relaxed font-medium"
+                        data-i18n="tech_lead">
                         에이티에이기술만의 독자적인 하드웨어 및 소프트웨어 융합 핵심 기술 메커니즘입니다.
                     </p>
 
                     <!-- 핵심 기술 3D 과학기술 아키텍처 조화로운 비주얼 프레임 컨테이너 -->
-                    <div class="max-w-4xl mx-auto bg-gradient-to-b from-[#0F1E36] via-[#091222] to-[#040812] rounded-3xl p-3 sm:p-5 md:p-6 border border-cyan-500/30 shadow-[0_20px_50px_rgba(2,132,199,0.16)] mb-14 relative group overflow-hidden">
+                    <div
+                        class="max-w-4xl mx-auto bg-gradient-to-b from-[#0F1E36] via-[#091222] to-[#040812] rounded-3xl p-3 sm:p-5 md:p-6 border border-cyan-500/30 shadow-[0_20px_50px_rgba(2,132,199,0.16)] mb-14 relative group overflow-hidden">
                         <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-[#030A16]">
                             <img src="핵심기술개요_3d.jpg" alt="ATA 핵심 기술 3D 아키텍처"
                                 onerror="if(!this.dataset.triedOrig){this.dataset.triedOrig='1';this.src='핵심기술개요.png';}else{this.onerror=null;this.src='https://placehold.co/1000x550/0D1629/00C0E8?text=ATA+Core+Technology+Architecture';}"
                                 class="w-full h-auto max-h-[540px] object-contain mx-auto block rounded-2xl transition-transform duration-700 group-hover:scale-[1.015]">
-                            <div class="absolute top-3.5 left-3.5 sm:top-5 sm:left-5 flex items-center gap-2 bg-[#0B1528]/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-cyan-500/40 text-cyan-300 text-xs font-semibold tracking-wider shadow-lg">
+                            <div
+                                class="absolute top-3.5 left-3.5 sm:top-5 sm:left-5 flex items-center gap-2 bg-[#0B1528]/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-cyan-500/40 text-cyan-300 text-xs font-semibold tracking-wider shadow-lg">
                                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
                                 <span>3D ARCHITECTURE MECHANISM</span>
                             </div>
@@ -1348,29 +1491,40 @@
 
                     <!-- 핵심 기술 6대 특징 그리드 카드 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
+                        <div
+                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-database"></i></div>
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_1">고객사 상황에 부합한<br>데이터 수집 및 적용</h4>
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_1">고객사 상황에 부합한<br>데이터 수집 및
+                                적용</h4>
                         </div>
-                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
+                        <div
+                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-microchip"></i></div>
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_2">최고의 H/W 설계<br>최적의 S/W 설계</h4>
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_2">최고의 H/W 설계<br>최적의 S/W
+                                설계</h4>
                         </div>
-                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
+                        <div
+                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-shield-halved"></i></div>
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_3">차별화된 공정 및 설비<br>지식재산권 확보</h4>
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_3">차별화된 공정 및 설비<br>지식재산권
+                                확보</h4>
                         </div>
-                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
+                        <div
+                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-screwdriver-wrench"></i></div>
                             <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_4">맞춤형 현장설치<br>손쉬운 운영</h4>
                         </div>
-                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
+                        <div
+                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-earth-americas"></i></div>
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_5">세계 각국 인프라에 맞는<br>현지화 시스템</h4>
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_5">세계 각국 인프라에 맞는<br>현지화
+                                시스템</h4>
                         </div>
-                        <div class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
+                        <div
+                            class="p-6 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex items-center gap-4 shadow-sm">
                             <div class="text-blue-600 text-3xl"><i class="fa-solid fa-chart-pie"></i></div>
-                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_6">고객사 투자-효율<br>데이터 분석</h4>
+                            <h4 class="text-lg font-bold text-slate-900" data-i18n="tech_card_6">고객사 투자-효율<br>데이터 분석
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -1378,15 +1532,23 @@
         </div>
 
         <!-- 메인페이지 솔루션 안내 콤팩트 배너 (11개 전체 항목은 전용 SOLUTION 페이지 view-solutions로 분리) -->
-        <section class="py-16 bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white relative overflow-hidden border-t border-b border-slate-800">
-            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            <div class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <section
+            class="py-16 bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white relative overflow-hidden border-t border-b border-slate-800">
+            <div
+                class="absolute inset-0 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]">
+            </div>
+            <div
+                class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div>
-                    <span class="text-cyan-400 font-bold tracking-widest text-xs uppercase block mb-2">Total Logistics Automation</span>
-                    <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-3" data-i18n="sol_heading">고객이 원하는 물류 솔루션,<br class="hidden sm:inline"> 우리가 제공합니다.</h3>
-                    <p class="text-slate-300 text-sm md:text-base max-w-xl" data-i18n="sol_lead">택배차량 배송 자동화, AGV/AMR, WCS 통합 관제 등 ATA의 11대 스마트 물류 솔루션을 전용 페이지에서 확인해보세요.</p>
+                    <span class="text-cyan-400 font-bold tracking-widest text-xs uppercase block mb-2">Total Logistics
+                        Automation</span>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-3" data-i18n="sol_heading">고객이 원하는 물류
+                        솔루션,<br class="hidden sm:inline"> 우리가 제공합니다.</h3>
+                    <p class="text-slate-300 text-sm md:text-base max-w-xl" data-i18n="sol_lead">택배차량 배송 자동화, AGV/AMR,
+                        WCS 통합 관제 등 ATA의 11대 스마트 물류 솔루션을 전용 페이지에서 확인해보세요.</p>
                 </div>
-                <button onclick="navigate('solutions'); return false;" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-cyan-500/40 transition-all flex items-center gap-3 shrink-0 text-base group">
+                <button onclick="navigate('solutions'); return false;"
+                    class="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-cyan-500/40 transition-all flex items-center gap-3 shrink-0 text-base group">
                     <span data-i18n="nav_solution">솔루션 전체 둘러보기</span>
                     <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                 </button>
@@ -1402,7 +1564,8 @@
         <div class="max-w-7xl mx-auto px-6 py-12">
             <!-- 브레드크럼 네비게이션 -->
             <div class="flex items-center gap-2 text-sm text-slate-500 mb-6">
-                <button onclick="navigate('main'); return false;" class="hover:text-blue-600 transition-colors flex items-center gap-1">
+                <button onclick="navigate('main'); return false;"
+                    class="hover:text-blue-600 transition-colors flex items-center gap-1">
                     <i class="fa-solid fa-house text-xs"></i> HOME
                 </button>
                 <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
@@ -1411,9 +1574,12 @@
 
             <!-- 솔루션 헤더 타이틀 -->
             <div class="mb-12">
-                <span class="text-accent font-semibold tracking-widest text-sm mb-2 block uppercase">TOTAL LOGISTICS AUTOMATION</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4" data-i18n="sol_heading">고객이 원하는 물류 솔루션,<br>우리가 제공합니다.</h2>
-                <p class="text-slate-600 max-w-2xl text-base" data-i18n="sol_lead">우리는 고객의 비즈니스 수준을 높이기 위해 일합니다. 11대 핵심 스마트 물류 자동화 솔루션을 만나보세요.</p>
+                <span class="text-accent font-semibold tracking-widest text-sm mb-2 block uppercase">TOTAL LOGISTICS
+                    AUTOMATION</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4" data-i18n="sol_heading">고객이 원하는 물류
+                    솔루션,<br>우리가 제공합니다.</h2>
+                <p class="text-slate-600 max-w-2xl text-base" data-i18n="sol_lead">우리는 고객의 비즈니스 수준을 높이기 위해 일합니다. 11대 핵심
+                    스마트 물류 자동화 솔루션을 만나보세요.</p>
             </div>
 
             <!-- 11대 솔루션 카드 그리드 (독립 뷰로 완벽 제공) -->
@@ -1428,24 +1594,36 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="택배차량 배송 자동화 시스템">
-                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">NEW</div>
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('택배차량 배송 자동화 시스템', '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4');"
+                            <div
+                                class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
+                                NEW</div>
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('택배차량 배송 자동화 시스템', '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">01. Automation System</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c1_title">택배차량 배송 자동화 시스템</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c1_desc">차량 내 공간 활용 극대화 및 작업자 피로도를 줄이는 차세대 배송·적재 자동화 솔루션</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">01.
+                                Automation System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c1_title">택배차량 배송 자동화 시스템</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c1_desc">차량 내 공간 활용 극대화 및 작업자
+                                피로도를 줄이는 차세대 배송·적재 자동화 솔루션</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1458,23 +1636,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="NBS [Narrow Belt Sorter]">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('NBS [Narrow Belt Sorter]', '[ Insert Data ]/SOLUTION/NBS.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('NBS [Narrow Belt Sorter]', '[ Insert Data ]/SOLUTION/NBS.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">02. Sorting Solution</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c2_title">NBS [Narrow Belt Sorter]</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c2_desc">소형 화물을 빠르고 정확하게 분류하는 좁은 면적의 고효율 특화 소터</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">02.
+                                Sorting Solution</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c2_title">NBS [Narrow Belt Sorter]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c2_desc">소형 화물을 빠르고 정확하게 분류하는
+                                좁은 면적의 고효율 특화 소터</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1487,23 +1675,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="CBS [Cross Belt Sorter]">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('CBS [Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/CBS.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('CBS [Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/CBS.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">03. High-Speed Sorter</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c3_title">CBS [Cross Belt Sorter]</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c3_desc">양방향 크로스 벨트 메커니즘으로 대용량 화물을 초고속 정밀 분류하는 대표 소터</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">03.
+                                High-Speed Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c3_title">CBS [Cross Belt Sorter]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c3_desc">양방향 크로스 벨트 메커니즘으로 대용량
+                                화물을 초고속 정밀 분류하는 대표 소터</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1516,23 +1714,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="NC CBS [NC Cross Belt Sorter]">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('NC CBS [NC Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/NC CBS.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('NC CBS [NC Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/NC CBS.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">04. Precision Sorter</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c4_title">NC CBS [NC Cross Belt Sorter]</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c4_desc">흔들림 없이 초고속으로 대량 분류를 처리하는 차세대 정밀 제어 크로스 벨트 소터</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">04.
+                                Precision Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c4_title">NC CBS [NC Cross Belt Sorter]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c4_desc">흔들림 없이 초고속으로 대량 분류를
+                                처리하는 차세대 정밀 제어 크로스 벨트 소터</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1545,23 +1753,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Wheel Sorter">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Wheel Sorter', '[ Insert Data ]/SOLUTION/Wheel Sorter.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('Wheel Sorter', '[ Insert Data ]/SOLUTION/Wheel Sorter.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">05. Divert Sorter</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c5_title">Wheel Sorter</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c5_desc">회전 휠의 각도 제어를 통해 다양한 크기의 박스 및 파우치를 유연하게 분기·분류하는 시스템</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">05. Divert
+                                Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c5_title">Wheel Sorter</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c5_desc">회전 휠의 각도 제어를 통해 다양한
+                                크기의 박스 및 파우치를 유연하게 분기·분류하는 시스템</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1574,23 +1792,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Tilt Tray Sorter">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Tilt Tray Sorter', '[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('Tilt Tray Sorter', '[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">06. Tilt Sorter</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c6_title">Tilt Tray Sorter</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c6_desc">트레이를 부드럽게 기울여 파손 위험을 줄인 안정적인 다목적 경사 트레이 분류기</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">06. Tilt
+                                Sorter</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c6_title">Tilt Tray Sorter</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c6_desc">트레이를 부드럽게 기울여 파손 위험을
+                                줄인 안정적인 다목적 경사 트레이 분류기</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1605,13 +1833,19 @@
                                 alt="Conveyors & ADD-Ons 물류 창고 이송 및 분류">
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">07. Conveyor System</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c7_title">Conveyors & ADD-Ons</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c7_desc">다양한 물류 현장 환경에 대응하는 맞춤형 롤러·벨트 컨베이어 및 부가 확장 설비</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">07.
+                                Conveyor System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c7_title">Conveyors & ADD-Ons</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c7_desc">다양한 물류 현장 환경에 대응하는
+                                맞춤형 롤러·벨트 컨베이어 및 부가 확장 설비</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
                         <span class="flex items-center gap-1 text-slate-400">맞춤형 설계</span>
@@ -1627,23 +1861,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Telescopic">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Telescopic', '[ Insert Data ]/SOLUTION/Telescopic.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('Telescopic', '[ Insert Data ]/SOLUTION/Telescopic.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">08. Loading System</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c8_title">Telescopic</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c8_desc">화물 차량 내부 깊숙이 신축 연장되어 상하차 작업 효율을 극대화하는 텔레스코픽 컨베이어</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">08.
+                                Loading System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c8_title">Telescopic</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c8_desc">화물 차량 내부 깊숙이 신축 연장되어
+                                상하차 작업 효율을 극대화하는 텔레스코픽 컨베이어</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1656,23 +1900,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Shuttle AS/RS">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('Shuttle AS/RS', '[ Insert Data ]/SOLUTION/shuttle ASRS.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('Shuttle AS/RS', '[ Insert Data ]/SOLUTION/shuttle ASRS.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">09. Storage AS/RS</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c9_title">Shuttle AS/RS</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c9_desc">선반 사이를 자유로이 움직이며 상품을 적재/인출하는 고밀도 자동 보관 시스템</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">09.
+                                Storage AS/RS</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c9_title">Shuttle AS/RS</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c9_desc">선반 사이를 자유로이 움직이며 상품을
+                                적재/인출하는 고밀도 자동 보관 시스템</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1685,23 +1939,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="AGV & AMR">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('AGV & AMR', '[ Insert Data ]/SOLUTION/AGV & AMR.mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('AGV & AMR', '[ Insert Data ]/SOLUTION/AGV & AMR.mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">10. Autonomous Mobile Robot</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c10_title">AGV & AMR</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c10_desc">자율이송 및 무인 물류 로봇을 통한 유연한 상품 이송과 물류센터 무인화 솔루션</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">10.
+                                Autonomous Mobile Robot</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c10_title">AGV & AMR</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c10_desc">자율이송 및 무인 물류 로봇을 통한
+                                유연한 상품 이송과 물류센터 무인화 솔루션</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1714,23 +1978,33 @@
                                 onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="WCS [창고제어시스템]">
-                            <button onclick="event.stopPropagation(); openSolutionVideoModal('WCS [창고제어시스템]', '[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4');"
+                            <button
+                                onclick="event.stopPropagation(); openSolutionVideoModal('WCS [창고제어시스템]', '[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4');"
                                 class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
                                 title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span>
+                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
+                                    보기</span>
                             </button>
                         </div>
                         <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">11. Warehouse Control System</span>
-                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors" data-i18n="sol_c11_title">WCS [창고제어시스템]</h4>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c11_desc">전체 설비 제어 및 트래픽 분산, 장비 상태를 실시간 모니터링하는 최상위 통합 관제 시스템</p>
+                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">11.
+                                Warehouse Control System</span>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
+                                data-i18n="sol_c11_title">WCS [창고제어시스템]</h4>
+                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c11_desc">전체 설비 제어 및 트래픽 분산,
+                                장비 상태를 실시간 모니터링하는 최상위 통합 관제 시스템</p>
                         </div>
                     </div>
-                    <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">
+                    <div
+                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
+                        <span
+                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                            data-i18n="sol_btn_detail">
                             상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>
+                        <span class="flex items-center gap-1 text-slate-400"><i
+                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
+                                포함</span></span>
                     </div>
                 </div>
 
@@ -1782,7 +2056,9 @@
                     <h3 class="text-2xl font-bold text-slate-900 mb-4 border-b border-slate-200 pb-2"
                         data-i18n="detail_tab_overview">솔루션 개요</h3>
 
-                    <p id="product-detail-desc" class="text-slate-900 font-medium text-base sm:text-lg leading-relaxed mb-10 bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm"></p>
+                    <p id="product-detail-desc"
+                        class="text-slate-900 font-medium text-base sm:text-lg leading-relaxed mb-10 bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm">
+                    </p>
 
 
 
@@ -2091,7 +2367,8 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe data-pdf-src="docs/1. [특허증]10-2317010.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
+                            <iframe data-pdf-src="docs/1. [특허증]10-2317010.pdf" src="about:blank" loading="lazy"
+                                class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2317010 - 탑차 적재물의 자동 분류 및 이송장치"></iframe>
 
                         </div>
@@ -2235,7 +2512,8 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe data-pdf-src="docs/1.[특허증]10-2758800.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
+                            <iframe data-pdf-src="docs/1.[특허증]10-2758800.pdf" src="about:blank" loading="lazy"
+                                class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2758800 - 인공지능 기반 스마트 체형 교정 및 유지 시스템"></iframe>
 
                         </div>
@@ -2379,7 +2657,8 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe data-pdf-src="docs/1.[특허증]10-2782386.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
+                            <iframe data-pdf-src="docs/1.[특허증]10-2782386.pdf" src="about:blank" loading="lazy"
+                                class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2782386 - 운송 차량 적재물 분류 및 이송 시스템"></iframe>
 
                         </div>
@@ -2523,7 +2802,8 @@
                         <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-5 border border-slate-200 shadow-inner"
                             style="height: 360px;">
 
-                            <iframe data-pdf-src="docs/1.[특허증]10-2956028.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
+                            <iframe data-pdf-src="docs/1.[특허증]10-2956028.pdf" src="about:blank" loading="lazy"
+                                class="w-full h-full border-0 pdf-lazy-frame"
                                 title="특허 10-2956028 - 컨베이어 물류 분류용 4분할 방향 전환 장치"></iframe>
 
                         </div>
@@ -2639,8 +2919,8 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 9001.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
-                            title="ISO 9001 품질경영시스템 인증서"></iframe>
+                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 9001.pdf" src="about:blank" loading="lazy"
+                            class="w-full h-full border-0 pdf-lazy-frame" title="ISO 9001 품질경영시스템 인증서"></iframe>
 
                     </div>
 
@@ -2681,8 +2961,8 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 14001.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame"
-                            title="ISO 14001 환경경영시스템 인증서"></iframe>
+                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 14001.pdf" src="about:blank" loading="lazy"
+                            class="w-full h-full border-0 pdf-lazy-frame" title="ISO 14001 환경경영시스템 인증서"></iframe>
 
                     </div>
 
@@ -2716,7 +2996,8 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe data-pdf-src="docs/벤처기업확인서.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame" title="벤처기업확인서"></iframe>
+                        <iframe data-pdf-src="docs/벤처기업확인서.pdf" src="about:blank" loading="lazy"
+                            class="w-full h-full border-0 pdf-lazy-frame" title="벤처기업확인서"></iframe>
 
                     </div>
 
@@ -2750,7 +3031,8 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe data-pdf-src="docs/창업기업확인서.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame" title="창업기업확인서"></iframe>
+                        <iframe data-pdf-src="docs/창업기업확인서.pdf" src="about:blank" loading="lazy"
+                            class="w-full h-full border-0 pdf-lazy-frame" title="창업기업확인서"></iframe>
 
                     </div>
 
@@ -2786,7 +3068,8 @@
                     <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
                         style="height: 320px;">
 
-                        <iframe data-pdf-src="docs/연구개발전담부서인정서.pdf" src="about:blank" loading="lazy" class="w-full h-full border-0 pdf-lazy-frame" title="연구개발전담부서인정서"></iframe>
+                        <iframe data-pdf-src="docs/연구개발전담부서인정서.pdf" src="about:blank" loading="lazy"
+                            class="w-full h-full border-0 pdf-lazy-frame" title="연구개발전담부서인정서"></iframe>
 
                     </div>
 
@@ -2825,16 +3108,23 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <!-- Award 1: 강원창조경제혁신센터 -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col text-center group">
+                <div
+                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col text-center group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200" data-i18n="award_1_badge">수상 내역</span>
-                        <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-trophy text-amber-500 mr-1"></i>혁신상</span>
+                        <span
+                            class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                            data-i18n="award_1_badge">수상 내역</span>
+                        <span class="text-xs text-slate-500 font-medium"><i
+                                class="fa-solid fa-trophy text-amber-500 mr-1"></i>혁신상</span>
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-4" data-i18n="award_1_title">강원창조경제혁신센터</h3>
-                    
+
                     <!-- 상장 A4 고화질 프레임 뷰어 -->
-                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
-                        <iframe data-pdf-src="docs/강원창조경제혁신센터.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame" title="강원창조경제혁신센터 상장"></iframe>
+                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner"
+                        style="height: 460px;">
+                        <iframe data-pdf-src="docs/강원창조경제혁신센터.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit"
+                            src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame"
+                            title="강원창조경제혁신센터 상장"></iframe>
                     </div>
 
                     <a href="docs/강원창조경제혁신센터.pdf" target="_blank"
@@ -2845,16 +3135,23 @@
                 </div>
 
                 <!-- Award 2: 인천창조경제혁신센터 -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col text-center group">
+                <div
+                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col text-center group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200" data-i18n="award_2_badge">수상 내역</span>
-                        <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-award text-amber-500 mr-1"></i>우수상</span>
+                        <span
+                            class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+                            data-i18n="award_2_badge">수상 내역</span>
+                        <span class="text-xs text-slate-500 font-medium"><i
+                                class="fa-solid fa-award text-amber-500 mr-1"></i>우수상</span>
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-4" data-i18n="award_2_title">인천창조경제혁신센터</h3>
-                    
+
                     <!-- 상장 A4 고화질 프레임 뷰어 -->
-                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
-                        <iframe data-pdf-src="docs/인천창조경제혁신센터-개인자격수상.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame" title="인천창조경제혁신센터 상장"></iframe>
+                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner"
+                        style="height: 460px;">
+                        <iframe data-pdf-src="docs/인천창조경제혁신센터-개인자격수상.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit"
+                            src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame"
+                            title="인천창조경제혁신센터 상장"></iframe>
                     </div>
 
                     <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank"
@@ -2864,16 +3161,23 @@
                 </div>
 
                 <!-- Award 3: RnD 실무교육 수료증 -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col text-center group">
+                <div
+                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col text-center group">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200" data-i18n="award_3_badge">수료 내역</span>
-                        <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-certificate text-emerald-600 mr-1"></i>전문교육</span>
+                        <span
+                            class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200"
+                            data-i18n="award_3_badge">수료 내역</span>
+                        <span class="text-xs text-slate-500 font-medium"><i
+                                class="fa-solid fa-certificate text-emerald-600 mr-1"></i>전문교육</span>
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-4" data-i18n="award_3_title">RnD 실무교육 수료증</h3>
-                    
+
                     <!-- 상장 A4 고화질 프레임 뷰어 -->
-                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner" style="height: 460px;">
-                        <iframe data-pdf-src="docs/RnD 실무교육 수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit" src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame" title="RnD 실무교육 수료증"></iframe>
+                    <div class="w-full bg-slate-50 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-inner"
+                        style="height: 460px;">
+                        <iframe data-pdf-src="docs/RnD 실무교육 수료증.pdf#toolbar=0&navpanes=0&scrollbar=0&view=Fit"
+                            src="about:blank" loading="lazy" class="w-full h-full border-0 rounded-xl pdf-lazy-frame"
+                            title="RnD 실무교육 수료증"></iframe>
                     </div>
 
                     <a href="docs/RnD 실무교육 수료증.pdf" target="_blank"
@@ -4136,7 +4440,8 @@
                     <ul class="space-y-3 text-sm text-slate-600">
 
                         <li class="text-slate-900 font-semibold" data-i18n="footer_ceo_info">(주)에이티에이기술 <span
-                                class="text-slate-500 font-normal">| 대표 <strong class="text-blue-900 font-bold">한윤규</strong></span></li>
+                                class="text-slate-500 font-normal">| 대표 <strong
+                                    class="text-blue-900 font-bold">한윤규</strong></span></li>
 
                         <li class="pt-1 text-slate-800">M. <a href="tel:010-8062-1262"
                                 class="hover:text-accent transition-colors">010-8062-1262</a></li>
@@ -4314,29 +4619,40 @@
 
 
 
-        // 모달 및 모바일 메뉴 열림 상태에 따른 body 스크롤 잠금 동기화
-
+        // 모달 및 모바일 메뉴 열림 상태에 따른 body 스크롤 잠금 및 AI 챗봇 터치 간섭 방지 동기화
         function syncBodyScrollLock() {
 
             const videoModal = document.getElementById('solution-video-modal');
-
             const imgModal = document.getElementById('image-view-modal');
-
             const consultModal = document.getElementById('consultation-modal');
+            const noticeModal = document.getElementById('notice-detail-modal');
+            const adminLoginModal = document.getElementById('admin-login-modal');
+            const chatWidget = document.getElementById('ai-chat-widget');
 
             const isVideoModalOpen = videoModal && !videoModal.classList.contains('hidden');
-
             const isImgModalOpen = imgModal && !imgModal.classList.contains('hidden');
-
             const isConsultModalOpen = consultModal && !consultModal.classList.contains('hidden');
+            const isNoticeModalOpen = noticeModal && !noticeModal.classList.contains('hidden');
+            const isAdminModalOpen = adminLoginModal && !adminLoginModal.classList.contains('hidden');
 
-            if (isMobileMenuOpen || isVideoModalOpen || isImgModalOpen || isConsultModalOpen) {
+            const isAnyModalOpen = isVideoModalOpen || isImgModalOpen || isConsultModalOpen || isNoticeModalOpen || isAdminModalOpen;
+
+            if (isMobileMenuOpen || isAnyModalOpen) {
 
                 document.body.style.overflow = 'hidden';
+                // 팝업 모달 또는 모바일 메뉴가 활성화되었을 때 AI 챗봇 버튼이 터치 영역을 침범하지 않도록 조치
+                if (chatWidget && isAnyModalOpen) {
+                    chatWidget.style.pointerEvents = 'none';
+                    chatWidget.style.opacity = '0.2';
+                }
 
             } else {
 
                 document.body.style.overflow = 'auto';
+                if (chatWidget) {
+                    chatWidget.style.pointerEvents = 'auto';
+                    chatWidget.style.opacity = '1';
+                }
 
             }
 
@@ -4916,9 +5232,86 @@
 
 
 
+        // ========================================================
+        // [모바일 전용 고속 터치 최적화 엔진] 
+        // 300ms 딜레이를 없애고 미세 떨림에도 탭(Tap) 인식을 보장하는 헬퍼
+        // ========================================================
+        let lastFastTouchTimestamp = 0;
+
+        function bindFastTouch(element, callback) {
+            if (!element) return;
+            let startX = 0;
+            let startY = 0;
+            let touchStartTime = 0;
+            let isTouchMoved = false;
+
+            element.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    touchStartTime = Date.now();
+                    isTouchMoved = false;
+                }
+            }, { passive: true });
+
+            element.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1) {
+                    const diffX = Math.abs(e.touches[0].clientX - startX);
+                    const diffY = Math.abs(e.touches[0].clientY - startY);
+                    // 손가락이 10px 이상 움직이면 스크롤로 간주
+                    if (diffX > 10 || diffY > 10) {
+                        isTouchMoved = true;
+                    }
+                }
+            }, { passive: true });
+
+            element.addEventListener('touchend', (e) => {
+                const duration = Date.now() - touchStartTime;
+                // 제스처가 아닌 순수 탭 동작(10px 이내 이동, 500ms 미만 터치)인 경우
+                if (!isTouchMoved && duration < 500) {
+                    lastFastTouchTimestamp = Date.now();
+                    if (e.cancelable) e.preventDefault();
+                    callback(e);
+                }
+            }, { passive: false });
+        }
+
+
+
         // 페이드인 관찰자 및 비디오 에러/키보드 이벤트 바인딩
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            // [모바일 터치 바인딩] 햄버거 메뉴 토글 버튼 고속 터치
+            const mobileMenuToggleBtn = document.getElementById('mobile-menu-toggle-btn');
+            if (mobileMenuToggleBtn) {
+                bindFastTouch(mobileMenuToggleBtn, () => {
+                    toggleMobileMenu();
+                });
+            }
+
+            // [모바일 터치 바인딩] 모바일 메뉴 내부 닫기 버튼들 고속 터치
+            const mobileMenuCloseBtns = document.querySelectorAll('#mobile-menu button[onclick*="toggleMobileMenu"]');
+            mobileMenuCloseBtns.forEach(btn => {
+                bindFastTouch(btn, () => {
+                    toggleMobileMenu();
+                });
+            });
+
+            // [모바일 터치 바인딩] 모바일 헤더 언어 선택 버튼 고속 터치
+            const mobileLangBtn = document.getElementById('mobile-lang-btn');
+            if (mobileLangBtn) {
+                bindFastTouch(mobileLangBtn, (e) => {
+                    toggleMobileLangDropdown(e);
+                });
+            }
+
+            // [모바일 터치 바인딩] 솔루션 카드의 '영상 보기' 버튼 고속 터치
+            document.querySelectorAll('[onclick*="openSolutionVideoModal"]').forEach(btn => {
+                bindFastTouch(btn, () => {
+                    btn.click();
+                });
+            });
 
             const appearOnScroll = new IntersectionObserver((entries, observer) => {
 
@@ -6340,7 +6733,8 @@
                                 <h4 class="text-xl font-bold text-slate-900 mb-1.5">도입 상담 신청이 접수되었습니다!</h4>
                                 <p class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
                                     남겨주신 문의 정보가 성공적으로 등록되었습니다.<br>
-                                    담당자(<strong class="text-blue-900 font-bold" data-i18n="modal_contact_person">한윤규 대표 /
+                                    담당자(<strong class="text-blue-900 font-bold" data-i18n="modal_contact_person">한윤규 대표
+                                        /
                                         기술이사</strong>)가 검토 후 신속히 연락드리겠습니다.
                                 </p>
                             </div>
@@ -6564,9 +6958,12 @@
                     </label>
                     <div class="relative">
                         <i class="fa-solid fa-key absolute left-3.5 top-3 text-slate-500 text-xs"></i>
-                        <input type="password" id="admin-login-pw" required placeholder="비밀번호 입력" autocomplete="current-password"
+                        <input type="password" id="admin-login-pw" required placeholder="비밀번호 입력"
+                            autocomplete="current-password"
                             class="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-10 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all">
-                        <button type="button" onclick="toggleLoginPasswordVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700 p-1 cursor-pointer" title="비밀번호 표시/숨김">
+                        <button type="button" onclick="toggleLoginPasswordVisibility()"
+                            class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
+                            title="비밀번호 표시/숨김">
                             <i id="admin-login-pw-toggle-icon" class="fa-solid fa-eye-slash text-xs"></i>
                         </button>
                     </div>
@@ -6765,7 +7162,8 @@
                 </div>
 
                 <!-- 회사 연혁 동시 등록/반영 토글 -->
-                <div class="bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-indigo-50/60 p-3.5 rounded-xl border border-blue-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
+                <div
+                    class="bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-indigo-50/60 p-3.5 rounded-xl border border-blue-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
                     <label class="flex items-center gap-2.5 cursor-pointer text-xs text-slate-800 select-none">
                         <input type="checkbox" id="notice-edit-sync-history" checked
                             class="rounded border-blue-300 text-blue-600 focus:ring-blue-400 bg-white cursor-pointer w-4 h-4">
@@ -6831,11 +7229,11 @@
 
     <!-- Mobile PDF Guard & Desktop Lazy Loader Engine -->
     <script>
-        (function() {
+        (function () {
             var isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
             var pdfFrames = document.querySelectorAll('.pdf-lazy-frame');
 
-            pdfFrames.forEach(function(frame) {
+            pdfFrames.forEach(function (frame) {
                 var pdfSrc = frame.getAttribute('data-pdf-src');
                 var parent = frame.parentElement;
 
