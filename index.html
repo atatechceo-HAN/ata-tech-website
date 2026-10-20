@@ -404,14 +404,42 @@
                 touch-action: manipulation !important;
             }
 
-            /* 모바일 메뉴 컨테이너: 상단 헤더와의 충돌 없는 최상위 z-index(250) 및 관성 스크롤 보장 */
-            #mobile-menu {
-                z-index: 250 !important;
-                background-color: #FFFFFF !important;
-                -webkit-overflow-scrolling: touch !important;
+            /* ========================================================
+             * [모바일 터치 히트박스 최적화 - 최소 44px 터치 영역 보장]
+             * ======================================================== */
+            /* 모바일 헤더 언어 선택 버튼 터치 히트박스 */
+            #mobile-lang-btn {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0.5rem 0.75rem !important;
+                touch-action: manipulation !important;
             }
 
-            /* 모바일 메뉴 내부 네비게이션 링크 탭 영역(Hitbox) 확대 */
+            /* 모바일 헤더 도입 상담 버튼 터치 히트박스 */
+            .header-consult-btn-mobile {
+                min-height: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0.5rem 0.875rem !important;
+                touch-action: manipulation !important;
+            }
+
+            /* 모바일 햄버거 토글 버튼 터치 히트박스 */
+            #mobile-menu-toggle-btn {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0.625rem !important;
+                touch-action: manipulation !important;
+            }
+
+            /* 모바일 메뉴 내부 링크 탭 영역(Hitbox) 확대 */
             #mobile-menu a {
                 min-height: 44px !important;
                 display: flex !important;
@@ -430,7 +458,7 @@
                 touch-action: manipulation !important;
             }
 
-            /* 솔루션 카드의 '영상 보기' 버튼 모바일 터치 히트박스(최소 40px) 확보 */
+            /* 솔루션 카드의 '영상 보기' 버튼 모바일 터치 히트박스 확보 */
             [onclick*="openSolutionVideoModal"] {
                 min-height: 40px !important;
                 min-width: 84px !important;
@@ -448,6 +476,114 @@
                 justify-content: center !important;
                 touch-action: manipulation !important;
             }
+
+            /* 모바일 헤더 로고 크기 고정 및 찌그러짐/숨김 완벽 방지 */
+            #navbar .header-logo-container {
+                flex-shrink: 0 !important;
+                min-width: 120px !important;
+                display: flex !important;
+                align-items: center !important;
+                z-index: 10001 !important;
+            }
+            #navbar .header-logo-img {
+                height: 44px !important;
+                max-height: 48px !important;
+                width: auto !important;
+                max-width: 155px !important;
+                object-fit: contain !important;
+                display: block !important;
+                filter: drop-shadow(0 1px 3px rgba(15, 44, 89, 0.12)) !important;
+            }
+
+            /* 푸터 퀵링크 모바일 터치 히트박스 확대 */
+            footer a {
+                min-height: 38px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                touch-action: manipulation !important;
+                padding-top: 0.25rem !important;
+                padding-bottom: 0.25rem !important;
+            }
+        }
+
+        /* ========================================================
+         * [전역 스타일] 숨김 요소 터치 간섭 방지 (pointer-events: none)
+         * 화면 전체를 덮는 팝업, 모달, 메뉴가 닫혀 있을 때 화면 클릭을 절대 방해하지 않도록 차단
+         * ======================================================== */
+        .hidden,
+        [hidden],
+        .view-hidden,
+        .fixed.inset-0.hidden,
+        div[id$="-modal"].hidden {
+            display: none !important;
+            pointer-events: none !important;
+        }
+
+        /* ========================================================
+         * [전역 스타일] 모바일 헤더 및 메뉴 최상위 z-index 완벽 계층 보장
+         * 1. 최상단 네비게이션 헤더 바 (#navbar): z-index 9999
+         * 2. 헤더 상단 콘텐츠 바 컨테이너 (#navbar-header-bar): z-index 10000 (메뉴 레이어보다 위)
+         * 3. 모바일 헤더 버튼들 (로고, 햄버거, 언어, 도입상담): z-index 10001 (최상위 터치 수신)
+         * 4. 모바일 언어 드롭다운 (#mobile-lang-dropdown): z-index 10002
+         * 5. 모바일 전체 메뉴 오버레이 (#mobile-menu): z-index 9999
+         * ======================================================== */
+        #navbar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            z-index: 9999 !important;
+            background-color: #FFFFFF !important;
+        }
+
+        #navbar-header-bar {
+            position: relative !important;
+            z-index: 10000 !important;
+        }
+
+        #mobile-menu-toggle-btn,
+        #mobile-lang-btn,
+        .header-consult-btn-mobile {
+            position: relative !important;
+            z-index: 10001 !important;
+            touch-action: manipulation !important;
+            cursor: pointer !important;
+        }
+
+        #mobile-lang-dropdown {
+            position: absolute !important;
+            right: 0 !important;
+            top: 100% !important;
+            margin-top: 0.5rem !important;
+            z-index: 10002 !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+            touch-action: manipulation !important;
+        }
+
+        #mobile-lang-dropdown button {
+            touch-action: manipulation !important;
+            cursor: pointer !important;
+        }
+
+        #mobile-menu {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 9999 !important;
+            background-color: #FFFFFF !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        /* 메뉴가 닫혀 있을 때(hidden): 클릭/터치 가로채기 원천 차단 */
+        #mobile-menu.hidden {
+            display: none !important;
+            pointer-events: none !important;
+        }
+
+        /* 메뉴가 열렸을 때(!hidden): 내부 항목 터치 및 스크롤 완벽 허용 */
+        #mobile-menu:not(.hidden) {
+            display: flex !important;
+            pointer-events: auto !important;
         }
     </style>
 
@@ -482,17 +618,18 @@
     <!-- HEADER NAVIGATION -->
 
     <header id="navbar"
-        class="fixed w-full top-0 z-[200] transition-all duration-300 bg-white text-slate-800 border-b border-slate-200 shadow-sm">
+        class="fixed w-full top-0 z-[9999] transition-all duration-300 bg-white text-slate-800 border-b border-slate-200 shadow-sm">
 
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <!-- 헤더 상단 콘텐츠 바 (메뉴 레이어 z-index 9999보다 상위인 z-index 10000 보장, 모바일 안전 여백 px-3 sm:px-6) -->
+        <div id="navbar-header-bar" class="relative z-[10000] max-w-7xl mx-auto px-3 sm:px-6 h-20 flex items-center justify-between gap-1 sm:gap-2">
 
             <!-- 로고 영역 -->
 
-            <div class="flex items-center cursor-pointer" onclick="navigate('main'); return false;">
+            <div class="header-logo-container flex items-center cursor-pointer shrink-0 min-w-[110px]" onclick="navigate('main'); return false;">
 
                 <img src="Logo - 001.png" alt="ATA Technology"
-                    class="h-12 md:h-14 lg:h-16 bg-white px-2.5 py-1 rounded-lg shadow-sm object-contain transition-transform hover:scale-105"
-                    onerror="if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
+                    class="header-logo-img h-11 sm:h-12 md:h-14 lg:h-16 bg-white px-2 sm:px-2.5 py-1 rounded-lg shadow-sm object-contain transition-transform hover:scale-105"
+                    onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
 
             </div>
 
@@ -856,32 +993,32 @@
 
 
 
-            <div class="flex items-center lg:hidden gap-2">
+            <div class="flex items-center lg:hidden gap-1 sm:gap-2 shrink-0">
 
                 <!-- 모바일 헤더 언어 선택 버튼 (터치 히트박스 44px 확보) -->
                 <div class="relative">
                     <button type="button" onclick="toggleMobileLangDropdown(event)" id="mobile-lang-btn"
-                        class="flex items-center gap-1 px-3 py-2 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold cursor-pointer">
+                        class="flex items-center gap-1 px-2.5 sm:px-3 py-2 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold cursor-pointer">
                         <i class="fa-solid fa-globe text-blue-600 text-xs"></i>
                         <span id="mobile-current-lang-label">KO</span>
                         <i class="fa-solid fa-chevron-down text-[8px] opacity-70"></i>
                     </button>
                     <div id="mobile-lang-dropdown"
-                        class="hidden absolute right-0 top-full mt-2 w-32 bg-white border border-slate-200 shadow-2xl rounded-xl overflow-hidden py-1 z-[260]">
-                        <button type="button" onclick="setLanguage('ko'); closeMobileLangDropdown();"
-                            class="w-full px-3 py-2 text-left text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer">
+                        class="hidden absolute right-0 top-full mt-2 w-32 bg-white border border-slate-200 shadow-2xl rounded-xl overflow-hidden py-1 z-[10000]">
+                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('ko',event);}else{setLanguage('ko');closeMobileLangDropdown();}"
+                            class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇰🇷 한국어</span>
                         </button>
-                        <button type="button" onclick="setLanguage('en'); closeMobileLangDropdown();"
-                            class="w-full px-3 py-2 text-left text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer">
+                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('en',event);}else{setLanguage('en');closeMobileLangDropdown();}"
+                            class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇺🇸 English</span>
                         </button>
-                        <button type="button" onclick="setLanguage('zh'); closeMobileLangDropdown();"
-                            class="w-full px-3 py-2 text-left text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer">
+                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('zh',event);}else{setLanguage('zh');closeMobileLangDropdown();}"
+                            class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇨🇳 中文</span>
                         </button>
-                        <button type="button" onclick="setLanguage('ja'); closeMobileLangDropdown();"
-                            class="w-full px-3 py-2 text-left text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer">
+                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('ja',event);}else{setLanguage('ja');closeMobileLangDropdown();}"
+                            class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇯🇵 日本語</span>
                         </button>
                     </div>
@@ -889,7 +1026,7 @@
 
                 <!-- 모바일 도입 상담 버튼 (터치 히트박스 44px 확보) -->
                 <button onclick="openConsultModal()"
-                    class="header-consult-btn-mobile bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs px-3.5 py-2 rounded-full shadow flex items-center gap-1.5 border border-cyan-400/30 cursor-pointer">
+                    class="header-consult-btn-mobile bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs px-2.5 sm:px-3.5 py-2 rounded-full shadow flex items-center gap-1 sm:gap-1.5 border border-cyan-400/30 cursor-pointer shrink-0">
 
                     <i class="fa-solid fa-headset text-[12px]"></i>
 
@@ -897,9 +1034,9 @@
 
                 </button>
 
-                <!-- 모바일 햄버거 토글 버튼 (z-index 260 및 히트박스 확보) -->
+                <!-- 모바일 햄버거 토글 버튼 (z-index 10000 및 히트박스 확보) -->
                 <button id="mobile-menu-toggle-btn" onclick="toggleMobileMenu()"
-                    class="text-slate-800 hover:text-blue-600 z-[260] relative p-2 focus:outline-none transition-colors flex items-center justify-center cursor-pointer"
+                    class="text-slate-800 hover:text-blue-600 z-[10000] relative p-2 focus:outline-none transition-colors flex items-center justify-center cursor-pointer shrink-0"
                     aria-label="모바일 메뉴 열기/닫기">
 
                     <i id="mobile-menu-icon" class="fa-solid fa-bars text-2xl"></i>
@@ -912,18 +1049,21 @@
 
 
 
-        <!-- 모바일 전체 메뉴 (Z-index 250, 부드러운 스크롤) -->
+        <!-- 모바일 전체 메뉴 (Z-index 9999, 부드러운 스크롤) -->
 
         <div id="mobile-menu"
-            class="fixed inset-0 bg-white z-[250] hidden flex-col pt-20 pb-8 px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl">
+            class="fixed inset-0 bg-white z-[9999] hidden flex-col pt-20 pb-8 px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl">
 
             <div class="flex-1 overflow-y-auto custom-scrollbar pb-20 space-y-6">
 
-                <!-- 모바일 메뉴 상단 전용 닫기 바 -->
+                <!-- 모바일 메뉴 상단 전용 닫기 바 (브랜드 로고 추가로 모바일 가시성 극대화) -->
                 <div class="flex items-center justify-between pb-3 border-b border-slate-200 shrink-0">
-                    <span class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
-                        <i class="fa-solid fa-bars text-blue-600 text-xs"></i> 전체 메뉴
-                    </span>
+                    <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigate('main'); toggleMobileMenu(false); return false;">
+                        <img src="Logo - 001.png" alt="ATA Technology" class="h-8 object-contain">
+                        <span class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-bars text-blue-600 text-xs"></i> 전체 메뉴
+                        </span>
+                    </div>
                     <button type="button" onclick="toggleMobileMenu()"
                         class="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors flex items-center justify-center min-w-[44px] min-h-[44px] cursor-pointer"
                         aria-label="메뉴 닫기">
@@ -935,14 +1075,14 @@
                 <div class="pt-1 space-y-3">
                     <div
                         class="bg-slate-100 p-1.5 rounded-xl border border-slate-200 grid grid-cols-4 gap-1 text-center text-xs">
-                        <button type="button" onclick="setLanguage('ko')" id="m-lang-ko"
-                            class="py-2 rounded-lg font-bold bg-white text-blue-600 border border-blue-200 shadow-sm transition-all cursor-pointer">한국어</button>
-                        <button type="button" onclick="setLanguage('en')" id="m-lang-en"
-                            class="py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">ENG</button>
-                        <button type="button" onclick="setLanguage('zh')" id="m-lang-zh"
-                            class="py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">中文</button>
-                        <button type="button" onclick="setLanguage('ja')" id="m-lang-ja"
-                            class="py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">日本語</button>
+                        <button type="button" onclick="selectMenuLanguage('ko', event)" id="m-lang-ko"
+                            class="min-h-[44px] flex items-center justify-center py-2 rounded-lg font-bold bg-white text-blue-600 border border-blue-200 shadow-sm transition-all cursor-pointer">한국어</button>
+                        <button type="button" onclick="selectMenuLanguage('en', event)" id="m-lang-en"
+                            class="min-h-[44px] flex items-center justify-center py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">ENG</button>
+                        <button type="button" onclick="selectMenuLanguage('zh', event)" id="m-lang-zh"
+                            class="min-h-[44px] flex items-center justify-center py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">中文</button>
+                        <button type="button" onclick="selectMenuLanguage('ja', event)" id="m-lang-ja"
+                            class="min-h-[44px] flex items-center justify-center py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">日本語</button>
                     </div>
 
                     <button onclick="toggleMobileMenu(); openConsultModal();"
@@ -1191,16 +1331,16 @@
 
         <section class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-black">
 
-            <div class="absolute inset-0 z-0 bg-black">
+            <div class="absolute inset-0 z-0 bg-black pointer-events-none">
 
-                <video autoplay loop muted playsinline webkit-playsinline preload="metadata"
-                    class="absolute inset-0 w-full h-full object-cover opacity-60">
+                <video autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="Conveyors%20&%20ADD-Ons.jpg"
+                    class="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none">
 
                     <source src="gemini_generated_video_58322012.mp4" type="video/mp4">
 
                 </video>
 
-                <div class="absolute inset-0 bg-gradient-to-r from-[#0F2C59]/80 to-black/40"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#0F2C59]/80 to-black/40 pointer-events-none"></div>
 
             </div>
 
@@ -4377,7 +4517,7 @@
 
                     <img src="Logo - 001.png" alt="ATA Technology"
                         class="h-14 mb-6 bg-white/95 px-2.5 py-1.5 rounded-lg shadow-sm border border-slate-200 object-contain"
-                        onerror="if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
+                        onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
 
                     <p class="text-sm text-slate-600 mb-6 leading-relaxed max-w-sm" data-i18n="footer_slogan">고객의 신뢰를
                         바탕으로 첨단 물류 자동화 솔루션을 제공하며, 대한민국 물류 산업의 미래를 이끌어갑니다.</p>
@@ -4390,40 +4530,40 @@
 
                     <h3 class="text-slate-900 font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h3>
 
-                    <ul class="space-y-2.5 text-sm text-slate-600">
+                    <ul class="space-y-1 text-sm text-slate-600">
 
-                        <li><a href="#" onclick="navigate('main', 'about-ceo'); return false;"
-                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700"><i
+                        <li><a href="javascript:void(0)" onclick="navigate('main', 'about-ceo');"
+                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
                                     data-i18n="nav_about">ABOUT US</span></a></li>
 
-                        <li><a href="#" onclick="navigate('patents'); return false;"
-                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700"><i
+                        <li><a href="javascript:void(0)" onclick="navigate('patents');"
+                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
                                     data-i18n="nav_patents">특허 및 인증</span></a></li>
 
-                        <li><a href="#" onclick="navigate('main', 'solution'); return false;"
-                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700"><i
+                        <li><a href="javascript:void(0)" onclick="navigate('main', 'solution');"
+                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
                                     data-i18n="nav_solution">SOLUTION</span></a></li>
 
-                        <li><a href="#" onclick="navigate('reference'); return false;"
-                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700"><i
+                        <li><a href="javascript:void(0)" onclick="navigate('reference');"
+                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
                                     data-i18n="nav_ref">REFERENCE</span></a></li>
 
-                        <li><a href="#" onclick="navigate('xingting-intro'); return false;"
-                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700"><i
+                        <li><a href="javascript:void(0)" onclick="navigate('xingting-intro');"
+                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
                                     data-i18n="nav_china">중국지사(제조사)</span></a></li>
 
-                        <li><a href="#" onclick="navigate('notice'); return false;"
-                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700"><i
+                        <li><a href="javascript:void(0)" onclick="navigate('notice');"
+                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
                                     data-i18n="nav_notice">공지사항</span></a></li>
 
-                        <li><a href="#" onclick="navigate('contact-map'); return false;"
-                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700"><i
+                        <li><a href="javascript:void(0)" onclick="navigate('contact-map');"
+                                class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
                                     data-i18n="nav_contact">CONTACT</span></a></li>
 
@@ -5021,27 +5161,20 @@
 
 
             // 페이지 분기 처리
-
             if (viewId === 'main' && param1) {
-
                 setTimeout(() => {
-
                     const section = document.getElementById(param1);
-
                     if (section) {
-
-                        const top = section.getBoundingClientRect().top + window.scrollY - 80;
-
-                        window.scrollTo({ top: top, behavior: 'smooth' });
-
+                        const navH = 80;
+                        const bodyRect = document.body.getBoundingClientRect().top;
+                        const elementRect = section.getBoundingClientRect().top;
+                        const elementPosition = elementRect - bodyRect;
+                        const offsetPosition = Math.max(0, elementPosition - navH);
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                     }
-
-                }, 50);
-
+                }, 150);
             } else if (viewId === 'reference') {
-
                 filterReference(param1 || 'all');
-
             } else if (viewId === 'product') {
                 var curLang = window.currentLanguage || (function () {
                     try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
@@ -5054,9 +5187,13 @@
                 if (typeof window.renderNoticeList === 'function') {
                     window.renderNoticeList(param1 || window.currentNoticeCategory || 'all');
                 }
+            } else if (viewId === 'patents' || viewId === 'cert-quality') {
+                if (typeof window.initAllPdfViewers === 'function') {
+                    setTimeout(window.initAllPdfViewers, 100);
+                }
             } else if (viewId === 'cert-awards') {
                 if (typeof window.initAwardPdfs === 'function') {
-                    window.initAwardPdfs();
+                    setTimeout(window.initAwardPdfs, 100);
                 }
             }
 
@@ -5198,53 +5335,152 @@
 
 
 
-        // 모바일 햄버거 토글
+        // ========================================================
+        // [모바일 햄버거 전체 메뉴 토글 제어]
+        // - forceState: true(열기), false(닫기), 미지정 시 상태 반전(Toggle)
+        // - 터치와 클릭의 중복 연쇄 호출(더블 트리거)을 300ms 시간차로 안전하게 방어
+        // ========================================================
+        let lastMobileMenuToggleTime = 0;
 
-        function toggleMobileMenu() {
+        function toggleMobileMenu(forceState) {
+            const now = Date.now();
+            // 명시적 강제 상태 지정이 아닐 때 300ms 이내 중복 토글 무시 (더블 탭/클릭 연쇄 실행 방지)
+            if (forceState === undefined && (now - lastMobileMenuToggleTime < 300)) {
+                return;
+            }
+            lastMobileMenuToggleTime = now;
 
             const mobileMenu = document.getElementById('mobile-menu');
-
             const icon = document.getElementById('mobile-menu-icon');
 
-            isMobileMenuOpen = !isMobileMenuOpen;
+            if (forceState !== undefined) {
+                isMobileMenuOpen = forceState;
+            } else {
+                isMobileMenuOpen = !isMobileMenuOpen;
+            }
 
             if (isMobileMenuOpen) {
-
-                mobileMenu.classList.remove('hidden');
-
-                mobileMenu.classList.add('flex');
-
-                icon.classList.replace('fa-bars', 'fa-xmark');
-
+                if (mobileMenu) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('flex');
+                    mobileMenu.style.display = 'flex';
+                    mobileMenu.style.pointerEvents = 'auto';
+                }
+                if (icon) {
+                    icon.classList.replace('fa-bars', 'fa-xmark');
+                }
             } else {
-
-                mobileMenu.classList.add('hidden');
-
-                mobileMenu.classList.remove('flex');
-
-                icon.classList.replace('fa-xmark', 'fa-bars');
-
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                    mobileMenu.style.display = 'none';
+                    mobileMenu.style.pointerEvents = 'none';
+                }
+                if (icon) {
+                    icon.classList.replace('fa-xmark', 'fa-bars');
+                }
             }
 
             syncBodyScrollLock();
-
         }
 
+        // ========================================================
+        // [모바일 헤더 언어 선택 드롭다운 전용 엔진]
+        // 모바일 터치 및 클릭 시 이중 트리거 없이 정확하게 1회 동작 보장
+        // ========================================================
+        window.toggleMobileLangDropdown = function (e) {
+            if (e && typeof e.stopPropagation === 'function') {
+                e.stopPropagation();
+            }
+            const dropdown = document.getElementById('mobile-lang-dropdown');
+            if (!dropdown) return;
 
+            const isClosed = dropdown.classList.contains('hidden') || dropdown.style.display === 'none';
+            if (isClosed) {
+                dropdown.classList.remove('hidden');
+                dropdown.style.display = 'block';
+                dropdown.style.pointerEvents = 'auto';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.zIndex = '10002';
+            } else {
+                window.closeMobileLangDropdown();
+            }
+        };
+
+        window.selectMobileLanguage = function (lang, e) {
+            if (e && typeof e.stopPropagation === 'function') {
+                e.stopPropagation();
+            }
+            if (e && typeof e.preventDefault === 'function') {
+                e.preventDefault();
+            }
+            if (typeof setLanguage === 'function') {
+                setLanguage(lang, true);
+            }
+            window.closeMobileLangDropdown();
+        };
+
+        window.closeMobileLangDropdown = function () {
+            const dropdown = document.getElementById('mobile-lang-dropdown');
+            if (dropdown) {
+                dropdown.classList.add('hidden');
+                dropdown.style.display = 'none';
+                dropdown.style.pointerEvents = 'none';
+                dropdown.style.visibility = 'hidden';
+            }
+        };
+
+        // 모바일 슬라이드 메뉴 내부 4개국어 선택 전용 핸들러
+        window.selectMenuLanguage = function (lang, e) {
+            if (e && typeof e.stopPropagation === 'function') {
+                e.stopPropagation();
+            }
+            if (e && typeof e.preventDefault === 'function') {
+                e.preventDefault();
+            }
+            if (typeof setLanguage === 'function') {
+                // 슬라이드 메뉴는 닫지 않고 언어만 즉시 변경 (사용자가 바뀐 언어 메뉴명을 바로 볼 수 있도록)
+                setLanguage(lang, true);
+            }
+            // 모바일 메뉴 내 4개 버튼의 활성/비활성 스타일 즉시 동기화
+            const menuLangs = ['ko', 'en', 'zh', 'ja'];
+            menuLangs.forEach(function (l) {
+                const btn = document.getElementById('m-lang-' + l);
+                if (btn) {
+                    if (l === lang || (l === 'zh' && lang === 'cn') || (l === 'cn' && lang === 'zh')) {
+                        btn.className = 'min-h-[44px] flex items-center justify-center py-2 rounded-lg font-bold bg-white text-blue-600 border border-blue-300 shadow-sm transition-all cursor-pointer relative z-50';
+                    } else {
+                        btn.className = 'min-h-[44px] flex items-center justify-center py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer relative z-50';
+                    }
+                }
+            });
+        };
+
+        // 모바일 언어 드롭다운 바깥 영역 클릭/터치 시 자동 닫기 (closest로 안전 판정)
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('mobile-lang-dropdown');
+            if (dropdown && !dropdown.classList.contains('hidden') && dropdown.style.display !== 'none') {
+                if (!e.target.closest('#mobile-lang-btn') && !e.target.closest('#mobile-lang-dropdown')) {
+                    window.closeMobileLangDropdown();
+                }
+            }
+        });
 
         // ========================================================
         // [모바일 전용 고속 터치 최적화 엔진] 
-        // 300ms 딜레이를 없애고 미세 떨림에도 탭(Tap) 인식을 보장하는 헬퍼
+        // 모바일 기기에서 300ms 딜레이 없이 즉각 반응하며, 
+        // e.preventDefault()로 브라우저 클릭을 강제 차단하지 않고
+        // 터치와 마우스 클릭이 충돌 없이 1회만 정확히 실행되도록 보장합니다.
         // ========================================================
-        let lastFastTouchTimestamp = 0;
-
         function bindFastTouch(element, callback) {
             if (!element) return;
             let startX = 0;
             let startY = 0;
             let touchStartTime = 0;
             let isTouchMoved = false;
+            let lastTouchTriggerTime = 0;
 
+            // 터치 시작 시 좌표 및 시작 시간 기록
             element.addEventListener('touchstart', (e) => {
                 if (e.touches.length === 1) {
                     startX = e.touches[0].clientX;
@@ -5254,35 +5490,35 @@
                 }
             }, { passive: true });
 
+            // 터치 이동 시 손가락 떨림 허용 범위(18px)를 초과하면 스크롤로 판정
             element.addEventListener('touchmove', (e) => {
                 if (e.touches.length === 1) {
                     const diffX = Math.abs(e.touches[0].clientX - startX);
                     const diffY = Math.abs(e.touches[0].clientY - startY);
-                    // 손가락이 10px 이상 움직이면 스크롤로 간주
-                    if (diffX > 10 || diffY > 10) {
+                    if (diffX > 18 || diffY > 18) {
                         isTouchMoved = true;
                     }
                 }
             }, { passive: true });
 
+            // 터치 종료 시 스크롤이 아닌 순수 탭 동작인 경우 즉시 콜백 실행
             element.addEventListener('touchend', (e) => {
                 const duration = Date.now() - touchStartTime;
-                // 제스처가 아닌 순수 탭 동작(10px 이내 이동, 500ms 미만 터치)인 경우
-                if (!isTouchMoved && duration < 500) {
-                    lastFastTouchTimestamp = Date.now();
-                    if (e.cancelable) e.preventDefault();
-                    callback(e);
+                const now = Date.now();
+                // 18px 이내 미세 이동 및 600ms 미만 터치 유지 시 정상 탭으로 인식
+                if (!isTouchMoved && duration < 600) {
+                    if (now - lastTouchTriggerTime > 350) {
+                        lastTouchTriggerTime = now;
+                        callback(e);
+                    }
                 }
-            }, { passive: false });
+            }, { passive: true });
         }
 
-
-
         // 페이드인 관찰자 및 비디오 에러/키보드 이벤트 바인딩
-
         document.addEventListener('DOMContentLoaded', () => {
 
-            // [모바일 터치 바인딩] 햄버거 메뉴 토글 버튼 고속 터치
+            // [모바일 터치 바인딩] 햄버거 메뉴 토글 버튼 고속 터치 연동
             const mobileMenuToggleBtn = document.getElementById('mobile-menu-toggle-btn');
             if (mobileMenuToggleBtn) {
                 bindFastTouch(mobileMenuToggleBtn, () => {
@@ -5290,26 +5526,83 @@
                 });
             }
 
-            // [모바일 터치 바인딩] 모바일 메뉴 내부 닫기 버튼들 고속 터치
+            // [모바일 터치 바인딩] 모바일 메뉴 내부 닫기 버튼들 고속 터치 연동
             const mobileMenuCloseBtns = document.querySelectorAll('#mobile-menu button[onclick*="toggleMobileMenu"]');
             mobileMenuCloseBtns.forEach(btn => {
                 bindFastTouch(btn, () => {
-                    toggleMobileMenu();
+                    toggleMobileMenu(false);
                 });
             });
 
-            // [모바일 터치 바인딩] 모바일 헤더 언어 선택 버튼 고속 터치
+            // [모바일 터치 바인딩] 모바일 헤더 언어 선택 버튼 버블링 방지
             const mobileLangBtn = document.getElementById('mobile-lang-btn');
             if (mobileLangBtn) {
-                bindFastTouch(mobileLangBtn, (e) => {
-                    toggleMobileLangDropdown(e);
+                mobileLangBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                 });
+            }
+
+            // [모바일 메뉴 내부 네비게이션 링크 및 버튼 고속 터치/클릭 통합 바인딩]
+            const mobileMenuEl = document.getElementById('mobile-menu');
+            if (mobileMenuEl) {
+                // 클릭 이벤트 처리: 메뉴 내부 a 태그 클릭 시 모바일 메뉴 자동 닫기
+                mobileMenuEl.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (link) {
+                        toggleMobileMenu(false);
+                    }
+                });
+
+                // 모바일 터치 제스처 처리: 스크롤 중에는 동작하지 않고, 탭했을 때 즉각 반응
+                let menuTouchStartY = 0;
+                let menuTouchStartX = 0;
+                let menuTouchMoved = false;
+
+                mobileMenuEl.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1) {
+                        menuTouchStartX = e.touches[0].clientX;
+                        menuTouchStartY = e.touches[0].clientY;
+                        menuTouchMoved = false;
+                    }
+                }, { passive: true });
+
+                mobileMenuEl.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1) {
+                        const diffX = Math.abs(e.touches[0].clientX - menuTouchStartX);
+                        const diffY = Math.abs(e.touches[0].clientY - menuTouchStartY);
+                        if (diffX > 15 || diffY > 15) {
+                            menuTouchMoved = true;
+                        }
+                    }
+                }, { passive: true });
+
+                mobileMenuEl.addEventListener('touchend', (e) => {
+                    // 스크롤이 아닌 순수 탭 동작일 때 해당 a 또는 button 클릭 실행
+                    if (!menuTouchMoved) {
+                        const targetAction = e.target.closest('a[onclick], button[onclick]');
+                        // 언어 변경 버튼(m-lang-*)은 전용 핸들러가 처리하므로 제외하고, 이중 실행 차단(300ms 디바운스) 적용
+                        if (targetAction && !targetAction.id?.startsWith('m-lang-')) {
+                            const now = Date.now();
+                            if (!targetAction._lastMenuTouch || now - targetAction._lastMenuTouch > 300) {
+                                targetAction._lastMenuTouch = now;
+                                targetAction.click();
+                            }
+                        }
+                    }
+                }, { passive: true });
             }
 
             // [모바일 터치 바인딩] 솔루션 카드의 '영상 보기' 버튼 고속 터치
             document.querySelectorAll('[onclick*="openSolutionVideoModal"]').forEach(btn => {
                 bindFastTouch(btn, () => {
                     btn.click();
+                });
+            });
+
+            // [모바일 터치 바인딩] 푸터 Quick Links 내비게이션 고속 터치
+            document.querySelectorAll('footer a[onclick*="navigate"]').forEach(link => {
+                bindFastTouch(link, () => {
+                    link.click();
                 });
             });
 
@@ -5743,14 +6036,14 @@
 
 
 
-            if (modalVideoSrc) modalVideoSrc.src = videoSrc;
+            const safeVideoSrc = videoSrc ? encodeURI(decodeURI(videoSrc)) : '';
+            if (modalVideoSrc) modalVideoSrc.src = safeVideoSrc;
 
             if (modalVideo) {
-
+                modalVideo.setAttribute('playsinline', '');
+                modalVideo.setAttribute('webkit-playsinline', '');
                 modalVideo.load();
-
                 modalVideo.play().catch(e => console.log('Autoplay handled:', e));
-
             }
 
             if (modalDetailBtn) {
@@ -7227,34 +7520,113 @@
 
     </div>
 
-    <!-- Mobile PDF Guard & Desktop Lazy Loader Engine -->
+    <!-- 모바일 & 데스크탑 통합 고화질 PDF 문서 렌더링 엔진 (PDF.js Canvas Renderer) -->
     <script>
         (function () {
-            var isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-            var pdfFrames = document.querySelectorAll('.pdf-lazy-frame');
+            // 개별 PDF 문서를 캔버스에 선명하게 렌더링하는 함수
+            function renderPdfToCanvas(container, pdfUrl, title) {
+                if (!container || !pdfUrl) return;
 
-            pdfFrames.forEach(function (frame) {
-                var pdfSrc = frame.getAttribute('data-pdf-src');
-                var parent = frame.parentElement;
+                // 이미 정상 렌더링된 캔버스가 존재하면 스킵
+                if (container.dataset.pdfRendered === 'true' && container.querySelector('canvas')) return;
 
-                if (isMobileDevice) {
-                    if (parent) {
-                        parent.innerHTML = [
-                            '<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white border border-slate-200 rounded-xl shadow-inner select-none">',
+                // 해시(#) 제거 및 한글/공백 URL 안전 인코딩 추출
+                var cleanPdfUrl = encodeURI(decodeURI(pdfUrl.split('#')[0]));
+
+                // 로딩 인디케이터 구성
+                container.innerHTML = [
+                    '<div class="w-full h-full flex flex-col items-center justify-center p-4 bg-slate-50 text-slate-500 rounded-xl select-none">',
+                    '    <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-600 mb-2"></i>',
+                    '    <span class="text-xs font-semibold text-slate-600">공식 문서 불러오는 중...</span>',
+                    '</div>'
+                ].join('');
+
+                // PDF.js 라이브러리 사용 가능 여부 확인
+                if (window.pdfjsLib) {
+                    pdfjsLib.getDocument(cleanPdfUrl).promise.then(function (pdf) {
+                        return pdf.getPage(1);
+                    }).then(function (page) {
+                        // 모바일 및 고해상도 디스플레이 대응 배율 계산 (숨김 상태 0px 방어)
+                        var containerWidth = (container.clientWidth && container.clientWidth > 50) ? container.clientWidth : 360;
+                        var unscaledViewport = page.getViewport({ scale: 1.0 });
+                        var scale = (containerWidth / unscaledViewport.width) * 1.6;
+                        var viewport = page.getViewport({ scale: Math.max(scale, 1.5) });
+
+                        // 캔버스 엘리먼트 생성
+                        var canvas = document.createElement('canvas');
+                        var context = canvas.getContext('2d');
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+                        canvas.className = 'w-full h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-[1.02] shadow-sm rounded-xl';
+                        canvas.title = title || '공식 문서 확대 보기';
+
+                        // 캔버스 클릭/터치 시 고화질 확대 라이트박스 팝업 연동
+                        canvas.addEventListener('click', function () {
+                            try {
+                                var dataUrl = canvas.toDataURL('image/png');
+                                if (dataUrl && dataUrl.length > 100) {
+                                    openImageModal(dataUrl, title || '공식 인증 문서');
+                                } else {
+                                    window.open(cleanPdfUrl, '_blank');
+                                }
+                            } catch (e) {
+                                window.open(cleanPdfUrl, '_blank');
+                            }
+                        });
+
+                        var renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+
+                        return page.render(renderContext).promise.then(function () {
+                            container.innerHTML = '';
+                            container.appendChild(canvas);
+                            container.dataset.pdfRendered = 'true';
+                        });
+                    }).catch(function (err) {
+                        console.warn('PDF.js 렌더링 실패, 안전 안내 카드로 전환:', cleanPdfUrl, err);
+                        // PDF.js 실패 시 안전 안내 및 원본 열람 카드 폴백
+                        container.innerHTML = [
+                            '<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white border border-slate-200 rounded-xl shadow-inner cursor-pointer" onclick="window.open(\'' + cleanPdfUrl + '\', \'_blank\')">',
                             '    <div class="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3 border border-blue-100 shadow-sm">',
-                            '        <i class="fa-solid fa-file-pdf text-2xl text-red-500"></i>',
+                            '        <i class="fa-solid fa-file-pdf text-3xl text-red-500"></i>',
                             '    </div>',
-                            '    <h5 class="text-sm font-bold text-slate-800 mb-1">\uacf5\uc2dd \uc778\uc99d \ubb38\uc11c (PDF)</h5>',
-                            '    <p class="text-xs text-slate-500 mb-0">\ubaa8\ubc14\uc77c\uc5d0\uc11c\ub294 \uc544\ub798 [\uc5f4\ub78c] \ubc84\ud2bc\uc744 \ub20c\ub7ec \ubb38\uc11c\ub97c \ud655\uc778\ud558\uc138\uc694.</p>',
+                            '    <h5 class="text-sm font-bold text-slate-800 mb-1">' + (title || '공식 인증 문서') + '</h5>',
+                            '    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold hover:bg-blue-100 transition-colors mt-2">',
+                            '        <i class="fa-solid fa-arrow-up-right-from-square"></i> 원본 문서 보기',
+                            '    </span>',
                             '</div>'
-                        ].join('\n');
-                    }
+                        ].join('');
+                    });
                 } else {
-                    if (pdfSrc) {
-                        frame.src = pdfSrc;
-                    }
+                    // PDF.js 없을 시 표준 iframe 적용
+                    container.innerHTML = '<iframe src="' + cleanPdfUrl + '" class="w-full h-full border-0 rounded-xl" title="' + (title || '공식 문서') + '"></iframe>';
                 }
-            });
+            }
+
+            // 모든 PDF 문서 프레임 탐색 및 렌더링 실행
+            function initAllPdfViewers() {
+                var pdfFrames = document.querySelectorAll('.pdf-lazy-frame');
+                pdfFrames.forEach(function (frame) {
+                    var pdfSrc = frame.getAttribute('data-pdf-src');
+                    var parent = frame.parentElement;
+                    var title = frame.getAttribute('title') || '공식 인증 문서';
+                    if (parent && pdfSrc) {
+                        renderPdfToCanvas(parent, pdfSrc, title);
+                    }
+                });
+            }
+
+            // 초기 실행
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initAllPdfViewers);
+            } else {
+                initAllPdfViewers();
+            }
+
+            // 전역 스코프에 등록하여 뷰 전환 시 즉시 재호출 지원
+            window.initAllPdfViewers = initAllPdfViewers;
         })();
     </script>
 </body>

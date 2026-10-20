@@ -2555,7 +2555,7 @@ window.renderProductDetail = function (productQuery, lang) {
 
     var imgEl = document.getElementById('product-detail-img');
     if (imgEl && p.img) {
-        imgEl.src = p.img;
+        imgEl.src = encodeURI(decodeURI(p.img));
         imgEl.alt = (p.title && (p.title[curLang] || p.title.ko)) || '솔루션 상세 이미지';
     }
 
@@ -2589,7 +2589,12 @@ window.renderProductDetail = function (productQuery, lang) {
         if (videoSrcEl) {
             var curVideoSrc = videoSrcEl.getAttribute('src');
             if (curVideoSrc !== p.video) {
-                videoSrcEl.src = p.video;
+                var safeVideo = encodeURI(decodeURI(p.video));
+                if (videoEl) {
+                    videoEl.setAttribute('playsinline', '');
+                    videoEl.setAttribute('webkit-playsinline', '');
+                }
+                videoSrcEl.src = safeVideo;
                 if (videoEl && typeof videoEl.load === 'function') videoEl.load();
             }
         }
@@ -2839,9 +2844,9 @@ function updateLangUI(lang) {
         const mBtn = document.getElementById('m-lang-' + l);
         if (mBtn) {
             if (l === lang || (l === 'zh' && lang === 'cn') || (l === 'cn' && lang === 'zh')) {
-                mBtn.className = 'py-2 rounded-lg font-bold bg-cyan-950 text-cyan-400 border border-cyan-800/60 transition-all cursor-pointer relative z-50';
+                mBtn.className = 'min-h-[44px] flex items-center justify-center py-2 rounded-lg font-bold bg-white text-blue-600 border border-blue-300 shadow-sm transition-all cursor-pointer relative z-50';
             } else {
-                mBtn.className = 'py-2 rounded-lg font-medium text-slate-400 hover:text-white transition-all cursor-pointer relative z-50';
+                mBtn.className = 'min-h-[44px] flex items-center justify-center py-2 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer relative z-50';
             }
         }
     });
@@ -2885,11 +2890,15 @@ function closeDesktopLangDropdown(byUserSelection) {
 /**
  * 모바일 언어 드롭다운 토글
  */
+let lastMobileLangToggleTime = 0;
 window.toggleMobileLangDropdown = toggleMobileLangDropdown;
 function toggleMobileLangDropdown(e) {
-    if (e) {
+    const now = Date.now();
+    if (now - lastMobileLangToggleTime < 300) return;
+    lastMobileLangToggleTime = now;
+    if (e && typeof e.stopPropagation === 'function') {
         e.stopPropagation();
-        e.preventDefault();
+        // e.preventDefault() 제거: 모바일 브라우저의 기본 클릭 이벤트 차단 방지
     }
     const dropdown = document.getElementById('mobile-lang-dropdown');
     if (dropdown) {
@@ -2899,7 +2908,7 @@ function toggleMobileLangDropdown(e) {
             dropdown.style.display = 'block';
             dropdown.style.pointerEvents = 'auto';
             dropdown.style.visibility = 'visible';
-            dropdown.style.zIndex = '300';
+            dropdown.style.zIndex = '10002';
         } else {
             closeMobileLangDropdown();
         }
