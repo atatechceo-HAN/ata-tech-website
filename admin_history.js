@@ -200,16 +200,7 @@
             if (raw) {
                 var parsed = JSON.parse(raw);
                 if (Array.isArray(parsed) && parsed.length > 0) {
-                    // 2026년 최신 공식 연혁 누락 시 자동 추가 및 isLatest 플래그 동기화
-                    var has2026 = parsed.some(function (c) { return c.year === "2026" || c.id === "hist_2026"; });
-                    if (!has2026) {
-                        var item2026 = INITIAL_HISTORY_DATA.find(function (c) { return c.id === "hist_2026"; });
-                        if (item2026) {
-                            parsed.forEach(function (c) { c.isLatest = false; });
-                            parsed.unshift(JSON.parse(JSON.stringify(item2026)));
-                            saveHistoryList(parsed);
-                        }
-                    }
+                    // [핵심 보장] 관리자가 수정한 연혁 카드 목록(추가, 수정, 삭제)을 100% 최우선 유지합니다.
                     return sortHistoryCards(parsed);
                 }
             }

@@ -289,6 +289,7 @@
         }
 
         @media (max-width: 768px) {
+
             /* 100vw는 모바일 브라우저의 스크롤바와 여백을 포함하여 우측 버튼을 화면 밖으로 밀어내므로 100%로 정상화 */
             body {
                 overflow-x: hidden !important;
@@ -485,6 +486,7 @@
                 align-items: center !important;
                 z-index: 10001 !important;
             }
+
             #navbar .header-logo-img {
                 height: 44px !important;
                 max-height: 48px !important;
@@ -507,16 +509,34 @@
         }
 
         /* ========================================================
-         * [전역 스타일] 숨김 요소 터치 간섭 방지 (pointer-events: none)
+         * [전역 스타일] 모달/팝업 숨김 요소 터치 간섭 방지 (pointer-events: none)
          * 화면 전체를 덮는 팝업, 모달, 메뉴가 닫혀 있을 때 화면 클릭을 절대 방해하지 않도록 차단
+         * (주의: 반응형 유틸리티 클래스인 .lg:flex 등을 파괴하지 않도록 모달/팝업 및 view-hidden 전용으로 한정)
          * ======================================================== */
-        .hidden,
-        [hidden],
         .view-hidden,
         .fixed.inset-0.hidden,
-        div[id$="-modal"].hidden {
+        div[id$="-modal"].hidden,
+        #mobile-menu.hidden,
+        #mobile-lang-dropdown.hidden {
             display: none !important;
             pointer-events: none !important;
+        }
+
+        /* PC (1024px 이상) 네비게이션 바 및 헤더 우측 언어/도입상담 컨트롤 가시성 100% 보장 */
+        @media (min-width: 1024px) {
+            #navbar nav,
+            #navbar-header-bar > nav,
+            #navbar .hidden.lg\:flex,
+            #navbar-header-bar .hidden.lg\:flex {
+                display: flex !important;
+            }
+            #mobile-menu-toggle-btn,
+            #mobile-lang-btn,
+            .header-consult-btn-mobile,
+            #mobile-lang-dropdown,
+            #mobile-menu {
+                display: none !important;
+            }
         }
 
         /* ========================================================
@@ -621,11 +641,13 @@
         class="fixed w-full top-0 z-[9999] transition-all duration-300 bg-white text-slate-800 border-b border-slate-200 shadow-sm">
 
         <!-- 헤더 상단 콘텐츠 바 (메뉴 레이어 z-index 9999보다 상위인 z-index 10000 보장, 모바일 안전 여백 px-3 sm:px-6) -->
-        <div id="navbar-header-bar" class="relative z-[10000] max-w-7xl mx-auto px-3 sm:px-6 h-20 flex items-center justify-between gap-1 sm:gap-2">
+        <div id="navbar-header-bar"
+            class="relative z-[10000] max-w-7xl mx-auto px-3 sm:px-6 h-20 flex items-center justify-between gap-1 sm:gap-2">
 
             <!-- 로고 영역 -->
 
-            <div class="header-logo-container flex items-center cursor-pointer shrink-0 min-w-[110px]" onclick="navigate('main'); return false;">
+            <div class="header-logo-container flex items-center cursor-pointer shrink-0 min-w-[110px]"
+                onclick="navigate('main'); return false;">
 
                 <img src="Logo - 001.png" alt="ATA Technology"
                     class="header-logo-img h-11 sm:h-12 md:h-14 lg:h-16 bg-white px-2 sm:px-2.5 py-1 rounded-lg shadow-sm object-contain transition-transform hover:scale-105"
@@ -1005,19 +1027,23 @@
                     </button>
                     <div id="mobile-lang-dropdown"
                         class="hidden absolute right-0 top-full mt-2 w-32 bg-white border border-slate-200 shadow-2xl rounded-xl overflow-hidden py-1 z-[10000]">
-                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('ko',event);}else{setLanguage('ko');closeMobileLangDropdown();}"
+                        <button type="button"
+                            onclick="if(window.selectMobileLanguage){selectMobileLanguage('ko',event);}else{setLanguage('ko');closeMobileLangDropdown();}"
                             class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇰🇷 한국어</span>
                         </button>
-                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('en',event);}else{setLanguage('en');closeMobileLangDropdown();}"
+                        <button type="button"
+                            onclick="if(window.selectMobileLanguage){selectMobileLanguage('en',event);}else{setLanguage('en');closeMobileLangDropdown();}"
                             class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇺🇸 English</span>
                         </button>
-                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('zh',event);}else{setLanguage('zh');closeMobileLangDropdown();}"
+                        <button type="button"
+                            onclick="if(window.selectMobileLanguage){selectMobileLanguage('zh',event);}else{setLanguage('zh');closeMobileLangDropdown();}"
                             class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇨🇳 中文</span>
                         </button>
-                        <button type="button" onclick="if(window.selectMobileLanguage){selectMobileLanguage('ja',event);}else{setLanguage('ja');closeMobileLangDropdown();}"
+                        <button type="button"
+                            onclick="if(window.selectMobileLanguage){selectMobileLanguage('ja',event);}else{setLanguage('ja');closeMobileLangDropdown();}"
                             class="w-full px-3 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between cursor-pointer min-h-[40px]">
                             <span>🇯🇵 日本語</span>
                         </button>
@@ -1058,7 +1084,8 @@
 
                 <!-- 모바일 메뉴 상단 전용 닫기 바 (브랜드 로고 추가로 모바일 가시성 극대화) -->
                 <div class="flex items-center justify-between pb-3 border-b border-slate-200 shrink-0">
-                    <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigate('main'); toggleMobileMenu(false); return false;">
+                    <div class="flex items-center gap-2.5 cursor-pointer"
+                        onclick="navigate('main'); toggleMobileMenu(false); return false;">
                         <img src="Logo - 001.png" alt="ATA Technology" class="h-8 object-contain">
                         <span class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
                             <i class="fa-solid fa-bars text-blue-600 text-xs"></i> 전체 메뉴
@@ -1333,7 +1360,8 @@
 
             <div class="absolute inset-0 z-0 bg-black pointer-events-none">
 
-                <video autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="Conveyors%20&%20ADD-Ons.jpg"
+                <video autoplay loop muted playsinline webkit-playsinline preload="metadata"
+                    poster="Conveyors%20&%20ADD-Ons.jpg"
                     class="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none">
 
                     <source src="gemini_generated_video_58322012.mp4" type="video/mp4">
@@ -5064,9 +5092,13 @@
 
 
 
-        // 네비게이션 제어
-
-        function navigate(viewId, param1) {
+        // ========================================================
+        // [SPA 히스토리 네비게이션 제어]
+        // 1. navigate(viewId, param1, isPopState): 화면 전환 및 히스토리 스택 기록
+        // 2. window.addEventListener('popstate'): 브라우저 뒤로가기/앞으로가기 시 전단계 화면 즉각 복원
+        // 3. parseHashAndNavigate(isPopState): URL 해시 기반 라우팅 및 초기 로드 지원
+        // ========================================================
+        function navigate(viewId, param1, isPopState) {
 
             // 솔루션 뷰 독립 분리 호환성 리다이렉트
             if (viewId === 'main' && param1 === 'solution') {
@@ -5075,90 +5107,60 @@
             }
 
             // 이전 레퍼런스 하위 뷰 호환성 리다이렉트
-
             if (viewId === 'ref-ecommerce') { viewId = 'reference'; param1 = 'ecommerce'; }
-
             else if (viewId === 'ref-food') { viewId = 'reference'; param1 = 'food'; }
-
             else if (viewId === 'ref-manu') { viewId = 'reference'; param1 = 'manu'; }
-
-
 
             currentActiveView = viewId;
 
             if (isMobileMenuOpen) toggleMobileMenu(); // 모바일 메뉴 클릭 시 자동 닫힘
 
-
+            // [브라우저 뒤로가기 지원] 사용자의 직접 클릭 이동 시 브라우저 히스토리에 전단계 기록
+            if (!isPopState) {
+                var hashStr = '#' + viewId;
+                if (param1) {
+                    hashStr += '/' + encodeURIComponent(param1);
+                }
+                var currentState = history.state;
+                if (!currentState || currentState.viewId !== viewId || (currentState.param1 || null) !== (param1 || null)) {
+                    history.pushState({ viewId: viewId, param1: param1 || null }, '', hashStr);
+                }
+            }
 
             // 재생 중인 비디오 정지 및 팝업 닫기
-
             const detailVideo = document.getElementById('product-detail-video');
-
             if (detailVideo) detailVideo.pause();
-
             closeSolutionVideoModal();
-
             closeImageModal();
-
             closeConsultModal();
 
-
-
             const allViews = document.querySelectorAll('body > div[id^="view-"]');
-
             allViews.forEach(view => view.classList.add('view-hidden'));
 
-
-
             const targetView = document.getElementById('view-' + viewId);
-
             if (targetView) {
-
                 targetView.classList.remove('view-hidden');
-
                 targetView.querySelectorAll('.fade-in').forEach(el => el.classList.add('appear'));
-
             }
-
-
 
             const navbar = document.getElementById('navbar');
-
             if (viewId !== 'main') {
-
                 navbar.classList.add('bg-white', 'text-slate-800', 'shadow-sm', 'border-b', 'border-slate-200');
-
                 navbar.classList.remove('bg-transparent', 'border-white/20', 'bg-primary/95');
-
                 window.scrollTo(0, 0);
-
             } else {
-
                 if (!param1) {
-
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-
                     navbar.classList.add('bg-white', 'text-slate-800', 'shadow-sm', 'border-b', 'border-slate-200');
-
                     navbar.classList.remove('bg-transparent', 'border-white/20');
-
                 } else if (window.scrollY <= 50) {
-
                     navbar.classList.add('bg-white', 'text-slate-800', 'shadow-sm', 'border-b', 'border-slate-200');
-
                     navbar.classList.remove('bg-transparent', 'border-white/20');
-
                 } else {
-
                     navbar.classList.remove('bg-transparent', 'border-white/20');
-
                     navbar.classList.add('bg-white', 'text-slate-800', 'shadow-sm', 'border-b', 'border-slate-200');
-
                 }
-
             }
-
-
 
             // 페이지 분기 처리
             if (viewId === 'main' && param1) {
@@ -5198,6 +5200,31 @@
             }
 
         }
+
+        // URL 해시(#) 파싱 및 뷰 이동
+        function parseHashAndNavigate(isPopState) {
+            var rawHash = window.location.hash || '';
+            if (rawHash.startsWith('#')) rawHash = rawHash.substring(1);
+            if (!rawHash) {
+                navigate('main', null, isPopState);
+                return;
+            }
+            var parts = rawHash.split('/');
+            var view = parts[0] || 'main';
+            var param = parts[1] ? decodeURIComponent(parts[1]) : null;
+            navigate(view, param, isPopState);
+        }
+
+        // [브라우저 뒤로가기/앞으로가기 이벤트 리스너]
+        window.addEventListener('popstate', function (e) {
+            if (e.state && e.state.viewId) {
+                // 이전 기록된 뷰 상태로 즉시 복원
+                navigate(e.state.viewId, e.state.param1, true);
+            } else {
+                // 상태 객체가 없는 최초 지점이면 URL 해시 기준으로 복원
+                parseHashAndNavigate(true);
+            }
+        });
 
 
 
@@ -5721,6 +5748,14 @@
 
             // 수상내역 상장 PDF 3개 고화질 캔버스 렌더링 초기화
             // initAwardPdfs is now called on demand when switching to cert-awards view
+
+            // [브라우저 히스토리 초기화] URL에 특정 뷰 해시가 있으면 해당 뷰로 이동, 없으면 #main 기본 상태 등록
+            var initHash = window.location.hash;
+            if (initHash && initHash.length > 1) {
+                parseHashAndNavigate(true);
+            } else {
+                history.replaceState({ viewId: 'main', param1: null }, '', '#main');
+            }
 
         });
 

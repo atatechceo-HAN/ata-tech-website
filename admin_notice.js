@@ -184,20 +184,8 @@
                             return !legacyIds.includes(p.id);
                         });
 
-                        // 2. 기본 DB에 있는 공지사항(특허 4건, 인증 5건, 수상 4건 등) 자동 동기화 및 누락 항목 추가
-                        var hasChanges = false;
-                        defaultDB.forEach(function (defItem) {
-                            var existingIdx = parsed.findIndex(function (p) { return p.id === defItem.id; });
-                            if (existingIdx === -1) {
-                                parsed.push(defItem);
-                                hasChanges = true;
-                            } else {
-                                // 공식 기본 DB 공지는 최신 서식 및 내용으로 업데이트 유지
-                                parsed[existingIdx] = defItem;
-                                hasChanges = true;
-                            }
-                        });
-
+                        // [핵심 버그 수정] 관리자가 수정한 공지사항(제목, 본문, 날짜, 고정여부)을 덮어쓰지 않고 최우선 영구 보존
+                        // 최초 방문 이후 사용자의 로컬 수정/삭제 상태를 그대로 유지합니다.
                         // 핀 고정(pinned) 우선, 그 후 날짜 내림차순 정렬
                         parsed.sort(function (a, b) {
                             if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
