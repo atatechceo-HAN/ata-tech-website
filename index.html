@@ -3420,27 +3420,31 @@
             <!-- 관리자 모드 컨트롤 패널 및 로그인 트리거 바 -->
             <div id="product-admin-control-bar" class="fade-in mb-6"></div>
 
-            <!-- 카테고리 필터 탭 바 -->
+            <!-- 카테고리 필터 탭 바 (6대 카테고리: 전체, 물류 배송 라인, 물류 이송 라인, 물류 분류 라인, 물류 창고 라인, Etc.) -->
             <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12 fade-in">
                 <button type="button" onclick="filterProductLineup('all')" id="product-tab-all"
                     class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-md bg-gradient-to-r from-blue-600 to-cyan-600 text-white ring-2 ring-blue-400 cursor-pointer active:scale-95">
-                    <span>전체 보기</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white">11</span>
+                    <span data-i18n="lineup_tab_all">전체</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white">11</span>
                 </button>
-                <button type="button" onclick="filterProductLineup('sorter')" id="product-tab-sorter"
+                <button type="button" onclick="filterProductLineup('delivery')" id="product-tab-delivery"
                     class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
-                    <i class="fa-solid fa-shuffle mr-1.5 text-blue-500"></i><span>초고속 분류기</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">5</span>
+                    <i class="fa-solid fa-truck-fast mr-1.5 text-blue-500"></i><span data-i18n="lineup_tab_delivery">물류 배송 라인</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">1</span>
                 </button>
-                <button type="button" onclick="filterProductLineup('conveyor')" id="product-tab-conveyor"
+                <button type="button" onclick="filterProductLineup('transfer')" id="product-tab-transfer"
                     class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
-                    <i class="fa-solid fa-arrows-split-up-and-left mr-1.5 text-cyan-500"></i><span>이송 & 상하차</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">3</span>
+                    <i class="fa-solid fa-arrows-split-up-and-left mr-1.5 text-cyan-500"></i><span data-i18n="lineup_tab_transfer">물류 이송 라인</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">2</span>
                 </button>
-                <button type="button" onclick="filterProductLineup('robot')" id="product-tab-robot"
+                <button type="button" onclick="filterProductLineup('sorting')" id="product-tab-sorting"
                     class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
-                    <i class="fa-solid fa-robot mr-1.5 text-indigo-500"></i><span>보관 & 로봇</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">2</span>
+                    <i class="fa-solid fa-shuffle mr-1.5 text-indigo-500"></i><span data-i18n="lineup_tab_sorting">물류 분류 라인</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">5</span>
                 </button>
-                <button type="button" onclick="filterProductLineup('control')" id="product-tab-control"
+                <button type="button" onclick="filterProductLineup('warehouse')" id="product-tab-warehouse"
                     class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
-                    <i class="fa-solid fa-laptop-code mr-1.5 text-slate-700"></i><span>통합 관제 & 제어</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">1</span>
+                    <i class="fa-solid fa-warehouse mr-1.5 text-emerald-500"></i><span data-i18n="lineup_tab_warehouse">물류 창고 라인</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">2</span>
+                </button>
+                <button type="button" onclick="filterProductLineup('etc')" id="product-tab-etc"
+                    class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-ellipsis-vertical mr-1.5 text-slate-500"></i><span data-i18n="lineup_tab_etc">Etc.</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">1</span>
                 </button>
             </div>
 
