@@ -793,37 +793,64 @@
             '      <input type="text" id="product-edit-title" required placeholder="예: 크로스벨트 소터, 텔레스코픽 로더" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">',
             '    </div>',
             '',
-            '    <!-- 3. 이미지 삽입 칸 (내 컴퓨터 사진 파일 선택 OR 파일명/URL) -->',
-            '    <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">',
+            '    <!-- 3. 설비 사진 자료 업로드 칸 (드래그 앤 드롭 및 스마트 압축 지원) -->',
+            '    <div class="space-y-2">',
             '      <div class="flex items-center justify-between">',
             '        <label class="block text-xs font-bold text-slate-800">',
-            '          <i class="fa-solid fa-camera mr-1 text-blue-600"></i> 이미지 삽입 <span class="text-blue-500">*</span>',
+            '          <i class="fa-solid fa-cloud-arrow-up mr-1 text-blue-600"></i> 설비 사진 자료 업로드 <span class="text-blue-500">*</span>',
             '        </label>',
-            '        <span class="text-[11px] text-slate-500">내 PC 파일 또는 URL 모두 지원</span>',
+            '        <span class="text-[11px] text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">',
+            '          <i class="fa-solid fa-sparkles text-[10px] mr-1"></i>스마트 자동 최적화',
+            '        </span>',
             '      </div>',
-            '',
-            '      <!-- A. 내 컴퓨터 파일 업로드 -->',
-            '      <div>',
-            '        <span class="block text-[11px] font-semibold text-slate-600 mb-1">방법 1: 내 컴퓨터에서 사진 파일 직접 선택</span>',
-            '        <input type="file" id="product-edit-file" accept="image/*" class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:cursor-pointer border border-slate-300 rounded-xl p-1 bg-white">',
-            '      </div>',
-            '',
-            '      <!-- B. 이미지 파일명/URL 입력 -->',
-            '      <div>',
-            '        <span class="block text-[11px] font-semibold text-slate-600 mb-1">방법 2: 이미지 파일명 또는 웹 링크(URL) 입력</span>',
-            '        <input type="text" id="product-edit-image" placeholder="예: Conveyors & ADD-Ons.jpg 또는 https://..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500">',
-            '      </div>',
-            '',
-            '      <!-- 실시간 이미지 미리보기 칸 -->',
-            '      <div class="mt-2">',
-            '        <span class="block text-[11px] font-semibold text-slate-600 mb-1.5">선택된 이미지 미리보기:</span>',
-            '        <div class="w-full aspect-[16/9] bg-slate-200 rounded-xl overflow-hidden border border-slate-300 flex items-center justify-center relative">',
-            '          <img id="product-edit-preview" src="" alt="미리보기" class="w-full h-full object-cover hidden">',
-            '          <span id="product-edit-no-preview" class="text-xs text-slate-500 flex items-center gap-1.5">',
-            '            <i class="fa-regular fa-image"></i> 이미지가 선택되지 않았습니다.',
-            '          </span>',
+            '      <!-- 드래그 앤 드롭 & 파일 선택 자료 업로드 영역 (Dropzone) -->',
+            '      <div id="product-dropzone" class="border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/40 hover:bg-blue-50/80 rounded-2xl p-5 text-center transition-all cursor-pointer relative group">',
+            '        <input type="file" id="product-edit-file" accept="image/*" class="hidden">',
+            '        <!-- 업로드 전 안내 화면 -->',
+            '        <div id="product-dropzone-prompt" class="space-y-2">',
+            '          <div class="w-12 h-12 mx-auto rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform shadow-sm">',
+            '            <i class="fa-solid fa-arrow-up-from-bracket"></i>',
+            '          </div>',
+            '          <div>',
+            '            <p class="text-xs sm:text-sm font-bold text-slate-800">',
+            '              이곳을 클릭하거나 이미지 파일을 끌어다 놓으세요',
+            '            </p>',
+            '            <p class="text-[11px] text-slate-500 mt-1">',
+            '              JPG, PNG, GIF, WebP 형식 지원 (고화질 자동 압축으로 빠른 로딩 보장)',
+            '            </p>',
+            '          </div>',
+            '          <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 shadow-sm pointer-events-none">',
+            '            <i class="fa-regular fa-folder-open"></i> 내 컴퓨터에서 사진 찾기',
+            '          </button>',
+            '        </div>',
+            '        <!-- 업로드 후 실시간 미리보기 화면 -->',
+            '        <div id="product-dropzone-preview-wrap" class="hidden space-y-3">',
+            '          <div class="relative w-full aspect-[16/9] bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-300">',
+            '            <img id="product-edit-preview" src="" alt="설비 사진 미리보기" class="w-full h-full object-cover">',
+            '            <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-black/60 backdrop-blur-sm text-white text-[11px]">',
+            '              <span id="product-upload-filename" class="truncate max-w-[200px]"><i class="fa-solid fa-image mr-1"></i>선택된 이미지</span>',
+            '              <span id="product-upload-status" class="text-emerald-400 font-semibold"><i class="fa-solid fa-check-circle mr-1"></i>업로드 완료</span>',
+            '            </div>',
+            '          </div>',
+            '          <div class="flex items-center justify-center gap-2">',
+            '            <button type="button" id="product-btn-reupload" class="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-semibold flex items-center gap-1 shadow-sm">',
+            '              <i class="fa-solid fa-arrows-rotate text-blue-600"></i> 사진 다시 선택',
+            '            </button>',
+            '            <button type="button" id="product-btn-remove-image" class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold flex items-center gap-1">',
+            '              <i class="fa-solid fa-trash-can"></i> 사진 지우기',
+            '            </button>',
+            '          </div>',
             '        </div>',
             '      </div>',
+            '      <!-- 보조 입력: 웹 링크(URL) 직접 입력 아코디언 -->',
+            '      <details class="text-[11px] text-slate-600 group">',
+            '        <summary class="cursor-pointer hover:text-blue-600 select-none flex items-center gap-1 py-1 font-medium">',
+            '          <i class="fa-solid fa-link text-slate-400"></i> <span>또는 웹 이미지 링크(URL) / 파일명 직접 입력하기</span>',
+            '        </summary>',
+            '        <div class="pt-2">',
+            '          <input type="text" id="product-edit-image" placeholder="예: Conveyors & ADD-Ons.jpg 또는 https://images.unsplash.com/..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500">',
+            '        </div>',
+            '      </details>',
             '    </div>',
             '',
             '    <!-- 4. 간단 설명 (선택 사항) -->',
@@ -857,47 +884,144 @@
 
         document.body.appendChild(modal);
 
-        // 파일 업로드 이벤트 리스너 (Base64 자동 변환 및 실시간 미리보기)
+        // ======================================================================
+        // 자료 업로드 칸 (Dropzone & Smart Image Compressor) 인터랙션 로직
+        // ======================================================================
+        var dropzone = document.getElementById('product-dropzone');
         var fileInput = document.getElementById('product-edit-file');
         var textInput = document.getElementById('product-edit-image');
+        var promptWrap = document.getElementById('product-dropzone-prompt');
+        var previewWrap = document.getElementById('product-dropzone-preview-wrap');
         var previewImg = document.getElementById('product-edit-preview');
-        var noPreviewText = document.getElementById('product-edit-no-preview');
+        var filenameLabel = document.getElementById('product-upload-filename');
+        var btnReupload = document.getElementById('product-btn-reupload');
+        var btnRemoveImg = document.getElementById('product-btn-remove-image');
 
-        function updatePreview(src) {
+        /**
+         * 캔버스를 활용하여 고화질 이미지를 자동으로 최적화 압축 후 Base64로 변환합니다.
+         * (스마트폰 촬영 10MB 원본 사진도 200~300KB 수준의 고화질로 스마트 압축하여 브라우저 로컬 저장소 안전성 보장)
+         */
+        function compressAndProcessFile(file) {
+            if (!file || !file.type.match(/^image\//i)) {
+                alert("이미지 파일(JPG, PNG, GIF, WebP 등)만 업로드할 수 있습니다.");
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = new Image();
+                img.onload = function () {
+                    var maxWidth = 1400; // 고화질 최대 너비
+                    var quality = 0.85;   // 최적 압축 품질
+                    var width = img.width;
+                    var height = img.height;
+
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+
+                    var canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // JPEG 압축된 Base64 생성
+                    var optimizedUrl = canvas.toDataURL('image/jpeg', quality);
+                    
+                    textInput.value = optimizedUrl;
+                    setPreviewState(optimizedUrl, file.name);
+                };
+                img.onerror = function () {
+                    textInput.value = e.target.result;
+                    setPreviewState(e.target.result, file.name);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function setPreviewState(src, name) {
             if (src && src.trim().length > 0) {
                 previewImg.src = src;
-                previewImg.classList.remove('hidden');
-                noPreviewText.classList.add('hidden');
+                if (filenameLabel) {
+                    filenameLabel.innerHTML = '<i class="fa-solid fa-image mr-1"></i> ' + (name || '등록된 설비 이미지');
+                }
+                promptWrap.classList.add('hidden');
+                previewWrap.classList.remove('hidden');
             } else {
                 previewImg.src = '';
-                previewImg.classList.add('hidden');
-                noPreviewText.classList.remove('hidden');
+                textInput.value = '';
+                if (fileInput) fileInput.value = '';
+                previewWrap.classList.add('hidden');
+                promptWrap.classList.remove('hidden');
             }
+        }
+
+        // 모달 전역 헬퍼에 등록 (열기 시 상태 리셋용)
+        modal._setPreviewState = setPreviewState;
+
+        // 드롭존 클릭 시 숨겨진 파일 선택기 열기
+        if (dropzone) {
+            dropzone.addEventListener('click', function (e) {
+                if (e.target.closest('#product-btn-reupload') || e.target.closest('#product-btn-remove-image')) {
+                    return;
+                }
+                if (fileInput) fileInput.click();
+            });
+
+            // 드래그 앤 드롭 마우스 이벤트
+            ['dragenter', 'dragover'].forEach(function (eventName) {
+                dropzone.addEventListener(eventName, function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.add('border-blue-600', 'bg-blue-100/70', 'scale-[1.01]');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach(function (eventName) {
+                dropzone.addEventListener(eventName, function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('border-blue-600', 'bg-blue-100/70', 'scale-[1.01]');
+                });
+            });
+
+            dropzone.addEventListener('drop', function (e) {
+                if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    compressAndProcessFile(e.dataTransfer.files[0]);
+                }
+            });
         }
 
         if (fileInput) {
             fileInput.addEventListener('change', function (e) {
-                var file = e.target.files[0];
-                if (!file) return;
-
-                // 파일 크기 제한 안내 (로컬스토리지 안정성을 위해 3MB 이하 권장)
-                if (file.size > 5 * 1024 * 1024) {
-                    alert("선택하신 사진의 용량이 너무 큽니다(5MB 초과).\n브라우저 저장 한도를 초과하지 않도록 3MB 이하의 이미지를 권장합니다.");
+                if (e.target.files && e.target.files.length > 0) {
+                    compressAndProcessFile(e.target.files[0]);
                 }
-
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    var base64Url = event.target.result;
-                    textInput.value = base64Url;
-                    updatePreview(base64Url);
-                };
-                reader.readAsDataURL(file);
             });
         }
 
+        if (btnReupload && fileInput) {
+            btnReupload.addEventListener('click', function (e) {
+                e.stopPropagation();
+                fileInput.click();
+            });
+        }
+
+        if (btnRemoveImg) {
+            btnRemoveImg.addEventListener('click', function (e) {
+                e.stopPropagation();
+                setPreviewState('', '');
+            });
+        }
+
+        // 보조 웹 URL 입력창과 양방향 연동
         if (textInput) {
             textInput.addEventListener('input', function () {
-                updatePreview(textInput.value);
+                var val = textInput.value.trim();
+                setPreviewState(val, val ? '외부 웹 링크 사진' : '');
             });
         }
 
@@ -917,12 +1041,9 @@
 
         var modalTitle = document.getElementById('product-modal-title');
         var submitText = document.getElementById('product-btn-submit-text');
-        var previewImg = document.getElementById('product-edit-preview');
-        var noPreviewText = document.getElementById('product-edit-no-preview');
-
-        previewImg.src = '';
-        previewImg.classList.add('hidden');
-        noPreviewText.classList.remove('hidden');
+        if (modal._setPreviewState) {
+            modal._setPreviewState('', '');
+        }
 
         if (productId) {
             // 수정 모드
@@ -950,10 +1071,8 @@
             document.getElementById('product-edit-desc').value = target.description || '';
             document.getElementById('product-edit-sort').value = target.sortOrder || 10;
 
-            if (target.imageUrl) {
-                previewImg.src = target.imageUrl;
-                previewImg.classList.remove('hidden');
-                noPreviewText.classList.add('hidden');
+            if (target.imageUrl && modal._setPreviewState) {
+                modal._setPreviewState(target.imageUrl, target.title || '등록된 이미지');
             }
         } else {
             // 신규 등록 모드
@@ -1066,10 +1185,96 @@
     }
 
     // ==========================================================================
-    // 12. 전역 API 노출 (window.ProductLineupAdmin & window.openImageModal)
+    // 12. 통합 관리자 센터(Integrated Admin Hub) 전용 렌더링 엔진
+    // ==========================================================================
+    /**
+     * 메인 화면의 [통합 관리자 센터] 내부 제품 라인업 탭에 목록 및 관리 도구를 렌더링합니다.
+     */
+    function renderProductManagerList(containerEl, filterCategory) {
+        if (!containerEl) return;
+        var fullList = getProductsList();
+        var currentCat = filterCategory || 'all';
+
+        var filtered = fullList;
+        if (currentCat !== 'all') {
+            filtered = fullList.filter(function (item) { return item.category === currentCat; });
+        }
+
+        var html = [];
+        html.push('<div class="space-y-4">');
+
+        // 상단 카테고리 필터 바 및 등록 버튼
+        html.push('  <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">');
+        html.push('    <div class="flex flex-wrap items-center gap-1.5">');
+        
+        var cats = [
+            { key: 'all', label: '전체 (' + fullList.length + ')' },
+            { key: 'delivery', label: '물류 배송' },
+            { key: 'transfer', label: '물류 이송' },
+            { key: 'sorting', label: '물류 분류' },
+            { key: 'warehouse', label: '물류 창고' },
+            { key: 'etc', label: 'Etc.' }
+        ];
+
+        cats.forEach(function (c) {
+            var activeClass = (c.key === currentCat) ? 'bg-blue-600 text-white font-bold shadow-sm' : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200';
+            html.push('      <button type="button" onclick="window.ProductLineupAdmin.renderManagerList(document.getElementById(\'admin-hub-product-list\'), \'' + c.key + '\')" class="px-3 py-1.5 rounded-xl text-xs transition-all ' + activeClass + ' cursor-pointer">' + c.label + '</button>');
+        });
+
+        html.push('    </div>');
+        html.push('    <div class="flex items-center gap-2">');
+        html.push('      <button type="button" onclick="window.ProductLineupAdmin.openCreateModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition-all cursor-pointer">');
+        html.push('        <i class="fa-solid fa-cloud-arrow-up"></i> 새 설비 사진 등록');
+        html.push('      </button>');
+        html.push('    </div>');
+        html.push('  </div>');
+
+        // 제품 목록 카드 그리드
+        if (filtered.length === 0) {
+            html.push('  <div class="p-12 text-center rounded-2xl bg-slate-50 border border-slate-200 text-slate-500">');
+            html.push('    <i class="fa-regular fa-image text-3xl mb-2 text-slate-400 block"></i>');
+            html.push('    <p class="text-xs font-medium">선택된 카테고리에 등록된 설비 이미지가 없습니다.</p>');
+            html.push('  </div>');
+        } else {
+            html.push('  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 max-h-[460px] overflow-y-auto custom-scrollbar p-1">');
+            filtered.forEach(function (p) {
+                var meta = getCategoryMeta(p.category);
+                var safeTitle = (p.title || '설비명').replace(/"/g, '&quot;');
+                html.push('    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">');
+                html.push('      <div class="aspect-[16/10] bg-slate-900 relative overflow-hidden cursor-pointer" onclick="window.ProductLineupAdmin.openLightbox(\'' + p.id + '\')">');
+                html.push('        <img src="' + p.imageUrl + '" onerror="this.src=\'Conveyors & ADD-Ons.jpg\'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="' + safeTitle + '">');
+                html.push('        <span class="absolute top-2 left-2 ' + meta.badgeBg + ' text-[10px] font-bold px-2 py-0.5 rounded-full shadow border ' + meta.badgeBorder + ' flex items-center gap-1"><i class="fa-solid ' + meta.icon + '"></i> ' + meta.label + '</span>');
+                html.push('      </div>');
+                html.push('      <div class="p-3.5 flex-1 flex flex-col justify-between">');
+                html.push('        <div>');
+                html.push('          <h4 class="text-xs sm:text-sm font-bold text-slate-900 truncate mb-1">' + (p.title || '설비명') + '</h4>');
+                html.push('          <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed mb-3">' + (p.description || '설명 없음') + '</p>');
+                html.push('        </div>');
+                html.push('        <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">');
+                html.push('          <span class="text-[10px] text-slate-400">정렬: #' + (p.sortOrder || 10) + '</span>');
+                html.push('          <div class="flex items-center gap-1.5">');
+                html.push('            <button type="button" onclick="window.ProductLineupAdmin.openEditModal(\'' + p.id + '\')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[11px] transition-colors cursor-pointer"><i class="fa-solid fa-pen-to-square"></i> 수정</button>');
+                html.push('            <button type="button" onclick="window.ProductLineupAdmin.deleteCard(\'' + p.id + '\'); window.ProductLineupAdmin.renderManagerList(document.getElementById(\'admin-hub-product-list\'), \'' + currentCat + '\');" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white font-semibold text-[11px] transition-colors cursor-pointer"><i class="fa-solid fa-trash-can"></i> 삭제</button>');
+                html.push('          </div>');
+                html.push('        </div>');
+                html.push('      </div>');
+                html.push('    </div>');
+            });
+            html.push('  </div>');
+        }
+
+        html.push('</div>');
+        containerEl.innerHTML = html.join('');
+    }
+
+    // ==========================================================================
+    // 13. 전역 API 노출 (window.ProductLineupAdmin & window.openImageModal)
     // ==========================================================================
     window.ProductLineupAdmin = {
         render: renderProductCards,
+        renderManagerList: renderProductManagerList,
+        getProductsList: getProductsList,
+        saveProductsList: saveProductsList,
         openLightbox: openProductLightbox,
         closeLightbox: closeProductLightbox,
         openCreateModal: function () {
@@ -1091,7 +1296,7 @@
             } else if (typeof window.openAdminModal === 'function') {
                 window.openAdminModal();
             } else {
-                alert("관리자 로그인은 화면 하단 관리자 메뉴를 이용해 주세요.");
+                alert("관리자 로그인은 화면 상단 또는 하단 관리자 메뉴를 이용해 주세요.");
             }
         },
         triggerLogout: function () {

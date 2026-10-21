@@ -101,13 +101,27 @@
                 } catch (e) {
                     console.warn("SessionStorage access error:", e);
                 }
-                // 회사 연혁 관리자 UI 실시간 동기화
+                // 1) 회사 연혁 관리자 UI 실시간 동기화
                 if (window.HistoryAdmin && typeof window.HistoryAdmin.render === 'function') {
                     window.HistoryAdmin.render();
                 }
-                // 주요 구축 실적(Reference) 관리자 UI 실시간 동기화
+                // 2) 주요 구축 실적(Reference) 관리자 UI 실시간 동기화
                 if (window.ReferenceAdmin && typeof window.ReferenceAdmin.render === 'function') {
                     window.ReferenceAdmin.render();
+                }
+                // 3) 제품 라인업(Product Lineup) 관리자 UI 실시간 동기화 (PC 로그인 연동 버그 완벽 해결)
+                if (window.ProductLineupAdmin && typeof window.ProductLineupAdmin.render === 'function') {
+                    window.ProductLineupAdmin.render(window.currentProductCategory || 'all');
+                }
+                // 4) 통합 관리자 센터(Integrated Admin Hub) 동기화
+                if (typeof window.syncIntegratedAdminHubUI === 'function') {
+                    window.syncIntegratedAdminHubUI();
+                }
+                // 5) 전역 관리자 상태 변경 브로드캐스트 이벤트 발송
+                try {
+                    window.dispatchEvent(new CustomEvent('ata-admin-auth-changed', { detail: { isLoggedIn: true } }));
+                } catch (evtErr) {
+                    console.log('Admin Auth event dispatched');
                 }
                 return { success: true };
             } else {
@@ -124,13 +138,27 @@
             } catch (e) {
                 console.warn(e);
             }
-            // 회사 연혁 관리자 UI 실시간 동기화
+            // 1) 회사 연혁 관리자 UI 실시간 동기화
             if (window.HistoryAdmin && typeof window.HistoryAdmin.render === 'function') {
                 window.HistoryAdmin.render();
             }
-            // 주요 구축 실적(Reference) 관리자 UI 실시간 동기화
+            // 2) 주요 구축 실적(Reference) 관리자 UI 실시간 동기화
             if (window.ReferenceAdmin && typeof window.ReferenceAdmin.render === 'function') {
                 window.ReferenceAdmin.render();
+            }
+            // 3) 제품 라인업(Product Lineup) 관리자 UI 실시간 동기화
+            if (window.ProductLineupAdmin && typeof window.ProductLineupAdmin.render === 'function') {
+                window.ProductLineupAdmin.render(window.currentProductCategory || 'all');
+            }
+            // 4) 통합 관리자 센터(Integrated Admin Hub) 동기화
+            if (typeof window.syncIntegratedAdminHubUI === 'function') {
+                window.syncIntegratedAdminHubUI();
+            }
+            // 5) 전역 관리자 상태 변경 브로드캐스트 이벤트 발송
+            try {
+                window.dispatchEvent(new CustomEvent('ata-admin-auth-changed', { detail: { isLoggedIn: false } }));
+            } catch (evtErr) {
+                console.log('Admin Auth logout event dispatched');
             }
         },
 
@@ -832,6 +860,16 @@
         }
         if (window.ReferenceAdmin && typeof window.ReferenceAdmin.render === 'function') {
             window.ReferenceAdmin.render();
+        }
+
+        // 5. 제품 라인업(Product Lineup) 관리자 UI 실시간 동기화 (PC 로그인 연동 버그 완벽 해결)
+        if (window.ProductLineupAdmin && typeof window.ProductLineupAdmin.render === 'function') {
+            window.ProductLineupAdmin.render(window.currentProductCategory || 'all');
+        }
+
+        // 6. 통합 관리자 센터(Integrated Admin Hub) 동기화
+        if (typeof window.syncIntegratedAdminHubUI === 'function') {
+            window.syncIntegratedAdminHubUI();
         }
     };
 
