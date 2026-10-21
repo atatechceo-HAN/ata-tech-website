@@ -22,6 +22,8 @@
     <script src="admin_notice.js"></script>
     <!-- 주요 구축 실적(Reference) 관리자 인증 및 작성·수정·삭제 엔진 (admin_reference.js) -->
     <script src="admin_reference.js"></script>
+    <!-- 스마트 물류 핵심 장비 '제품 라인업' 관리자 인증 및 작성·수정·삭제 엔진 (admin_product.js) -->
+    <script src="admin_product.js"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
@@ -811,6 +813,14 @@
 
 
 
+                <!-- 3-2. 제품 라인업 (PRODUCT LINEUP) -->
+                <div class="h-full flex items-center">
+                    <a href="#" onclick="navigate('product-lineup'); return false;"
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-medium">
+                        <span data-i18n="nav_product_lineup">제품 라인업</span>
+                    </a>
+                </div>
+
                 <!-- 4. REFERENCE (하위 메뉴 통합 단일 메인 메뉴) -->
 
                 <div class="h-full flex items-center">
@@ -1262,7 +1272,20 @@
 
 
                 <div>
+                    <a href="javascript:void(0)" onclick="navigate('product-lineup'); toggleMobileMenu(false);"
+                        class="min-h-[44px] flex items-center justify-between text-slate-900 font-bold text-lg border-b border-slate-200 pb-2 hover:text-blue-600 active:text-blue-600 transition-colors cursor-pointer">
+                        <span data-i18n="nav_product_lineup">제품 라인업</span>
+                        <i class="fa-solid fa-angle-right text-xs text-blue-600"></i>
+                    </a>
+                    <div class="flex flex-col space-y-1.5 pl-1 pt-2">
+                        <a href="javascript:void(0)" onclick="navigate('product-lineup', 'all'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer">
+                            <span data-i18n="lineup_heading">제품 라인업 전체 보기</span>
+                        </a>
+                    </div>
+                </div>
 
+                <div>
                     <a href="javascript:void(0)" onclick="navigate('reference'); toggleMobileMenu(false);"
                         class="min-h-[44px] flex items-center justify-between text-slate-900 font-bold text-lg border-b border-slate-200 pb-2 hover:text-blue-600 active:text-blue-600 transition-colors cursor-pointer"><span
                             data-i18n="nav_ref">REFERENCE</span>
@@ -3376,6 +3399,56 @@
 
 
 
+    <!-- ========================================== -->
+    <!-- 스마트 물류 핵심 장비 '제품 라인업' 뷰 (PRODUCT LINEUP) -->
+    <!-- ========================================== -->
+    <div id="view-product-lineup" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- 상단 헤더 영역 -->
+            <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
+                <span class="text-accent font-bold tracking-widest text-xs uppercase mb-3 block"
+                    data-i18n="lineup_badge">SMART LOGISTICS HARDWARE</span>
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight" data-i18n="lineup_heading">
+                    제품 라인업 <span
+                        class="text-accent font-normal text-2xl md:text-3xl block sm:inline sm:ml-2">(PRODUCT LINEUP)</span>
+                </h2>
+                <p class="text-slate-600 text-base md:text-lg leading-relaxed" data-i18n="lineup_desc">
+                    초고속 소터 분류기부터 지능형 이송 로봇, 스마트 창고 제어까지 주식회사 에이티에이기술의 핵심 자동화 하드웨어 & 소프트웨어 라인업입니다.
+                </p>
+            </div>
+
+            <!-- 관리자 모드 컨트롤 패널 및 로그인 트리거 바 -->
+            <div id="product-admin-control-bar" class="fade-in mb-6"></div>
+
+            <!-- 카테고리 필터 탭 바 -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12 fade-in">
+                <button type="button" onclick="filterProductLineup('all')" id="product-tab-all"
+                    class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-md bg-gradient-to-r from-blue-600 to-cyan-600 text-white ring-2 ring-blue-400 cursor-pointer active:scale-95">
+                    <span>전체 보기</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white">11</span>
+                </button>
+                <button type="button" onclick="filterProductLineup('sorter')" id="product-tab-sorter"
+                    class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-shuffle mr-1.5 text-blue-500"></i><span>초고속 분류기</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">5</span>
+                </button>
+                <button type="button" onclick="filterProductLineup('conveyor')" id="product-tab-conveyor"
+                    class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-arrows-split-up-and-left mr-1.5 text-cyan-500"></i><span>이송 & 상하차</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">3</span>
+                </button>
+                <button type="button" onclick="filterProductLineup('robot')" id="product-tab-robot"
+                    class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-robot mr-1.5 text-indigo-500"></i><span>보관 & 로봇</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">2</span>
+                </button>
+                <button type="button" onclick="filterProductLineup('control')" id="product-tab-control"
+                    class="product-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-laptop-code mr-1.5 text-slate-700"></i><span>통합 관제 & 제어</span> <span class="product-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">1</span>
+                </button>
+            </div>
+
+            <!-- 제품 라인업 카드 그리드 (동적 렌더링 컨테이너) -->
+            <div id="product-lineup-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"></div>
+        </div>
+    </div>
+
     <!-- 통합 레퍼런스 페이지 (하위 3개 메뉴를 메인 메뉴 안으로 통합) -->
 
     <div id="view-reference" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
@@ -5188,6 +5261,12 @@
                         window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                     }
                 }, 150);
+            } else if (viewId === 'product-lineup') {
+                if (typeof window.filterProductLineup === 'function') {
+                    window.filterProductLineup(param1 || 'all');
+                } else if (window.ProductLineupAdmin && typeof window.ProductLineupAdmin.render === 'function') {
+                    window.ProductLineupAdmin.render(param1 || 'all');
+                }
             } else if (viewId === 'reference') {
                 filterReference(param1 || 'all');
             } else if (viewId === 'product') {

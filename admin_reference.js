@@ -162,6 +162,93 @@
     }
 
     // ==========================================================================
+    // 3-2. 웹-로컬 동기화 유틸리티 (JSON 백업 다운로드 / 가져오기 / 로컬 소스 복사)
+    // ==========================================================================
+
+    /**
+     * 웹에서 수정한 전체 레퍼런스 실적 데이터를 JSON 파일로 다운로드합니다.
+     */
+    function exportReferencesToJson() {
+        var list = getReferencesList();
+        var jsonStr = JSON.stringify(list, null, 2);
+        var blob = new Blob([jsonStr], { type: "application/json;charset=utf-8;" });
+        var url = URL.createObjectURL(blob);
+        var dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "ata_references_backup_" + dateStr + ".json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    /**
+     * 로컬에 보관된 JSON 백업 파일을 선택하여 웹사이트에 즉시 동기화(복원)합니다.
+     */
+    function importReferencesFromJson() {
+        var fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = ".json,application/json";
+        fileInput.onchange = function (e) {
+            var file = e.target.files[0];
+            if (!file) return;
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                try {
+                    var parsed = JSON.parse(event.target.result);
+                    if (!Array.isArray(parsed)) {
+                        alert("유효하지 않은 레퍼런스 실적 JSON 백업 파일 형식입니다.");
+                        return;
+                    }
+                    if (confirm("가져온 백업 파일(" + parsed.length + "개 실적)로 현재 레퍼런스를 교체하시겠습니까?")) {
+                        saveReferencesList(parsed);
+                        renderReferencesCards(currentFilterCategory);
+                        alert("성공적으로 레퍼런스 실적이 동기화되었습니다!");
+                    }
+                } catch (err) {
+                    alert("JSON 파일을 읽는 도중 오류가 발생했습니다: " + err.message);
+                }
+            };
+            reader.readAsText(file, "utf-8");
+        };
+        fileInput.click();
+    }
+
+    /**
+     * 로컬 자바스크립트 소스코드(INITIAL_REFERENCES_DATA)로 원클릭 붙여넣기할 수 있도록 클립보드에 복사합니다.
+     */
+    function copyReferencesJsCode() {
+        var list = getReferencesList();
+        var code = "var INITIAL_REFERENCES_DATA = " + JSON.stringify(list, null, 4) + ";";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).then(function () {
+                alert("현재 레퍼런스 실적 데이터가 자바스크립트 소스 코드 형태로 클립보드에 복사되었습니다!\nadmin_reference.js 파일의 INITIAL_REFERENCES_DATA 부분에 바로 붙여넣으시면 로컬 소스코드와 완벽히 동기화됩니다.");
+            }).catch(function () {
+                fallbackCopyText(code);
+            });
+        } else {
+            fallbackCopyText(code);
+        }
+    }
+
+    function fallbackCopyText(text) {
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand("copy");
+            alert("클립보드에 복사되었습니다! 로컬 소스코드에 붙여넣으세요.");
+        } catch (e) {
+            prompt("아래 텍스트를 복사하여 로컬 소스코드에 붙여넣으세요:", text);
+        }
+        document.body.removeChild(textArea);
+    }
+
+    // ==========================================================================
     // 4. 관리자 권한 확인
     // ==========================================================================
     function isUserAdmin() {
@@ -234,20 +321,29 @@
                 '    <div>',
                 '      <div class="flex items-center gap-2">',
                 '        <h5 class="text-sm font-extrabold text-slate-900">주요 구축 실적 관리자 모드</h5>',
-                '        <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-950 text-emerald-400 border border-emerald-700/60 font-semibold">인증됨</span>',
+                '        <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold">인증됨</span>',
                 '      </div>',
-                '      <p class="text-xs text-slate-600 mt-0.5">새로운 레퍼런스를 등록하거나 각 실적 카드의 수정/삭제 버튼을 눌러 내용을 편집할 수 있습니다.</p>',
+                '      <p class="text-xs text-slate-600 mt-0.5">새로운 레퍼런스를 등록하거나 각 실적 카드의 수정/삭제 버튼을 눌러 내용을 편집할 수 있습니다. 수정한 내용은 브라우저에 영구 저장됩니다.</p>',
                 '    </div>',
                 '  </div>',
-                '  <div class="flex items-center gap-2">',
-                '    <button type="button" onclick="window.ReferenceAdmin.openCreateModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md hover:shadow-cyan-500/30 transition-all cursor-pointer">',
+                '  <div class="flex flex-wrap items-center gap-2">',
+                '    <button type="button" onclick="window.ReferenceAdmin.openCreateModal()" class="min-h-[38px] px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md transition-all cursor-pointer">',
                 '      <i class="fa-solid fa-plus"></i> 새 레퍼런스 등록',
                 '    </button>',
-                '    <button type="button" onclick="window.ReferenceAdmin.resetToDefault()" class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="최초 기본 데이터 복원">',
-                '      <i class="fa-solid fa-rotate-left"></i> 기본값 복원',
+                '    <button type="button" onclick="window.ReferenceAdmin.exportJson()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="현재 웹에서 수정한 전체 실적 데이터를 JSON 파일로 다운로드">',
+                '      <i class="fa-solid fa-download text-blue-600"></i> 백업 다운로드',
                 '    </button>',
-                '    <button type="button" onclick="window.ReferenceAdmin.triggerLogout()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-rose-900/60 text-rose-300 font-semibold text-xs border border-slate-700 transition-colors flex items-center gap-1 cursor-pointer">',
-                '      <i class="fa-solid fa-right-from-bracket"></i> 로그아웃',
+                '    <button type="button" onclick="window.ReferenceAdmin.importJson()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="백업된 JSON 파일을 불러와 동기화">',
+                '      <i class="fa-solid fa-upload text-cyan-600"></i> 데이터 가져오기',
+                '    </button>',
+                '    <button type="button" onclick="window.ReferenceAdmin.copyJsCode()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="로컬 자바스크립트 파일에 붙여넣을 코드 복사">',
+                '      <i class="fa-solid fa-copy text-amber-600"></i> 로컬코드 복사',
+                '    </button>',
+                '    <button type="button" onclick="window.ReferenceAdmin.resetToDefault()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="최초 기본 데이터 복원">',
+                '      <i class="fa-solid fa-rotate-left text-slate-500"></i> 기본값 복원',
+                '    </button>',
+                '    <button type="button" onclick="window.ReferenceAdmin.triggerLogout()" class="min-h-[38px] px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs transition-colors flex items-center gap-1 cursor-pointer">',
+                '      <i class="fa-solid fa-right-from-bracket text-red-400"></i> 로그아웃',
                 '    </button>',
                 '  </div>',
                 '</div>'
@@ -257,8 +353,8 @@
             // 미로그인 상태: 관리자 로그인 링크 노출
             barContainer.innerHTML = [
                 '<div class="flex justify-end mb-4">',
-                '  <button type="button" onclick="window.ReferenceAdmin.triggerLoginModal()" class="text-xs text-slate-500 hover:text-cyan-400 flex items-center gap-1.5 transition-colors cursor-pointer px-3 py-1 rounded-lg hover:bg-slate-800/60 border border-transparent hover:border-slate-800">',
-                '    <i class="fa-solid fa-lock text-[10px]"></i> 관리자 모드',
+                '  <button type="button" onclick="window.ReferenceAdmin.triggerLoginModal()" class="text-xs text-slate-500 hover:text-blue-600 flex items-center gap-1.5 transition-colors cursor-pointer px-3 py-1.5 rounded-lg hover:bg-slate-100 border border-slate-200">',
+                '    <i class="fa-solid fa-lock text-[10px]"></i> 관리자 로그인',
                 '  </button>',
                 '</div>'
             ].join('');
@@ -464,21 +560,21 @@
         };
 
         modal.innerHTML = [
-            '<div class="bg-white border border-slate-200 w-full max-w-2xl max-h-[92vh] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative flex flex-col" onclick="event.stopPropagation()">',
+            '<div class="bg-white border border-slate-200 w-full max-w-2xl max-h-[92vh] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative flex flex-col text-slate-800" onclick="event.stopPropagation()">',
             '  <!-- 모달 헤더 -->',
-            '  <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-[#0A1020] shrink-0">',
+            '  <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50 shrink-0">',
             '    <div class="flex items-center gap-2.5">',
-            '      <span class="w-8 h-8 rounded-lg bg-cyan-950 flex items-center justify-center text-cyan-400 border border-cyan-800/60 shadow-sm">',
+            '      <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center border border-blue-200 shadow-sm">',
             '        <i class="fa-solid fa-layer-group text-sm"></i>',
             '      </span>',
             '      <div>',
-            '        <h3 id="ref-modal-title" class="text-base sm:text-lg font-bold text-white flex items-center gap-2">',
+            '        <h3 id="ref-modal-title" class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">',
             '          새 레퍼런스 등록하기',
             '        </h3>',
-            '        <p class="text-xs text-slate-400">구축 실적 정보 입력 및 실시간 반영</p>',
+            '        <p class="text-xs text-slate-500">구축 실적 정보 입력 및 실시간 저장</p>',
             '      </div>',
             '    </div>',
-            '    <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="text-slate-400 hover:text-slate-700 p-2 rounded-lg hover:bg-slate-100 text-lg leading-none cursor-pointer">',
+            '    <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="text-slate-400 hover:text-slate-800 p-2 rounded-lg hover:bg-slate-200 text-lg leading-none cursor-pointer">',
             '      <i class="fa-solid fa-xmark"></i>',
             '    </button>',
             '  </div>',
@@ -550,7 +646,7 @@
             '    </div>',
             '    <!-- 모달 푸터 버튼 -->',
             '    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2.5 bg-slate-50 -mx-6 -mb-6 p-4 rounded-b-2xl">',
-            '      <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-700 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-colors cursor-pointer">',
+            '      <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer">',
             '        취소',
             '      </button>',
             '      <button type="submit" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 flex items-center gap-2 cursor-pointer border border-cyan-400/30">',
@@ -773,6 +869,9 @@
         handleFormSubmit: handleReferenceFormSubmit,
         deleteCard: deleteReferenceCard,
         resetToDefault: resetReferencesData,
+        exportJson: exportReferencesToJson,
+        importJson: importReferencesFromJson,
+        copyJsCode: copyReferencesJsCode,
         triggerLoginModal: function () {
             if (typeof window.openAdminLoginModal === 'function') {
                 window.openAdminLoginModal();
