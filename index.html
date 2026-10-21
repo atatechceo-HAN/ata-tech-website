@@ -497,14 +497,27 @@
                 filter: drop-shadow(0 1px 3px rgba(15, 44, 89, 0.12)) !important;
             }
 
-            /* 푸터 퀵링크 모바일 터치 히트박스 확대 */
+            /* 모바일 슬라이드 메뉴 내부 모든 서브메뉴 링크 및 버튼 44px 이상 터치 영역 강제 보장 */
+            #mobile-menu a,
+            #mobile-menu button {
+                min-height: 44px !important;
+                touch-action: manipulation !important;
+                -webkit-tap-highlight-color: rgba(37, 99, 235, 0.15) !important;
+            }
+
+            #mobile-menu a {
+                display: flex !important;
+                align-items: center !important;
+            }
+
+            /* 푸터 퀵링크 모바일 터치 히트박스 확대 (최소 44px) */
             footer a {
-                min-height: 38px !important;
+                min-height: 44px !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 touch-action: manipulation !important;
-                padding-top: 0.25rem !important;
-                padding-bottom: 0.25rem !important;
+                padding-top: 0.375rem !important;
+                padding-bottom: 0.375rem !important;
             }
         }
 
@@ -1130,19 +1143,19 @@
 
                     </div>
 
-                    <div class="flex flex-col space-y-3 pl-2">
+                    <div class="flex flex-col space-y-1.5 pl-1">
 
-                        <a href="#" onclick="navigate('main', 'about-ceo'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_ceo">CEO 인사말</a>
+                        <a href="javascript:void(0)" onclick="navigate('main', 'about-ceo'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_ceo">CEO 인사말</a>
 
-                        <a href="#" onclick="navigate('main', 'about-history'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_history">연혁</a>
+                        <a href="javascript:void(0)" onclick="navigate('main', 'about-history'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_history">연혁</a>
 
-                        <a href="#" onclick="navigate('main', 'about-vision'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_vision">비전</a>
+                        <a href="javascript:void(0)" onclick="navigate('main', 'about-vision'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_vision">비전</a>
 
-                        <a href="#" onclick="navigate('main', 'about-core-tech'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_tech">핵심기술</a>
+                        <a href="javascript:void(0)" onclick="navigate('main', 'about-core-tech'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_tech">핵심기술</a>
 
                     </div>
 
@@ -1161,18 +1174,18 @@
 
                     </div>
 
-                    <div class="flex flex-col space-y-3 pl-2">
+                    <div class="flex flex-col space-y-1.5 pl-1">
 
-                        <a href="#" onclick="navigate('patents'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors"
+                        <a href="javascript:void(0)" onclick="navigate('patents'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"
                             data-i18n="nav_patents_status">특허 현황</a>
 
-                        <a href="#" onclick="navigate('cert-quality'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_certs_status">인증
+                        <a href="javascript:void(0)" onclick="navigate('cert-quality'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_certs_status">인증
                             현황</a>
 
-                        <a href="#" onclick="navigate('cert-awards'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors"
+                        <a href="javascript:void(0)" onclick="navigate('cert-awards'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"
                             data-i18n="nav_awards_status">수상현황 (수상 내역)</a>
 
                     </div>
@@ -1192,54 +1205,54 @@
 
                     </div>
 
-                    <div class="flex flex-col space-y-3 pl-2">
+                    <div class="flex flex-col space-y-1.5 pl-1">
 
-                        <a href="#" onclick="navigate('solutions'); return false;"
-                            class="text-blue-600 font-bold hover:text-blue-800 transition-colors"
+                        <a href="javascript:void(0)" onclick="navigate('solutions'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-blue-600 font-bold hover:text-blue-800 active:bg-blue-50 transition-all text-sm cursor-pointer"
                             data-i18n="nav_solution_all">전체 솔루션 보기</a>
 
-                        <a href="#" onclick="navigate('product', '택배차량 배송 자동화 시스템'); return false;"
-                            class="text-blue-600 font-semibold hover:text-blue-800 transition-colors"
+                        <a href="javascript:void(0)" onclick="navigate('product', '택배차량 배송 자동화 시스템'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-blue-600 font-semibold bg-blue-50/50 hover:bg-blue-100/70 active:bg-blue-100 transition-all text-sm cursor-pointer"
                             data-i18n="nav_sol_1">1. 택배차량 배송 자동화 시스템 (NEW)</a>
 
-                        <a href="#" onclick="navigate('product', 'NBS [Narrow Belt Sorter]'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_2">2. NBS
+                        <a href="javascript:void(0)" onclick="navigate('product', 'NBS [Narrow Belt Sorter]'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_2">2. NBS
                             [Narrow Belt Sorter]</a>
 
-                        <a href="#" onclick="navigate('product', 'CBS [Cross Belt Sorter]'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_3">3. CBS
+                        <a href="javascript:void(0)" onclick="navigate('product', 'CBS [Cross Belt Sorter]'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_3">3. CBS
                             [Cross Belt Sorter]</a>
 
-                        <a href="#" onclick="navigate('product', 'NC CBS [NC Cross Belt Sorter]'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_4">4. NC CBS
+                        <a href="javascript:void(0)" onclick="navigate('product', 'NC CBS [NC Cross Belt Sorter]'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_4">4. NC CBS
                             [NC Cross Belt Sorter]</a>
 
-                        <a href="#" onclick="navigate('product', 'Wheel Sorter'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_5">5. Wheel
+                        <a href="javascript:void(0)" onclick="navigate('product', 'Wheel Sorter'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_5">5. Wheel
                             Sorter</a>
 
-                        <a href="#" onclick="navigate('product', 'Tilt Tray Sorter'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_6">6. Tilt
+                        <a href="javascript:void(0)" onclick="navigate('product', 'Tilt Tray Sorter'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_6">6. Tilt
                             Tray Sorter</a>
 
-                        <a href="#" onclick="navigate('product', 'Conveyors & ADD-Ons'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_7">7.
+                        <a href="javascript:void(0)" onclick="navigate('product', 'Conveyors & ADD-Ons'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_7">7.
                             Conveyors & ADD-Ons</a>
 
-                        <a href="#" onclick="navigate('product', 'Telescopic'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_8">8.
+                        <a href="javascript:void(0)" onclick="navigate('product', 'Telescopic'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_8">8.
                             Telescopic</a>
 
-                        <a href="#" onclick="navigate('product', 'Shuttle AS/RS'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_9">9.
+                        <a href="javascript:void(0)" onclick="navigate('product', 'Shuttle AS/RS'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_9">9.
                             Shuttle AS/RS</a>
 
-                        <a href="#" onclick="navigate('product', 'AGV & AMR'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_10">10. AGV
+                        <a href="javascript:void(0)" onclick="navigate('product', 'AGV & AMR'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_10">10. AGV
                             & AMR</a>
 
-                        <a href="#" onclick="navigate('product', 'WCS [창고제어시스템]'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_sol_11">11. WCS
+                        <a href="javascript:void(0)" onclick="navigate('product', 'WCS [창고제어시스템]'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_sol_11">11. WCS
                             [창고제어시스템]</a>
 
                     </div>
@@ -1250,16 +1263,16 @@
 
                 <div>
 
-                    <a href="#" onclick="navigate('reference'); return false;"
-                        class="text-slate-900 font-bold text-lg block border-b border-slate-200 pb-2 hover:text-blue-600 transition-colors"><span
+                    <a href="javascript:void(0)" onclick="navigate('reference'); toggleMobileMenu(false);"
+                        class="min-h-[44px] flex items-center justify-between text-slate-900 font-bold text-lg border-b border-slate-200 pb-2 hover:text-blue-600 active:text-blue-600 transition-colors cursor-pointer"><span
                             data-i18n="nav_ref">REFERENCE</span>
-
+                        <i class="fa-solid fa-angle-right text-xs text-blue-600"></i>
                     </a>
 
-                    <div class="flex flex-col space-y-3 pl-2 pt-2">
+                    <div class="flex flex-col space-y-1.5 pl-1 pt-2">
 
-                        <a href="#" onclick="navigate('reference', 'all'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors"><span
+                        <a href="javascript:void(0)" onclick="navigate('reference', 'all'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"><span
                                 data-i18n="nav_sub_ref">주요 실적 전체 보기</span></a>
 
                     </div>
@@ -1279,14 +1292,14 @@
 
                     </div>
 
-                    <div class="flex flex-col space-y-3 pl-2">
+                    <div class="flex flex-col space-y-1.5 pl-1">
 
-                        <a href="#" onclick="navigate('xingting-intro'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors"
+                        <a href="javascript:void(0)" onclick="navigate('xingting-intro'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"
                             data-i18n="nav_china_intro">중국지사(제조사) 소개</a>
 
-                        <a href="#" onclick="navigate('xingting-coop'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors flex items-center justify-between">
+                        <a href="javascript:void(0)" onclick="navigate('xingting-coop'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer">
 
                             <span data-i18n="nav_china_coop">협력사업</span>
 
@@ -1295,8 +1308,8 @@
 
                         </a>
 
-                        <a href="#" onclick="navigate('xingting-global'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors flex items-center justify-between">
+                        <a href="javascript:void(0)" onclick="navigate('xingting-global'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer">
 
                             <span data-i18n="nav_china_global">글로벌 네트워크</span>
 
@@ -1312,8 +1325,8 @@
 
 
                 <div>
-                    <a href="#" onclick="navigate('notice'); return false;"
-                        class="text-slate-900 font-bold text-lg block border-b border-slate-200 pb-2 hover:text-blue-600 transition-colors flex items-center justify-between"><span
+                    <a href="javascript:void(0)" onclick="navigate('notice'); toggleMobileMenu(false);"
+                        class="min-h-[44px] flex items-center justify-between text-slate-900 font-bold text-lg border-b border-slate-200 pb-2 hover:text-blue-600 active:text-blue-600 transition-colors cursor-pointer"><span
                             data-i18n="nav_notice">공지사항</span>
                         <span class="text-xs text-slate-500 font-normal" data-i18n="nav_sub_notice">새소식 & 공지</span>
                     </a>
@@ -1330,14 +1343,14 @@
 
                     </div>
 
-                    <div class="flex flex-col space-y-3 pl-2">
+                    <div class="flex flex-col space-y-1.5 pl-1">
 
-                        <a href="#" onclick="navigate('contact-map'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors" data-i18n="nav_contact_map">오시는
+                        <a href="javascript:void(0)" onclick="navigate('contact-map'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer" data-i18n="nav_contact_map">오시는
                             길</a>
 
-                        <a href="#" onclick="navigate('contact-inquiry'); return false;"
-                            class="text-slate-600 hover:text-blue-600 transition-colors"
+                        <a href="javascript:void(0)" onclick="navigate('contact-inquiry'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"
                             data-i18n="nav_contact_inquiry">문의하기</a>
 
                     </div>
@@ -3398,7 +3411,7 @@
             <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12 fade-in">
 
                 <button type="button" onclick="filterReference('all')" id="ref-tab-all"
-                    class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white ring-2 ring-cyan-400">
+                    class="ref-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white ring-2 ring-cyan-400 active:scale-95 cursor-pointer">
 
                     <span data-i18n="ref_tab_all">전체 보기</span> <span
                         class="ref-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white">7</span>
@@ -3406,7 +3419,7 @@
                 </button>
 
                 <button type="button" onclick="filterReference('ecommerce')" id="ref-tab-ecommerce"
-                    class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200">
+                    class="ref-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 active:scale-95 cursor-pointer">
 
                     <i class="fa-solid fa-cart-shopping mr-1.5 text-blue-400"></i><span
                         data-i18n="ref_tab_ecommerce">이커머스 / 유통</span> <span
@@ -3415,7 +3428,7 @@
                 </button>
 
                 <button type="button" onclick="filterReference('food')" id="ref-tab-food"
-                    class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200">
+                    class="ref-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 active:scale-95 cursor-pointer">
 
                     <i class="fa-solid fa-snowflake mr-1.5 text-cyan-400"></i><span data-i18n="ref_tab_food">식음료 /
                         콜드체인</span> <span
@@ -3424,7 +3437,7 @@
                 </button>
 
                 <button type="button" onclick="filterReference('manu')" id="ref-tab-manu"
-                    class="ref-filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200">
+                    class="ref-filter-tab min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 active:scale-95 cursor-pointer">
 
                     <i class="fa-solid fa-industry mr-1.5 text-amber-400"></i><span data-i18n="ref_tab_manu">제조 /
                         자동차</span> <span
@@ -4382,37 +4395,37 @@
                 <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
 
                     <button type="button" id="notice-tab-all" onclick="filterNoticeCategory('all')"
-                        class="notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-50 text-blue-700 border border-blue-200 shadow-sm transition-all cursor-pointer">
+                        class="notice-tab-btn min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-50 text-blue-700 border border-blue-200 shadow-sm transition-all cursor-pointer active:scale-95">
                         <span data-i18n="notice_tab_all">전체</span>
                     </button>
 
                     <button type="button" id="notice-tab-notice" onclick="filterNoticeCategory('notice')"
-                        class="notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer">
+                        class="notice-tab-btn min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer active:scale-95">
                         <span data-i18n="notice_tab_notice">중요 공지</span>
                     </button>
 
                     <button type="button" id="notice-tab-patent" onclick="filterNoticeCategory('patent')"
-                        class="notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer">
+                        class="notice-tab-btn min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer active:scale-95">
                         <span data-i18n="notice_tab_patent">특허</span>
                     </button>
 
                     <button type="button" id="notice-tab-cert" onclick="filterNoticeCategory('cert')"
-                        class="notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer">
+                        class="notice-tab-btn min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer active:scale-95">
                         <span data-i18n="notice_tab_cert">인증</span>
                     </button>
 
                     <button type="button" id="notice-tab-award" onclick="filterNoticeCategory('award')"
-                        class="notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer">
+                        class="notice-tab-btn min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer active:scale-95">
                         <span data-i18n="notice_tab_award">수상</span>
                     </button>
 
                     <button type="button" id="notice-tab-tech" onclick="filterNoticeCategory('tech')"
-                        class="notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer">
+                        class="notice-tab-btn min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer active:scale-95">
                         <span data-i18n="notice_tab_tech">기술 & 솔루션</span>
                     </button>
 
                     <button type="button" id="notice-tab-press" onclick="filterNoticeCategory('press')"
-                        class="notice-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer">
+                        class="notice-tab-btn min-h-[44px] flex items-center justify-center px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer active:scale-95">
                         <span data-i18n="notice_tab_press">보도자료 & 행사</span>
                     </button>
 
@@ -5569,54 +5582,39 @@
                 });
             }
 
-            // [모바일 메뉴 내부 네비게이션 링크 및 버튼 고속 터치/클릭 통합 바인딩]
+            // [모바일 메뉴 내부 네비게이션 링크 및 버튼 터치/클릭 안정화]
             const mobileMenuEl = document.getElementById('mobile-menu');
             if (mobileMenuEl) {
-                // 클릭 이벤트 처리: 메뉴 내부 a 태그 클릭 시 모바일 메뉴 자동 닫기
-                mobileMenuEl.addEventListener('click', (e) => {
-                    const link = e.target.closest('a');
-                    if (link) {
-                        toggleMobileMenu(false);
-                    }
-                });
-
-                // 모바일 터치 제스처 처리: 스크롤 중에는 동작하지 않고, 탭했을 때 즉각 반응
                 let menuTouchStartY = 0;
                 let menuTouchStartX = 0;
-                let menuTouchMoved = false;
+                let menuScrolling = false;
 
                 mobileMenuEl.addEventListener('touchstart', (e) => {
-                    if (e.touches.length === 1) {
+                    if (e.touches && e.touches.length === 1) {
                         menuTouchStartX = e.touches[0].clientX;
                         menuTouchStartY = e.touches[0].clientY;
-                        menuTouchMoved = false;
+                        menuScrolling = false;
                     }
                 }, { passive: true });
 
                 mobileMenuEl.addEventListener('touchmove', (e) => {
-                    if (e.touches.length === 1) {
+                    if (e.touches && e.touches.length === 1) {
                         const diffX = Math.abs(e.touches[0].clientX - menuTouchStartX);
                         const diffY = Math.abs(e.touches[0].clientY - menuTouchStartY);
-                        if (diffX > 15 || diffY > 15) {
-                            menuTouchMoved = true;
+                        if (diffX > 10 || diffY > 10) {
+                            menuScrolling = true;
                         }
                     }
                 }, { passive: true });
 
-                mobileMenuEl.addEventListener('touchend', (e) => {
-                    // 스크롤이 아닌 순수 탭 동작일 때 해당 a 또는 button 클릭 실행
-                    if (!menuTouchMoved) {
-                        const targetAction = e.target.closest('a[onclick], button[onclick]');
-                        // 언어 변경 버튼(m-lang-*)은 전용 핸들러가 처리하므로 제외하고, 이중 실행 차단(300ms 디바운스) 적용
-                        if (targetAction && !targetAction.id?.startsWith('m-lang-')) {
-                            const now = Date.now();
-                            if (!targetAction._lastMenuTouch || now - targetAction._lastMenuTouch > 300) {
-                                targetAction._lastMenuTouch = now;
-                                targetAction.click();
-                            }
-                        }
+                // 메뉴 스크롤 도중 링크가 실수로 눌리는 것을 차단하고, 탭했을 때는 즉각적이고 단일한 클릭 보장
+                mobileMenuEl.addEventListener('click', (e) => {
+                    if (menuScrolling) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
                     }
-                }, { passive: true });
+                }, true);
             }
 
             // [모바일 터치 바인딩] 솔루션 카드의 '영상 보기' 버튼 고속 터치
