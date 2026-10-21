@@ -620,6 +620,25 @@
             display: flex !important;
             pointer-events: auto !important;
         }
+
+        /* 데스크톱 네비게이션바 글자 1줄 배치 절대 보장 (모든 해상도 및 다국어 환경) */
+        #navbar-header-bar {
+            max-width: 1680px !important;
+            width: 100% !important;
+        }
+
+        #navbar nav,
+        #navbar nav > div,
+        #navbar nav a,
+        #navbar nav button,
+        #navbar nav span,
+        #desktop-lang-container,
+        #desktop-lang-container button,
+        #desktop-lang-container span,
+        .desktop-header-util-btn {
+            white-space: nowrap !important;
+            word-break: keep-all !important;
+        }
     </style>
 
     <script>
@@ -655,34 +674,34 @@
     <header id="navbar"
         class="fixed w-full top-0 z-[9999] transition-all duration-300 bg-white text-slate-800 border-b border-slate-200 shadow-sm">
 
-        <!-- 헤더 상단 콘텐츠 바 (메뉴 레이어 z-index 9999보다 상위인 z-index 10000 보장, 모바일 안전 여백 px-3 sm:px-6) -->
+        <!-- 헤더 상단 콘텐츠 바 (데스크톱 네비게이션 1줄 고정을 위해 max-w-[1680px]로 확장, 좌우 반응형 패딩 적용) -->
         <div id="navbar-header-bar"
-            class="relative z-[10000] max-w-7xl mx-auto px-3 sm:px-6 h-20 flex items-center justify-between gap-1 sm:gap-2">
+            class="relative z-[10000] max-w-[1680px] w-full mx-auto px-3 sm:px-5 lg:px-6 xl:px-8 h-20 flex items-center justify-between gap-2 lg:gap-3 xl:gap-5">
 
             <!-- 로고 영역 -->
 
-            <div class="header-logo-container flex items-center cursor-pointer shrink-0 min-w-[110px]"
+            <div class="header-logo-container flex items-center cursor-pointer shrink-0 min-w-[100px] xl:min-w-[120px]"
                 onclick="navigate('main'); return false;">
 
                 <img src="Logo - 001.png" alt="ATA Technology"
-                    class="header-logo-img h-11 sm:h-12 md:h-14 lg:h-16 bg-white px-2 sm:px-2.5 py-1 rounded-lg shadow-sm object-contain transition-transform hover:scale-105"
+                    class="header-logo-img h-11 sm:h-12 md:h-13 lg:h-12 xl:h-14 2xl:h-16 bg-white px-2 sm:px-2.5 py-1 rounded-lg shadow-sm object-contain transition-transform hover:scale-105 shrink-0"
                     onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
 
             </div>
 
 
 
-            <nav class="hidden lg:flex space-x-6 text-sm font-medium h-full text-slate-700">
+            <nav class="hidden lg:flex items-center space-x-2 xl:space-x-3.5 2xl:space-x-5 text-[12.5px] xl:text-[13.5px] 2xl:text-sm font-semibold h-full text-slate-700 whitespace-nowrap shrink-0">
 
                 <!-- 1. ABOUT US -->
 
-                <div class="relative group h-full flex items-center">
+                <div class="relative group h-full flex items-center shrink-0">
 
                     <a href="#" onclick="navigate('main', 'about-ceo'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700">
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_about">ABOUT US</span> <i
-                            class="fa-solid fa-chevron-down text-[10px] ml-1.5 opacity-70"></i>
+                        <span data-i18n="nav_about" class="whitespace-nowrap">ABOUT US</span> <i
+                            class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
 
@@ -713,13 +732,13 @@
 
                 <!-- 2. 특허 및 인증 현황 -->
 
-                <div class="relative group h-full flex items-center">
+                <div class="relative group h-full flex items-center shrink-0">
 
                     <a href="#" onclick="navigate('patents'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700">
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_patents">특허 및 인증</span> <i
-                            class="fa-solid fa-chevron-down text-[10px] ml-1.5 opacity-70"></i>
+                        <span data-i18n="nav_patents" class="whitespace-nowrap">특허 및 인증</span> <i
+                            class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
 
@@ -746,13 +765,13 @@
 
                 <!-- 3. SOLUTION -->
 
-                <div class="relative group h-full flex items-center">
+                <div class="relative group h-full flex items-center shrink-0">
 
                     <a href="#" onclick="navigate('solutions'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700">
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_solution">SOLUTION</span> <i
-                            class="fa-solid fa-chevron-down text-[10px] ml-1.5 opacity-70"></i>
+                        <span data-i18n="nav_solution" class="whitespace-nowrap">SOLUTION</span> <i
+                            class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
 
@@ -814,21 +833,21 @@
 
 
                 <!-- 3-2. 제품 라인업 (PRODUCT LINEUP) -->
-                <div class="h-full flex items-center">
+                <div class="h-full flex items-center shrink-0">
                     <a href="#" onclick="navigate('product-lineup'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-medium">
-                        <span data-i18n="nav_product_lineup">제품 라인업</span>
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-semibold whitespace-nowrap py-1">
+                        <span data-i18n="nav_product_lineup" class="whitespace-nowrap">제품 라인업</span>
                     </a>
                 </div>
 
                 <!-- 4. REFERENCE (하위 메뉴 통합 단일 메인 메뉴) -->
 
-                <div class="h-full flex items-center">
+                <div class="h-full flex items-center shrink-0">
 
                     <a href="#" onclick="navigate('reference'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-medium">
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-semibold whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_ref">REFERENCE</span>
+                        <span data-i18n="nav_ref" class="whitespace-nowrap">레퍼런스 (실적)</span>
 
                     </a>
 
@@ -838,13 +857,13 @@
 
                 <!-- 5. 중국지사_제조사 -->
 
-                <div class="relative group h-full flex items-center">
+                <div class="relative group h-full flex items-center shrink-0">
 
                     <a href="#" onclick="navigate('xingting-intro'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700">
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_china">중국지사(제조사)</span> <i
-                            class="fa-solid fa-chevron-down text-[10px] ml-1.5 opacity-70"></i>
+                        <span data-i18n="nav_china" class="whitespace-nowrap">중국지사(제조사)</span> <i
+                            class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
 
@@ -939,22 +958,22 @@
 
 
                 <!-- 5-2. 공지사항 (NOTICE) -->
-                <div class="h-full flex items-center">
+                <div class="h-full flex items-center shrink-0">
                     <a href="#" onclick="navigate('notice'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-medium">
-                        <span data-i18n="nav_notice">공지사항</span>
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-semibold whitespace-nowrap py-1">
+                        <span data-i18n="nav_notice" class="whitespace-nowrap">공지사항</span>
                     </a>
                 </div>
 
                 <!-- 6. CONTACT -->
 
-                <div class="relative group h-full flex items-center">
+                <div class="relative group h-full flex items-center shrink-0">
 
                     <a href="#" onclick="navigate('contact-map'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700">
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_contact">CONTACT</span> <i
-                            class="fa-solid fa-chevron-down text-[10px] ml-1.5 opacity-70"></i>
+                        <span data-i18n="nav_contact" class="whitespace-nowrap">문의 (CONTACT)</span> <i
+                            class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
 
@@ -983,15 +1002,15 @@
 
 
 
-            <div class="hidden lg:flex items-center ml-4 gap-3">
+            <div class="hidden lg:flex items-center ml-2 xl:ml-4 gap-1.5 xl:gap-2.5 shrink-0 whitespace-nowrap">
 
                 <!-- 4개국어 언어 선택 셀렉터 (Desktop) -->
-                <div class="relative group h-full flex items-center" id="desktop-lang-container">
+                <div class="relative group h-full flex items-center shrink-0" id="desktop-lang-container">
                     <button id="lang-btn" type="button" onclick="toggleDesktopLangDropdown(event)"
-                        class="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-700 hover:text-blue-600 border border-slate-200 shadow-sm transition-all text-xs font-semibold cursor-pointer">
+                        class="desktop-header-util-btn flex items-center gap-1 xl:gap-1.5 px-2.5 xl:px-3 py-1.5 xl:py-2 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-700 hover:text-blue-600 border border-slate-200 shadow-sm transition-all text-xs font-semibold cursor-pointer whitespace-nowrap shrink-0">
                         <i class="fa-solid fa-globe text-blue-600 text-xs"></i>
-                        <span id="current-lang-label">🇰🇷 한국어</span>
-                        <i class="fa-solid fa-chevron-down text-[9px] opacity-70 ml-0.5"></i>
+                        <span id="current-lang-label" class="whitespace-nowrap">🇰🇷 한국어</span>
+                        <i class="fa-solid fa-chevron-down text-[8px] xl:text-[9px] opacity-70 ml-0.5"></i>
                     </button>
                     <div id="desktop-lang-dropdown"
                         class="dropdown-menu absolute top-full right-0 mt-2 w-36 bg-white border border-slate-200 border-t-2 border-t-blue-600 shadow-2xl rounded-xl overflow-hidden py-1 z-[9999]">
@@ -1026,19 +1045,19 @@
                 </div>
 
                 <button onclick="openConsultModal()"
-                    class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-500 text-white font-bold text-xs uppercase px-4 py-2.5 rounded-full shadow-md shadow-blue-500/20 transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-2 border border-blue-400/30">
+                    class="desktop-header-util-btn bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-500 text-white font-bold text-xs uppercase px-3 xl:px-4 py-2 xl:py-2.5 rounded-full shadow-md shadow-blue-500/20 transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-1.5 border border-blue-400/30 whitespace-nowrap shrink-0">
 
                     <i class="fa-solid fa-headset text-xs"></i>
 
-                    <span data-i18n="btn_consult">도입 상담</span>
+                    <span data-i18n="btn_consult" class="whitespace-nowrap">도입 상담</span>
 
                 </button>
 
                 <!-- PC 통합 관리자 모드 바로가기 버튼 -->
                 <button type="button" onclick="openIntegratedAdminHub()" title="전 메뉴(연혁, 제품, 실적, 공지) 통합 관리자 센터"
-                    class="bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-600 font-semibold text-xs px-3 py-2.5 rounded-full border border-slate-200 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer">
+                    class="desktop-header-util-btn bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-600 font-semibold text-xs px-2.5 xl:px-3 py-2 xl:py-2.5 rounded-full border border-slate-200 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-gear text-blue-600"></i>
-                    <span id="pc-header-admin-text">관리자 센터</span>
+                    <span id="pc-header-admin-text" class="whitespace-nowrap">관리자 센터</span>
                 </button>
 
             </div>
