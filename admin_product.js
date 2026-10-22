@@ -26,11 +26,12 @@
     // ==========================================================================
     var STORAGE_KEY_PRODUCTS = "ata_product_lineup_db"; // 브라우저 로컬 저장소 키
     var STORAGE_VERSION_KEY = "ata_product_lineup_version"; // 데이터 구조 버전 키
-    var CURRENT_STORAGE_VERSION = "2.0_image_showcase"; // 신규 이미지 쇼케이스 버전
+    var CURRENT_STORAGE_VERSION = "2.1_fix_no_image_fallback"; // [긴급 패치] Unsplash 의존성 제거 및 내부 정적 fallback 적용 버전
     var currentFilterCategory = "all"; // 현재 활성화된 카테고리 필터 ('all', 'delivery', 'transfer', 'sorting', 'warehouse', 'etc')
 
     // ==========================================================================
     // 2. 초기 기본 설비 이미지 데이터 (이미지 중심 쇼케이스 구성)
+    // [보안/안전성 강화] 외부 불안정 URL(Unsplash 등) 제거 및 프로젝트 내부 정적 에셋 연동
     // ==========================================================================
     var INITIAL_PRODUCTS_DATA = [
         {
@@ -39,7 +40,7 @@
             title: "초고속 텔레스코픽 로더 (Telescopic Loader)",
             description: "트럭 및 컨테이너 내부로 자동 연장되어 상하차 효율을 극대화하는 상하차 자동화 설비",
             imageUrl: "Conveyors & ADD-Ons.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=800",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 1
         },
         {
@@ -47,8 +48,8 @@
             category: "sorting", // 물류 분류 라인
             title: "크로스벨트 소터 (Cross Belt Sorter)",
             description: "시간당 25,000개 이상의 다양한 화물을 고속 정밀 분류하는 최첨단 루프형 분류 시스템",
-            imageUrl: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "[ Insert Data ]/SOLUTION/CBS.jpg",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 2
         },
         {
@@ -56,8 +57,8 @@
             category: "sorting", // 물류 분류 라인
             title: "틸트트레이 소터 (Tilt Tray Sorter)",
             description: "기울임 트레이 방식으로 의류, 소형 패키지, 도서 등을 안전하고 부드럽게 고속 분류",
-            imageUrl: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 3
         },
         {
@@ -65,8 +66,8 @@
             category: "sorting", // 물류 분류 라인
             title: "슬라이딩 슈 소터 (Sliding Shoe Sorter)",
             description: "신발 형태의 다이버터가 부드럽게 화물을 밀어내어 중대형 박스를 손상 없이 고속 분기",
-            imageUrl: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "Conveyors & ADD-Ons.jpg",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 4
         },
         {
@@ -74,8 +75,8 @@
             category: "sorting", // 물류 분류 라인
             title: "팝업 휠 소터 (Pop-up Wheel Diverter)",
             description: "컨베이어 라인 중간에 모듈형으로 설치되어 직각 또는 45도 방향으로 고속 분기",
-            imageUrl: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "[ Insert Data ]/SOLUTION/Wheel Sorter.jpg",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 5
         },
         {
@@ -83,8 +84,8 @@
             category: "sorting", // 물류 분류 라인
             title: "버티컬 연속 리프터 (Vertical Continuous Lifter)",
             description: "복층 물류센터 간 상하 수직 방향으로 화물을 쉼 없이 고속 연속 이송",
-            imageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "Conveyors & ADD-Ons.jpg",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 6
         },
         {
@@ -92,8 +93,8 @@
             category: "transfer", // 물류 이송 라인
             title: "스마트 모듈형 롤러 컨베이어 (MDR Conveyor)",
             description: "구간별 모터 롤러 제어(ZPA)를 통해 무충돌 병목 제어 및 전력 소비를 50% 절감",
-            imageUrl: "https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 7
         },
         {
@@ -101,8 +102,8 @@
             category: "transfer", // 물류 이송 라인
             title: "자율주행 이송로봇 (AGV & AMR System)",
             description: "SLAM 라이다 내비게이션 기반의 무인 지능형 물류 팔레트 및 대차 이송 로봇 솔루션",
-            imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "[ Insert Data ]/SOLUTION/AGV & AMR.png",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 8
         },
         {
@@ -110,8 +111,8 @@
             category: "warehouse", // 물류 창고 라인
             title: "스마트 셔틀 입출고 시스템 (Multi-Tier Shuttle AS/RS)",
             description: "고밀도 랙 공간에서 초고속 셔틀 카트와 수직 리프터가 결합된 무인 자동 보관·피킹 시스템",
-            imageUrl: "https://images.unsplash.com/photo-1586528116493-a029325540fa?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1586528116493-a029325540fa?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "[ Insert Data ]/SOLUTION/shuttle ASRS.png",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 9
         },
         {
@@ -119,8 +120,8 @@
             category: "warehouse", // 물류 창고 라인
             title: "초고층 팔레트 스태커 크레인 (Pallet Stacker Crane)",
             description: "최대 40m 높이의 대형 물류 랙에 중량물 팔레트를 정밀 자동 적재·인출하는 고하중 크레인",
-            imageUrl: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=800",
-            fallbackUrl: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=800",
+            imageUrl: "Conveyors & ADD-Ons.jpg",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 10
         },
         {
@@ -129,7 +130,7 @@
             title: "지능형 물류 통합 관제 시스템 (ATA-WCS / WES)",
             description: "물류 장비 전체의 트래픽을 1ms 단위로 최적 제어하는 3D 디지털 트윈 기반 관제 소프트웨어",
             imageUrl: "핵심기술개요.jpg",
-            fallbackUrl: "핵심기술개요.png",
+            fallbackUrl: "assets/images/no-image.svg",
             sortOrder: 11
         }
     ];
@@ -141,12 +142,13 @@
     /**
      * 로컬 저장소에서 제품 목록을 가져옵니다.
      * 데이터가 없거나 구버전 데이터인 경우 신규 이미지 쇼케이스 데이터로 자동 마이그레이션합니다.
+     * [긴급 패치] Unsplash URL이 포함된 구버전 캐시 데이터 발견 시 안전한 내부 에셋으로 자동 정화(Sanitize)합니다.
      */
     function getProductsList() {
         try {
             var currentVer = localStorage.getItem(STORAGE_VERSION_KEY);
             if (currentVer !== CURRENT_STORAGE_VERSION) {
-                // 구버전 복잡한 텍스트 카드 데이터 삭제 및 신규 이미지 쇼케이스 데이터로 교체
+                // 구버전 결함 데이터(Unsplash 포함) 삭제 및 신규 안전 정적 데이터로 즉각 교체
                 saveProductsList(INITIAL_PRODUCTS_DATA);
                 localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_STORAGE_VERSION);
                 return INITIAL_PRODUCTS_DATA.slice();
@@ -156,6 +158,21 @@
             if (raw) {
                 var parsed = JSON.parse(raw);
                 if (Array.isArray(parsed) && parsed.length > 0) {
+                    // [무한루프 방지 자동 정화] 브라우저에 남아있을 수 있는 모든 Unsplash URL을 안전한 로컬 SVG로 치환
+                    var needsSave = false;
+                    parsed.forEach(function (item) {
+                        if (item.imageUrl && item.imageUrl.indexOf('unsplash.com') !== -1) {
+                            item.imageUrl = 'assets/images/no-image.svg';
+                            needsSave = true;
+                        }
+                        if (!item.fallbackUrl || item.fallbackUrl.indexOf('unsplash.com') !== -1) {
+                            item.fallbackUrl = 'assets/images/no-image.svg';
+                            needsSave = true;
+                        }
+                    });
+                    if (needsSave) {
+                        saveProductsList(parsed);
+                    }
                     return parsed;
                 }
             }
@@ -496,7 +513,11 @@
 
         displayList.forEach(function (card) {
             var meta = getCategoryMeta(card.category);
-            var fallbackUrl = card.fallbackUrl || 'https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=800';
+            // [무한루프 방지] fallbackUrl이 비어있거나 외부 Unsplash인 경우 항상 안전한 내부 SVG로 처리
+            var fallbackUrl = card.fallbackUrl || 'assets/images/no-image.svg';
+            if (fallbackUrl.indexOf('unsplash.com') !== -1) {
+                fallbackUrl = 'assets/images/no-image.svg';
+            }
             var displayTitle = card.title || '설비명';
             var displayDesc = card.description || '';
             var safeImg = card.imageUrl ? card.imageUrl.replace(/'/g, "\\'") : fallbackUrl;
@@ -525,8 +546,9 @@
             }
 
             // 2. 고화질 이미지 프레임 (클릭 시 전체화면 확대 팝업 실행)
+            // [원천 차단] onerror 발생 시 this.onerror=null 및 removeAttribute('onerror')로 무한 재귀 루프를 물리적으로 차단
             html += '    <div class="aspect-[16/10] bg-slate-950 relative overflow-hidden cursor-pointer" onclick="window.ProductLineupAdmin.openLightbox(\'' + card.id + '\')">';
-            html += '      <img src="' + card.imageUrl + '" onerror="this.onerror=null;this.src=\'' + fallbackUrl + '\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" alt="' + safeTitle + '">';
+            html += '      <img src="' + card.imageUrl + '" onerror="this.onerror=null; this.removeAttribute(\'onerror\'); this.src=\'' + fallbackUrl + '\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" alt="' + safeTitle + '">';
             html += '      <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent opacity-80 group-hover:opacity-50 transition-opacity"></div>';
 
             // 좌측 상단 카테고리 배지
@@ -653,7 +675,19 @@
         var btnDelete = document.getElementById('lightbox-btn-delete');
 
         if (imgEl) {
-            imgEl.src = card.imageUrl || card.fallbackUrl || '';
+            // [라이트박스 모달 이미지 무한루프 방지 핸들러]
+            imgEl.onerror = function () {
+                this.onerror = null;
+                if (typeof this.removeAttribute === 'function') {
+                    this.removeAttribute('onerror');
+                }
+                this.src = 'assets/images/no-image.svg';
+            };
+            var modalSafeImg = card.imageUrl || card.fallbackUrl || 'assets/images/no-image.svg';
+            if (modalSafeImg.indexOf('unsplash.com') !== -1) {
+                modalSafeImg = 'assets/images/no-image.svg';
+            }
+            imgEl.src = modalSafeImg;
             imgEl.alt = card.title || '설비 이미지';
         }
         if (titleEl) {
@@ -848,7 +882,7 @@
             '          <i class="fa-solid fa-link text-slate-400"></i> <span>또는 웹 이미지 링크(URL) / 파일명 직접 입력하기</span>',
             '        </summary>',
             '        <div class="pt-2">',
-            '          <input type="text" id="product-edit-image" placeholder="예: Conveyors & ADD-Ons.jpg 또는 https://images.unsplash.com/..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500">',
+            '          <input type="text" id="product-edit-image" placeholder="예: [ Insert Data ]/SOLUTION/CBS.jpg 또는 assets/images/no-image.svg" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500">',
             '        </div>',
             '      </details>',
             '    </div>',
@@ -1148,7 +1182,7 @@
                 category: category,
                 title: title,
                 imageUrl: imageUrl,
-                fallbackUrl: imageUrl,
+                fallbackUrl: "assets/images/no-image.svg", // [안전성] 신규 생성 시 안전한 정적 에셋을 기본 fallback으로 설정
                 description: description,
                 sortOrder: sortOrder
             };
@@ -1163,7 +1197,15 @@
         saveProductsList(list);
         closeProductEditModal();
         renderProductCards(currentFilterCategory);
-        alert(editId ? "제품 이미지가 성공적으로 수정되었습니다." : "새 제품 이미지가 성공적으로 등록되었습니다!");
+
+        // GitHub 원격 저장소 동기화 연동
+        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+            if (confirm((editId ? "제품 이미지가 수정되었습니다!" : "새 제품 이미지가 등록되었습니다!") + "\n\nGitHub 원격 저장소(main 브랜치)에도 지금 즉시 자동 반영(Push)하시겠습니까?")) {
+                window.GithubSync.syncAllToRemote(title + " 제품 라인업 갱신");
+            }
+        } else {
+            alert(editId ? "제품 이미지가 성공적으로 수정되었습니다.\n(다른 기기에서도 영구 유지하려면 관리자 센터의 [GitHub 연동 설정]에서 토큰을 등록해 주세요.)" : "새 제품 이미지가 성공적으로 등록되었습니다!\n(다른 기기에서도 영구 유지하려면 관리자 센터의 [GitHub 연동 설정]에서 토큰을 등록해 주세요.)");
+        }
     }
 
     /**
@@ -1175,13 +1217,24 @@
         }
 
         var list = getProductsList();
+        var targetItem = list.find(function (item) { return item.id === productId; });
+        var targetTitle = targetItem ? targetItem.title : "제품";
+
         var nextList = list.filter(function (item) {
             return item.id !== productId;
         });
 
         saveProductsList(nextList);
         renderProductCards(currentFilterCategory);
-        alert("제품 이미지가 삭제되었습니다.");
+
+        // GitHub 원격 저장소 동기화 연동
+        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+            if (confirm("[" + targetTitle + "] 제품이 삭제되었습니다.\n\nGitHub 원격 저장소(main 브랜치)에도 즉시 반영(Push)하시겠습니까?")) {
+                window.GithubSync.syncAllToRemote("[" + targetTitle + "] 제품 라인업 삭제");
+            }
+        } else {
+            alert("제품 이미지가 삭제되었습니다.");
+        }
     }
 
     // ==========================================================================
@@ -1242,7 +1295,7 @@
                 var safeTitle = (p.title || '설비명').replace(/"/g, '&quot;');
                 html.push('    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">');
                 html.push('      <div class="aspect-[16/10] bg-slate-900 relative overflow-hidden cursor-pointer" onclick="window.ProductLineupAdmin.openLightbox(\'' + p.id + '\')">');
-                html.push('        <img src="' + p.imageUrl + '" onerror="this.src=\'Conveyors & ADD-Ons.jpg\'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="' + safeTitle + '">');
+                html.push('        <img src="' + p.imageUrl + '" onerror="this.onerror=null; this.removeAttribute(\'onerror\'); this.src=\'assets/images/no-image.svg\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="' + safeTitle + '">');
                 html.push('        <span class="absolute top-2 left-2 ' + meta.badgeBg + ' text-[10px] font-bold px-2 py-0.5 rounded-full shadow border ' + meta.badgeBorder + ' flex items-center gap-1"><i class="fa-solid ' + meta.icon + '"></i> ' + meta.label + '</span>');
                 html.push('      </div>');
                 html.push('      <div class="p-3.5 flex-1 flex flex-col justify-between">');
@@ -1275,6 +1328,8 @@
         renderManagerList: renderProductManagerList,
         getProductsList: getProductsList,
         saveProductsList: saveProductsList,
+        getData: getProductsList, // GitHub 동기화 표준 API
+        setData: saveProductsList, // GitHub 동기화 표준 API
         openLightbox: openProductLightbox,
         closeLightbox: closeProductLightbox,
         openCreateModal: function () {

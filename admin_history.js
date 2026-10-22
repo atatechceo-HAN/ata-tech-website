@@ -217,7 +217,9 @@
      */
     function saveHistoryList(list) {
         try {
-            localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(list));
+            var jsonStr = JSON.stringify(list);
+            localStorage.setItem(STORAGE_KEY_HISTORY, jsonStr);
+            localStorage.setItem("ata_history_timeline_db", jsonStr); // 통합 허브 및 백업 호환 키
             return true;
         } catch (e) {
             console.error("연혁 데이터 저장 실패:", e);
@@ -642,7 +644,15 @@
         saveHistoryList(list);
         closeHistoryEditModal();
         renderHistoryCards();
-        alert(year + "년 연혁 카드가 시간별로 자동 정렬되어 성공적으로 저장되었습니다!");
+
+        // GitHub 원격 저장소 동기화 연동
+        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+            if (confirm(year + "년 연혁 카드가 브라우저에 저장되었습니다!\n\nGitHub 원격 저장소(main 브랜치)에도 지금 즉시 자동 반영(Push)하시겠습니까?")) {
+                window.GithubSync.syncAllToRemote(year + "년 연혁 카드 갱신");
+            }
+        } else {
+            alert(year + "년 연혁 카드가 시간별로 자동 정렬되어 성공적으로 저장되었습니다!\n(다른 기기에서도 영구 유지하려면 관리자 센터의 [GitHub 연동 설정]에서 토큰을 등록해 주세요.)");
+        }
     }
 
     /**
@@ -660,7 +670,15 @@
         list = list.filter(function (c) { return c.id !== cardId; });
         saveHistoryList(list);
         renderHistoryCards();
-        alert("[" + card.year + "년] 카드가 삭제되었습니다.");
+
+        // GitHub 원격 저장소 동기화 연동
+        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+            if (confirm("[" + card.year + "년] 카드가 삭제되었습니다.\n\nGitHub 원격 저장소(main 브랜치)에도 즉시 반영(Push)하시겠습니까?")) {
+                window.GithubSync.syncAllToRemote("[" + card.year + "년] 연혁 카드 삭제");
+            }
+        } else {
+            alert("[" + card.year + "년] 카드가 삭제되었습니다.");
+        }
     }
 
     // ==========================================================================
@@ -993,6 +1011,8 @@
     // ==========================================================================
     window.HistoryAdmin = {
         render: renderHistoryCards,
+        getData: getHistoryList, // 최신 연혁 데이터 조회 API
+        setData: saveHistoryList, // 연혁 데이터 덮어쓰기 API
         openCreateModal: function () {
             openHistoryEditModal(null);
         },

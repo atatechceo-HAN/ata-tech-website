@@ -419,6 +419,23 @@
         getNoticeById: function (id) {
             if (!window.noticeBoardDB) return null;
             return window.noticeBoardDB.find(n => n.id === id) || null;
+        },
+
+        /**
+         * GitHub 원격 동기화용 표준 데이터 조회 API
+         */
+        getData: function () {
+            return (window.noticeBoardDB && Array.isArray(window.noticeBoardDB)) ? window.noticeBoardDB : [];
+        },
+
+        /**
+         * GitHub 원격 동기화용 표준 데이터 저장 API
+         */
+        setData: function (data) {
+            if (Array.isArray(data)) {
+                window.noticeBoardDB = data;
+                this.save();
+            }
         }
     };
 
@@ -775,6 +792,13 @@
         if (currentEditingNoticeId && typeof window.openNoticeDetail === 'function') {
             window.openNoticeDetail(currentEditingNoticeId);
         }
+
+        // GitHub 원격 저장소 동기화 연동
+        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+            if (confirm((currentEditingNoticeId ? "공지사항이 수정되었습니다!" : "새 공지사항이 등록되었습니다!") + "\n\nGitHub 원격 저장소(main 브랜치)에도 지금 즉시 자동 반영(Push)하시겠습니까?")) {
+                window.GithubSync.syncAllToRemote(titleKo + " 공지사항 갱신");
+            }
+        }
     };
 
     /**
@@ -802,6 +826,13 @@
                 }
                 if (typeof window.renderNoticeList === 'function') {
                     window.renderNoticeList();
+                }
+
+                // GitHub 원격 저장소 동기화 연동
+                if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+                    if (confirm("공지사항이 삭제되었습니다.\n\nGitHub 원격 저장소(main 브랜치)에도 즉시 반영(Push)하시겠습니까?")) {
+                        window.GithubSync.syncAllToRemote("[" + (noticeTitle || noticeId) + "] 공지사항 삭제");
+                    }
                 }
             } else {
                 alert("삭제 처리 중 오류가 발생했습니다.");

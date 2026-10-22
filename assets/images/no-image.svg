@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a192f"/>
+      <stop offset="50%" stop-color="#0f2b48"/>
+      <stop offset="100%" stop-color="#173a5e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00C0E8"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  
+  <!-- 배경 그라데이션 및 그리드 패턴 -->
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+  
+  <!-- 중앙 테크 컨테이너 프레임 -->
+  <rect x="250" y="120" width="300" height="200" rx="16" fill="rgba(255, 255, 255, 0.03)" stroke="rgba(0, 192, 232, 0.3)" stroke-width="2" stroke-dasharray="6 4"/>
+  
+  <!-- 이미지 / 설비 플레이스홀더 아이콘 (카메라 & 스마트 물류 기어) -->
+  <g transform="translate(400, 200)" text-anchor="middle">
+    <!-- 박스 및 큐브 윤곽 -->
+    <path d="M -40 -15 L 0 -35 L 40 -15 L 40 25 L 0 45 L -40 25 Z" fill="none" stroke="url(#accent)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 0 -35 L 0 45" fill="none" stroke="rgba(0, 192, 232, 0.6)" stroke-width="2"/>
+    <path d="M -40 -15 L 0 5 L 40 -15" fill="none" stroke="rgba(0, 192, 232, 0.6)" stroke-width="2"/>
+    <circle cx="0" cy="5" r="8" fill="#00C0E8"/>
+  </g>
+  
+  <!-- 텍스트 안내 레이블 -->
+  <text x="400" y="280" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Pretendard', sans-serif" font-size="16" font-weight="700" fill="#E2E8F0" text-anchor="middle" letter-spacing="1">ATA TECHNOLOGY</text>
+  <text x="400" y="305" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Pretendard', sans-serif" font-size="13" font-weight="500" fill="#94A3B8" text-anchor="middle">스마트 물류 자동화 솔루션 이미지</text>
+</svg>

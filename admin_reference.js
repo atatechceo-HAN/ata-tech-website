@@ -31,7 +31,7 @@
             category: "ecommerce",
             title: "국내 최대 이커머스 C사 메가 허브 터미널",
             imageUrl: "H00_레퍼런스_이커머스_1.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=800",
+            fallbackUrl: "assets/images/no-image.svg",
             subBadge: "",
             tags: ["Cross Belt Sorter", "WCS", "텔레스코픽"],
             description: "일 200만 건 이상의 압도적인 물동량을 소화하기 위해 초고속 크로스 벨트 소터 및 자동 상하차 시스템을 구축하여 전국 익일 배송의 핵심 인프라를 완성했습니다.",
@@ -43,7 +43,7 @@
             category: "ecommerce",
             title: "글로벌 종합 유통 S사 수도권 풀필먼트 센터",
             imageUrl: "H00_레퍼런스_이커머스_2.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=800",
+            fallbackUrl: "assets/images/no-image.svg",
             subBadge: "",
             tags: ["AGV & AMR", "Shuttle AS/RS"],
             description: "다양한 규격의 소비재를 보관 및 피킹하기 위해 셔틀 타입의 자동 창고와 AGV 로봇을 결합하여 G2P(Goods-to-Person) 하이브리드 물류 센터를 구축했습니다.",
@@ -55,7 +55,7 @@
             category: "food",
             title: "F&B 전문기업 F사 냉동 자동화 창고",
             imageUrl: "H00_레퍼런스_콜드체인_1.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600",
+            fallbackUrl: "assets/images/no-image.svg",
             subBadge: "영하 20℃ 냉동창고",
             tags: ["저온형 AS/RS", "콜드체인 특화 WCS"],
             description: "극한의 저온 환경에서도 안정적으로 구동되는 특수 윤활 및 히팅 기술이 적용된 AS/RS 스태커 크레인을 구축하여 작업자의 위험 노출을 최소화했습니다.",
@@ -67,7 +67,7 @@
             category: "food",
             title: "대형 마트 M사 신선 물류 허브",
             imageUrl: "H00_레퍼런스_콜드체인_2.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=600",
+            fallbackUrl: "assets/images/no-image.svg",
             subBadge: "신선식품 당일배송",
             tags: ["Tilt Tray Sorter", "위생 스테인리스 컨베이어"],
             description: "신선도가 생명인 농축수산물을 산지에서 매장 및 고객에게 빠르게 배송하기 위해 초고속 Tilt Tray Sorter 기반의 분류 라인을 설계했습니다.",
@@ -79,7 +79,7 @@
             category: "manu",
             title: "글로벌 자동차 H사 공장 조립 라인",
             imageUrl: "H00_레퍼런스_제조_1.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=600",
+            fallbackUrl: "assets/images/no-image.svg",
             subBadge: "완성차 조립 라인",
             tags: ["Heavy Duty 컨베이어", "AGV 이송 시스템"],
             description: "중량물인 자동차 부품(엔진, 섀시 등)을 라인 간 오차 없이 이송하는 Heavy Duty 컨베이어 및 AGV 이송 시스템을 구축했습니다.",
@@ -91,7 +91,7 @@
             category: "manu",
             title: "배터리 제조 L사 셀 생산 라인",
             imageUrl: "H00_레퍼런스_제조_2.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&q=80&w=600",
+            fallbackUrl: "assets/images/no-image.svg",
             subBadge: "2차전지 배터리",
             tags: ["클린룸 로봇 팔레타이징", "정밀 롤러 컨베이어"],
             description: "분진 발생을 원천 차단하는 클린룸 특화 로봇 팔레타이징 시스템 및 고정밀 셀 이송 롤러 컨베이어를 성공적으로 설계 및 시공했습니다.",
@@ -103,7 +103,7 @@
             category: "manu",
             title: "국내 1위 타이어 K사 물류센터",
             imageUrl: "H00_레퍼런스_제조_3.jpg",
-            fallbackUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=600",
+            fallbackUrl: "assets/images/no-image.svg",
             subBadge: "타이어 및 부품",
             tags: ["비전 바코드 인식", "비정형 특화 소터 라인"],
             description: "비정형화된 대형 고무 타이어 화물을 바코드 비전 인식과 결합하여 목적지별로 자동 분류하는 특화 소터 라인을 구축했습니다.",
@@ -126,6 +126,21 @@
             if (raw) {
                 var parsed = JSON.parse(raw);
                 if (Array.isArray(parsed) && parsed.length > 0) {
+                    // [무한루프 방지 자동 정화] 기존 캐시 데이터 내 Unsplash URL이 남아있다면 안전한 정적 에셋으로 자동 치환
+                    var sanitized = false;
+                    parsed.forEach(function (item) {
+                        if (item.imageUrl && item.imageUrl.indexOf('unsplash.com') !== -1) {
+                            item.imageUrl = 'assets/images/no-image.svg';
+                            sanitized = true;
+                        }
+                        if (!item.fallbackUrl || item.fallbackUrl.indexOf('unsplash.com') !== -1) {
+                            item.fallbackUrl = 'assets/images/no-image.svg';
+                            sanitized = true;
+                        }
+                    });
+                    if (sanitized) {
+                        saveReferencesList(parsed);
+                    }
                     return parsed;
                 }
             }
@@ -142,7 +157,9 @@
      */
     function saveReferencesList(list) {
         try {
-            localStorage.setItem(STORAGE_KEY_REFERENCES, JSON.stringify(list));
+            var jsonStr = JSON.stringify(list);
+            localStorage.setItem(STORAGE_KEY_REFERENCES, jsonStr);
+            localStorage.setItem("ata_reference_projects_db", jsonStr); // 통합 허브 및 백업 호환 키
         } catch (e) {
             console.error("[ReferenceAdmin] 저장 실패:", e);
             alert("저장 공간이 부족하거나 브라우저 오류로 저장하지 못했습니다.");
@@ -428,7 +445,7 @@
                 catLabel = dict.ref_badge_manu || '제조 / 자동차';
             }
 
-            var fallbackUrl = card.fallbackUrl || 'https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=800';
+            var fallbackUrl = card.fallbackUrl || 'Conveyors & ADD-Ons.jpg';
 
             // 다국어 텍스트 매핑 (초기 기본 7개 구축 실적의 경우 i18n 번역 우선 적용)
             var displayTitle = (dict[card.id + '_title']) || card.title || '구축 실적';
@@ -461,11 +478,16 @@
             }
 
             // 2. 썸네일 이미지 영역
+            // [무한루프 방지] fallbackUrl 안전 처리 및 onerror 2중 차단 로직 적용
+            var fallbackUrl = card.fallbackUrl || 'assets/images/no-image.svg';
+            if (fallbackUrl.indexOf('unsplash.com') !== -1) {
+                fallbackUrl = 'assets/images/no-image.svg';
+            }
             var safeImg = card.imageUrl ? card.imageUrl.replace(/'/g, "\\'") : fallbackUrl;
             var safeTitle = displayTitle ? displayTitle.replace(/'/g, "\\'") : "구축 실적 이미지";
 
             html += '    <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer" onclick="openImageModal(\'' + safeImg + '\', \'' + safeTitle + '\')">';
-            html += '      <img src="' + card.imageUrl + '" onerror="this.onerror=null;this.src=\'' + fallbackUrl + '\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="' + safeTitle + '">';
+            html += '      <img src="' + card.imageUrl + '" onerror="this.onerror=null; this.removeAttribute(\'onerror\'); this.src=\'' + fallbackUrl + '\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="' + safeTitle + '">';
             html += '      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>';
             
             // 좌측 상단 카테고리 배지
@@ -627,7 +649,7 @@
             '      <label for="ref-edit-image" class="block text-xs font-semibold text-slate-700 mb-1.5">',
             '        대표 이미지 파일명 또는 웹 이미지 URL <span class="text-cyan-400">*</span>',
             '      </label>',
-            '      <input type="text" id="ref-edit-image" required placeholder="예: H00_레퍼런스_이커머스_1.jpg 또는 https://images.unsplash.com/..." class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-mono text-xs">',
+            '      <input type="text" id="ref-edit-image" required placeholder="예: Conveyors & ADD-Ons.jpg 또는 assets/images/no-image.svg" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-mono text-xs">',
             '      <p class="text-[11px] text-slate-500 mt-1">프로젝트 폴더 내 이미지 파일명을 적으시거나 외부 이미지 웹 링크(URL)를 입력하실 수 있습니다.</p>',
             '    </div>',
             '    <!-- 5행: 기술 태그 (쉼표로 구분) -->',
@@ -818,7 +840,7 @@
                 subBadge: subBadge,
                 sortOrder: sortOrder,
                 imageUrl: imageUrl,
-                fallbackUrl: "https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=800",
+                fallbackUrl: "assets/images/no-image.svg", // [안전성] 신규 생성 시 안전한 정적 에셋을 기본 fallback으로 설정
                 tags: tags,
                 description: description
             };
@@ -833,7 +855,15 @@
         saveReferencesList(list);
         closeReferenceEditModal();
         renderReferencesCards(currentFilterCategory);
-        alert(editId ? "레퍼런스 실적이 성공적으로 수정되었습니다." : "새로운 레퍼런스 실적이 성공적으로 등록되었습니다.");
+
+        // GitHub 원격 저장소 동기화 연동
+        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+            if (confirm((editId ? "레퍼런스 실적이 수정되었습니다!" : "새로운 레퍼런스 실적이 등록되었습니다!") + "\n\nGitHub 원격 저장소(main 브랜치)에도 지금 즉시 자동 반영(Push)하시겠습니까?")) {
+                window.GithubSync.syncAllToRemote(title + " 구축 실적 갱신");
+            }
+        } else {
+            alert(editId ? "레퍼런스 실적이 성공적으로 수정되었습니다.\n(다른 기기에서도 영구 유지하려면 관리자 센터의 [GitHub 연동 설정]에서 토큰을 등록해 주세요.)" : "새로운 레퍼런스 실적이 성공적으로 등록되었습니다!\n(다른 기기에서도 영구 유지하려면 관리자 센터의 [GitHub 연동 설정]에서 토큰을 등록해 주세요.)");
+        }
     }
 
     /**
@@ -845,13 +875,24 @@
         }
 
         var list = getReferencesList();
+        var targetItem = list.find(function (item) { return item.id === refId; });
+        var targetTitle = targetItem ? targetItem.title : "실적";
+
         var nextList = list.filter(function (item) {
             return item.id !== refId;
         });
 
         saveReferencesList(nextList);
         renderReferencesCards(currentFilterCategory);
-        alert("레퍼런스 실적이 삭제되었습니다.");
+
+        // GitHub 원격 저장소 동기화 연동
+        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+            if (confirm("[" + targetTitle + "] 실적이 삭제되었습니다.\n\nGitHub 원격 저장소(main 브랜치)에도 즉시 반영(Push)하시겠습니까?")) {
+                window.GithubSync.syncAllToRemote("[" + targetTitle + "] 구축 실적 삭제");
+            }
+        } else {
+            alert("레퍼런스 실적이 삭제되었습니다.");
+        }
     }
 
     // ==========================================================================
@@ -859,6 +900,8 @@
     // ==========================================================================
     window.ReferenceAdmin = {
         render: renderReferencesCards,
+        getData: getReferencesList, // GitHub 동기화 표준 API
+        setData: saveReferencesList, // GitHub 동기화 표준 API
         openCreateModal: function () {
             openReferenceEditModal(null);
         },

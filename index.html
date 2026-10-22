@@ -147,6 +147,8 @@
     <script src="admin_reference.js"></script>
     <!-- 스마트 물류 핵심 장비 '제품 라인업' 관리자 인증 및 작성·수정·삭제 엔진 (admin_product.js) -->
     <script src="admin_product.js"></script>
+    <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
+    <script src="github_sync.js"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
@@ -808,7 +810,7 @@
 
                 <img src="Logo - 001.png" alt="ATA Technology"
                     class="header-logo-img h-11 sm:h-12 md:h-13 lg:h-12 xl:h-14 2xl:h-16 bg-white px-2 sm:px-2.5 py-1 rounded-lg shadow-sm object-contain transition-transform hover:scale-105 shrink-0"
-                    onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
+                    onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;if(typeof this.removeAttribute==='function')this.removeAttribute('onerror');this.src='Logo - 001.jpg';}">
 
             </div>
 
@@ -1039,7 +1041,7 @@
                                 class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
 
                                 <img src="[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png"
-                                    onerror="handleAssetImgError(this, 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=200')"
+                                    onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
                                     class="w-full h-full object-cover group-hover/item:scale-105 transition-transform"
                                     alt="협력사업">
 
@@ -1067,7 +1069,7 @@
                                 class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
 
                                 <img src="[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png"
-                                    onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=200'"
+                                    onerror="this.onerror=null; this.src='assets/images/no-image.svg'"
                                     class="w-full h-full object-cover group-hover/item:scale-105 transition-transform"
                                     alt="글로벌 네트워크">
 
@@ -1690,7 +1692,7 @@
 
                             <img src="Logo - 001.png" alt="주식회사 에이티에이기술 로고"
                                 class="w-full max-w-[320px] sm:max-w-[360px] max-h-44 sm:max-h-52 object-contain transition-transform duration-300 hover:scale-105"
-                                onerror="if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
+                                onerror="if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else{this.onerror=null;if(typeof this.removeAttribute==='function')this.removeAttribute('onerror');this.src='Logo - 001.original.png';}">
 
                         </div>
 
@@ -1882,7 +1884,7 @@
                         class="max-w-4xl mx-auto bg-gradient-to-b from-[#0F1E36] via-[#091222] to-[#040812] rounded-3xl p-3 sm:p-5 md:p-6 border border-cyan-500/30 shadow-[0_20px_50px_rgba(2,132,199,0.16)] mb-6 relative group overflow-hidden">
                         <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-[#030A16]">
                             <img src="핵심기술개요_3d.jpg" alt="ATA 핵심 기술 3D 아키텍처"
-                                onerror="if(!this.dataset.triedOrig){this.dataset.triedOrig='1';this.src='핵심기술개요.png';}else{this.onerror=null;this.src='https://placehold.co/1000x550/0D1629/00C0E8?text=ATA+Core+Technology+Architecture';}"
+                                onerror="if(!this.dataset.triedOrig){this.dataset.triedOrig='1';this.src='핵심기술개요.png';}else{this.onerror=null;if(typeof this.removeAttribute==='function')this.removeAttribute('onerror');this.src='핵심기술개요.jpg';}"
                                 class="w-full h-auto max-h-[540px] object-contain mx-auto block rounded-2xl transition-transform duration-700 group-hover:scale-[1.015]">
                             <div
                                 class="absolute top-3.5 left-3.5 sm:top-5 sm:left-5 flex items-center gap-2 bg-[#0B1528]/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-cyan-500/40 text-cyan-300 text-xs font-semibold tracking-wider shadow-lg">
@@ -2008,7 +2010,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="택배차량 배송 자동화 시스템">
                             <div
@@ -2058,7 +2060,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/NBS.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="NBS [Narrow Belt Sorter]">
                             <button
@@ -2097,7 +2099,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/CBS.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="CBS [Cross Belt Sorter]">
                             <button
@@ -2136,7 +2138,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/NC CBS.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="NC CBS [NC Cross Belt Sorter]">
                             <button
@@ -2175,7 +2177,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/Wheel Sorter.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Wheel Sorter">
                             <button
@@ -2214,7 +2216,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png"
-                                onerror="this.src='https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Tilt Tray Sorter">
                             <button
@@ -2253,7 +2255,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg"
-                                onerror="if(!this.dataset.triedRoot){this.dataset.triedRoot='1';this.src='Conveyors & ADD-Ons.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x340/0D1629/00C0E8?text=Conveyors+%26+ADD-Ons';}"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Conveyors & ADD-Ons 물류 창고 이송 및 분류">
                         </div>
@@ -2283,7 +2285,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/Telescopic.png"
-                                onerror="this.src='https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Telescopic">
                             <button
@@ -2322,7 +2324,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/shuttle ASRS.png"
-                                onerror="this.src='https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="Shuttle AS/RS">
                             <button
@@ -2361,7 +2363,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/AGV & AMR.png"
-                                onerror="this.src='https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="AGV & AMR">
                             <button
@@ -2400,7 +2402,7 @@
                     <div>
                         <div class="aspect-video bg-slate-100 relative overflow-hidden">
                             <img src="[ Insert Data ]/SOLUTION/WCS [창고제어시스템].png"
-                                onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 alt="WCS [창고제어시스템]">
                             <button
@@ -2461,7 +2463,7 @@
                 class="aspect-[21/9] bg-white rounded-2xl flex items-center justify-center mb-12 shadow-md overflow-hidden relative group border border-slate-200">
 
                 <img id="product-detail-img" src=""
-                    onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=1200'"
+                    onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                     class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                     alt="솔루션 상세 이미지">
 
@@ -3756,7 +3758,7 @@
                         <div class="aspect-video bg-slate-100 relative overflow-hidden cursor-pointer"
                             onclick="openImageModal('H00_레퍼런스_이커머스_1.jpg', 'ref_c1_title')">
                             <img src="H00_레퍼런스_이커머스_1.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=800'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="국내 최대 이커머스 C사 메가 허브 터미널">
                             <div
@@ -3810,7 +3812,7 @@
                         <div class="aspect-video bg-slate-100 relative overflow-hidden cursor-pointer"
                             onclick="openImageModal('H00_레퍼런스_이커머스_2.jpg', 'ref_c2_title')">
                             <img src="H00_레퍼런스_이커머스_2.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=800'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="글로벌 종합 유통 S사 수도권 풀필먼트 센터">
                             <div
@@ -3861,7 +3863,7 @@
                         <div class="aspect-video bg-slate-100 relative overflow-hidden cursor-pointer"
                             onclick="openImageModal('H00_레퍼런스_콜드체인_1.jpg', 'ref_c3_title')">
                             <img src="H00_레퍼런스_콜드체인_1.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="F&B 전문기업 F사 냉동 자동화 창고">
                             <div
@@ -3916,7 +3918,7 @@
                         <div class="aspect-video bg-slate-100 relative overflow-hidden cursor-pointer"
                             onclick="openImageModal('H00_레퍼런스_콜드체인_2.jpg', 'ref_c4_title')">
                             <img src="H00_레퍼런스_콜드체인_2.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="대형 마트 M사 신선 물류 허브">
                             <div
@@ -3971,7 +3973,7 @@
                         <div class="aspect-video bg-slate-100 relative overflow-hidden cursor-pointer"
                             onclick="openImageModal('H00_레퍼런스_제조_1.jpg', 'ref_c5_title')">
                             <img src="H00_레퍼런스_제조_1.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="글로벌 자동차 H사 공장 조립 라인">
                             <div
@@ -4025,7 +4027,7 @@
                         <div class="aspect-video bg-slate-100 relative overflow-hidden cursor-pointer"
                             onclick="openImageModal('H00_레퍼런스_제조_2.jpg', 'ref_c6_title')">
                             <img src="H00_레퍼런스_제조_2.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="배터리 제조 L사 셀 생산 라인">
                             <div
@@ -4079,7 +4081,7 @@
                         <div class="aspect-video bg-slate-100 relative overflow-hidden cursor-pointer"
                             onclick="openImageModal('H00_레퍼런스_제조_3.jpg', 'ref_c7_title')">
                             <img src="H00_레퍼런스_제조_3.jpg"
-                                onerror="this.src='https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=600'"
+                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 alt="국내 1위 타이어 K사 물류센터">
                             <div
@@ -4232,7 +4234,7 @@
                         onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png', '중국지사(제조사) 글로벌 네트워크 맵')">
 
                         <img src="[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png"
-                            onerror="this.src='https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&q=80&w=800'"
+                            onerror="this.onerror=null; this.src='assets/images/no-image.svg';"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             alt="글로벌 네트워크 맵">
 
@@ -4288,7 +4290,7 @@
                     <div class="aspect-[4/3] bg-slate-100 relative overflow-hidden cursor-pointer"
                         onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png', '1. 하드웨어-소프트웨어 융합 R&D')">
                         <img src="[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png"
-                            onerror="handleAssetImgError(this, 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600')"
+                            onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             alt="하드웨어-소프트웨어 융합 R&D">
                         <div
@@ -4331,7 +4333,7 @@
                     <div class="aspect-[4/3] bg-slate-100 relative overflow-hidden cursor-pointer"
                         onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/렵력사업/2. 국내 대형 풀필먼트 공동 수주.png', '2. 국내 대형 풀필먼트 공동 수주')">
                         <img src="[ Insert Data ]/중국 지사_제조사/렵력사업/2. 국내 대형 풀필먼트 공동 수주.png"
-                            onerror="handleAssetImgError(this, 'https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=600')"
+                            onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             alt="국내 대형 풀필먼트 공동 수주">
                         <div
@@ -4374,7 +4376,7 @@
                     <div class="aspect-[4/3] bg-slate-100 relative overflow-hidden cursor-pointer"
                         onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/렵력사업/3. 로컬라이징 및 AS 전담 센터.png', '3. 로컬라이징 및 AS 전담 센터')">
                         <img src="[ Insert Data ]/중국 지사_제조사/렵력사업/3. 로컬라이징 및 AS 전담 센터.png"
-                            onerror="handleAssetImgError(this, 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&q=80&w=600')"
+                            onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             alt="로컬라이징 및 A/S 전담 센터">
                         <div
@@ -4477,7 +4479,7 @@
                     onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png', '글로벌 물류 인프라 네트워크 맵')">
 
                     <img src="[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png"
-                        onerror="this.src='https://placehold.co/1200x600/f8fafc/cbd5e1?text=Global+Network+Map'"
+                        onerror="this.onerror=null; this.src='assets/images/no-image.svg';"
                         class="w-full h-auto object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.01]"
                         alt="글로벌 네트워크 지도 인포그래픽">
 
@@ -4501,7 +4503,7 @@
 
                         <img src="Logo - 001.jpg" alt="대한민국 본사 ATA Technology 로고"
                             class="h-10 object-contain bg-white/95 px-2 py-1 rounded shadow-sm"
-                            onerror="this.style.display='none'">
+                            onerror="this.onerror=null; this.removeAttribute('onerror'); this.style.display='none';">
 
                         <div>
 
@@ -4626,7 +4628,7 @@
 
                     <img src="Biz Card Std _ KO - 01.png" alt="주식회사 에이티에이기술 명함 (국문)"
                         class="w-full max-w-[400px] h-auto rounded-lg shadow-sm border border-slate-200 object-contain"
-                        onerror="this.src='https://placehold.co/800x450/ffffff/0F2C59?text=Business+Card+(KO)'">
+                        onerror="this.onerror=null; this.src='assets/images/no-image.svg';">
 
                 </div>
 
@@ -4644,7 +4646,7 @@
 
                     <img src="Biz Card Std _ EN - 01.png" alt="ATA Technology Business Card (EN)"
                         class="w-full max-w-[400px] h-auto rounded-lg shadow-sm border border-slate-200 object-contain"
-                        onerror="this.src='https://placehold.co/800x450/ffffff/00A8CC?text=Business+Card+(EN)'">
+                        onerror="this.onerror=null; this.src='assets/images/no-image.svg';">
 
                 </div>
 
@@ -4856,7 +4858,7 @@
 
                     <img src="Logo - 001.png" alt="ATA Technology"
                         class="h-14 mb-6 bg-white/95 px-2.5 py-1.5 rounded-lg shadow-sm border border-slate-200 object-contain"
-                        onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;this.src='https://placehold.co/200x60/ffffff/0F2C59?text=ATA+Technology';}">
+                        onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;if(typeof this.removeAttribute==='function')this.removeAttribute('onerror');this.src='Logo - 001.jpg';}">
 
                     <p class="text-sm text-slate-600 mb-6 leading-relaxed max-w-sm" data-i18n="footer_slogan">고객의 신뢰를
                         바탕으로 첨단 물류 자동화 솔루션을 제공하며, 대한민국 물류 산업의 미래를 이끌어갑니다.</p>
@@ -5064,37 +5066,42 @@
 
 
 
-        // 이미지 경로 오타('렵력사업' <-> '협력사업') 자동 복구 및 플레이스홀더 폴백 헬퍼
-
+        // 이미지 경로 오타('렵력사업' <-> '협력사업') 자동 복구 및 플레이스홀더 폴백 헬퍼 (무한루프 원천 차단)
         function handleAssetImgError(imgEl, fallbackUrl) {
-
+            imgEl.onerror = null; // [긴급 무한 재귀 루프 차단]
+            if (typeof imgEl.removeAttribute === 'function') {
+                imgEl.removeAttribute('onerror');
+            }
             const currentSrc = imgEl.getAttribute('src') || '';
-
-            if (!imgEl.dataset.triedAltPath) {
-
-                imgEl.dataset.triedAltPath = '1';
-
-                if (currentSrc.includes('협력사업')) {
-
-                    imgEl.src = currentSrc.replace('협력사업', '렵력사업');
-
-                    return;
-
-                } else if (currentSrc.includes('렵력사업')) {
-
-                    imgEl.src = currentSrc.replace('렵력사업', '협력사업');
-
-                    return;
-
-                }
-
+            let safeFallback = fallbackUrl || 'assets/images/no-image.svg';
+            if (safeFallback.indexOf('unsplash.com') !== -1) {
+                safeFallback = 'assets/images/no-image.svg';
             }
 
-            imgEl.onerror = null;
+            if (!imgEl.dataset.triedAltPath) {
+                imgEl.dataset.triedAltPath = '1';
+                if (currentSrc.includes('협력사업')) {
+                    imgEl.onerror = function () {
+                        this.onerror = null;
+                        if (typeof this.removeAttribute === 'function') this.removeAttribute('onerror');
+                        this.src = safeFallback;
+                    };
+                    imgEl.src = currentSrc.replace('협력사업', '렵력사업');
+                    return;
+                } else if (currentSrc.includes('렵력사업')) {
+                    imgEl.onerror = function () {
+                        this.onerror = null;
+                        if (typeof this.removeAttribute === 'function') this.removeAttribute('onerror');
+                        this.src = safeFallback;
+                    };
+                    imgEl.src = currentSrc.replace('렵력사업', '협력사업');
+                    return;
+                }
+            }
 
-            imgEl.src = fallbackUrl || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800';
-
+            imgEl.src = safeFallback;
         }
+        window.handleAssetImgError = handleAssetImgError; // 전역 등록
 
 
 
@@ -6438,13 +6445,13 @@
 
 
         const referenceFallbackMap = {
-            'H00_레퍼런스_이커머스_1.jpg': 'https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=1200',
-            'H00_레퍼런스_이커머스_2.jpg': 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1200',
-            'H00_레퍼런스_콜드체인_1.jpg': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
-            'H00_레퍼런스_콜드체인_2.jpg': 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=1200',
-            'H00_레퍼런스_제조_1.jpg': 'https://images.unsplash.com/photo-1565891741441-64926e441838?auto=format&fit=crop&q=80&w=1200',
-            'H00_레퍼런스_제조_2.jpg': 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&q=80&w=1200',
-            'H00_레퍼런스_제조_3.jpg': 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=1200'
+            'H00_레퍼런스_이커머스_1.jpg': 'Conveyors & ADD-Ons.jpg',
+            'H00_레퍼런스_이커머스_2.jpg': 'Conveyors & ADD-Ons.jpg',
+            'H00_레퍼런스_콜드체인_1.jpg': 'Conveyors & ADD-Ons.jpg',
+            'H00_레퍼런스_콜드체인_2.jpg': 'Conveyors & ADD-Ons.jpg',
+            'H00_레퍼런스_제조_1.jpg': 'Conveyors & ADD-Ons.jpg',
+            'H00_레퍼런스_제조_2.jpg': 'Conveyors & ADD-Ons.jpg',
+            'H00_레퍼런스_제조_3.jpg': 'Conveyors & ADD-Ons.jpg'
         };
 
         function openImageModal(imgSrc, title) {
@@ -6482,9 +6489,8 @@
                 const resolvedSrc = referenceFallbackMap[imgSrc] || imgSrc;
 
                 modalImg.onerror = function () {
-
-                    handleAssetImgError(this, referenceFallbackMap[imgSrc] || 'https://images.unsplash.com/photo-1586528116311-ad8ed745363c?auto=format&fit=crop&q=80&w=1200');
-
+                    this.onerror = null;
+                    handleAssetImgError(this, referenceFallbackMap[imgSrc] || 'Conveyors & ADD-Ons.jpg');
                 };
 
                 modalImg.src = resolvedSrc;
@@ -7064,7 +7070,7 @@
             <div class="flex-1 overflow-auto bg-slate-950 p-2 sm:p-4 flex items-center justify-center custom-scrollbar">
 
                 <img id="image-view-modal-img" src="" alt="확대 이미지"
-                    onerror="handleAssetImgError(this, 'https://placehold.co/1200x750/0D1629/00C0E8?text=Image+Preview+Not+Found')"
+                    onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
                     class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-lg">
 
             </div>
@@ -7150,7 +7156,7 @@
                                 <img id="consult-modal-bizcard-img" src="Biz Card Std _ KO - 01.png"
                                     alt="주식회사 에이티에이기술 명함"
                                     class="w-full max-h-[300px] sm:max-h-[340px] object-contain rounded-lg shadow-md transition-transform duration-300 group-hover:scale-[1.01]"
-                                    onerror="this.src='https://placehold.co/800x450/ffffff/0F2C59?text=Business+Card+(KO)'">
+                                    onerror="this.onerror=null; this.src='assets/images/no-image.svg';">
                                 <button type="button"
                                     onclick="openImageModal(document.getElementById('consult-modal-bizcard-img').src, '대표 명함 고화질 확대')"
                                     class="absolute bottom-3 right-3 bg-black/80 hover:bg-black text-white text-xs px-2.5 py-1.5 rounded-lg backdrop-blur-sm border border-white/20 transition-all opacity-0 group-hover:opacity-100 flex items-center gap-1.5 shadow-lg cursor-pointer">
@@ -7563,6 +7569,9 @@
                 </div>
 
                 <div class="flex items-center gap-2">
+                    <button type="button" onclick="window.GithubSync.openModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer" title="GitHub Personal Access Token 및 원격 저장소 설정">
+                        <i class="fa-brands fa-github text-cyan-400"></i> <span class="hidden sm:inline">GitHub 연동 설정</span>
+                    </button>
                     <button type="button" onclick="openAdminPasswordModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors hidden sm:flex items-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-key text-amber-400"></i> 비밀번호 변경
                     </button>
@@ -7714,6 +7723,9 @@
                     <span>보안 관리자 세션 활성화 중 (단일 통합 허브)</span>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" onclick="window.GithubSync.syncAllToRemote('통합 관리자 센터 일괄 저장')" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-blue-500/25 border border-cyan-400/40 text-xs" title="현재 관리자 센터에서 수정한 모든 내용(연혁, 제품, 실적, 공지)을 GitHub 원격 저장소 main 브랜치 data.json에 커밋/푸시">
+                        <i class="fa-brands fa-github text-sm"></i> <span>GitHub 원격 저장소 반영 (Push)</span>
+                    </button>
                     <button type="button" onclick="exportAllSiteDataBackup()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border border-slate-300 shadow-sm" title="연혁, 제품, 실적, 공지사항을 하나의 통합 JSON으로 백업">
                         <i class="fa-solid fa-file-zipper text-blue-600"></i> 전 메뉴 전체 백업 다운로드
                     </button>
@@ -8443,15 +8455,20 @@
         /**
          * 사이트 전체 4대 메뉴(연혁, 제품, 실적, 공지) 원스톱 종합 백업 (JSON 다운로드)
          */
+        /**
+         * 사이트 전체 4대 메뉴(연혁, 제품, 실적, 공지) 원스톱 종합 백업 (JSON 다운로드)
+         */
         window.exportAllSiteDataBackup = function () {
-            var backup = {
-                version: '2.0_integrated_hub',
-                exportedAt: new Date().toISOString(),
-                history: JSON.parse(localStorage.getItem('ata_history_timeline_db') || '[]'),
-                products: JSON.parse(localStorage.getItem('ata_product_lineup_db') || '[]'),
-                references: JSON.parse(localStorage.getItem('ata_reference_projects_db') || '[]'),
-                notices: JSON.parse(localStorage.getItem('ata_notice_board_db') || '[]')
-            };
+            var backup = (window.GithubSync && typeof window.GithubSync.collectAllSiteData === 'function')
+                ? window.GithubSync.collectAllSiteData()
+                : {
+                    version: '2.0_integrated_hub',
+                    exportedAt: new Date().toISOString(),
+                    history: JSON.parse(localStorage.getItem('ata_company_history_db_v3') || localStorage.getItem('ata_history_timeline_db') || '[]'),
+                    products: JSON.parse(localStorage.getItem('ata_product_lineup_db') || '[]'),
+                    references: JSON.parse(localStorage.getItem('ata_company_references_db') || localStorage.getItem('ata_reference_projects_db') || '[]'),
+                    notices: JSON.parse(localStorage.getItem('ata_notice_board_db') || '[]')
+                };
 
             var jsonStr = JSON.stringify(backup, null, 2);
             var blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8;' });
@@ -8488,16 +8505,38 @@
                         }
 
                         if (confirm('가져온 백업 데이터로 연혁, 제품 라인업, 실적, 공지사항을 전체 교체하시겠습니까?')) {
-                            if (parsed.history) localStorage.setItem('ata_history_timeline_db', JSON.stringify(parsed.history));
-                            if (parsed.products) localStorage.setItem('ata_product_lineup_db', JSON.stringify(parsed.products));
-                            if (parsed.references) localStorage.setItem('ata_reference_projects_db', JSON.stringify(parsed.references));
-                            if (parsed.notices) localStorage.setItem('ata_notice_board_db', JSON.stringify(parsed.notices));
+                            if (parsed.history) {
+                                var hStr = JSON.stringify(parsed.history);
+                                localStorage.setItem('ata_company_history_db_v3', hStr);
+                                localStorage.setItem('ata_history_timeline_db', hStr);
+                            }
+                            if (parsed.products) {
+                                localStorage.setItem('ata_product_lineup_db', JSON.stringify(parsed.products));
+                            }
+                            if (parsed.references) {
+                                var rStr = JSON.stringify(parsed.references);
+                                localStorage.setItem('ata_company_references_db', rStr);
+                                localStorage.setItem('ata_reference_projects_db', rStr);
+                            }
+                            if (parsed.notices) {
+                                localStorage.setItem('ata_notice_board_db', JSON.stringify(parsed.notices));
+                                window.noticeBoardDB = parsed.notices;
+                            }
 
-                            if (typeof window.refreshAdminUIState === 'function') {
+                            if (window.GithubSync && typeof window.GithubSync.refreshAllUI === 'function') {
+                                window.GithubSync.refreshAllUI();
+                            } else if (typeof window.refreshAdminUIState === 'function') {
                                 window.refreshAdminUIState();
                             }
                             window.switchAdminHubTab(currentHubTab);
                             alert('웹사이트 전체 데이터가 성공적으로 동기화(복원)되었습니다!');
+
+                            // GitHub 원격 저장소 동시 푸시 여부 확인
+                            if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
+                                if (confirm('복원된 데이터를 GitHub 원격 저장소(main 브랜치)에도 지금 즉시 동기화(Push)하시겠습니까?')) {
+                                    window.GithubSync.syncAllToRemote('통합 백업 파일 복원 반영');
+                                }
+                            }
                         }
                     } catch (err) {
                         alert('파일을 파싱하는 도중 오류가 발생했습니다: ' + err.message);
