@@ -4,12 +4,13 @@
   주식회사 에이티에이기술 (ATA TECH) - sitemap.xml
   
   [역할 설명]
-  이 문서는 웹사이트 내의 주요 페이지 및 섹션 구조를 검색엔진(구글, 네이버)에 
-  체계적으로 전달하여 검색 결과 반영 및 인덱싱을 가속화하는 표준 사이트맵 파일입니다.
+  이 문서는 웹사이트 내의 주요 페이지 및 핵심 설비별 전문 서브페이지 구조를 
+  검색엔진(구글, 네이버)에 체계적으로 전달하여 검색 결과 반영 및 인덱싱을 가속화하는 
+  표준 사이트맵 파일입니다.
 ================================================================================
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 1. 메인 홈 (가장 높은 우선순위) -->
+  <!-- 1. 메인 포털 홈 (최상위 우선순위) -->
   <url>
     <loc>https://ata-tech.co.kr/</loc>
     <lastmod>2026-10-22</lastmod>
@@ -17,20 +18,20 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- 2. 회사소개 (CEO 인사말, 연혁, 비전) -->
+  <!-- 2. [핵심 설비 전문관] 4분할 독립 구동 팝업 휠 방향전환장치 서브페이지 -->
   <url>
-    <loc>https://ata-tech.co.kr/#about</loc>
+    <loc>https://ata-tech.co.kr/popup-wheel-diverter.html</loc>
     <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
 
-  <!-- 3. 핵심 기술 (4분할 방향전환장치, 3D 메커니즘) -->
+  <!-- 3. [핵심 설비 전문관] 운송 차량 탑재형 화물 분류 시스템 서브페이지 (KAIA 우수기술) -->
   <url>
-    <loc>https://ata-tech.co.kr/#about-core-tech</loc>
+    <loc>https://ata-tech.co.kr/vehicle-mounted-sorting-system.html</loc>
     <lastmod>2026-10-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
 
   <!-- 4. 스마트 물류 솔루션 (11대 자동화 라인업) -->
@@ -49,7 +50,23 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- 6. 특허 및 기술 인증 현황 -->
+  <!-- 6. 회사소개 (CEO 인사말, 연혁, 비전, 핵심기술) -->
+  <url>
+    <loc>https://ata-tech.co.kr/#about</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 7. 핵심 기술 개요 3D 아키텍처 -->
+  <url>
+    <loc>https://ata-tech.co.kr/#about-core-tech</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 8. 특허 및 기술 인증 현황 -->
   <url>
     <loc>https://ata-tech.co.kr/#patents</loc>
     <lastmod>2026-10-22</lastmod>
@@ -57,7 +74,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- 7. 주요 구축 실적 (REFERENCE) -->
+  <!-- 9. 주요 구축 실적 (REFERENCE) -->
   <url>
     <loc>https://ata-tech.co.kr/#reference</loc>
     <lastmod>2026-10-22</lastmod>
@@ -65,7 +82,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- 8. 공지사항 (NOTICE) -->
+  <!-- 10. 공지사항 (NOTICE) -->
   <url>
     <loc>https://ata-tech.co.kr/#notice</loc>
     <lastmod>2026-10-22</lastmod>
@@ -73,7 +90,7 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- 9. 문의하기 및 오시는 길 (CONTACT) -->
+  <!-- 11. 문의하기 및 오시는 길 (CONTACT) -->
   <url>
     <loc>https://ata-tech.co.kr/#contact</loc>
     <lastmod>2026-10-22</lastmod>
