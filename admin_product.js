@@ -28,6 +28,7 @@
     var STORAGE_VERSION_KEY = "ata_product_lineup_version"; // 데이터 구조 버전 키
     var CURRENT_STORAGE_VERSION = "2.1_fix_no_image_fallback"; // [긴급 패치] Unsplash 의존성 제거 및 내부 정적 fallback 적용 버전
     var currentFilterCategory = "all"; // 현재 활성화된 카테고리 필터 ('all', 'delivery', 'transfer', 'sorting', 'warehouse', 'etc')
+    var currentLightboxCardId = null; // 현재 열려있는 라이트박스 제품 ID 추적
 
     // ==========================================================================
     // 2. 초기 기본 설비 이미지 데이터 (이미지 중심 쇼케이스 구성)
@@ -134,6 +135,203 @@
             sortOrder: 11
         }
     ];
+
+    // ==========================================================================
+    // 2-2. 11대 핵심 제품 라인업 4개국어(KO, EN, CN, JA) 다국어 번역 데이터베이스
+    // ==========================================================================
+    var PRODUCT_I18N_MAP = {
+        "prod_delivery_1": {
+            title: {
+                ko: "초고속 텔레스코픽 로더 (Telescopic Loader)",
+                en: "High-Speed Telescopic Loader",
+                cn: "超高速伸缩装卸机 (Telescopic Loader)",
+                ja: "超高速テレスコピックローダー (Telescopic Loader)"
+            },
+            desc: {
+                ko: "트럭 및 컨테이너 내부로 자동 연장되어 상하차 효율을 극대화하는 상하차 자동화 설비",
+                en: "Automated loading and unloading equipment that extends into trucks and containers to maximize loading efficiency.",
+                cn: "自动延伸至货车及集装箱内部、大幅提升装卸效率的自动化装卸设备。",
+                ja: "トラックやコンテナ内部へ自動伸縮し、荷役効率を最大化する自動荷役設備。"
+            }
+        },
+        "prod_sorting_1": {
+            title: {
+                ko: "크로스벨트 소터 (Cross Belt Sorter)",
+                en: "Cross Belt Sorter",
+                cn: "交叉带分拣机 (Cross Belt Sorter)",
+                ja: "クロスベルトソーター (Cross Belt Sorter)"
+            },
+            desc: {
+                ko: "시간당 25,000개 이상의 다양한 화물을 고속 정밀 분류하는 최첨단 루프형 분류 시스템",
+                en: "Advanced loop-type sorting system that accurately sorts over 25,000 diverse parcels per hour at high speed.",
+                cn: "每小时高精度分拣超25,000件各类货物的尖端环形分拣系统。",
+                ja: "毎時25,000個以上の多様な荷物を高速・精密に仕分ける最先端ループ型ソーターシステム。"
+            }
+        },
+        "prod_sorting_2": {
+            title: {
+                ko: "틸트트레이 소터 (Tilt Tray Sorter)",
+                en: "Tilt Tray Sorter",
+                cn: "翻盘分拣机 (Tilt Tray Sorter)",
+                ja: "チルトトレイソーター (Tilt Tray Sorter)"
+            },
+            desc: {
+                ko: "기울임 트레이 방식으로 의류, 소형 패키지, 도서 등을 안전하고 부드럽게 고속 분류",
+                en: "Gentle and high-speed sorting of apparel, small parcels, and books using a precision tilting tray mechanism.",
+                cn: "采用托盘倾斜机构，平稳、高速分拣服装、小包裹、图书等品类。",
+                ja: "トレイ傾斜方式により、アパレル、小型小包、書籍などを安全・スムーズに高速仕分け。"
+            }
+        },
+        "prod_sorting_3": {
+            title: {
+                ko: "슬라이딩 슈 소터 (Sliding Shoe Sorter)",
+                en: "Sliding Shoe Sorter",
+                cn: "滑块分拣机 (Sliding Shoe Sorter)",
+                ja: "スライディングシューソーター (Sliding Shoe Sorter)"
+            },
+            desc: {
+                ko: "신발 형태의 다이버터가 부드럽게 화물을 밀어내어 중대형 박스를 손상 없이 고속 분기",
+                en: "Shoe-type diverters gently slide and guide medium-to-large cartons without damage at high throughput.",
+                cn: "滑块式转向机构平稳推送货物，实现中大型纸箱无损高速分流。",
+                ja: "シュー型ダイバータが荷物をスムーズに押し出し、中大型カートンを損傷なく高速分岐。"
+            }
+        },
+        "prod_sorting_4": {
+            title: {
+                ko: "팝업 휠 소터 (Pop-up Wheel Diverter)",
+                en: "Pop-up Wheel Diverter",
+                cn: "斜轮分拣机 / 顶升转向机 (Pop-up Wheel Diverter)",
+                ja: "ポップアップホイールソーター (Pop-up Wheel Diverter)"
+            },
+            desc: {
+                ko: "컨베이어 라인 중간에 모듈형으로 설치되어 직각 또는 45도 방향으로 고속 분기",
+                en: "Modular diverter installed along conveyor lines for rapid 90-degree or 45-degree parcel diversion.",
+                cn: "模块化集成于输送线中，实现直角或45度方向的高速平稳分流。",
+                ja: "コンベヤライン途中にモジュール設置され、直角または45度方向へ高速分岐。"
+            }
+        },
+        "prod_sorting_5": {
+            title: {
+                ko: "버티컬 연속 리프터 (Vertical Continuous Lifter)",
+                en: "Vertical Continuous Lifter",
+                cn: "连续式垂直提升机 (Vertical Continuous Lifter)",
+                ja: "垂直連続リフター (Vertical Continuous Lifter)"
+            },
+            desc: {
+                ko: "복층 물류센터 간 상하 수직 방향으로 화물을 쉼 없이 고속 연속 이송",
+                en: "Continuous, uninterrupted vertical elevation of parcels between multi-tier logistics floors.",
+                cn: "实现多层仓储中心之间货物不间断的高速垂直连续提升与输送。",
+                ja: "多層階物流センター間で荷物を途切れなく高速・連続昇降搬送。"
+            }
+        },
+        "prod_transfer_1": {
+            title: {
+                ko: "스마트 모듈형 롤러 컨베이어 (MDR Conveyor)",
+                en: "Smart Modular MDR Conveyor",
+                cn: "智能模块化电动滚筒输送机 (MDR Conveyor)",
+                ja: "スマートモジュール型MDRコンベヤ (MDR Conveyor)"
+            },
+            desc: {
+                ko: "구간별 모터 롤러 제어(ZPA)를 통해 무충돌 병목 제어 및 전력 소비를 50% 절감",
+                en: "Zero Pressure Accumulation (ZPA) motorized roller control reducing bottlenecks and cutting energy use by 50%.",
+                cn: "分段智能电动滚筒无压力积放(ZPA)控制，杜绝碰撞并节省50%能耗。",
+                ja: "区画別モーターローラー制御(ZPA)により無衝突バッファ制御と消費電力50%削減を実現。"
+            }
+        },
+        "prod_transfer_2": {
+            title: {
+                ko: "자율주행 이송로봇 (AGV & AMR System)",
+                en: "Autonomous Mobile Robots (AGV & AMR System)",
+                cn: "自主移动搬运机器人 (AGV & AMR System)",
+                ja: "自律走行搬送ロボット (AGV & AMR System)"
+            },
+            desc: {
+                ko: "SLAM 라이다 내비게이션 기반의 무인 지능형 물류 팔레트 및 대차 이송 로봇 솔루션",
+                en: "SLAM LiDAR-guided intelligent unmanned transport robots for pallet and cart logistics.",
+                cn: "基于激光SLAM导航的智能化无人托盘与料车搬运机器人解决方案。",
+                ja: "SLAM LiDAR自律走行に基づく無人インテリジェントパレット・台車搬送ロボットソリューション。"
+            }
+        },
+        "prod_warehouse_1": {
+            title: {
+                ko: "스마트 셔틀 입출고 시스템 (Multi-Tier Shuttle AS/RS)",
+                en: "Multi-Tier Shuttle AS/RS",
+                cn: "多层穿梭车立体库系统 (Multi-Tier Shuttle AS/RS)",
+                ja: "マルチシャトル自動倉庫システム (Multi-Tier Shuttle AS/RS)"
+            },
+            desc: {
+                ko: "고밀도 랙 공간에서 초고속 셔틀 카트와 수직 리프터가 결합된 무인 자동 보관·피킹 시스템",
+                en: "High-density automated storage and picking system combining ultra-fast shuttle carts and vertical lifters.",
+                cn: "高密度密集存储货架中结合超高速穿梭小车与提升机的全自动存储与分拣系统。",
+                ja: "高密度ラック内で超高速シャトルカートと垂直リフターが連動する無人自動保管・ピッキングシステム。"
+            }
+        },
+        "prod_warehouse_2": {
+            title: {
+                ko: "초고층 팔레트 스태커 크레인 (Pallet Stacker Crane)",
+                en: "High-Bay Pallet Stacker Crane",
+                cn: "高架托盘堆垛机 (Pallet Stacker Crane)",
+                ja: "高層パレットスタッカークレーン (Pallet Stacker Crane)"
+            },
+            desc: {
+                ko: "최대 40m 높이의 대형 물류 랙에 중량물 팔레트를 정밀 자동 적재·인출하는 고하중 크레인",
+                en: "Heavy-duty automated crane for precision high-bay storage and retrieval of pallets up to 40 meters.",
+                cn: "最高可达40米高位货架、精准自动化存取重型托盘的重载堆垛机系统。",
+                ja: "最大40mの自動倉庫ラックで重量物パレットを高精度に自動格納・出庫する高荷重クレーン。"
+            }
+        },
+        "prod_etc_1": {
+            title: {
+                ko: "지능형 물류 통합 관제 시스템 (ATA-WCS / WES)",
+                en: "Intelligent Warehouse Control System (ATA-WCS / WES)",
+                cn: "智能仓储集成控制系统 (ATA-WCS / WES)",
+                ja: "インテリジェント物流統合制御系统 (ATA-WCS / WES)"
+            },
+            desc: {
+                ko: "물류 장비 전체의 트래픽을 1ms 단위로 최적 제어하는 3D 디지털 트윈 기반 관제 소프트웨어",
+                en: "3D digital-twin logistics control software optimizing all material handling equipment traffic with 1ms responsiveness.",
+                cn: "基于3D数字孪生、以毫秒级响应精准调度全场物流设备的智能管控软件平台。",
+                ja: "全物流設備のトラフィックを1ms単位で最適制御する3Dデジタルツイン基盤の統合制御ソフトウェア。"
+            }
+        }
+    };
+
+    /**
+     * 현재 활성화된 언어에 맞춰 제품의 다국어 타이틀과 상세 설명을 반환합니다.
+     */
+    function getLocalizedProduct(card, lang) {
+        var curLang = lang || window.currentLanguage || (function () {
+            try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
+        })();
+        if (curLang === 'zh') curLang = 'cn';
+
+        var title = card.title;
+        var desc = card.description;
+
+        // 1. card 자체에 i18n 객체가 직접 정의된 경우
+        if (card.title_i18n && card.title_i18n[curLang]) {
+            title = card.title_i18n[curLang];
+        }
+        if (card.desc_i18n && card.desc_i18n[curLang]) {
+            desc = card.desc_i18n[curLang];
+        }
+
+        // 2. 기본 11대 제품 다국어 매핑 테이블 조회 (로컬스토리지 보존 데이터 완벽 지원)
+        if (PRODUCT_I18N_MAP[card.id]) {
+            var itemMap = PRODUCT_I18N_MAP[card.id];
+            if (itemMap.title && itemMap.title[curLang]) {
+                title = itemMap.title[curLang];
+            }
+            if (itemMap.desc && itemMap.desc[curLang]) {
+                desc = itemMap.desc[curLang];
+            }
+        }
+
+        return {
+            title: title || '설비명',
+            description: desc || ''
+        };
+    }
 
     // ==========================================================================
     // 3. 로컬 저장소 데이터 조회 및 저장 유틸리티
@@ -518,8 +716,10 @@
             if (fallbackUrl.indexOf('unsplash.com') !== -1) {
                 fallbackUrl = 'assets/images/no-image.svg';
             }
-            var displayTitle = card.title || '설비명';
-            var displayDesc = card.description || '';
+            var localized = getLocalizedProduct(card, curLang);
+            var displayTitle = localized.title || '설비명';
+            var displayDesc = localized.description || '';
+            var catLabel = (dict && dict[meta.i18nKey]) ? dict[meta.i18nKey] : meta.label;
             var safeImg = card.imageUrl ? card.imageUrl.replace(/'/g, "\\'") : fallbackUrl;
             var safeTitle = displayTitle.replace(/'/g, "\\'");
             var labelLarger = dict.ref_view_larger || '클릭 시 확대';
@@ -553,7 +753,7 @@
 
             // 좌측 상단 카테고리 배지
             html += '      <span class="absolute top-3 left-3 ' + meta.badgeBg + ' text-[11px] font-bold px-3 py-1 rounded-full shadow-md border ' + meta.badgeBorder + ' flex items-center gap-1.5">';
-            html += '        <i class="fa-solid ' + meta.icon + ' text-[10px]"></i> <span data-i18n="' + meta.i18nKey + '">' + meta.label + '</span>';
+            html += '        <i class="fa-solid ' + meta.icon + ' text-[10px]"></i> <span data-i18n="' + meta.i18nKey + '">' + catLabel + '</span>';
             html += '      </span>';
 
             // 우측 하단 확대 힌트 배지
@@ -674,6 +874,17 @@
         var btnEdit = document.getElementById('lightbox-btn-edit');
         var btnDelete = document.getElementById('lightbox-btn-delete');
 
+        currentLightboxCardId = card.id;
+
+        var curLang = window.currentLanguage || (function () {
+            try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
+        })();
+        if (curLang === 'zh') curLang = 'cn';
+        var dict = (window.i18nData && window.i18nData[curLang]) || (window.i18nData && window.i18nData.ko) || {};
+
+        var localized = getLocalizedProduct(card, curLang);
+        var catLabel = (dict && dict[meta.i18nKey]) ? dict[meta.i18nKey] : meta.label;
+
         if (imgEl) {
             // [라이트박스 모달 이미지 무한루프 방지 핸들러]
             imgEl.onerror = function () {
@@ -688,18 +899,18 @@
                 modalSafeImg = 'assets/images/no-image.svg';
             }
             imgEl.src = modalSafeImg;
-            imgEl.alt = card.title || '설비 이미지';
+            imgEl.alt = localized.title || '설비 이미지';
         }
         if (titleEl) {
-            titleEl.textContent = card.title || '설비 이미지';
+            titleEl.textContent = localized.title || '설비 이미지';
         }
         if (catEl) {
             catEl.className = 'px-3 py-1 rounded-full text-xs font-bold ' + meta.badgeBg;
-            catEl.textContent = meta.label;
+            catEl.textContent = catLabel;
         }
         if (descEl && descContainer) {
-            if (card.description && card.description.trim().length > 0) {
-                descEl.textContent = card.description;
+            if (localized.description && localized.description.trim().length > 0) {
+                descEl.textContent = localized.description;
                 descContainer.classList.remove('hidden');
             } else {
                 descContainer.classList.add('hidden');
@@ -709,7 +920,10 @@
         // 관리자 액션 바 연동
         if (adminActionsEl && btnEdit && btnDelete) {
             if (isUserAdmin()) {
-                adminActionsEl.className = 'flex items-center gap-1.5';
+                var editLabel = (dict && dict.common_edit) || (curLang === 'en' ? 'Edit' : (curLang === 'ja' ? '編集' : (curLang === 'cn' ? '编辑' : '수정')));
+                var deleteLabel = (dict && dict.common_delete) || (curLang === 'en' ? 'Delete' : (curLang === 'ja' ? '削除' : (curLang === 'cn' ? '删除' : '삭제')));
+                btnEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> ' + editLabel;
+                btnDelete.innerHTML = '<i class="fa-solid fa-trash-can"></i> ' + deleteLabel;
                 btnEdit.onclick = function () {
                     closeProductLightbox();
                     openProductEditModal(card.id);
@@ -754,6 +968,7 @@
      * 라이트박스 모달 닫기
      */
     function closeProductLightbox() {
+        currentLightboxCardId = null;
         var modal = document.getElementById('product-image-lightbox-modal');
         if (modal) {
             modal.classList.add('hidden');
@@ -1394,9 +1609,15 @@
         }
     });
 
-    // 다국어 언어 변경 시 탭 및 배지 실시간 동기화
+    // 다국어 언어 변경 시 탭 및 배지, 카드, 모달 실시간 동기화
     window.addEventListener('languageChanged', function () {
         renderProductCards(currentFilterCategory);
+        if (currentLightboxCardId) {
+            var modal = document.getElementById('product-image-lightbox-modal');
+            if (modal && !modal.classList.contains('hidden')) {
+                openProductLightbox(currentLightboxCardId);
+            }
+        }
     });
 
 })();
