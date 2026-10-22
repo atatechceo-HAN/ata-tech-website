@@ -230,8 +230,36 @@
                     <i class="fa-solid fa-phone"></i>
                     <span data-i18n="spec_nav_consult_phone">도입 상담: 010-8062-1262</span>
                 </a>
-                <a href="index.html" class="md:hidden text-slate-700 p-2 text-xl hover:text-sky-600" title="홈">
-                    <i class="fa-solid fa-house"></i>
+                <button id="mobile-menu-toggle-btn" type="button" onclick="toggleMobileMenu()"
+                    class="md:hidden text-slate-700 p-2 text-2xl hover:text-sky-600 focus:outline-none cursor-pointer flex items-center justify-center" aria-label="메뉴 열기/닫기">
+                    <i id="mobile-menu-icon" class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 모바일 전용 네비게이션 메뉴 드롭다운 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/98 backdrop-blur-md border-b border-slate-200 shadow-xl px-5 py-5 space-y-3">
+            <nav class="flex flex-col space-y-1.5 font-semibold text-sm text-slate-800">
+                <a href="index.html" class="flex items-center gap-2.5 py-2.5 px-3 rounded-xl hover:bg-sky-50 hover:text-sky-600 transition-colors" data-i18n="spec_nav_home">
+                    <i class="fa-solid fa-house text-slate-400"></i> <span>홈 (메인)</span>
+                </a>
+                <a href="popup-wheel-diverter.html" class="flex items-center gap-2.5 py-2.5 px-3 rounded-xl bg-sky-50 text-sky-600 font-bold transition-colors" data-i18n="spec_nav_pwd">
+                    <i class="fa-solid fa-circle-dot text-sky-600"></i> <span>4분할 방향전환장치</span>
+                </a>
+                <a href="vehicle-mounted-sorting-system.html" class="flex items-center gap-2.5 py-2.5 px-3 rounded-xl hover:bg-sky-50 hover:text-sky-600 transition-colors" data-i18n="spec_nav_vms">
+                    <i class="fa-solid fa-truck-ramp-box text-slate-400"></i> <span>차량 탑재 화물분류 시스템</span>
+                </a>
+                <a href="index.html#products" class="flex items-center gap-2.5 py-2.5 px-3 rounded-xl hover:bg-sky-50 hover:text-sky-600 transition-colors" data-i18n="spec_nav_lineup">
+                    <i class="fa-solid fa-layer-group text-slate-400"></i> <span>전체 설비 라인업</span>
+                </a>
+                <a href="index.html#contact" class="flex items-center gap-2.5 py-2.5 px-3 rounded-xl hover:bg-sky-50 hover:text-sky-600 transition-colors" data-i18n="spec_nav_contact">
+                    <i class="fa-solid fa-headset text-slate-400"></i> <span>기술 문의</span>
+                </a>
+            </nav>
+            <div class="pt-3 border-t border-slate-100">
+                <a href="tel:010-8062-1262" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-xs text-white bg-sky-600 hover:bg-sky-700 shadow-sm transition-all">
+                    <i class="fa-solid fa-phone"></i>
+                    <span data-i18n="spec_nav_consult_phone">도입 상담: 010-8062-1262</span>
                 </a>
             </div>
         </div>
@@ -644,6 +672,23 @@
     <!-- ======================================================== -->
     <script src="i18n.js"></script>
     <script src="specialty_i18n.js"></script>
+
+    <script>
+        // 모바일 햄버거 메뉴 토글 제어
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            if (!menu) return;
+            const isHidden = menu.classList.contains('hidden');
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                if (icon) icon.className = 'fa-solid fa-xmark';
+            } else {
+                menu.classList.add('hidden');
+                if (icon) icon.className = 'fa-solid fa-bars';
+            }
+        }
+    </script>
 
 </body>
 </html>

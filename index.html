@@ -1627,18 +1627,18 @@
 
                 <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
 
-                    <button type="button" onclick="openConsultModal()" style="touch-action: manipulation;"
-                        class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-7 py-3.5 rounded-full shadow-xl shadow-cyan-500/25 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2.5 text-base border border-cyan-400/30 cursor-pointer select-none">
+                    <button type="button" id="hero-btn-consult" onclick="openConsultModal()" style="touch-action: manipulation;"
+                        class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-7 py-3.5 rounded-full shadow-xl shadow-cyan-500/25 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2.5 text-base border border-cyan-400/30 cursor-pointer">
 
-                        <span data-i18n="hero_btn_consult"><i class="fa-solid fa-headset mr-1.5"></i>도입 상담</span>
+                        <span data-i18n="hero_btn_consult" class="pointer-events-none flex items-center"><i class="fa-solid fa-headset mr-1.5 pointer-events-none"></i>도입 상담</span>
 
                     </button>
 
-                    <button type="button" onclick="navigate('solutions')" style="touch-action: manipulation;"
-                        class="bg-white/95 hover:bg-white text-slate-800 font-semibold px-6 py-3.5 rounded-full border border-slate-200 shadow-md backdrop-blur-sm transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 text-base cursor-pointer select-none">
+                    <button type="button" id="hero-btn-explore" onclick="navigate('solutions')" style="touch-action: manipulation;"
+                        class="bg-white/95 hover:bg-white text-slate-800 font-semibold px-6 py-3.5 rounded-full border border-slate-200 shadow-md backdrop-blur-sm transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 text-base cursor-pointer">
 
-                        <span data-i18n="hero_btn_explore">솔루션 살펴보기 <i
-                                class="fa-solid fa-arrow-right text-xs ml-1"></i></span>
+                        <span data-i18n="hero_btn_explore" class="pointer-events-none flex items-center">솔루션 살펴보기 <i
+                                class="fa-solid fa-arrow-right text-xs ml-1 pointer-events-none"></i></span>
 
                     </button>
 
@@ -5798,10 +5798,10 @@
         });
 
         // ========================================================
-        // [모바일 전용 고속 터치 최적화 엔진] 
-        // 모바일 기기에서 300ms 딜레이 없이 즉각 반응하며, 
-        // e.preventDefault()로 브라우저 클릭을 강제 차단하지 않고
-        // 터치와 마우스 클릭이 충돌 없이 1회만 정확히 실행되도록 보장합니다.
+        // [모바일 전용 고속 터치 및 클릭 최적화 엔진]
+        // - 모바일 기기에서 300ms 지연 없이 즉시 반응하도록 touchend와 click을 통합 관리합니다.
+        // - 터치 발생 후 뒤따라오는 브라우저의 300ms 합성(Ghost) 클릭으로 인한 이중 실행을 차단합니다.
+        // - PC 마우스 환경에서는 네이티브 click 이벤트가 100% 정상 작동합니다.
         // ========================================================
         function bindFastTouch(element, callback) {
             if (!element) return;
@@ -5809,11 +5809,10 @@
             let startY = 0;
             let touchStartTime = 0;
             let isTouchMoved = false;
-            let lastTouchTriggerTime = 0;
 
-            // 터치 시작 시 좌표 및 시작 시간 기록
+            // 1. 터치 시작 (좌표 및 시간 기록)
             element.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 1) {
+                if (e.touches && e.touches.length === 1) {
                     startX = e.touches[0].clientX;
                     startY = e.touches[0].clientY;
                     touchStartTime = Date.now();
@@ -5821,35 +5820,51 @@
                 }
             }, { passive: true });
 
-            // 터치 이동 시 손가락 떨림 허용 범위(18px)를 초과하면 스크롤로 판정
+            // 2. 터치 이동 (손가락 탭 허용 반경 24px 초과 시 스크롤 제스처로 판정)
             element.addEventListener('touchmove', (e) => {
-                if (e.touches.length === 1) {
+                if (e.touches && e.touches.length === 1) {
                     const diffX = Math.abs(e.touches[0].clientX - startX);
                     const diffY = Math.abs(e.touches[0].clientY - startY);
-                    if (diffX > 18 || diffY > 18) {
+                    if (diffX > 24 || diffY > 24) {
                         isTouchMoved = true;
                     }
                 }
             }, { passive: true });
 
-            // 터치 종료 시 스크롤이 아닌 순수 탭 동작인 경우 즉시 콜백 실행
+            // 3. 터치 종료 (스크롤이 아닌 순수 탭인 경우 즉각 콜백 실행)
             element.addEventListener('touchend', (e) => {
                 const duration = Date.now() - touchStartTime;
                 const now = Date.now();
-                // 18px 이내 미세 이동 및 600ms 미만 터치 유지 시 정상 탭으로 인식
-                if (!isTouchMoved && duration < 600) {
-                    if (now - lastTouchTriggerTime > 350) {
-                        lastTouchTriggerTime = now;
+                const lastTrigger = parseInt(element.dataset.lastTouchTrigger || '0', 10);
+
+                // 손가락 이동이 24px 이내이고, 터치 유지 시간이 500ms 미만인 정상 탭일 때
+                if (!isTouchMoved && duration < 500) {
+                    if (now - lastTrigger > 350) {
+                        element.dataset.lastTouchTrigger = now.toString();
+                        // 뒤이어 발생하는 브라우저 합성 클릭을 방어하기 위한 타임스탬프 기록
+                        element.dataset.justFastTouched = now.toString();
                         callback(e);
                     }
                 }
             }, { passive: true });
+
+            // 4. 뒤따라오는 브라우저 합성 클릭(Ghost Click) 방어 및 PC 마우스 클릭 지원
+            element.addEventListener('click', (e) => {
+                const now = Date.now();
+                const justTouched = parseInt(element.dataset.justFastTouched || '0', 10);
+                // 모바일 터치로 이미 실행된 직후(600ms 이내)의 중복 클릭 이벤트는 취소
+                if (justTouched && (now - justTouched < 600)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
         }
 
-        // 페이드인 관찰자 및 비디오 에러/키보드 이벤트 바인딩
+        // DOM 콘텐츠 로드 완료 시 모바일 터치 및 인터랙션 바인딩
         document.addEventListener('DOMContentLoaded', () => {
 
-            // [모바일 터치 바인딩] 햄버거 메뉴 토글 버튼 고속 터치 연동
+            // [1] 모바일 헤더 햄버거 메뉴 토글 버튼 터치 바인딩
             const mobileMenuToggleBtn = document.getElementById('mobile-menu-toggle-btn');
             if (mobileMenuToggleBtn) {
                 bindFastTouch(mobileMenuToggleBtn, () => {
@@ -5857,7 +5872,7 @@
                 });
             }
 
-            // [모바일 터치 바인딩] 모바일 메뉴 내부 닫기 버튼들 고속 터치 연동
+            // [2] 모바일 전체 메뉴 내부 닫기 버튼들 터치 바인딩
             const mobileMenuCloseBtns = document.querySelectorAll('#mobile-menu button[onclick*="toggleMobileMenu"]');
             mobileMenuCloseBtns.forEach(btn => {
                 bindFastTouch(btn, () => {
@@ -5865,7 +5880,7 @@
                 });
             });
 
-            // [모바일 터치 바인딩] 모바일 헤더 언어 선택 버튼 버블링 방지
+            // [3] 모바일 헤더 언어 선택 버튼 이벤트 전파 방지
             const mobileLangBtn = document.getElementById('mobile-lang-btn');
             if (mobileLangBtn) {
                 mobileLangBtn.addEventListener('click', (e) => {
@@ -5873,52 +5888,49 @@
                 });
             }
 
-            // [모바일 메뉴 내부 네비게이션 링크 및 버튼 터치/클릭 안정화]
-            const mobileMenuEl = document.getElementById('mobile-menu');
-            if (mobileMenuEl) {
-                let menuTouchStartY = 0;
-                let menuTouchStartX = 0;
-                let menuScrolling = false;
-
-                mobileMenuEl.addEventListener('touchstart', (e) => {
-                    if (e.touches && e.touches.length === 1) {
-                        menuTouchStartX = e.touches[0].clientX;
-                        menuTouchStartY = e.touches[0].clientY;
-                        menuScrolling = false;
-                    }
-                }, { passive: true });
-
-                mobileMenuEl.addEventListener('touchmove', (e) => {
-                    if (e.touches && e.touches.length === 1) {
-                        const diffX = Math.abs(e.touches[0].clientX - menuTouchStartX);
-                        const diffY = Math.abs(e.touches[0].clientY - menuTouchStartY);
-                        if (diffX > 10 || diffY > 10) {
-                            menuScrolling = true;
-                        }
-                    }
-                }, { passive: true });
-
-                // 메뉴 스크롤 도중 링크가 실수로 눌리는 것을 차단하고, 탭했을 때는 즉각적이고 단일한 클릭 보장
-                mobileMenuEl.addEventListener('click', (e) => {
-                    if (menuScrolling) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return false;
-                    }
-                }, true);
+            // [4] 메인 Hero 섹션 '도입 상담' 및 '솔루션 살펴보기' 버튼 고속 터치 연동 (1번 이슈 해결)
+            const heroConsultBtn = document.getElementById('hero-btn-consult');
+            if (heroConsultBtn) {
+                bindFastTouch(heroConsultBtn, () => {
+                    openConsultModal();
+                });
+            }
+            const heroExploreBtn = document.getElementById('hero-btn-explore');
+            if (heroExploreBtn) {
+                bindFastTouch(heroExploreBtn, () => {
+                    navigate('solutions');
+                });
             }
 
-            // [모바일 터치 바인딩] 솔루션 카드의 '영상 보기' 버튼 고속 터치
+            // [5] 모바일 전체 메뉴 내부의 모든 링크 터치/클릭 연동 및 스크롤 안정화 (3번 이슈 해결)
+            // (주의: 캡처링 단계에서 클릭을 강제 차단하던 불필요한 코드를 전면 제거하여 모든 링크가 100% 정상 작동하도록 복원)
+            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a, #mobile-menu button');
+            mobileMenuLinks.forEach(link => {
+                // 터치 시 시각적 활성 피드백 보장 및 클릭 즉시 실행
+                link.style.touchAction = 'manipulation';
+                link.addEventListener('touchend', () => {
+                    // 터치 종료 시점에 active 스타일 초기화 보조
+                    link.blur();
+                }, { passive: true });
+            });
+
+            // [6] 솔루션 카드의 '영상 보기' 버튼 고속 터치 연동
             document.querySelectorAll('[onclick*="openSolutionVideoModal"]').forEach(btn => {
-                bindFastTouch(btn, () => {
-                    btn.click();
+                bindFastTouch(btn, (e) => {
+                    if (typeof btn.onclick === 'function') {
+                        btn.onclick.call(btn, e);
+                    }
                 });
             });
 
-            // [모바일 터치 바인딩] 푸터 Quick Links 내비게이션 고속 터치
+            // [7] 푸터 Quick Links 내비게이션 고속 터치 연동 (2번 이슈 해결)
+            // (주의: link.click() 강제 호출로 인한 javascript:void(0) 충돌을 방지하고 onclick 핸들러 직접 실행)
             document.querySelectorAll('footer a[onclick*="navigate"]').forEach(link => {
-                bindFastTouch(link, () => {
-                    link.click();
+                link.style.touchAction = 'manipulation';
+                bindFastTouch(link, (e) => {
+                    if (typeof link.onclick === 'function') {
+                        link.onclick.call(link, e);
+                    }
                 });
             });
 
