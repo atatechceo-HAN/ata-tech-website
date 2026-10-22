@@ -135,7 +135,8 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- [Tailwind CSS 사전 컴파일 정적 스타일시트] -->
+    <link rel="stylesheet" href="dist/output.css">
 
     <!-- 4개국어 다국어 스위칭 엔진 & 솔루션 상세 다국어 엔진 (i18n.js) -->
     <script src="i18n.js"></script>
@@ -766,28 +767,7 @@
         }
     </style>
 
-    <script>
 
-        tailwind.config = {
-
-            theme: {
-
-                extend: {
-
-                    colors: {
-                        primary: '#0F2C59',
-                        secondary: '#F8FAFC',
-                        accent: '#0284C7',
-                        corporate: '#1E40AF'
-                    }
-
-                }
-
-            }
-
-        }
-
-    </script>
 </head>
 
 <body class="text-slate-800 antialiased overflow-x-hidden bg-[#F8FAFC]">

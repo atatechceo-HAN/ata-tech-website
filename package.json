@@ -1,0 +1,20 @@
+{
+  "name": "ata-tech-website",
+  "version": "1.0.0",
+  "description": "주식회사 에이티에이기술 공식 웹사이트",
+  "main": "index.html",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "keywords": [
+    "물류자동화",
+    "에이티에이기술",
+    "ATA-TECH"
+  ],
+  "author": "주식회사 에이티에이기술",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
