@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ======================================================== -->
+    <!-- [SEO 메타 태그 - 404 오류 페이지 전용] -->
+    <!-- 검색 로봇이 이 페이지 자체를 색인하지 않도록 noindex 처리하고, -->
+    <!-- 내부 링크(follow)를 통해 메인 및 주요 제품으로 자연스럽게 유입 유도 -->
+    <!-- ======================================================== -->
+    <title>페이지를 찾을 수 없습니다 (404 Not Found) - 주식회사 에이티에이기술</title>
+    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="요청하신 페이지가 존재하지 않거나 주소가 변경되었습니다. 주식회사 에이티에이기술 공식 홈페이지로 이동합니다.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:url" content="https://ata-tech.co.kr/404.html">
+    <meta property="og:site_name" content="주식회사 에이티에이기술">
+    <meta property="og:title" content="페이지를 찾을 수 없습니다 | 주식회사 에이티에이기술">
+    <meta property="og:description" content="요청하신 페이지를 찾을 수 없습니다. ATA TECH 메인 페이지로 이동합니다.">
+    <meta property="og:image" content="https://ata-tech.co.kr/Logo%20-%20001.png">
+
+    <!-- 스타일 및 웹폰트 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <style>
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .bg-mesh-dark {
+            background-color: #0b1528;
+            background-image: 
+                radial-gradient(at 15% 20%, rgba(14, 165, 233, 0.2) 0px, transparent 50%),
+                radial-gradient(at 85% 80%, rgba(37, 99, 235, 0.25) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.95) 0px, transparent 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-mesh-dark text-slate-100 min-h-screen flex flex-col justify-between antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- 상단 심플 헤더 -->
+    <header class="py-6 px-6 sm:px-12 border-b border-slate-800/60 bg-slate-900/40 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 group">
+                <img src="Logo - 001.png" alt="주식회사 에이티에이기술 로고" class="h-9 w-auto object-contain transition-transform group-hover:scale-105">
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-base text-white tracking-tight group-hover:text-sky-400 transition-colors">주식회사 에이티에이기술</span>
+                    <span class="text-[10px] text-slate-400 tracking-wider uppercase font-semibold">ATA Technology Co., Ltd.</span>
+                </div>
+            </a>
+            <a href="/" class="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors">
+                <i class="fa-solid fa-house"></i>
+                <span>홈으로 돌아가기</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 404 메인 안내 영역 -->
+    <main class="flex-1 flex items-center justify-center px-4 py-16">
+        <div class="max-w-2xl w-full text-center">
+            
+            <!-- 아이콘 & 상태 코드 배지 -->
+            <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-sky-500/10 border border-sky-500/30 text-sky-400 mb-8 shadow-2xl shadow-sky-500/10 animate-bounce">
+                <i class="fa-solid fa-compass-drafting text-4xl"></i>
+            </div>
+
+            <div class="inline-block px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-sky-400 text-xs font-bold tracking-wider uppercase mb-4">
+                HTTP 404 Error
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-4">
+                요청하신 페이지를<br class="sm:hidden"> 찾을 수 없습니다
+            </h1>
+
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-lg mx-auto mb-8 font-light">
+                방문하시려는 페이지의 주소가 잘못 입력되었거나, 변경 또는 삭제되어 현재 웹사이트에서 찾을 수 없습니다.
+            </p>
+
+            <!-- 자동 리디렉션 카운트다운 알림 -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 max-w-md mx-auto mb-10 text-xs sm:text-sm text-slate-400 flex items-center justify-center gap-2">
+                <i class="fa-regular fa-clock text-sky-400"></i>
+                <span><strong id="countdown" class="text-sky-400 font-bold">5</strong>초 후 공식 메인 페이지로 자동 이동합니다.</span>
+            </div>
+
+            <!-- 바로가기 네비게이션 버튼 그룹 -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+                <a href="/" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-sm shadow-lg shadow-sky-500/20 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-house"></i>
+                    <span>메인 포털 홈으로 이동</span>
+                </a>
+                <a href="/popup-wheel-diverter" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold text-sm border border-slate-700 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-dot text-sky-400"></i>
+                    <span>4분할 방향전환장치</span>
+                </a>
+            </div>
+
+            <!-- 추가 추천 주요 바로가기 -->
+            <div class="mt-12 pt-8 border-t border-slate-800/80 max-w-lg mx-auto">
+                <p class="text-xs text-slate-500 font-medium mb-4">자주 찾는 핵심 콘텐츠</p>
+                <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-400">
+                    <a href="/#solutions" class="hover:text-sky-400 transition-colors">스마트 물류 솔루션</a>
+                    <span class="text-slate-700">|</span>
+                    <a href="/vehicle-mounted-sorting-system" class="hover:text-sky-400 transition-colors">차량 탑재 화물분류 시스템</a>
+                    <span class="text-slate-700">|</span>
+                    <a href="/#product-lineup" class="hover:text-sky-400 transition-colors">설비 라인업</a>
+                    <span class="text-slate-700">|</span>
+                    <a href="/#contact" class="hover:text-sky-400 transition-colors">고객 지원 & 기술 문의</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 하단 푸터 -->
+    <footer class="py-6 px-4 text-center text-xs text-slate-500 border-t border-slate-800/60 bg-slate-900/40">
+        <p>© 2026 주식회사 에이티에이기술 (ATA TECH). All rights reserved.</p>
+    </footer>
+
+    <!-- 자동 리디렉션 스크립트 -->
+    <script>
+        let seconds = 5;
+        const countdownEl = document.getElementById('countdown');
+        const timer = setInterval(() => {
+            seconds--;
+            if (countdownEl) countdownEl.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(timer);
+                window.location.href = '/';
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>
