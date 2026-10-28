@@ -9,3 +9,11 @@ $RECYCLE.BIN/
 *.tmp
 *.temp
 *.log
+
+# Node.js Dependencies
+node_modules/
+
+# Security & Credentials (절대 Git에 업로드되면 안 되는 보안 키 파일)
+service_account.json
+.env
+.env.*
