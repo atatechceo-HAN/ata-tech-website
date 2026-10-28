@@ -16,7 +16,7 @@
   <!-- 1. 메인 포털 홈 (최상위 우선순위) -->
   <url>
     <loc>https://ata-tech.co.kr/</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -24,7 +24,7 @@
   <!-- 2. [핵심 설비 전문관] 4분할 독립 구동 팝업 휠 방향전환장치 서브페이지 -->
   <url>
     <loc>https://ata-tech.co.kr/popup-wheel-diverter</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -32,7 +32,7 @@
   <!-- 3. [핵심 설비 전문관] 운송 차량 탑재형 화물 분류 시스템 서브페이지 (KAIA 우수기술) -->
   <url>
     <loc>https://ata-tech.co.kr/vehicle-mounted-sorting-system</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
