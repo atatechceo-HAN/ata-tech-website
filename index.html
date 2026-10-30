@@ -277,6 +277,12 @@
             opacity: 1;
 
             transform: translateY(0);
+        }
+
+        /* 회사 연혁(History) 동적 카드 및 섹션이 모바일/PC 스크롤 시 투명(opacity:0) 상태로 남지 않도록 100% 가시성 보장 */
+        #about-history .fade-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
 
         }
 
@@ -301,8 +307,13 @@
             visibility: visible;
 
             transform: translateY(0);
-
             pointer-events: auto;
+        }
+
+        /* 회사 연혁(History) 동적 카드 및 섹션이 모바일/PC 스크롤 시 투명(opacity:0) 상태로 남지 않도록 100% 가시성 보장 */
+        #about-history .fade-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
 
         }
 
@@ -1822,7 +1833,8 @@
                     </div>
 
                     <!-- 관리자 컨트롤 패널 바 (관리자 모드 시 신규 연도 카드 추가, 기본값 복원 등) -->
-                    <div id="history-admin-control-bar" class="fade-in"></div>
+                    <!-- 관리자 컨트롤 패널 바 (관리자 모드 시 신규 연도 카드 추가, 기본값 복원 등) -->
+                    <div id="history-admin-control-bar" class="fade-in appear"></div>
 
                     <!-- 연도별 카드 그리드 컨테이너 (admin_history.js가 동적 렌더링) -->
                     <div id="history-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -6011,7 +6023,7 @@
 
                 });
 
-            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            }, { threshold: 0.01, rootMargin: "0px 0px -20px 0px" });
 
             document.querySelectorAll('.fade-in').forEach(el => appearOnScroll.observe(el));
 

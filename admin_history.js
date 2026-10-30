@@ -280,7 +280,7 @@
                 ? 'bg-blue-600 text-white shadow-md'
                 : 'bg-slate-200/90 border border-slate-300 text-slate-700 shadow-inner';
 
-            html += '<div class="fade-in group relative rounded-2xl p-7 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between ' + cardBorderClass + '" id="card-' + card.id + '">';
+            html += '<div class="fade-in appear group relative rounded-2xl p-7 transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between ' + cardBorderClass + '" id="card-' + card.id + '">';
 
             // 최신 연도 표시 뱃지
             if (isHighlight) {
@@ -362,7 +362,7 @@
         });
 
         // 마지막 6번째 카드: 미래 로드맵 & 원본 도표 팝업 카드 (3x2 완벽 그리드)
-        html += '<div class="fade-in group rounded-2xl p-7 bg-gradient-to-br from-slate-50 via-white to-blue-50/50 border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:-translate-y-2 shadow-sm hover:shadow-xl flex flex-col justify-between">';
+        html += '<div class="fade-in appear group rounded-2xl p-7 bg-gradient-to-br from-slate-50 via-white to-blue-50/50 border border-blue-200 hover:border-blue-400 transition-all duration-300 hover:-translate-y-2 shadow-sm hover:shadow-xl flex flex-col justify-between">';
         html += '  <div>';
         html += '    <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-5">';
         html += '      <div class="flex items-center gap-3">';
@@ -398,6 +398,14 @@
         html += '</div>';
 
         container.innerHTML = html;
+
+        // 비동기 재렌더링(data.json 로드 등) 이후에도 부모 섹션 및 카드가 투명(opacity:0) 상태로 남지 않도록 즉시 표시 보장
+        var historySection = document.getElementById('about-history');
+        if (historySection) {
+            historySection.querySelectorAll('.fade-in').forEach(function (el) {
+                el.classList.add('appear');
+            });
+        }
 
         // 다국어 스위칭 엔진 적용 (i18n.js 연동)
         if (window.i18n && typeof window.i18n.applyCurrentLang === 'function') {
