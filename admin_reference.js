@@ -1,977 +1,5792 @@
 /**
- * ==============================================================================
- * (주)에이티에이기술 웹사이트 - 주요 구축 실적(Reference) 관리자 모드 CRUD 엔진 (admin_reference.js)
- * 
- * [주요 기능]
- * 1. 레퍼런스 실적 카드 동적 렌더링 (Responsive 3열 그리드 카드)
- * 2. 관리자 인증(AdminAuth)과 완벽 연동 (로그인 시 관리자 바 및 각 카드 수정/삭제 활성화)
- * 3. 새로운 구축 실적 등록(Create), 기존 실적 수정(Update), 삭제(Delete)
- * 4. 카테고리 필터 탭(전체, 이커머스, 식음료, 제조) 및 실적 건수 배지 동적 자동 계산
- * 5. 브라우저 로컬 저장소(LocalStorage)를 통한 데이터 영구 보존
- * 6. 언제든 초기 공식 7개 실적으로 되돌릴 수 있는 '기본값 안전 복원' 기능
- * 7. 이미지 확대 팝업(openImageModal) 연동
- * ==============================================================================
+ * ============================================================================
+ * [파일명]: admin_reference.js
+ * [마지막 업데이트]: 2026-10-31
+ * [모듈 설명]: 
+ *   주식회사 에이티에이기술(ATA Technology) 공식 홈페이지의
+ *   '주요 구축 실적 (REFERENCE)' 전용 듀얼 시어터(동영상 시어터 + 이미지 시어터) 시스템입니다.
+ *
+ * [핵심 UI/UX 구조]:
+ *   1. 6대 폴더('전경', 'CBS', 'NC CBS', 'NBS', 'Wheel Sorter', '틸트트레이소터')를 카테고리 탭으로 제공.
+ *   2. [동영상 시어터]: 가운데(좌측 메인)에서 대형 영상을 재생하고, 우측에 스크롤 가능한 동영상 썸네일 목록을 배치.
+ *   3. [이미지 시어터]: 동영상과 완전히 동일한 스타일로, 가운데(좌측 메인)에 고해상도 이미지를 크게 표시하고
+ *      우측에 스크롤 가능한 이미지 썸네일 목록을 배치하여 클릭 즉시 가운데 이미지와 분석 해설이 전환됨.
+ *   4. 깜빡임 없는 부분 업데이트(DOM Partial Update)와 다중 경로 폴백(Fallback) 처리로 오류를 원천 차단.
+ * ============================================================================
  */
 
 (function () {
-    'use strict';
+    "use strict";
 
     // ==========================================================================
-    // 1. 상수 정의
+    // 1. 6대 폴더 순서 및 미디어/분석 멘트 통합 데이터베이스
     // ==========================================================================
-    var STORAGE_KEY_REFERENCES = "ata_company_references_db"; // 로컬스토리지 저장 키
-    var currentFilterCategory = "all"; // 현재 활성화된 카테고리 필터 ('all', 'ecommerce', 'food', 'manu')
+    var FOLDER_ORDER = ["전경","CBS","NC CBS","NBS","Wheel Sorter","틸트트레이소터"];
 
-    // ==========================================================================
-    // 2. 초기 기본 레퍼런스 데이터 (공식 7대 구축 실적)
-    // ==========================================================================
-    var INITIAL_REFERENCES_DATA = [
-        {
-            id: "ref_c1",
-            category: "ecommerce",
-            title: "국내 최대 이커머스 C사 메가 허브 터미널",
-            imageUrl: "H00_레퍼런스_이커머스_1.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            subBadge: "",
-            tags: ["Cross Belt Sorter", "WCS", "텔레스코픽"],
-            description: "일 200만 건 이상의 압도적인 물동량을 소화하기 위해 초고속 크로스 벨트 소터 및 자동 상하차 시스템을 구축하여 전국 익일 배송의 핵심 인프라를 완성했습니다.",
-            field: "대형 풀필먼트 허브",
-            sortOrder: 1
-        },
-        {
-            id: "ref_c2",
-            category: "ecommerce",
-            title: "글로벌 종합 유통 S사 수도권 풀필먼트 센터",
-            imageUrl: "H00_레퍼런스_이커머스_2.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            subBadge: "",
-            tags: ["AGV & AMR", "Shuttle AS/RS"],
-            description: "다양한 규격의 소비재를 보관 및 피킹하기 위해 셔틀 타입의 자동 창고와 AGV 로봇을 결합하여 G2P(Goods-to-Person) 하이브리드 물류 센터를 구축했습니다.",
-            field: "G2P 하이브리드 센터",
-            sortOrder: 2
-        },
-        {
-            id: "ref_c3",
-            category: "food",
-            title: "F&B 전문기업 F사 냉동 자동화 창고",
-            imageUrl: "H00_레퍼런스_콜드체인_1.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            subBadge: "영하 20℃ 냉동창고",
-            tags: ["저온형 AS/RS", "콜드체인 특화 WCS"],
-            description: "극한의 저온 환경에서도 안정적으로 구동되는 특수 윤활 및 히팅 기술이 적용된 AS/RS 스태커 크레인을 구축하여 작업자의 위험 노출을 최소화했습니다.",
-            field: "스마트 저온 물류",
-            sortOrder: 3
-        },
-        {
-            id: "ref_c4",
-            category: "food",
-            title: "대형 마트 M사 신선 물류 허브",
-            imageUrl: "H00_레퍼런스_콜드체인_2.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            subBadge: "신선식품 당일배송",
-            tags: ["Tilt Tray Sorter", "위생 스테인리스 컨베이어"],
-            description: "신선도가 생명인 농축수산물을 산지에서 매장 및 고객에게 빠르게 배송하기 위해 초고속 Tilt Tray Sorter 기반의 분류 라인을 설계했습니다.",
-            field: "신선 유통 분류",
-            sortOrder: 4
-        },
-        {
-            id: "ref_c5",
-            category: "manu",
-            title: "글로벌 자동차 H사 공장 조립 라인",
-            imageUrl: "H00_레퍼런스_제조_1.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            subBadge: "완성차 조립 라인",
-            tags: ["Heavy Duty 컨베이어", "AGV 이송 시스템"],
-            description: "중량물인 자동차 부품(엔진, 섀시 등)을 라인 간 오차 없이 이송하는 Heavy Duty 컨베이어 및 AGV 이송 시스템을 구축했습니다.",
-            field: "완성차 부품 이송",
-            sortOrder: 5
-        },
-        {
-            id: "ref_c6",
-            category: "manu",
-            title: "배터리 제조 L사 셀 생산 라인",
-            imageUrl: "H00_레퍼런스_제조_2.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            subBadge: "2차전지 배터리",
-            tags: ["클린룸 로봇 팔레타이징", "정밀 롤러 컨베이어"],
-            description: "분진 발생을 원천 차단하는 클린룸 특화 로봇 팔레타이징 시스템 및 고정밀 셀 이송 롤러 컨베이어를 성공적으로 설계 및 시공했습니다.",
-            field: "클린룸 2차전지 라인",
-            sortOrder: 6
-        },
-        {
-            id: "ref_c7",
-            category: "manu",
-            title: "국내 1위 타이어 K사 물류센터",
-            imageUrl: "H00_레퍼런스_제조_3.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            subBadge: "타이어 및 부품",
-            tags: ["비전 바코드 인식", "비정형 특화 소터 라인"],
-            description: "비정형화된 대형 고무 타이어 화물을 바코드 비전 인식과 결합하여 목적지별로 자동 분류하는 특화 소터 라인을 구축했습니다.",
-            field: "비정형 대형물류 자동화",
-            sortOrder: 7
-        }
-    ];
-
-    // ==========================================================================
-    // 3. 로컬 저장소 조회 및 저장 유틸리티 함수
-    // ==========================================================================
-
-    /**
-     * 로컬스토리지에서 레퍼런스 목록을 가져옵니다.
-     * 저장된 데이터가 없으면 초기 7대 공식 실적을 저장 후 반환합니다.
-     */
-    function getReferencesList() {
-        try {
-            var raw = localStorage.getItem(STORAGE_KEY_REFERENCES);
-            if (raw) {
-                var parsed = JSON.parse(raw);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    // [무한루프 방지 자동 정화] 기존 캐시 데이터 내 Unsplash URL이 남아있다면 안전한 정적 에셋으로 자동 치환
-                    var sanitized = false;
-                    parsed.forEach(function (item) {
-                        if (item.imageUrl && item.imageUrl.indexOf('unsplash.com') !== -1) {
-                            item.imageUrl = 'assets/images/no-image.svg';
-                            sanitized = true;
-                        }
-                        if (!item.fallbackUrl || item.fallbackUrl.indexOf('unsplash.com') !== -1) {
-                            item.fallbackUrl = 'assets/images/no-image.svg';
-                            sanitized = true;
-                        }
-                    });
-                    if (sanitized) {
-                        saveReferencesList(parsed);
-                    }
-                    return parsed;
-                }
+    var REFERENCE_GALLERY_DB = {
+    "전경": {
+        "id": "전경",
+        "title": "전경",
+        "subtitle": "스마트 물류 R&D 및 대규모 제조 거점 항공 전경",
+        "badge": "MANUFACTURING & R&D CAMPUS",
+        "icon": "fa-building-columns",
+        "overview": "태양광 루프탑 친환경 발전 설비가 완비된 대규모 스마트 물류 장비 제조·조립 단지 및 R&D 실증 테스트 센터의 드론 항공 촬영 전경입니다. 원자재 정밀 가공부터 대형 소터 라인 가조립, 출고 전 사전 시운전(FAT)까지 원스톱으로 수행하는 핵심 생산 기지입니다.",
+        "tags": [
+            "스마트 팩토리",
+            "대규모 제조 거점",
+            "R&D 테스트베드",
+            "FAT 사전 시운전"
+        ],
+        "videoTemplates": [
+            {
+                "title": "스마트 물류 제조 거점 항공 드론 투어",
+                "desc": "대규모 생산 라인과 R&D 실증 센터가 통합된 제조 기지 전경 영상입니다."
             }
-        } catch (e) {
-            console.warn("[ReferenceAdmin] 로컬스토리지 파싱 오류, 초기 데이터로 복구합니다:", e);
-        }
-        // 기본값 저장 및 반환
-        saveReferencesList(INITIAL_REFERENCES_DATA);
-        return INITIAL_REFERENCES_DATA.slice();
+        ],
+        "photoTemplates": [
+            {
+                "title": "에이티에이기술 핵심 제조 거점 및 스마트 물류 R&D 단지 항공 전경",
+                "desc": "드론 상공에서 촬영한 대규모 제조·조립 공장동 및 본관 전경입니다. 지붕 전체에 구축된 태양광 발전 인프라와 대형 물류 설비 출하를 위한 광폭 도크, 통합 R&D 실증 공간이 체계적으로 배치되어 있습니다."
+            }
+        ],
+        "videoCount": 0,
+        "photoCount": 1,
+        "videos": [],
+        "photos": [
+            {
+                "id": "전경-pho-1",
+                "folder": "전경",
+                "index": 1,
+                "fileName": "Image_20261028160029_29_105.jpg",
+                "src": "assets/reference/전경/Image_20261028160029_29_105.jpg",
+                "fallbackSrc": "H00_레퍼런스_이커머스_1.jpg",
+                "thumb": "assets/reference/전경/Image_20261028160029_29_105.jpg",
+                "fallbackThumb": "H00_레퍼런스_이커머스_1.jpg",
+                "clipCode": "전경 현장포토 #01",
+                "title": "[전경 #01] 에이티에이기술 핵심 제조 거점 및 스마트 물류 R&D 단지 항공 전경",
+                "desc": "드론 상공에서 촬영한 대규모 제조·조립 공장동 및 본관 전경입니다. 지붕 전체에 구축된 태양광 발전 인프라와 대형 물류 설비 출하를 위한 광폭 도크, 통합 R&D 실증 공간이 체계적으로 배치되어 있습니다.",
+                "tags": [
+                    "스마트 팩토리",
+                    "대규모 제조 거점",
+                    "R&D 테스트베드",
+                    "FAT 사전 시운전"
+                ]
+            }
+        ]
+    },
+    "CBS": {
+        "id": "CBS",
+        "title": "CBS",
+        "subtitle": "CBS [Cross Belt Sorter] — 루프형·직선형 크로스벨트 소터 구축 현장",
+        "badge": "CROSS BELT SORTER",
+        "icon": "fa-arrows-rotate",
+        "overview": "대형 이커머스 풀필먼트 센터 및 광역 택배 허브 터미널에 구축된 크로스벨트 소터(CBS) 실제 가동 현장입니다. 다열 고속 인덕션(Induction) 자동 투입 라인과 양방향 대용량 마대·스파이럴 슈트가 유기적으로 연동되어 시간당 최대 15,000~20,000개 이상의 정형·비정형 화물을 초정밀 분류합니다.",
+        "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+        ],
+        "videoTemplates": [
+            {
+                "title": "CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다."
+            },
+            {
+                "title": "CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다."
+            },
+            {
+                "title": "CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다."
+            },
+            {
+                "title": "CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다."
+            },
+            {
+                "title": "CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다."
+            },
+            {
+                "title": "CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다."
+            },
+            {
+                "title": "CBS 폴리백·소형 택배 화물 밀착 제어 및 정밀 투입 실증",
+                "desc": "마찰력이 낮거나 가벼운 비닐 폴리백 화물도 정전기 방지 및 고마찰 벨트 제어를 통해 미끄러짐 없이 정밀하게 목표 슈트로 안착시키는 모습입니다."
+            },
+            {
+                "title": "CBS 메인 구동부 저소음 서보 제어 및 연속 순환 시운전",
+                "desc": "고효율 리니어/서보 구동 메커니즘을 적용하여 고속 가동 시에도 소음과 마모를 최소화하고 24시간 무중단 연속 운전 신뢰성을 검증하는 현장입니다."
+            }
+        ],
+        "photoTemplates": [
+            {
+                "title": "CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다."
+            },
+            {
+                "title": "CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다."
+            },
+            {
+                "title": "CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다."
+            },
+            {
+                "title": "CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다."
+            },
+            {
+                "title": "CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다."
+            },
+            {
+                "title": "대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다."
+            }
+        ],
+        "videoCount": 54,
+        "photoCount": 57,
+        "videos": [
+            {
+                "id": "CBS-vid-1",
+                "folder": "CBS",
+                "index": 1,
+                "fileName": "CBS (1).mp4",
+                "src": "assets/reference/CBS/CBS (1).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (1).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (1)",
+                "title": "[CBS 영상 #01] CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-2",
+                "folder": "CBS",
+                "index": 2,
+                "fileName": "CBS (2).mp4",
+                "src": "assets/reference/CBS/CBS (2).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (2).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (2)",
+                "title": "[CBS 영상 #02] CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-3",
+                "folder": "CBS",
+                "index": 3,
+                "fileName": "CBS (4).mp4",
+                "src": "assets/reference/CBS/CBS (4).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (4).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (4)",
+                "title": "[CBS 영상 #03] CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-4",
+                "folder": "CBS",
+                "index": 4,
+                "fileName": "CBS (5).mp4",
+                "src": "assets/reference/CBS/CBS (5).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (4).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (5)",
+                "title": "[CBS 영상 #04] CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-5",
+                "folder": "CBS",
+                "index": 5,
+                "fileName": "CBS (6).mp4",
+                "src": "assets/reference/CBS/CBS (6).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (7).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (6)",
+                "title": "[CBS 영상 #05] CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-6",
+                "folder": "CBS",
+                "index": 6,
+                "fileName": "CBS (7).mp4",
+                "src": "assets/reference/CBS/CBS (7).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (7).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (7)",
+                "title": "[CBS 영상 #06] CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-7",
+                "folder": "CBS",
+                "index": 7,
+                "fileName": "CBS (8).mp4",
+                "src": "assets/reference/CBS/CBS (8).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (11).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (8)",
+                "title": "[CBS 영상 #07] CBS 폴리백·소형 택배 화물 밀착 제어 및 정밀 투입 실증",
+                "desc": "마찰력이 낮거나 가벼운 비닐 폴리백 화물도 정전기 방지 및 고마찰 벨트 제어를 통해 미끄러짐 없이 정밀하게 목표 슈트로 안착시키는 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-8",
+                "folder": "CBS",
+                "index": 8,
+                "fileName": "CBS (9).mp4",
+                "src": "assets/reference/CBS/CBS (9).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (12).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (9)",
+                "title": "[CBS 영상 #08] CBS 메인 구동부 저소음 서보 제어 및 연속 순환 시운전",
+                "desc": "고효율 리니어/서보 구동 메커니즘을 적용하여 고속 가동 시에도 소음과 마모를 최소화하고 24시간 무중단 연속 운전 신뢰성을 검증하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-9",
+                "folder": "CBS",
+                "index": 9,
+                "fileName": "CBS (10).mp4",
+                "src": "assets/reference/CBS/CBS (10).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (10).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (10)",
+                "title": "[CBS 영상 #09] CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-10",
+                "folder": "CBS",
+                "index": 10,
+                "fileName": "CBS (11).mp4",
+                "src": "assets/reference/CBS/CBS (11).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (11).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (11)",
+                "title": "[CBS 영상 #10] CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-11",
+                "folder": "CBS",
+                "index": 11,
+                "fileName": "CBS (12).mp4",
+                "src": "assets/reference/CBS/CBS (12).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (12).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (12)",
+                "title": "[CBS 영상 #11] CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-12",
+                "folder": "CBS",
+                "index": 12,
+                "fileName": "CBS (13).mp4",
+                "src": "assets/reference/CBS/CBS (13).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (13).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (13)",
+                "title": "[CBS 영상 #12] CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-13",
+                "folder": "CBS",
+                "index": 13,
+                "fileName": "CBS (14).mp4",
+                "src": "assets/reference/CBS/CBS (14).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (14).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (14)",
+                "title": "[CBS 영상 #13] CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-14",
+                "folder": "CBS",
+                "index": 14,
+                "fileName": "CBS (15).mp4",
+                "src": "assets/reference/CBS/CBS (15).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (15).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (15)",
+                "title": "[CBS 영상 #14] CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-15",
+                "folder": "CBS",
+                "index": 15,
+                "fileName": "CBS (16).mp4",
+                "src": "assets/reference/CBS/CBS (16).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (16).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (16)",
+                "title": "[CBS 영상 #15] CBS 폴리백·소형 택배 화물 밀착 제어 및 정밀 투입 실증",
+                "desc": "마찰력이 낮거나 가벼운 비닐 폴리백 화물도 정전기 방지 및 고마찰 벨트 제어를 통해 미끄러짐 없이 정밀하게 목표 슈트로 안착시키는 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-16",
+                "folder": "CBS",
+                "index": 16,
+                "fileName": "CBS (17).mp4",
+                "src": "assets/reference/CBS/CBS (17).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (17).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (17)",
+                "title": "[CBS 영상 #16] CBS 메인 구동부 저소음 서보 제어 및 연속 순환 시운전",
+                "desc": "고효율 리니어/서보 구동 메커니즘을 적용하여 고속 가동 시에도 소음과 마모를 최소화하고 24시간 무중단 연속 운전 신뢰성을 검증하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-17",
+                "folder": "CBS",
+                "index": 17,
+                "fileName": "CBS (18).mp4",
+                "src": "assets/reference/CBS/CBS (18).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (18).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (18)",
+                "title": "[CBS 영상 #17] CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-18",
+                "folder": "CBS",
+                "index": 18,
+                "fileName": "CBS (19).mp4",
+                "src": "assets/reference/CBS/CBS (19).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (19).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (19)",
+                "title": "[CBS 영상 #18] CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-19",
+                "folder": "CBS",
+                "index": 19,
+                "fileName": "CBS (20).mp4",
+                "src": "assets/reference/CBS/CBS (20).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (20).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (20)",
+                "title": "[CBS 영상 #19] CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-20",
+                "folder": "CBS",
+                "index": 20,
+                "fileName": "CBS (21).mp4",
+                "src": "assets/reference/CBS/CBS (21).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (21).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (21)",
+                "title": "[CBS 영상 #20] CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-21",
+                "folder": "CBS",
+                "index": 21,
+                "fileName": "CBS (22).mp4",
+                "src": "assets/reference/CBS/CBS (22).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (22).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (22)",
+                "title": "[CBS 영상 #21] CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-22",
+                "folder": "CBS",
+                "index": 22,
+                "fileName": "CBS (23).mp4",
+                "src": "assets/reference/CBS/CBS (23).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (23).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (23)",
+                "title": "[CBS 영상 #22] CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-23",
+                "folder": "CBS",
+                "index": 23,
+                "fileName": "01b40333cce28724683bca9c8b912a5d.mp4",
+                "src": "assets/reference/CBS/01b40333cce28724683bca9c8b912a5d.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/01b40333cce28724683bca9c8b912a5d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #23",
+                "title": "[CBS 영상 #23] CBS 폴리백·소형 택배 화물 밀착 제어 및 정밀 투입 실증",
+                "desc": "마찰력이 낮거나 가벼운 비닐 폴리백 화물도 정전기 방지 및 고마찰 벨트 제어를 통해 미끄러짐 없이 정밀하게 목표 슈트로 안착시키는 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-24",
+                "folder": "CBS",
+                "index": 24,
+                "fileName": "2ff9531d28bd45fc03381bd8a692e404.mp4",
+                "src": "assets/reference/CBS/2ff9531d28bd45fc03381bd8a692e404.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/2ff9531d28bd45fc03381bd8a692e404_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #24",
+                "title": "[CBS 영상 #24] CBS 메인 구동부 저소음 서보 제어 및 연속 순환 시운전",
+                "desc": "고효율 리니어/서보 구동 메커니즘을 적용하여 고속 가동 시에도 소음과 마모를 최소화하고 24시간 무중단 연속 운전 신뢰성을 검증하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-25",
+                "folder": "CBS",
+                "index": 25,
+                "fileName": "3c6c07a76684c3f3d4978b9a97505980.mp4",
+                "src": "assets/reference/CBS/3c6c07a76684c3f3d4978b9a97505980.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/3c6c07a76684c3f3d4978b9a97505980_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #25",
+                "title": "[CBS 영상 #25] CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-26",
+                "folder": "CBS",
+                "index": 26,
+                "fileName": "6eb4b5bcf46d25755fe414e009719c54.mp4",
+                "src": "assets/reference/CBS/6eb4b5bcf46d25755fe414e009719c54.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/6eb4b5bcf46d25755fe414e009719c54_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #26",
+                "title": "[CBS 영상 #26] CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-27",
+                "folder": "CBS",
+                "index": 27,
+                "fileName": "7e85e2c885de63688b4d15cfc5367b54.mp4",
+                "src": "assets/reference/CBS/7e85e2c885de63688b4d15cfc5367b54.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/7e85e2c885de63688b4d15cfc5367b54_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #27",
+                "title": "[CBS 영상 #27] CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-28",
+                "folder": "CBS",
+                "index": 28,
+                "fileName": "29eb25f1501abbdea5f5c4c2cda9a4ce.mp4",
+                "src": "assets/reference/CBS/29eb25f1501abbdea5f5c4c2cda9a4ce.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/CBS (32).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #28",
+                "title": "[CBS 영상 #28] CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-29",
+                "folder": "CBS",
+                "index": 29,
+                "fileName": "47f33e193ec71d8b317df4d7f1943a80.mp4",
+                "src": "assets/reference/CBS/47f33e193ec71d8b317df4d7f1943a80.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/47f33e193ec71d8b317df4d7f1943a80_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #29",
+                "title": "[CBS 영상 #29] CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-30",
+                "folder": "CBS",
+                "index": 30,
+                "fileName": "60da705934839af78196bff8841fd11d.mp4",
+                "src": "assets/reference/CBS/60da705934839af78196bff8841fd11d.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/60da705934839af78196bff8841fd11d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #30",
+                "title": "[CBS 영상 #30] CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-31",
+                "folder": "CBS",
+                "index": 31,
+                "fileName": "62ec55bf9ffb3e7b065b59e170c25d72.mp4",
+                "src": "assets/reference/CBS/62ec55bf9ffb3e7b065b59e170c25d72.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/62ec55bf9ffb3e7b065b59e170c25d72_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #31",
+                "title": "[CBS 영상 #31] CBS 폴리백·소형 택배 화물 밀착 제어 및 정밀 투입 실증",
+                "desc": "마찰력이 낮거나 가벼운 비닐 폴리백 화물도 정전기 방지 및 고마찰 벨트 제어를 통해 미끄러짐 없이 정밀하게 목표 슈트로 안착시키는 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-32",
+                "folder": "CBS",
+                "index": 32,
+                "fileName": "67f6ac904af1b4d993c01286e1839ad0.mp4",
+                "src": "assets/reference/CBS/67f6ac904af1b4d993c01286e1839ad0.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/67f6ac904af1b4d993c01286e1839ad0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #32",
+                "title": "[CBS 영상 #32] CBS 메인 구동부 저소음 서보 제어 및 연속 순환 시운전",
+                "desc": "고효율 리니어/서보 구동 메커니즘을 적용하여 고속 가동 시에도 소음과 마모를 최소화하고 24시간 무중단 연속 운전 신뢰성을 검증하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-33",
+                "folder": "CBS",
+                "index": 33,
+                "fileName": "88b4e5c050499b1a15e145703477cfdc.mp4",
+                "src": "assets/reference/CBS/88b4e5c050499b1a15e145703477cfdc.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/88b4e5c050499b1a15e145703477cfdc_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #33",
+                "title": "[CBS 영상 #33] CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-34",
+                "folder": "CBS",
+                "index": 34,
+                "fileName": "1867f10d644de944b105286163a70603.mp4",
+                "src": "assets/reference/CBS/1867f10d644de944b105286163a70603.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/1867f10d644de944b105286163a70603_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #34",
+                "title": "[CBS 영상 #34] CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-35",
+                "folder": "CBS",
+                "index": 35,
+                "fileName": "2244a443df7700f4cd2bf1406e3d95da.mp4",
+                "src": "assets/reference/CBS/2244a443df7700f4cd2bf1406e3d95da.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/2244a443df7700f4cd2bf1406e3d95da_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #35",
+                "title": "[CBS 영상 #35] CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-36",
+                "folder": "CBS",
+                "index": 36,
+                "fileName": "3493e305fce0324edd0b47a3296ab8f0.mp4",
+                "src": "assets/reference/CBS/3493e305fce0324edd0b47a3296ab8f0.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/3493e305fce0324edd0b47a3296ab8f0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #36",
+                "title": "[CBS 영상 #36] CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-37",
+                "folder": "CBS",
+                "index": 37,
+                "fileName": "4237c4dbe1f6e506ff631a1002b0fa59.mp4",
+                "src": "assets/reference/CBS/4237c4dbe1f6e506ff631a1002b0fa59.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/42d6c724a9fcaf0b43125cfe296f502d.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #37",
+                "title": "[CBS 영상 #37] CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-38",
+                "folder": "CBS",
+                "index": 38,
+                "fileName": "6872d7c9c41244d64199c63e417aa2ad.mp4",
+                "src": "assets/reference/CBS/6872d7c9c41244d64199c63e417aa2ad.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/6872d7c9c41244d64199c63e417aa2ad_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #38",
+                "title": "[CBS 영상 #38] CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-39",
+                "folder": "CBS",
+                "index": 39,
+                "fileName": "7707fb5252d4d29bba4d81632aedefe4.mp4",
+                "src": "assets/reference/CBS/7707fb5252d4d29bba4d81632aedefe4.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/60da705934839af78196bff8841fd11d.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #39",
+                "title": "[CBS 영상 #39] CBS 폴리백·소형 택배 화물 밀착 제어 및 정밀 투입 실증",
+                "desc": "마찰력이 낮거나 가벼운 비닐 폴리백 화물도 정전기 방지 및 고마찰 벨트 제어를 통해 미끄러짐 없이 정밀하게 목표 슈트로 안착시키는 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-40",
+                "folder": "CBS",
+                "index": 40,
+                "fileName": "07929b815d9c078215f82bd8f1bdab4e.mp4",
+                "src": "assets/reference/CBS/07929b815d9c078215f82bd8f1bdab4e.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/07929b815d9c078215f82bd8f1bdab4e.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #40",
+                "title": "[CBS 영상 #40] CBS 메인 구동부 저소음 서보 제어 및 연속 순환 시운전",
+                "desc": "고효율 리니어/서보 구동 메커니즘을 적용하여 고속 가동 시에도 소음과 마모를 최소화하고 24시간 무중단 연속 운전 신뢰성을 검증하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-41",
+                "folder": "CBS",
+                "index": 41,
+                "fileName": "12206f97a035f5710944e6b99f3da22f.mp4",
+                "src": "assets/reference/CBS/12206f97a035f5710944e6b99f3da22f.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/12206f97a035f5710944e6b99f3da22f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #41",
+                "title": "[CBS 영상 #41] CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-42",
+                "folder": "CBS",
+                "index": 42,
+                "fileName": "383707fbd79758f3082e323d1cb2f611.mp4",
+                "src": "assets/reference/CBS/383707fbd79758f3082e323d1cb2f611.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/88b4e5c050499b1a15e145703477cfdc.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #42",
+                "title": "[CBS 영상 #42] CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-43",
+                "folder": "CBS",
+                "index": 43,
+                "fileName": "1593504a1df1d27de867ecd906b68b3a.mp4",
+                "src": "assets/reference/CBS/1593504a1df1d27de867ecd906b68b3a.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/1593504a1df1d27de867ecd906b68b3a_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #43",
+                "title": "[CBS 영상 #43] CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-44",
+                "folder": "CBS",
+                "index": 44,
+                "fileName": "23386730251b4bfc34910e31d7e9c509.mp4",
+                "src": "assets/reference/CBS/23386730251b4bfc34910e31d7e9c509.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/23386730251b4bfc34910e31d7e9c509_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #44",
+                "title": "[CBS 영상 #44] CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-45",
+                "folder": "CBS",
+                "index": 45,
+                "fileName": "a198e158182f40ac32cbfe7ef765d760.mp4",
+                "src": "assets/reference/CBS/a198e158182f40ac32cbfe7ef765d760.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/a198e158182f40ac32cbfe7ef765d760.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #45",
+                "title": "[CBS 영상 #45] CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-46",
+                "folder": "CBS",
+                "index": 46,
+                "fileName": "a5360e6b322992add0a9efd4351f193f.mp4",
+                "src": "assets/reference/CBS/a5360e6b322992add0a9efd4351f193f.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/a5360e6b322992add0a9efd4351f193f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #46",
+                "title": "[CBS 영상 #46] CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-47",
+                "folder": "CBS",
+                "index": 47,
+                "fileName": "a359073e6e336eff70e900fad2bb74d3.mp4",
+                "src": "assets/reference/CBS/a359073e6e336eff70e900fad2bb74d3.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/7976f69887ba1372b61249ff7f90e21b.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #47",
+                "title": "[CBS 영상 #47] CBS 폴리백·소형 택배 화물 밀착 제어 및 정밀 투입 실증",
+                "desc": "마찰력이 낮거나 가벼운 비닐 폴리백 화물도 정전기 방지 및 고마찰 벨트 제어를 통해 미끄러짐 없이 정밀하게 목표 슈트로 안착시키는 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-48",
+                "folder": "CBS",
+                "index": 48,
+                "fileName": "abb16b741cd8e8f0480041d29f2c874f.mp4",
+                "src": "assets/reference/CBS/abb16b741cd8e8f0480041d29f2c874f.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/abb16b741cd8e8f0480041d29f2c874f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #48",
+                "title": "[CBS 영상 #48] CBS 메인 구동부 저소음 서보 제어 및 연속 순환 시운전",
+                "desc": "고효율 리니어/서보 구동 메커니즘을 적용하여 고속 가동 시에도 소음과 마모를 최소화하고 24시간 무중단 연속 운전 신뢰성을 검증하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-49",
+                "folder": "CBS",
+                "index": 49,
+                "fileName": "b54ddb26f5276c779f332c07c57346c5.mp4",
+                "src": "assets/reference/CBS/b54ddb26f5276c779f332c07c57346c5.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/b54ddb26f5276c779f332c07c57346c5_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #49",
+                "title": "[CBS 영상 #49] CBS 순환 루프 라인 초고속 연속 분류 가동",
+                "desc": "독립 제어되는 크로스벨트 캐리어가 주행 중 정확한 타이밍에 벨트를 구동하여 양측 배출 슈트로 화물을 오차 없이 고속 분기하는 실제 가동 영상입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-50",
+                "folder": "CBS",
+                "index": 50,
+                "fileName": "cb1b87092ff3f000d034372211d10580.mp4",
+                "src": "assets/reference/CBS/cb1b87092ff3f000d034372211d10580.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/cb1b87092ff3f000d034372211d10580_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #50",
+                "title": "[CBS 영상 #50] CBS 다열 인덕션(Induction) 자동 정렬 및 고속 합류 구간",
+                "desc": "복수의 투입 컨베이어에서 진입하는 화물의 간격과 진입 각도를 정밀 제어하여 메인 크로스벨트 소터 캐리어 중앙에 정확히 안착시키는 인덕션 가동 장면입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-51",
+                "folder": "CBS",
+                "index": 51,
+                "fileName": "ce9c62dff9b9d8ca2d7159bcd233c9b0.mp4",
+                "src": "assets/reference/CBS/ce9c62dff9b9d8ca2d7159bcd233c9b0.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/ce9c62dff9b9d8ca2d7159bcd233c9b0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #51",
+                "title": "[CBS 영상 #51] CBS 곡선(Curve) 주행 구간 및 오렌지 마대 슈트 연속 배출",
+                "desc": "고속 순환 루프의 곡선 레일 구간에서도 흔들림 없는 저진동 주행 성능을 유지하며, 하단 집하 마대 슈트로 폴리백과 박스를 연속 배출하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-52",
+                "folder": "CBS",
+                "index": 52,
+                "fileName": "f65c8339e63a4af68c6317986a5195db.mp4",
+                "src": "assets/reference/CBS/f65c8339e63a4af68c6317986a5195db.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/f65c8339e63a4af68c6317986a5195db_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #52",
+                "title": "[CBS 영상 #52] CBS 양방향 대용량 경사 슈트 및 하부 반출 라인 연동",
+                "desc": "소터 상부에서 분기된 화물이 완충 설계된 경사 슈트를 타고 하부 집하 라인으로 파손 없이 부드럽게 슬라이딩 배출되는 공정입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-53",
+                "folder": "CBS",
+                "index": 53,
+                "fileName": "fb2f1b747a7ff1ebda5da2650bc0a754.mp4",
+                "src": "assets/reference/CBS/fb2f1b747a7ff1ebda5da2650bc0a754.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/a5360e6b322992add0a9efd4351f193f.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #53",
+                "title": "[CBS 영상 #53] CBS 5면 비전 바코드 스캐너 및 실시간 WCS 목적지 할당",
+                "desc": "고속 주행하는 캐리어 상단 화물의 바코드와 체적을 실시간 판독하여 최적의 목적지 슈트로 즉시 분기 명령을 하달하는 스마트 제어 구간입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-vid-54",
+                "folder": "CBS",
+                "index": 54,
+                "fileName": "ff729e8756efdca4d8862ab83ff8d047.mp4",
+                "src": "assets/reference/CBS/ff729e8756efdca4d8862ab83ff8d047.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/CBS/ff729e8756efdca4d8862ab83ff8d047_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장영상 #54",
+                "title": "[CBS 영상 #54] CBS 복층 메자닌(Mezzanine) 구조 대형 물류센터 통합 가동",
+                "desc": "공간 활용도를 극대화한 2층 메자닌 상부 소터 라인과 1층 출고 슈트 라인이 유기적으로 결합되어 대량 물동량을 막힘없이 처리하는 현장입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            }
+        ],
+        "photos": [
+            {
+                "id": "CBS-pho-1",
+                "folder": "CBS",
+                "index": 1,
+                "fileName": "CBS (1).jpg",
+                "src": "assets/reference/CBS/CBS (1).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (1).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (1)",
+                "title": "[CBS 사진 #01] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-2",
+                "folder": "CBS",
+                "index": 2,
+                "fileName": "CBS (2).jpg",
+                "src": "assets/reference/CBS/CBS (2).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (2).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (2)",
+                "title": "[CBS 사진 #02] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-3",
+                "folder": "CBS",
+                "index": 3,
+                "fileName": "CBS (3).jpg",
+                "src": "assets/reference/CBS/CBS (3).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (3).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (3)",
+                "title": "[CBS 사진 #03] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-4",
+                "folder": "CBS",
+                "index": 4,
+                "fileName": "CBS (4).jpg",
+                "src": "assets/reference/CBS/CBS (4).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (4).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (4)",
+                "title": "[CBS 사진 #04] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-5",
+                "folder": "CBS",
+                "index": 5,
+                "fileName": "CBS (7).jpg",
+                "src": "assets/reference/CBS/CBS (7).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (7).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (7)",
+                "title": "[CBS 사진 #05] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-6",
+                "folder": "CBS",
+                "index": 6,
+                "fileName": "CBS (10).jpg",
+                "src": "assets/reference/CBS/CBS (10).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (10).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (10)",
+                "title": "[CBS 사진 #06] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-7",
+                "folder": "CBS",
+                "index": 7,
+                "fileName": "CBS (11).jpg",
+                "src": "assets/reference/CBS/CBS (11).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (11).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (11)",
+                "title": "[CBS 사진 #07] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-8",
+                "folder": "CBS",
+                "index": 8,
+                "fileName": "CBS (12).jpg",
+                "src": "assets/reference/CBS/CBS (12).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (12).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (12)",
+                "title": "[CBS 사진 #08] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-9",
+                "folder": "CBS",
+                "index": 9,
+                "fileName": "CBS (13).jpg",
+                "src": "assets/reference/CBS/CBS (13).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (13).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (13)",
+                "title": "[CBS 사진 #09] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-10",
+                "folder": "CBS",
+                "index": 10,
+                "fileName": "CBS (14).jpg",
+                "src": "assets/reference/CBS/CBS (14).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (14).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (14)",
+                "title": "[CBS 사진 #10] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-11",
+                "folder": "CBS",
+                "index": 11,
+                "fileName": "CBS (15).jpg",
+                "src": "assets/reference/CBS/CBS (15).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (15).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (15)",
+                "title": "[CBS 사진 #11] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-12",
+                "folder": "CBS",
+                "index": 12,
+                "fileName": "CBS (16).jpg",
+                "src": "assets/reference/CBS/CBS (16).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (16).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (16)",
+                "title": "[CBS 사진 #12] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-13",
+                "folder": "CBS",
+                "index": 13,
+                "fileName": "CBS (17).jpg",
+                "src": "assets/reference/CBS/CBS (17).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (17).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (17)",
+                "title": "[CBS 사진 #13] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-14",
+                "folder": "CBS",
+                "index": 14,
+                "fileName": "CBS (18).jpg",
+                "src": "assets/reference/CBS/CBS (18).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (18).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (18)",
+                "title": "[CBS 사진 #14] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-15",
+                "folder": "CBS",
+                "index": 15,
+                "fileName": "CBS (19).jpg",
+                "src": "assets/reference/CBS/CBS (19).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (19).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (19)",
+                "title": "[CBS 사진 #15] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-16",
+                "folder": "CBS",
+                "index": 16,
+                "fileName": "CBS (20).jpg",
+                "src": "assets/reference/CBS/CBS (20).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (20).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (20)",
+                "title": "[CBS 사진 #16] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-17",
+                "folder": "CBS",
+                "index": 17,
+                "fileName": "CBS (21).jpg",
+                "src": "assets/reference/CBS/CBS (21).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (21).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (21)",
+                "title": "[CBS 사진 #17] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-18",
+                "folder": "CBS",
+                "index": 18,
+                "fileName": "CBS (22).jpg",
+                "src": "assets/reference/CBS/CBS (22).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (22).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (22)",
+                "title": "[CBS 사진 #18] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-19",
+                "folder": "CBS",
+                "index": 19,
+                "fileName": "CBS (23).jpg",
+                "src": "assets/reference/CBS/CBS (23).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (23).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (23)",
+                "title": "[CBS 사진 #19] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-20",
+                "folder": "CBS",
+                "index": 20,
+                "fileName": "CBS (24).jpg",
+                "src": "assets/reference/CBS/CBS (24).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (24).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (24)",
+                "title": "[CBS 사진 #20] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-21",
+                "folder": "CBS",
+                "index": 21,
+                "fileName": "CBS (25).jpg",
+                "src": "assets/reference/CBS/CBS (25).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (25).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (25)",
+                "title": "[CBS 사진 #21] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-22",
+                "folder": "CBS",
+                "index": 22,
+                "fileName": "CBS (26).jpg",
+                "src": "assets/reference/CBS/CBS (26).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (26).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (26)",
+                "title": "[CBS 사진 #22] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-23",
+                "folder": "CBS",
+                "index": 23,
+                "fileName": "CBS (27).jpg",
+                "src": "assets/reference/CBS/CBS (27).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (27).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (27)",
+                "title": "[CBS 사진 #23] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-24",
+                "folder": "CBS",
+                "index": 24,
+                "fileName": "CBS (28).jpg",
+                "src": "assets/reference/CBS/CBS (28).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (28).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (28)",
+                "title": "[CBS 사진 #24] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-25",
+                "folder": "CBS",
+                "index": 25,
+                "fileName": "CBS (29).jpg",
+                "src": "assets/reference/CBS/CBS (29).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (29).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (29)",
+                "title": "[CBS 사진 #25] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-26",
+                "folder": "CBS",
+                "index": 26,
+                "fileName": "CBS (30).jpg",
+                "src": "assets/reference/CBS/CBS (30).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (30).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (30)",
+                "title": "[CBS 사진 #26] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-27",
+                "folder": "CBS",
+                "index": 27,
+                "fileName": "CBS (31).jpg",
+                "src": "assets/reference/CBS/CBS (31).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (31).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (31)",
+                "title": "[CBS 사진 #27] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-28",
+                "folder": "CBS",
+                "index": 28,
+                "fileName": "CBS (32).jpg",
+                "src": "assets/reference/CBS/CBS (32).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (32).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (32)",
+                "title": "[CBS 사진 #28] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-29",
+                "folder": "CBS",
+                "index": 29,
+                "fileName": "CBS (33).jpg",
+                "src": "assets/reference/CBS/CBS (33).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (33).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (33)",
+                "title": "[CBS 사진 #29] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-30",
+                "folder": "CBS",
+                "index": 30,
+                "fileName": "CBS (34).jpg",
+                "src": "assets/reference/CBS/CBS (34).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (34).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (34)",
+                "title": "[CBS 사진 #30] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-31",
+                "folder": "CBS",
+                "index": 31,
+                "fileName": "CBS (36).jpg",
+                "src": "assets/reference/CBS/CBS (36).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (36).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (36)",
+                "title": "[CBS 사진 #31] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-32",
+                "folder": "CBS",
+                "index": 32,
+                "fileName": "CBS (37).jpg",
+                "src": "assets/reference/CBS/CBS (37).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/CBS (37).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS (37)",
+                "title": "[CBS 사진 #32] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-33",
+                "folder": "CBS",
+                "index": 33,
+                "fileName": "2b6cf217771de4fd47f3133aba3a8096.jpg",
+                "src": "assets/reference/CBS/2b6cf217771de4fd47f3133aba3a8096.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/2b6cf217771de4fd47f3133aba3a8096.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #33",
+                "title": "[CBS 사진 #33] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-34",
+                "folder": "CBS",
+                "index": 34,
+                "fileName": "2ff9531d28bd45fc03381bd8a692e404.jpg",
+                "src": "assets/reference/CBS/2ff9531d28bd45fc03381bd8a692e404.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/2ff9531d28bd45fc03381bd8a692e404_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #34",
+                "title": "[CBS 사진 #34] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-35",
+                "folder": "CBS",
+                "index": 35,
+                "fileName": "3c6c07a76684c3f3d4978b9a97505980.jpg",
+                "src": "assets/reference/CBS/3c6c07a76684c3f3d4978b9a97505980.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/3c6c07a76684c3f3d4978b9a97505980_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #35",
+                "title": "[CBS 사진 #35] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-36",
+                "folder": "CBS",
+                "index": 36,
+                "fileName": "7e85e2c885de63688b4d15cfc5367b54.jpg",
+                "src": "assets/reference/CBS/7e85e2c885de63688b4d15cfc5367b54.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/7e85e2c885de63688b4d15cfc5367b54_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #36",
+                "title": "[CBS 사진 #36] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-37",
+                "folder": "CBS",
+                "index": 37,
+                "fileName": "42d6c724a9fcaf0b43125cfe296f502d.jpg",
+                "src": "assets/reference/CBS/42d6c724a9fcaf0b43125cfe296f502d.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/42d6c724a9fcaf0b43125cfe296f502d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #37",
+                "title": "[CBS 사진 #37] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-38",
+                "folder": "CBS",
+                "index": 38,
+                "fileName": "47f33e193ec71d8b317df4d7f1943a80.jpg",
+                "src": "assets/reference/CBS/47f33e193ec71d8b317df4d7f1943a80.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/47f33e193ec71d8b317df4d7f1943a80_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #38",
+                "title": "[CBS 사진 #38] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-39",
+                "folder": "CBS",
+                "index": 39,
+                "fileName": "60da705934839af78196bff8841fd11d.jpg",
+                "src": "assets/reference/CBS/60da705934839af78196bff8841fd11d.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/60da705934839af78196bff8841fd11d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #39",
+                "title": "[CBS 사진 #39] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-40",
+                "folder": "CBS",
+                "index": 40,
+                "fileName": "62ec55bf9ffb3e7b065b59e170c25d72.jpg",
+                "src": "assets/reference/CBS/62ec55bf9ffb3e7b065b59e170c25d72.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/62ec55bf9ffb3e7b065b59e170c25d72_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #40",
+                "title": "[CBS 사진 #40] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-41",
+                "folder": "CBS",
+                "index": 41,
+                "fileName": "67f6ac904af1b4d993c01286e1839ad0.jpg",
+                "src": "assets/reference/CBS/67f6ac904af1b4d993c01286e1839ad0.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/67f6ac904af1b4d993c01286e1839ad0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #41",
+                "title": "[CBS 사진 #41] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-42",
+                "folder": "CBS",
+                "index": 42,
+                "fileName": "88b4e5c050499b1a15e145703477cfdc.jpg",
+                "src": "assets/reference/CBS/88b4e5c050499b1a15e145703477cfdc.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/88b4e5c050499b1a15e145703477cfdc_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #42",
+                "title": "[CBS 사진 #42] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-43",
+                "folder": "CBS",
+                "index": 43,
+                "fileName": "1867f10d644de944b105286163a70603.jpg",
+                "src": "assets/reference/CBS/1867f10d644de944b105286163a70603.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/1867f10d644de944b105286163a70603_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #43",
+                "title": "[CBS 사진 #43] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-44",
+                "folder": "CBS",
+                "index": 44,
+                "fileName": "2244a443df7700f4cd2bf1406e3d95da.jpg",
+                "src": "assets/reference/CBS/2244a443df7700f4cd2bf1406e3d95da.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/2244a443df7700f4cd2bf1406e3d95da_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #44",
+                "title": "[CBS 사진 #44] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-45",
+                "folder": "CBS",
+                "index": 45,
+                "fileName": "3493e305fce0324edd0b47a3296ab8f0.jpg",
+                "src": "assets/reference/CBS/3493e305fce0324edd0b47a3296ab8f0.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/3493e305fce0324edd0b47a3296ab8f0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #45",
+                "title": "[CBS 사진 #45] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-46",
+                "folder": "CBS",
+                "index": 46,
+                "fileName": "07929b815d9c078215f82bd8f1bdab4e.jpg",
+                "src": "assets/reference/CBS/07929b815d9c078215f82bd8f1bdab4e.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/07929b815d9c078215f82bd8f1bdab4e.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #46",
+                "title": "[CBS 사진 #46] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-47",
+                "folder": "CBS",
+                "index": 47,
+                "fileName": "7976f69887ba1372b61249ff7f90e21b.jpg",
+                "src": "assets/reference/CBS/7976f69887ba1372b61249ff7f90e21b.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/7976f69887ba1372b61249ff7f90e21b_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #47",
+                "title": "[CBS 사진 #47] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-48",
+                "folder": "CBS",
+                "index": 48,
+                "fileName": "926005b29f6feb06b0c64d437f4c24a0.jpg",
+                "src": "assets/reference/CBS/926005b29f6feb06b0c64d437f4c24a0.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/926005b29f6feb06b0c64d437f4c24a0.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #48",
+                "title": "[CBS 사진 #48] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-49",
+                "folder": "CBS",
+                "index": 49,
+                "fileName": "1593504a1df1d27de867ecd906b68b3a.jpg",
+                "src": "assets/reference/CBS/1593504a1df1d27de867ecd906b68b3a.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/1593504a1df1d27de867ecd906b68b3a_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #49",
+                "title": "[CBS 사진 #49] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-50",
+                "folder": "CBS",
+                "index": 50,
+                "fileName": "23386730251b4bfc34910e31d7e9c509.jpg",
+                "src": "assets/reference/CBS/23386730251b4bfc34910e31d7e9c509.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/23386730251b4bfc34910e31d7e9c509_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #50",
+                "title": "[CBS 사진 #50] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-51",
+                "folder": "CBS",
+                "index": 51,
+                "fileName": "a16b9e2219b873c32272e2bf33f09d34.jpg",
+                "src": "assets/reference/CBS/a16b9e2219b873c32272e2bf33f09d34.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/a16b9e2219b873c32272e2bf33f09d34.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #51",
+                "title": "[CBS 사진 #51] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-52",
+                "folder": "CBS",
+                "index": 52,
+                "fileName": "a198e158182f40ac32cbfe7ef765d760.jpg",
+                "src": "assets/reference/CBS/a198e158182f40ac32cbfe7ef765d760.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/a198e158182f40ac32cbfe7ef765d760.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #52",
+                "title": "[CBS 사진 #52] CBS 스파이럴 경사 슈트 및 하부 출고 컨베이어 연계 구조",
+                "desc": "상층부 소터에서 분류된 화물이 충격 완화 곡선 슈트를 통해 하층부 패킹·출고 스테이션으로 즉시 연결되는 입체 물류 구조입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-53",
+                "folder": "CBS",
+                "index": 53,
+                "fileName": "a5360e6b322992add0a9efd4351f193f.jpg",
+                "src": "assets/reference/CBS/a5360e6b322992add0a9efd4351f193f.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/a5360e6b322992add0a9efd4351f193f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #53",
+                "title": "[CBS 사진 #53] CBS 캐리어 셀 유닛 및 정밀 가이드 레일 디테일",
+                "desc": "내구성이 뛰어난 모듈형 크로스벨트 캐리어와 정밀 가공된 알루미늄/스틸 트랙이 결합되어 고속 주행 안정성을 보장합니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-54",
+                "folder": "CBS",
+                "index": 54,
+                "fileName": "ce9c62dff9b9d8ca2d7159bcd233c9b0.jpg",
+                "src": "assets/reference/CBS/ce9c62dff9b9d8ca2d7159bcd233c9b0.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/ce9c62dff9b9d8ca2d7159bcd233c9b0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #54",
+                "title": "[CBS 사진 #54] 대형 풀필먼트 센터 CBS 전체 라인업 및 메자닌 플랫폼",
+                "desc": "수백 미터 규모의 대형 물류 터미널 내부를 가로지르는 CBS 메인 라인과 안전 점검용 옐로우 핸드레일 캣워크(Catwalk) 구축 전경입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-55",
+                "folder": "CBS",
+                "index": 55,
+                "fileName": "e7fc8b4e2a54317b5bb0f49d095d832e.jpg",
+                "src": "assets/reference/CBS/e7fc8b4e2a54317b5bb0f49d095d832e.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/e7fc8b4e2a54317b5bb0f49d095d832e_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #55",
+                "title": "[CBS 사진 #55] CBS 양방향 다단 배출 슈트 및 상부 주행 트랙 전경",
+                "desc": "메인 크로스벨트 소터 라인 양측으로 촘촘하게 배치된 대용량 블루·그레이 배출 슈트와 상부 철골 점검 통로가 정교하게 시공된 모습입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-56",
+                "folder": "CBS",
+                "index": 56,
+                "fileName": "e50b034620801b497d73a58e3e636400.jpg",
+                "src": "assets/reference/CBS/e50b034620801b497d73a58e3e636400.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/e50b034620801b497d73a58e3e636400_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #56",
+                "title": "[CBS 사진 #56] CBS 루프 곡선 구간 및 오렌지 집하 마대 슈트 라인",
+                "desc": "곡선부 외측과 내측 공간을 모두 활용하여 집하 마대(Bag) 슈트를 고밀도로 배치함으로써 단위 면적당 분류 목적지 수를 극대화한 설계입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            },
+            {
+                "id": "CBS-pho-57",
+                "folder": "CBS",
+                "index": 57,
+                "fileName": "f65c8339e63a4af68c6317986a5195db.jpg",
+                "src": "assets/reference/CBS/f65c8339e63a4af68c6317986a5195db.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "thumb": "assets/reference/CBS/f65c8339e63a4af68c6317986a5195db_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/CBS [Cross Belt Sorter].png",
+                "clipCode": "CBS 현장포토 #57",
+                "title": "[CBS 사진 #57] CBS 고속 인덕션 합류 라인 및 제어 패널 구축 현장",
+                "desc": "작업자 투입대에서 정렬된 화물이 고속 벨트를 거쳐 메인 소터로 자동 진입하는 인덕션 모듈과 현장 안전 가드 레이아웃입니다.",
+                "tags": [
+                    "Cross Belt Sorter",
+                    "고속 인덕션 투입",
+                    "양방향 슈트 분기",
+                    "풀필먼트 허브"
+                ]
+            }
+        ]
+    },
+    "NC CBS": {
+        "id": "NC CBS",
+        "title": "NC CBS",
+        "subtitle": "NC CBS [NC Cross Belt Sorter] — 고밀도 비접촉 제어 크로스벨트 소터",
+        "badge": "NARROW-CELL / NON-CONTACT CBS",
+        "icon": "fa-bolt-lightning",
+        "overview": "초고속 택배 메가 터미널 및 좁은 공간의 상하 복층(Double-Deck) 구조에 최적화된 NC CBS(고밀도 비접촉식 크로스벨트 소터) 현장입니다. 비접촉 전원·통신 제어와 좁은 셀 피치(Narrow-Cell) 설계를 통해 소형·중형 화물의 시간당 처리량을 극대화하고 유지보수 비용을 획기적으로 절감합니다.",
+        "tags": [
+            "NC CBS",
+            "비접촉 급전/통신",
+            "복층 고밀도 분류",
+            "초고속 택배 터미널"
+        ],
+        "videoTemplates": [
+            {
+                "title": "NC CBS 초고속 연속 화물 투입 및 정밀 슈트 분기 가동",
+                "desc": "촘촘한 캐리어 간격으로 연속 주행하며 소형 박스와 폴리백을 지정된 슈트로 오차 없이 초고속 타격·배출하는 NC CBS 핵심 가동 영상입니다."
+            },
+            {
+                "title": "NC CBS 상·하 복층 구조 공간 절약형 고속 소팅 라인",
+                "desc": "제한된 물류센터 바닥 면적에서 분류 용량을 2배로 확장하기 위해 설계된 고밀도 복층 NC CBS 라인의 연속 순환 운전 모습입니다."
+            },
+            {
+                "title": "NC CBS 다채널 인덕션 연속 동기화 투입 메커니즘",
+                "desc": "고속으로 지나가는 캐리어의 빈 셀(Cell) 위치를 실시간 추적하여 인덕션 컨베이어가 화물을 정확한 타이밍에 밀어 넣는 동기화 제어 현장입니다."
+            },
+            {
+                "title": "NC CBS 오버헤드 바코드 비전 판독 및 무정지 고속 분류",
+                "desc": "상부 아치형 스캐너 게이트를 통과하는 즉시 화물 정보를 인식하고 수십 개의 세분화된 슈트로 지체 없이 분기하는 모습입니다."
+            },
+            {
+                "title": "NC CBS 경사 마대 슈트 연속 적재 및 대량 물동량 소화",
+                "desc": "피크 타임의 쏟아지는 택배 물동량을 정체 없이 양측 마대 슈트로 연속 분산 배출하는 고부하 실증 가동 영상입니다."
+            },
+            {
+                "title": "NC CBS 비접촉 구동 모듈 정밀 제어 및 시운전 테스트",
+                "desc": "기계적 마찰 부품을 줄인 비접촉 제어 방식을 통해 저소음·저발열 상태에서 장시간 안정적으로 고속 회전하는 설비 검증 영상입니다."
+            }
+        ],
+        "photoTemplates": [
+            {
+                "title": "NC CBS 고밀도 셀(Cell) 라인 및 정밀 하부 프레임 구조",
+                "desc": "정밀하게 정렬된 NC CBS 캐리어 라인과 견고한 구조용 스틸 프레임, 하부 안전 방호 커버가 일체감 있게 구축된 현장 사진입니다."
+            },
+            {
+                "title": "NC CBS 양방향 밀집형 슈트 및 집하 스테이션 전경",
+                "desc": "좁은 간격으로 설계된 다수의 목적지 슈트가 배열되어 권역별·배송지별 세밀한 분류를 수행하는 터미널 내부 모습입니다."
+            },
+            {
+                "title": "NC CBS 인덕션 공급 라인 및 상부 스캐닝 아치 설비",
+                "desc": "화물 자동 정렬 컨베이어와 고정밀 바코드 판독 카메라 모듈이 결합된 투입부 엔지니어링 구성입니다."
+            },
+            {
+                "title": "NC CBS 모듈러 프레임 조립 및 정밀 가이드 레일 마감",
+                "desc": "현장 유지보수와 확장이 용이하도록 모듈화 설계된 가이드 트랙과 깔끔한 배선·센서 브라켓 마감 디테일입니다."
+            }
+        ],
+        "videoCount": 24,
+        "photoCount": 20,
+        "videos": [
+            {
+                "id": "NC CBS-vid-1",
+                "folder": "NC CBS",
+                "index": 1,
+                "fileName": "CBS (3).mp4",
+                "src": "assets/reference/NC CBS/CBS (3).mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/3b5bce4584a8c0458490830189e7ef6a.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "CBS (3)",
+                "title": "[NC CBS 영상 #01] NC CBS 초고속 연속 화물 투입 및 정밀 슈트 분기 가동",
+                "desc": "촘촘한 캐리어 간격으로 연속 주행하며 소형 박스와 폴리백을 지정된 슈트로 오차 없이 초고속 타격·배출하는 NC CBS 핵심 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-2",
+                "folder": "NC CBS",
+                "index": 2,
+                "fileName": "3b5bce4584a8c0458490830189e7ef6a.mp4",
+                "src": "assets/reference/NC CBS/3b5bce4584a8c0458490830189e7ef6a.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/3b5bce4584a8c0458490830189e7ef6a_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #02",
+                "title": "[NC CBS 영상 #02] NC CBS 상·하 복층 구조 공간 절약형 고속 소팅 라인",
+                "desc": "제한된 물류센터 바닥 면적에서 분류 용량을 2배로 확장하기 위해 설계된 고밀도 복층 NC CBS 라인의 연속 순환 운전 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-3",
+                "folder": "NC CBS",
+                "index": 3,
+                "fileName": "6f9f2d179a3280ff68b538ae37e15160.mp4",
+                "src": "assets/reference/NC CBS/6f9f2d179a3280ff68b538ae37e15160.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/6f9f2d179a3280ff68b538ae37e15160_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #03",
+                "title": "[NC CBS 영상 #03] NC CBS 다채널 인덕션 연속 동기화 투입 메커니즘",
+                "desc": "고속으로 지나가는 캐리어의 빈 셀(Cell) 위치를 실시간 추적하여 인덕션 컨베이어가 화물을 정확한 타이밍에 밀어 넣는 동기화 제어 현장입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-4",
+                "folder": "NC CBS",
+                "index": 4,
+                "fileName": "7b2836187c4d7660d62b85a601656754.mp4",
+                "src": "assets/reference/NC CBS/7b2836187c4d7660d62b85a601656754.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/7b2836187c4d7660d62b85a601656754_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #04",
+                "title": "[NC CBS 영상 #04] NC CBS 오버헤드 바코드 비전 판독 및 무정지 고속 분류",
+                "desc": "상부 아치형 스캐너 게이트를 통과하는 즉시 화물 정보를 인식하고 수십 개의 세분화된 슈트로 지체 없이 분기하는 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-5",
+                "folder": "NC CBS",
+                "index": 5,
+                "fileName": "9d9694328c17437cc9a5b05fab039dc7.mp4",
+                "src": "assets/reference/NC CBS/9d9694328c17437cc9a5b05fab039dc7.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/9d9694328c17437cc9a5b05fab039dc7_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #05",
+                "title": "[NC CBS 영상 #05] NC CBS 경사 마대 슈트 연속 적재 및 대량 물동량 소화",
+                "desc": "피크 타임의 쏟아지는 택배 물동량을 정체 없이 양측 마대 슈트로 연속 분산 배출하는 고부하 실증 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-6",
+                "folder": "NC CBS",
+                "index": 6,
+                "fileName": "34b4130a4f19b80f5c138ee587b6821e.mp4",
+                "src": "assets/reference/NC CBS/34b4130a4f19b80f5c138ee587b6821e.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/34b4130a4f19b80f5c138ee587b6821e_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #06",
+                "title": "[NC CBS 영상 #06] NC CBS 비접촉 구동 모듈 정밀 제어 및 시운전 테스트",
+                "desc": "기계적 마찰 부품을 줄인 비접촉 제어 방식을 통해 저소음·저발열 상태에서 장시간 안정적으로 고속 회전하는 설비 검증 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-7",
+                "folder": "NC CBS",
+                "index": 7,
+                "fileName": "237c669ebd51dce526d74b927eb1aeec.mp4",
+                "src": "assets/reference/NC CBS/237c669ebd51dce526d74b927eb1aeec.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/237c669ebd51dce526d74b927eb1aeec_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #07",
+                "title": "[NC CBS 영상 #07] NC CBS 초고속 연속 화물 투입 및 정밀 슈트 분기 가동",
+                "desc": "촘촘한 캐리어 간격으로 연속 주행하며 소형 박스와 폴리백을 지정된 슈트로 오차 없이 초고속 타격·배출하는 NC CBS 핵심 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-8",
+                "folder": "NC CBS",
+                "index": 8,
+                "fileName": "314b72f52ecff09c8932e6734f240c86.mp4",
+                "src": "assets/reference/NC CBS/314b72f52ecff09c8932e6734f240c86.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/314b72f52ecff09c8932e6734f240c86_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #08",
+                "title": "[NC CBS 영상 #08] NC CBS 상·하 복층 구조 공간 절약형 고속 소팅 라인",
+                "desc": "제한된 물류센터 바닥 면적에서 분류 용량을 2배로 확장하기 위해 설계된 고밀도 복층 NC CBS 라인의 연속 순환 운전 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-9",
+                "folder": "NC CBS",
+                "index": 9,
+                "fileName": "31694f942d7b53564e534b669df0a0bf.mp4",
+                "src": "assets/reference/NC CBS/31694f942d7b53564e534b669df0a0bf.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/31694f942d7b53564e534b669df0a0bf_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #09",
+                "title": "[NC CBS 영상 #09] NC CBS 다채널 인덕션 연속 동기화 투입 메커니즘",
+                "desc": "고속으로 지나가는 캐리어의 빈 셀(Cell) 위치를 실시간 추적하여 인덕션 컨베이어가 화물을 정확한 타이밍에 밀어 넣는 동기화 제어 현장입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-10",
+                "folder": "NC CBS",
+                "index": 10,
+                "fileName": "41092a0d4edc46f6cd8b7160b63b3d02.mp4",
+                "src": "assets/reference/NC CBS/41092a0d4edc46f6cd8b7160b63b3d02.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/41092a0d4edc46f6cd8b7160b63b3d02_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #10",
+                "title": "[NC CBS 영상 #10] NC CBS 오버헤드 바코드 비전 판독 및 무정지 고속 분류",
+                "desc": "상부 아치형 스캐너 게이트를 통과하는 즉시 화물 정보를 인식하고 수십 개의 세분화된 슈트로 지체 없이 분기하는 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-11",
+                "folder": "NC CBS",
+                "index": 11,
+                "fileName": "68283c6d9c6636c00b6580b63f3e8db8.mp4",
+                "src": "assets/reference/NC CBS/68283c6d9c6636c00b6580b63f3e8db8.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/a37edacfac859c620df9b4c0455357a1.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #11",
+                "title": "[NC CBS 영상 #11] NC CBS 경사 마대 슈트 연속 적재 및 대량 물동량 소화",
+                "desc": "피크 타임의 쏟아지는 택배 물동량을 정체 없이 양측 마대 슈트로 연속 분산 배출하는 고부하 실증 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-12",
+                "folder": "NC CBS",
+                "index": 12,
+                "fileName": "07970052f53d836064de32c1db35e4af.mp4",
+                "src": "assets/reference/NC CBS/07970052f53d836064de32c1db35e4af.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/07970052f53d836064de32c1db35e4af_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #12",
+                "title": "[NC CBS 영상 #12] NC CBS 비접촉 구동 모듈 정밀 제어 및 시운전 테스트",
+                "desc": "기계적 마찰 부품을 줄인 비접촉 제어 방식을 통해 저소음·저발열 상태에서 장시간 안정적으로 고속 회전하는 설비 검증 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-13",
+                "folder": "NC CBS",
+                "index": 13,
+                "fileName": "a4ad0f75304c10c588146b422273a9d7.mp4",
+                "src": "assets/reference/NC CBS/a4ad0f75304c10c588146b422273a9d7.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/a4ad0f75304c10c588146b422273a9d7_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #13",
+                "title": "[NC CBS 영상 #13] NC CBS 초고속 연속 화물 투입 및 정밀 슈트 분기 가동",
+                "desc": "촘촘한 캐리어 간격으로 연속 주행하며 소형 박스와 폴리백을 지정된 슈트로 오차 없이 초고속 타격·배출하는 NC CBS 핵심 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-14",
+                "folder": "NC CBS",
+                "index": 14,
+                "fileName": "a37edacfac859c620df9b4c0455357a1.mp4",
+                "src": "assets/reference/NC CBS/a37edacfac859c620df9b4c0455357a1.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/a37edacfac859c620df9b4c0455357a1_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #14",
+                "title": "[NC CBS 영상 #14] NC CBS 상·하 복층 구조 공간 절약형 고속 소팅 라인",
+                "desc": "제한된 물류센터 바닥 면적에서 분류 용량을 2배로 확장하기 위해 설계된 고밀도 복층 NC CBS 라인의 연속 순환 운전 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-15",
+                "folder": "NC CBS",
+                "index": 15,
+                "fileName": "b9ed09c256e20094ed42f2c768c3ec8f.mp4",
+                "src": "assets/reference/NC CBS/b9ed09c256e20094ed42f2c768c3ec8f.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/b9ed09c256e20094ed42f2c768c3ec8f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #15",
+                "title": "[NC CBS 영상 #15] NC CBS 다채널 인덕션 연속 동기화 투입 메커니즘",
+                "desc": "고속으로 지나가는 캐리어의 빈 셀(Cell) 위치를 실시간 추적하여 인덕션 컨베이어가 화물을 정확한 타이밍에 밀어 넣는 동기화 제어 현장입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-16",
+                "folder": "NC CBS",
+                "index": 16,
+                "fileName": "c6d1be3427a7fad7e6e6f610e57ea5b2.mp4",
+                "src": "assets/reference/NC CBS/c6d1be3427a7fad7e6e6f610e57ea5b2.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/c6d1be3427a7fad7e6e6f610e57ea5b2_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #16",
+                "title": "[NC CBS 영상 #16] NC CBS 오버헤드 바코드 비전 판독 및 무정지 고속 분류",
+                "desc": "상부 아치형 스캐너 게이트를 통과하는 즉시 화물 정보를 인식하고 수십 개의 세분화된 슈트로 지체 없이 분기하는 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-17",
+                "folder": "NC CBS",
+                "index": 17,
+                "fileName": "d81fce8a3fa6e7bce89f5fad6d18a3ff.mp4",
+                "src": "assets/reference/NC CBS/d81fce8a3fa6e7bce89f5fad6d18a3ff.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/d81fce8a3fa6e7bce89f5fad6d18a3ff_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #17",
+                "title": "[NC CBS 영상 #17] NC CBS 경사 마대 슈트 연속 적재 및 대량 물동량 소화",
+                "desc": "피크 타임의 쏟아지는 택배 물동량을 정체 없이 양측 마대 슈트로 연속 분산 배출하는 고부하 실증 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-18",
+                "folder": "NC CBS",
+                "index": 18,
+                "fileName": "d844bf068cead3a361959044da2207d8.mp4",
+                "src": "assets/reference/NC CBS/d844bf068cead3a361959044da2207d8.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/d844bf068cead3a361959044da2207d8_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #18",
+                "title": "[NC CBS 영상 #18] NC CBS 비접촉 구동 모듈 정밀 제어 및 시운전 테스트",
+                "desc": "기계적 마찰 부품을 줄인 비접촉 제어 방식을 통해 저소음·저발열 상태에서 장시간 안정적으로 고속 회전하는 설비 검증 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-19",
+                "folder": "NC CBS",
+                "index": 19,
+                "fileName": "df49ca11d91e1e6a7c04bf0ad8fff3f9.mp4",
+                "src": "assets/reference/NC CBS/df49ca11d91e1e6a7c04bf0ad8fff3f9.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/df49ca11d91e1e6a7c04bf0ad8fff3f9_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #19",
+                "title": "[NC CBS 영상 #19] NC CBS 초고속 연속 화물 투입 및 정밀 슈트 분기 가동",
+                "desc": "촘촘한 캐리어 간격으로 연속 주행하며 소형 박스와 폴리백을 지정된 슈트로 오차 없이 초고속 타격·배출하는 NC CBS 핵심 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-20",
+                "folder": "NC CBS",
+                "index": 20,
+                "fileName": "e50b034620801b497d73a58e3e636400.mp4",
+                "src": "assets/reference/NC CBS/e50b034620801b497d73a58e3e636400.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/f923ad75b87e8090ccaeeb04dacb96ee.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #20",
+                "title": "[NC CBS 영상 #20] NC CBS 상·하 복층 구조 공간 절약형 고속 소팅 라인",
+                "desc": "제한된 물류센터 바닥 면적에서 분류 용량을 2배로 확장하기 위해 설계된 고밀도 복층 NC CBS 라인의 연속 순환 운전 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-21",
+                "folder": "NC CBS",
+                "index": 21,
+                "fileName": "ea890564626b2c6d1336a4d2ec3a979c.mp4",
+                "src": "assets/reference/NC CBS/ea890564626b2c6d1336a4d2ec3a979c.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/ea890564626b2c6d1336a4d2ec3a979c_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #21",
+                "title": "[NC CBS 영상 #21] NC CBS 다채널 인덕션 연속 동기화 투입 메커니즘",
+                "desc": "고속으로 지나가는 캐리어의 빈 셀(Cell) 위치를 실시간 추적하여 인덕션 컨베이어가 화물을 정확한 타이밍에 밀어 넣는 동기화 제어 현장입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-22",
+                "folder": "NC CBS",
+                "index": 22,
+                "fileName": "ec981c8d21af6b1c101f7fe6fd005980.mp4",
+                "src": "assets/reference/NC CBS/ec981c8d21af6b1c101f7fe6fd005980.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/ec981c8d21af6b1c101f7fe6fd005980_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #22",
+                "title": "[NC CBS 영상 #22] NC CBS 오버헤드 바코드 비전 판독 및 무정지 고속 분류",
+                "desc": "상부 아치형 스캐너 게이트를 통과하는 즉시 화물 정보를 인식하고 수십 개의 세분화된 슈트로 지체 없이 분기하는 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-23",
+                "folder": "NC CBS",
+                "index": 23,
+                "fileName": "f93b5347d1e0b2eea19a762c36b9bbf2.mp4",
+                "src": "assets/reference/NC CBS/f93b5347d1e0b2eea19a762c36b9bbf2.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/f93b5347d1e0b2eea19a762c36b9bbf2_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #23",
+                "title": "[NC CBS 영상 #23] NC CBS 경사 마대 슈트 연속 적재 및 대량 물동량 소화",
+                "desc": "피크 타임의 쏟아지는 택배 물동량을 정체 없이 양측 마대 슈트로 연속 분산 배출하는 고부하 실증 가동 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-vid-24",
+                "folder": "NC CBS",
+                "index": 24,
+                "fileName": "f923ad75b87e8090ccaeeb04dacb96ee.mp4",
+                "src": "assets/reference/NC CBS/f923ad75b87e8090ccaeeb04dacb96ee.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].mp4",
+                "thumb": "assets/reference/NC CBS/f923ad75b87e8090ccaeeb04dacb96ee_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장영상 #24",
+                "title": "[NC CBS 영상 #24] NC CBS 비접촉 구동 모듈 정밀 제어 및 시운전 테스트",
+                "desc": "기계적 마찰 부품을 줄인 비접촉 제어 방식을 통해 저소음·저발열 상태에서 장시간 안정적으로 고속 회전하는 설비 검증 영상입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            }
+        ],
+        "photos": [
+            {
+                "id": "NC CBS-pho-1",
+                "folder": "NC CBS",
+                "index": 1,
+                "fileName": "3b5bce4584a8c0458490830189e7ef6a.jpg",
+                "src": "assets/reference/NC CBS/3b5bce4584a8c0458490830189e7ef6a.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/3b5bce4584a8c0458490830189e7ef6a_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #01",
+                "title": "[NC CBS 사진 #01] NC CBS 고밀도 셀(Cell) 라인 및 정밀 하부 프레임 구조",
+                "desc": "정밀하게 정렬된 NC CBS 캐리어 라인과 견고한 구조용 스틸 프레임, 하부 안전 방호 커버가 일체감 있게 구축된 현장 사진입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-2",
+                "folder": "NC CBS",
+                "index": 2,
+                "fileName": "6f9f2d179a3280ff68b538ae37e15160.jpg",
+                "src": "assets/reference/NC CBS/6f9f2d179a3280ff68b538ae37e15160.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/6f9f2d179a3280ff68b538ae37e15160_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #02",
+                "title": "[NC CBS 사진 #02] NC CBS 양방향 밀집형 슈트 및 집하 스테이션 전경",
+                "desc": "좁은 간격으로 설계된 다수의 목적지 슈트가 배열되어 권역별·배송지별 세밀한 분류를 수행하는 터미널 내부 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-3",
+                "folder": "NC CBS",
+                "index": 3,
+                "fileName": "7b2836187c4d7660d62b85a601656754.jpg",
+                "src": "assets/reference/NC CBS/7b2836187c4d7660d62b85a601656754.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/7b2836187c4d7660d62b85a601656754_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #03",
+                "title": "[NC CBS 사진 #03] NC CBS 인덕션 공급 라인 및 상부 스캐닝 아치 설비",
+                "desc": "화물 자동 정렬 컨베이어와 고정밀 바코드 판독 카메라 모듈이 결합된 투입부 엔지니어링 구성입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-4",
+                "folder": "NC CBS",
+                "index": 4,
+                "fileName": "9d9694328c17437cc9a5b05fab039dc7.jpg",
+                "src": "assets/reference/NC CBS/9d9694328c17437cc9a5b05fab039dc7.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/9d9694328c17437cc9a5b05fab039dc7_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #04",
+                "title": "[NC CBS 사진 #04] NC CBS 모듈러 프레임 조립 및 정밀 가이드 레일 마감",
+                "desc": "현장 유지보수와 확장이 용이하도록 모듈화 설계된 가이드 트랙과 깔끔한 배선·센서 브라켓 마감 디테일입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-5",
+                "folder": "NC CBS",
+                "index": 5,
+                "fileName": "34b4130a4f19b80f5c138ee587b6821e.jpg",
+                "src": "assets/reference/NC CBS/34b4130a4f19b80f5c138ee587b6821e.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/34b4130a4f19b80f5c138ee587b6821e_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #05",
+                "title": "[NC CBS 사진 #05] NC CBS 고밀도 셀(Cell) 라인 및 정밀 하부 프레임 구조",
+                "desc": "정밀하게 정렬된 NC CBS 캐리어 라인과 견고한 구조용 스틸 프레임, 하부 안전 방호 커버가 일체감 있게 구축된 현장 사진입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-6",
+                "folder": "NC CBS",
+                "index": 6,
+                "fileName": "237c669ebd51dce526d74b927eb1aeec.jpg",
+                "src": "assets/reference/NC CBS/237c669ebd51dce526d74b927eb1aeec.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/237c669ebd51dce526d74b927eb1aeec_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #06",
+                "title": "[NC CBS 사진 #06] NC CBS 양방향 밀집형 슈트 및 집하 스테이션 전경",
+                "desc": "좁은 간격으로 설계된 다수의 목적지 슈트가 배열되어 권역별·배송지별 세밀한 분류를 수행하는 터미널 내부 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-7",
+                "folder": "NC CBS",
+                "index": 7,
+                "fileName": "314b72f52ecff09c8932e6734f240c86.jpg",
+                "src": "assets/reference/NC CBS/314b72f52ecff09c8932e6734f240c86.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/314b72f52ecff09c8932e6734f240c86_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #07",
+                "title": "[NC CBS 사진 #07] NC CBS 인덕션 공급 라인 및 상부 스캐닝 아치 설비",
+                "desc": "화물 자동 정렬 컨베이어와 고정밀 바코드 판독 카메라 모듈이 결합된 투입부 엔지니어링 구성입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-8",
+                "folder": "NC CBS",
+                "index": 8,
+                "fileName": "31694f942d7b53564e534b669df0a0bf.jpg",
+                "src": "assets/reference/NC CBS/31694f942d7b53564e534b669df0a0bf.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/31694f942d7b53564e534b669df0a0bf_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #08",
+                "title": "[NC CBS 사진 #08] NC CBS 모듈러 프레임 조립 및 정밀 가이드 레일 마감",
+                "desc": "현장 유지보수와 확장이 용이하도록 모듈화 설계된 가이드 트랙과 깔끔한 배선·센서 브라켓 마감 디테일입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-9",
+                "folder": "NC CBS",
+                "index": 9,
+                "fileName": "41092a0d4edc46f6cd8b7160b63b3d02.jpg",
+                "src": "assets/reference/NC CBS/41092a0d4edc46f6cd8b7160b63b3d02.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/41092a0d4edc46f6cd8b7160b63b3d02_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #09",
+                "title": "[NC CBS 사진 #09] NC CBS 고밀도 셀(Cell) 라인 및 정밀 하부 프레임 구조",
+                "desc": "정밀하게 정렬된 NC CBS 캐리어 라인과 견고한 구조용 스틸 프레임, 하부 안전 방호 커버가 일체감 있게 구축된 현장 사진입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-10",
+                "folder": "NC CBS",
+                "index": 10,
+                "fileName": "07970052f53d836064de32c1db35e4af.jpg",
+                "src": "assets/reference/NC CBS/07970052f53d836064de32c1db35e4af.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/07970052f53d836064de32c1db35e4af_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #10",
+                "title": "[NC CBS 사진 #10] NC CBS 양방향 밀집형 슈트 및 집하 스테이션 전경",
+                "desc": "좁은 간격으로 설계된 다수의 목적지 슈트가 배열되어 권역별·배송지별 세밀한 분류를 수행하는 터미널 내부 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-11",
+                "folder": "NC CBS",
+                "index": 11,
+                "fileName": "a37edacfac859c620df9b4c0455357a1.jpg",
+                "src": "assets/reference/NC CBS/a37edacfac859c620df9b4c0455357a1.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/a37edacfac859c620df9b4c0455357a1_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #11",
+                "title": "[NC CBS 사진 #11] NC CBS 인덕션 공급 라인 및 상부 스캐닝 아치 설비",
+                "desc": "화물 자동 정렬 컨베이어와 고정밀 바코드 판독 카메라 모듈이 결합된 투입부 엔지니어링 구성입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-12",
+                "folder": "NC CBS",
+                "index": 12,
+                "fileName": "b9ed09c256e20094ed42f2c768c3ec8f.jpg",
+                "src": "assets/reference/NC CBS/b9ed09c256e20094ed42f2c768c3ec8f.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/b9ed09c256e20094ed42f2c768c3ec8f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #12",
+                "title": "[NC CBS 사진 #12] NC CBS 모듈러 프레임 조립 및 정밀 가이드 레일 마감",
+                "desc": "현장 유지보수와 확장이 용이하도록 모듈화 설계된 가이드 트랙과 깔끔한 배선·센서 브라켓 마감 디테일입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-13",
+                "folder": "NC CBS",
+                "index": 13,
+                "fileName": "c6d1be3427a7fad7e6e6f610e57ea5b2.jpg",
+                "src": "assets/reference/NC CBS/c6d1be3427a7fad7e6e6f610e57ea5b2.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/c6d1be3427a7fad7e6e6f610e57ea5b2_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #13",
+                "title": "[NC CBS 사진 #13] NC CBS 고밀도 셀(Cell) 라인 및 정밀 하부 프레임 구조",
+                "desc": "정밀하게 정렬된 NC CBS 캐리어 라인과 견고한 구조용 스틸 프레임, 하부 안전 방호 커버가 일체감 있게 구축된 현장 사진입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-14",
+                "folder": "NC CBS",
+                "index": 14,
+                "fileName": "d81fce8a3fa6e7bce89f5fad6d18a3ff.jpg",
+                "src": "assets/reference/NC CBS/d81fce8a3fa6e7bce89f5fad6d18a3ff.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/d81fce8a3fa6e7bce89f5fad6d18a3ff_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #14",
+                "title": "[NC CBS 사진 #14] NC CBS 양방향 밀집형 슈트 및 집하 스테이션 전경",
+                "desc": "좁은 간격으로 설계된 다수의 목적지 슈트가 배열되어 권역별·배송지별 세밀한 분류를 수행하는 터미널 내부 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-15",
+                "folder": "NC CBS",
+                "index": 15,
+                "fileName": "d844bf068cead3a361959044da2207d8.jpg",
+                "src": "assets/reference/NC CBS/d844bf068cead3a361959044da2207d8.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/d844bf068cead3a361959044da2207d8_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #15",
+                "title": "[NC CBS 사진 #15] NC CBS 인덕션 공급 라인 및 상부 스캐닝 아치 설비",
+                "desc": "화물 자동 정렬 컨베이어와 고정밀 바코드 판독 카메라 모듈이 결합된 투입부 엔지니어링 구성입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-16",
+                "folder": "NC CBS",
+                "index": 16,
+                "fileName": "df49ca11d91e1e6a7c04bf0ad8fff3f9.jpg",
+                "src": "assets/reference/NC CBS/df49ca11d91e1e6a7c04bf0ad8fff3f9.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/df49ca11d91e1e6a7c04bf0ad8fff3f9_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #16",
+                "title": "[NC CBS 사진 #16] NC CBS 모듈러 프레임 조립 및 정밀 가이드 레일 마감",
+                "desc": "현장 유지보수와 확장이 용이하도록 모듈화 설계된 가이드 트랙과 깔끔한 배선·센서 브라켓 마감 디테일입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-17",
+                "folder": "NC CBS",
+                "index": 17,
+                "fileName": "ea890564626b2c6d1336a4d2ec3a979c.jpg",
+                "src": "assets/reference/NC CBS/ea890564626b2c6d1336a4d2ec3a979c.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/ea890564626b2c6d1336a4d2ec3a979c_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #17",
+                "title": "[NC CBS 사진 #17] NC CBS 고밀도 셀(Cell) 라인 및 정밀 하부 프레임 구조",
+                "desc": "정밀하게 정렬된 NC CBS 캐리어 라인과 견고한 구조용 스틸 프레임, 하부 안전 방호 커버가 일체감 있게 구축된 현장 사진입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-18",
+                "folder": "NC CBS",
+                "index": 18,
+                "fileName": "ec981c8d21af6b1c101f7fe6fd005980.jpg",
+                "src": "assets/reference/NC CBS/ec981c8d21af6b1c101f7fe6fd005980.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/ec981c8d21af6b1c101f7fe6fd005980_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #18",
+                "title": "[NC CBS 사진 #18] NC CBS 양방향 밀집형 슈트 및 집하 스테이션 전경",
+                "desc": "좁은 간격으로 설계된 다수의 목적지 슈트가 배열되어 권역별·배송지별 세밀한 분류를 수행하는 터미널 내부 모습입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-19",
+                "folder": "NC CBS",
+                "index": 19,
+                "fileName": "f93b5347d1e0b2eea19a762c36b9bbf2.jpg",
+                "src": "assets/reference/NC CBS/f93b5347d1e0b2eea19a762c36b9bbf2.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/f93b5347d1e0b2eea19a762c36b9bbf2_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #19",
+                "title": "[NC CBS 사진 #19] NC CBS 인덕션 공급 라인 및 상부 스캐닝 아치 설비",
+                "desc": "화물 자동 정렬 컨베이어와 고정밀 바코드 판독 카메라 모듈이 결합된 투입부 엔지니어링 구성입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            },
+            {
+                "id": "NC CBS-pho-20",
+                "folder": "NC CBS",
+                "index": 20,
+                "fileName": "f923ad75b87e8090ccaeeb04dacb96ee.jpg",
+                "src": "assets/reference/NC CBS/f923ad75b87e8090ccaeeb04dacb96ee.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "thumb": "assets/reference/NC CBS/f923ad75b87e8090ccaeeb04dacb96ee_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NC CBS [NC Cross Belt Sorter].png",
+                "clipCode": "NC CBS 현장포토 #20",
+                "title": "[NC CBS 사진 #20] NC CBS 모듈러 프레임 조립 및 정밀 가이드 레일 마감",
+                "desc": "현장 유지보수와 확장이 용이하도록 모듈화 설계된 가이드 트랙과 깔끔한 배선·센서 브라켓 마감 디테일입니다.",
+                "tags": [
+                    "NC CBS",
+                    "비접촉 급전/통신",
+                    "복층 고밀도 분류",
+                    "초고속 택배 터미널"
+                ]
+            }
+        ]
+    },
+    "NBS": {
+        "id": "NBS",
+        "title": "NBS",
+        "subtitle": "NBS [Narrow Belt Sorter] — 내로우 벨트 고속 자동 분류기",
+        "badge": "NARROW BELT SORTER",
+        "icon": "fa-grip-lines",
+        "overview": "직선형 고밀도 레이아웃을 따라 고속 이송되는 내로우 벨트 소터(NBS) 및 중량물 분기 라인 구축 현장입니다. 다수의 좁은 고장력 벨트 사이에 내장된 팝업 롤러/다이빙 모듈이 정형 박스, 스티로폼 보냉 박스, 중대형 화물을 충격 없이 부드럽게 양방향 경사 슈트로 고속 분기합니다.",
+        "tags": [
+            "Narrow Belt Sorter",
+            "직선형 공간최적화",
+            "중량 박스/보냉화물",
+            "저충격 소프트 분기"
+        ],
+        "videoTemplates": [
+            {
+                "title": "NBS 직선형 메인 라인 정형 박스 & 보냉 화물 연속 분기",
+                "desc": "길게 뻗은 직선형 내로우 벨트 라인을 따라 이송되던 대형 박스와 백색 스티로폼 화물이 목적지 곡선 슈트로 부드럽게 회전 분기되는 가동 영상입니다."
+            },
+            {
+                "title": "NBS 오렌지 가이드 곡선 슈트 연동 고속 슬라이딩 배출",
+                "desc": "고속 분기된 화물이 원심력을 제어하는 오렌지색 곡선 가이드를 따라 하부 라인으로 자세 흐트러짐 없이 안정적으로 합류하는 장면입니다."
+            },
+            {
+                "title": "NBS 다단 경사 슈트 및 1층 출하 컨베이어 직결 운전",
+                "desc": "2층 메인 NBS 소터에서 분기된 화물이 대형 경사 슈트를 타고 내려와 1층 출하 라인으로 즉시 연결되는 고효율 물류 프로세스입니다."
+            },
+            {
+                "title": "NBS 고속 팝업 다이버터 모듈 연속 응답성 테스트",
+                "desc": "연속으로 진입하는 다양한 크기의 박스를 광전 센서가 즉시 감지하여 분기 각도를 정밀하게 제어하는 현장 시운전 영상입니다."
+            },
+            {
+                "title": "NBS 대규모 물류센터 직선형 풀 라인 가동 스케치",
+                "desc": "건물 기둥 간격을 따라 일직선으로 깔끔하게 배치된 NBS 분류 시스템이 공간 낭비 없이 대량 화물을 처리하는 전체 가동 모습입니다."
+            }
+        ],
+        "photoTemplates": [
+            {
+                "title": "NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다."
+            },
+            {
+                "title": "NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다."
+            },
+            {
+                "title": "NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다."
+            },
+            {
+                "title": "NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다."
+            }
+        ],
+        "videoCount": 15,
+        "photoCount": 28,
+        "videos": [
+            {
+                "id": "NBS-vid-1",
+                "folder": "NBS",
+                "index": 1,
+                "fileName": "5f4659d5a2d92be2be75584456d78563.mp4",
+                "src": "assets/reference/NBS/5f4659d5a2d92be2be75584456d78563.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/5f4659d5a2d92be2be75584456d78563_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #01",
+                "title": "[NBS 영상 #01] NBS 직선형 메인 라인 정형 박스 & 보냉 화물 연속 분기",
+                "desc": "길게 뻗은 직선형 내로우 벨트 라인을 따라 이송되던 대형 박스와 백색 스티로폼 화물이 목적지 곡선 슈트로 부드럽게 회전 분기되는 가동 영상입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-2",
+                "folder": "NBS",
+                "index": 2,
+                "fileName": "7af4cdbe82fae1ead7ebc272dc98ef0d.mp4",
+                "src": "assets/reference/NBS/7af4cdbe82fae1ead7ebc272dc98ef0d.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/CBS (6).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #02",
+                "title": "[NBS 영상 #02] NBS 오렌지 가이드 곡선 슈트 연동 고속 슬라이딩 배출",
+                "desc": "고속 분기된 화물이 원심력을 제어하는 오렌지색 곡선 가이드를 따라 하부 라인으로 자세 흐트러짐 없이 안정적으로 합류하는 장면입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-3",
+                "folder": "NBS",
+                "index": 3,
+                "fileName": "8ca23444453f4587727757a4aa336751.mp4",
+                "src": "assets/reference/NBS/8ca23444453f4587727757a4aa336751.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/8ca23444453f4587727757a4aa336751_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #03",
+                "title": "[NBS 영상 #03] NBS 다단 경사 슈트 및 1층 출하 컨베이어 직결 운전",
+                "desc": "2층 메인 NBS 소터에서 분기된 화물이 대형 경사 슈트를 타고 내려와 1층 출하 라인으로 즉시 연결되는 고효율 물류 프로세스입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-4",
+                "folder": "NBS",
+                "index": 4,
+                "fileName": "33d1953697888c08855c1df59cad0719.mp4",
+                "src": "assets/reference/NBS/33d1953697888c08855c1df59cad0719.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/33d1953697888c08855c1df59cad0719_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #04",
+                "title": "[NBS 영상 #04] NBS 고속 팝업 다이버터 모듈 연속 응답성 테스트",
+                "desc": "연속으로 진입하는 다양한 크기의 박스를 광전 센서가 즉시 감지하여 분기 각도를 정밀하게 제어하는 현장 시운전 영상입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-5",
+                "folder": "NBS",
+                "index": 5,
+                "fileName": "57f1212ad2a096905360be5dbe65ea51.mp4",
+                "src": "assets/reference/NBS/57f1212ad2a096905360be5dbe65ea51.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/CBS (35).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #05",
+                "title": "[NBS 영상 #05] NBS 대규모 물류센터 직선형 풀 라인 가동 스케치",
+                "desc": "건물 기둥 간격을 따라 일직선으로 깔끔하게 배치된 NBS 분류 시스템이 공간 낭비 없이 대량 화물을 처리하는 전체 가동 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-6",
+                "folder": "NBS",
+                "index": 6,
+                "fileName": "115c5548f69f78cd1035287dadb8b8ec.mp4",
+                "src": "assets/reference/NBS/115c5548f69f78cd1035287dadb8b8ec.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/115c5548f69f78cd1035287dadb8b8ec_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #06",
+                "title": "[NBS 영상 #06] NBS 직선형 메인 라인 정형 박스 & 보냉 화물 연속 분기",
+                "desc": "길게 뻗은 직선형 내로우 벨트 라인을 따라 이송되던 대형 박스와 백색 스티로폼 화물이 목적지 곡선 슈트로 부드럽게 회전 분기되는 가동 영상입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-7",
+                "folder": "NBS",
+                "index": 7,
+                "fileName": "723fd055531a7b49b55efa6a427c9992.mp4",
+                "src": "assets/reference/NBS/723fd055531a7b49b55efa6a427c9992.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/723fd055531a7b49b55efa6a427c9992.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #07",
+                "title": "[NBS 영상 #07] NBS 오렌지 가이드 곡선 슈트 연동 고속 슬라이딩 배출",
+                "desc": "고속 분기된 화물이 원심력을 제어하는 오렌지색 곡선 가이드를 따라 하부 라인으로 자세 흐트러짐 없이 안정적으로 합류하는 장면입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-8",
+                "folder": "NBS",
+                "index": 8,
+                "fileName": "8335e2bc900c49711922e1c7ef950521.mp4",
+                "src": "assets/reference/NBS/8335e2bc900c49711922e1c7ef950521.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/8335e2bc900c49711922e1c7ef950521.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #08",
+                "title": "[NBS 영상 #08] NBS 다단 경사 슈트 및 1층 출하 컨베이어 직결 운전",
+                "desc": "2층 메인 NBS 소터에서 분기된 화물이 대형 경사 슈트를 타고 내려와 1층 출하 라인으로 즉시 연결되는 고효율 물류 프로세스입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-9",
+                "folder": "NBS",
+                "index": 9,
+                "fileName": "209592a92cd0a21230b78c69ef11903f.mp4",
+                "src": "assets/reference/NBS/209592a92cd0a21230b78c69ef11903f.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/209592a92cd0a21230b78c69ef11903f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #09",
+                "title": "[NBS 영상 #09] NBS 고속 팝업 다이버터 모듈 연속 응답성 테스트",
+                "desc": "연속으로 진입하는 다양한 크기의 박스를 광전 센서가 즉시 감지하여 분기 각도를 정밀하게 제어하는 현장 시운전 영상입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-10",
+                "folder": "NBS",
+                "index": 10,
+                "fileName": "a10029ffc0088c7e7bc6b8aa7d169b04.mp4",
+                "src": "assets/reference/NBS/a10029ffc0088c7e7bc6b8aa7d169b04.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/a10029ffc0088c7e7bc6b8aa7d169b04_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #10",
+                "title": "[NBS 영상 #10] NBS 대규모 물류센터 직선형 풀 라인 가동 스케치",
+                "desc": "건물 기둥 간격을 따라 일직선으로 깔끔하게 배치된 NBS 분류 시스템이 공간 낭비 없이 대량 화물을 처리하는 전체 가동 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-11",
+                "folder": "NBS",
+                "index": 11,
+                "fileName": "b5c701f4f2c61185414c4c88234d1cc0.mp4",
+                "src": "assets/reference/NBS/b5c701f4f2c61185414c4c88234d1cc0.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/b5c701f4f2c61185414c4c88234d1cc0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #11",
+                "title": "[NBS 영상 #11] NBS 직선형 메인 라인 정형 박스 & 보냉 화물 연속 분기",
+                "desc": "길게 뻗은 직선형 내로우 벨트 라인을 따라 이송되던 대형 박스와 백색 스티로폼 화물이 목적지 곡선 슈트로 부드럽게 회전 분기되는 가동 영상입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-12",
+                "folder": "NBS",
+                "index": 12,
+                "fileName": "dc308ab4129b0975a7c7b6314cd2f9f7.mp4",
+                "src": "assets/reference/NBS/dc308ab4129b0975a7c7b6314cd2f9f7.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/dc308ab4129b0975a7c7b6314cd2f9f7_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #12",
+                "title": "[NBS 영상 #12] NBS 오렌지 가이드 곡선 슈트 연동 고속 슬라이딩 배출",
+                "desc": "고속 분기된 화물이 원심력을 제어하는 오렌지색 곡선 가이드를 따라 하부 라인으로 자세 흐트러짐 없이 안정적으로 합류하는 장면입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-13",
+                "folder": "NBS",
+                "index": 13,
+                "fileName": "e7fc8b4e2a54317b5bb0f49d095d832e.mp4",
+                "src": "assets/reference/NBS/e7fc8b4e2a54317b5bb0f49d095d832e.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/897d04357e28f46d3fe8b3192e1942a9.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #13",
+                "title": "[NBS 영상 #13] NBS 다단 경사 슈트 및 1층 출하 컨베이어 직결 운전",
+                "desc": "2층 메인 NBS 소터에서 분기된 화물이 대형 경사 슈트를 타고 내려와 1층 출하 라인으로 즉시 연결되는 고효율 물류 프로세스입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-14",
+                "folder": "NBS",
+                "index": 14,
+                "fileName": "fc37d6799c499cfa0f51a7bc02ffdd7b.mp4",
+                "src": "assets/reference/NBS/fc37d6799c499cfa0f51a7bc02ffdd7b.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/fc37d6799c499cfa0f51a7bc02ffdd7b.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #14",
+                "title": "[NBS 영상 #14] NBS 고속 팝업 다이버터 모듈 연속 응답성 테스트",
+                "desc": "연속으로 진입하는 다양한 크기의 박스를 광전 센서가 즉시 감지하여 분기 각도를 정밀하게 제어하는 현장 시운전 영상입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-vid-15",
+                "folder": "NBS",
+                "index": 15,
+                "fileName": "ff1ad13acc11629abd03123cd12746b5.mp4",
+                "src": "assets/reference/NBS/ff1ad13acc11629abd03123cd12746b5.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].mp4",
+                "thumb": "assets/reference/NBS/ff1ad13acc11629abd03123cd12746b5_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장영상 #15",
+                "title": "[NBS 영상 #15] NBS 대규모 물류센터 직선형 풀 라인 가동 스케치",
+                "desc": "건물 기둥 간격을 따라 일직선으로 깔끔하게 배치된 NBS 분류 시스템이 공간 낭비 없이 대량 화물을 처리하는 전체 가동 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            }
+        ],
+        "photos": [
+            {
+                "id": "NBS-pho-1",
+                "folder": "NBS",
+                "index": 1,
+                "fileName": "CBS (5).jpg",
+                "src": "assets/reference/NBS/CBS (5).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/CBS (5).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "CBS (5)",
+                "title": "[NBS 사진 #01] NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-2",
+                "folder": "NBS",
+                "index": 2,
+                "fileName": "CBS (6).jpg",
+                "src": "assets/reference/NBS/CBS (6).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/CBS (6).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "CBS (6)",
+                "title": "[NBS 사진 #02] NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-3",
+                "folder": "NBS",
+                "index": 3,
+                "fileName": "CBS (8).jpg",
+                "src": "assets/reference/NBS/CBS (8).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/CBS (8).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "CBS (8)",
+                "title": "[NBS 사진 #03] NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-4",
+                "folder": "NBS",
+                "index": 4,
+                "fileName": "CBS (9).jpg",
+                "src": "assets/reference/NBS/CBS (9).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/CBS (9).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "CBS (9)",
+                "title": "[NBS 사진 #04] NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-5",
+                "folder": "NBS",
+                "index": 5,
+                "fileName": "CBS (35).jpg",
+                "src": "assets/reference/NBS/CBS (35).jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/CBS (35).jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "CBS (35)",
+                "title": "[NBS 사진 #05] NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-6",
+                "folder": "NBS",
+                "index": 6,
+                "fileName": "7e4b80292562edf8c13c41d547e95018.jpg",
+                "src": "assets/reference/NBS/7e4b80292562edf8c13c41d547e95018.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/7e4b80292562edf8c13c41d547e95018_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #06",
+                "title": "[NBS 사진 #06] NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-7",
+                "folder": "NBS",
+                "index": 7,
+                "fileName": "8ca23444453f4587727757a4aa336751.jpg",
+                "src": "assets/reference/NBS/8ca23444453f4587727757a4aa336751.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/8ca23444453f4587727757a4aa336751_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #07",
+                "title": "[NBS 사진 #07] NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-8",
+                "folder": "NBS",
+                "index": 8,
+                "fileName": "29eb25f1501abbdea5f5c4c2cda9a4ce.jpg",
+                "src": "assets/reference/NBS/29eb25f1501abbdea5f5c4c2cda9a4ce.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/29eb25f1501abbdea5f5c4c2cda9a4ce_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #08",
+                "title": "[NBS 사진 #08] NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-9",
+                "folder": "NBS",
+                "index": 9,
+                "fileName": "33d1953697888c08855c1df59cad0719.jpg",
+                "src": "assets/reference/NBS/33d1953697888c08855c1df59cad0719.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/33d1953697888c08855c1df59cad0719_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #09",
+                "title": "[NBS 사진 #09] NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-10",
+                "folder": "NBS",
+                "index": 10,
+                "fileName": "88fc05c084fb41334c823282e5d04149.jpg",
+                "src": "assets/reference/NBS/88fc05c084fb41334c823282e5d04149.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/88fc05c084fb41334c823282e5d04149_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #10",
+                "title": "[NBS 사진 #10] NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-11",
+                "folder": "NBS",
+                "index": 11,
+                "fileName": "94cdb2a32056479ee62c47827a42dcc9.jpg",
+                "src": "assets/reference/NBS/94cdb2a32056479ee62c47827a42dcc9.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/94cdb2a32056479ee62c47827a42dcc9_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #11",
+                "title": "[NBS 사진 #11] NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-12",
+                "folder": "NBS",
+                "index": 12,
+                "fileName": "723fd055531a7b49b55efa6a427c9992.jpg",
+                "src": "assets/reference/NBS/723fd055531a7b49b55efa6a427c9992.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/723fd055531a7b49b55efa6a427c9992.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #12",
+                "title": "[NBS 사진 #12] NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-13",
+                "folder": "NBS",
+                "index": 13,
+                "fileName": "897d04357e28f46d3fe8b3192e1942a9.jpg",
+                "src": "assets/reference/NBS/897d04357e28f46d3fe8b3192e1942a9.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/897d04357e28f46d3fe8b3192e1942a9_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #13",
+                "title": "[NBS 사진 #13] NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-14",
+                "folder": "NBS",
+                "index": 14,
+                "fileName": "8335e2bc900c49711922e1c7ef950521.jpg",
+                "src": "assets/reference/NBS/8335e2bc900c49711922e1c7ef950521.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/8335e2bc900c49711922e1c7ef950521.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #14",
+                "title": "[NBS 사진 #14] NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-15",
+                "folder": "NBS",
+                "index": 15,
+                "fileName": "209592a92cd0a21230b78c69ef11903f.jpg",
+                "src": "assets/reference/NBS/209592a92cd0a21230b78c69ef11903f.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/209592a92cd0a21230b78c69ef11903f_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #15",
+                "title": "[NBS 사진 #15] NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-16",
+                "folder": "NBS",
+                "index": 16,
+                "fileName": "383707fbd79758f3082e323d1cb2f611.jpg",
+                "src": "assets/reference/NBS/383707fbd79758f3082e323d1cb2f611.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/383707fbd79758f3082e323d1cb2f611.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #16",
+                "title": "[NBS 사진 #16] NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-17",
+                "folder": "NBS",
+                "index": 17,
+                "fileName": "33185076262fa1feadbf7badb98378a0.jpg",
+                "src": "assets/reference/NBS/33185076262fa1feadbf7badb98378a0.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/33185076262fa1feadbf7badb98378a0_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #17",
+                "title": "[NBS 사진 #17] NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-18",
+                "folder": "NBS",
+                "index": 18,
+                "fileName": "a0d4a47fa404761f2801edb789e4b803.jpg",
+                "src": "assets/reference/NBS/a0d4a47fa404761f2801edb789e4b803.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/a0d4a47fa404761f2801edb789e4b803.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #18",
+                "title": "[NBS 사진 #18] NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-19",
+                "folder": "NBS",
+                "index": 19,
+                "fileName": "a8bcf565f32c5dd23e06ec5159de0b82.jpg",
+                "src": "assets/reference/NBS/a8bcf565f32c5dd23e06ec5159de0b82.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/a8bcf565f32c5dd23e06ec5159de0b82_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #19",
+                "title": "[NBS 사진 #19] NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-20",
+                "folder": "NBS",
+                "index": 20,
+                "fileName": "a10029ffc0088c7e7bc6b8aa7d169b04.jpg",
+                "src": "assets/reference/NBS/a10029ffc0088c7e7bc6b8aa7d169b04.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/a10029ffc0088c7e7bc6b8aa7d169b04_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #20",
+                "title": "[NBS 사진 #20] NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-21",
+                "folder": "NBS",
+                "index": 21,
+                "fileName": "a359073e6e336eff70e900fad2bb74d3.jpg",
+                "src": "assets/reference/NBS/a359073e6e336eff70e900fad2bb74d3.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/a359073e6e336eff70e900fad2bb74d3.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #21",
+                "title": "[NBS 사진 #21] NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-22",
+                "folder": "NBS",
+                "index": 22,
+                "fileName": "abb16b741cd8e8f0480041d29f2c874f.jpg",
+                "src": "assets/reference/NBS/abb16b741cd8e8f0480041d29f2c874f.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/abb16b741cd8e8f0480041d29f2c874f.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #22",
+                "title": "[NBS 사진 #22] NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-23",
+                "folder": "NBS",
+                "index": 23,
+                "fileName": "bb3b7891c8363365a786887add3916c1.jpg",
+                "src": "assets/reference/NBS/bb3b7891c8363365a786887add3916c1.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/bb3b7891c8363365a786887add3916c1.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #23",
+                "title": "[NBS 사진 #23] NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-24",
+                "folder": "NBS",
+                "index": 24,
+                "fileName": "c1420c9b463fb4b6ba799401d71eec45.jpg",
+                "src": "assets/reference/NBS/c1420c9b463fb4b6ba799401d71eec45.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/c1420c9b463fb4b6ba799401d71eec45.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #24",
+                "title": "[NBS 사진 #24] NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-25",
+                "folder": "NBS",
+                "index": 25,
+                "fileName": "dc308ab4129b0975a7c7b6314cd2f9f7.jpg",
+                "src": "assets/reference/NBS/dc308ab4129b0975a7c7b6314cd2f9f7.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/dc308ab4129b0975a7c7b6314cd2f9f7_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #25",
+                "title": "[NBS 사진 #25] NBS 직선형 고속 분류 라인 및 오렌지 곡선 슈트 전경",
+                "desc": "정형 박스와 스티로폼 보냉 화물이 내로우 벨트 위를 고속 주행하며 우측 대용량 곡선 슈트로 분기되는 실제 현장 모습입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-26",
+                "folder": "NBS",
+                "index": 26,
+                "fileName": "fb2f1b747a7ff1ebda5da2650bc0a754.jpg",
+                "src": "assets/reference/NBS/fb2f1b747a7ff1ebda5da2650bc0a754.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/fb2f1b747a7ff1ebda5da2650bc0a754.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #26",
+                "title": "[NBS 사진 #26] NBS 상부 메인 소터 라인 및 옐로우 안전 점검 통로",
+                "desc": "대형 물류센터 천장 조명 아래 끝없이 뻗은 NBS 직선 라인과 작업자 안전을 위한 옐로우 가드레일이 체계적으로 시공되어 있습니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-27",
+                "folder": "NBS",
+                "index": 27,
+                "fileName": "fc37d6799c499cfa0f51a7bc02ffdd7b.jpg",
+                "src": "assets/reference/NBS/fc37d6799c499cfa0f51a7bc02ffdd7b.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/fc37d6799c499cfa0f51a7bc02ffdd7b.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #27",
+                "title": "[NBS 사진 #27] NBS 광폭 경사 배출 슈트 및 하부 수취 라인 구조",
+                "desc": "대형·중량 화물도 걸림 없이 배출될 수 있도록 광폭으로 설계된 고강도 스틸 슈트와 충격 흡수 가이드 디테일입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            },
+            {
+                "id": "NBS-pho-28",
+                "folder": "NBS",
+                "index": 28,
+                "fileName": "ff1ad13acc11629abd03123cd12746b5.jpg",
+                "src": "assets/reference/NBS/ff1ad13acc11629abd03123cd12746b5.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "thumb": "assets/reference/NBS/ff1ad13acc11629abd03123cd12746b5_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/NBS [Narrow Belt Sorter].png",
+                "clipCode": "NBS 현장포토 #28",
+                "title": "[NBS 사진 #28] NBS 구동 헤드 유닛 및 정밀 장력 제어 컨베이어 모듈",
+                "desc": "장시간 고속 운전에도 벨트 사행이나 장력 저하가 발생하지 않도록 정밀 설계된 NBS 구동부 및 프레임 구조입니다.",
+                "tags": [
+                    "Narrow Belt Sorter",
+                    "직선형 공간최적화",
+                    "중량 박스/보냉화물",
+                    "저충격 소프트 분기"
+                ]
+            }
+        ]
+    },
+    "Wheel Sorter": {
+        "id": "Wheel Sorter",
+        "title": "Wheel Sorter",
+        "subtitle": "Wheel Sorter — 다축 독립 구동 팝업 휠 소터 및 매트릭스 분기 설비",
+        "badge": "POPUP WHEEL SORTER",
+        "icon": "fa-dharmachakra",
+        "overview": "고속 컨베이어 라인에 매립된 다축 옐로우·블랙 고마찰 팝업 휠(Pop-up Wheel) 매트릭스가 화물 진입 순간 즉각 상승·조향하여 좌·우·직진 다방향으로 초고속 분기하는 현장 및 시운전 실적입니다. 모듈형 구조로 기존 컨베이어 라인에도 손쉽게 결합할 수 있는 고효율 핵심 분류 장비입니다.",
+        "tags": [
+            "Popup Wheel Sorter",
+            "다축 독립 조향",
+            "폴리백/소형박스 특화",
+            "모듈형 빠른 설치"
+        ],
+        "videoTemplates": [
+            {
+                "title": "Wheel Sorter 고밀도 팝업 휠 매트릭스 폴리백 초고속 분기",
+                "desc": "레드 프레임에 장착된 다열 옐로우·블랙 팝업 휠 모듈이 고속 진입하는 백색 폴리백 화물을 원하는 각도로 즉각 튕겨내어 분기하는 현장 가동 영상입니다."
+            },
+            {
+                "title": "Wheel Sorter 10축 독립 구동 서보 조향 메커니즘 실증(FAT)",
+                "desc": "다축 휠 모듈이 제어 신호에 맞춰 밀리초(ms) 단위로 정밀하게 좌·우 회전 각도를 전환하며 응답 속도와 내구성을 검증하는 공장 시운전 영상입니다."
+            },
+            {
+                "title": "Wheel Sorter 연속 택배 화물 양방향 논스톱 분류 가동",
+                "desc": "짧은 간격으로 연속 투입되는 다양한 규격의 택배 박스와 마대 화물을 병목 현상 없이 좌우 슈트로 번갈아 고속 분류하는 모습입니다."
+            },
+            {
+                "title": "Wheel Sorter 인피드(Infeed) 벨트 연동 및 바코드 스캔 분기",
+                "desc": "전단 벨트 컨베이어에서 가속된 화물이 휠 소터 상판에 진입하는 동시에 목적지 방향으로 매끄럽게 방향을 전환하는 정밀 제어 공정입니다."
+            },
+            {
+                "title": "Wheel Sorter 고마찰 우레탄 휠 그립력 및 충격 최소화 검증",
+                "desc": "바닥면이 불균일한 연질 폴리백부터 단단한 골판지 박스까지 슬립(미끄러짐) 없이 균일한 속도로 밀어내는 고마찰 휠 기술 실증 영상입니다."
+            }
+        ],
+        "photoTemplates": [
+            {
+                "title": "Wheel Sorter 다축 옐로우·블랙 팝업 휠 매트릭스 상판 가동 순간",
+                "desc": "레드 컬러의 고강성 상판에 촘촘히 배열된 독립 조향 팝업 휠들이 폴리백 화물을 우측 슈트로 고속 분기하는 역동적인 현장 클로즈업입니다."
+            },
+            {
+                "title": "Wheel Sorter 현장 분류 라인 및 양방향 레드 가이드 슈트",
+                "desc": "분류 거점마다 설치된 Wheel Sorter 모듈과 화물 이탈을 방지하는 레드 스틸 슈트가 물류센터 메인 라인에 완벽히 통합된 모습입니다."
+            },
+            {
+                "title": "Wheel Sorter 정밀 구동축 및 모듈형 카트리지 내부 구조",
+                "desc": "개별 축의 점검과 교체가 간편하도록 설계된 모듈형 휠 어셈블리와 고정밀 서보 링크 메커니즘의 엔지니어링 디테일입니다."
+            },
+            {
+                "title": "Wheel Sorter 출고 전 공장 사전 시운전(FAT) 및 품질 검수",
+                "desc": "고객사 현장 반입 전 당사 제조 거점에서 실제 화물을 투입하며 분기 각도, 처리 속도, 센서 동기화를 정밀 테스트하는 장면입니다."
+            }
+        ],
+        "videoCount": 17,
+        "photoCount": 20,
+        "videos": [
+            {
+                "id": "Wheel Sorter-vid-1",
+                "folder": "Wheel Sorter",
+                "index": 1,
+                "fileName": "2e2deeb844b41ada550b08730cebb0af.mp4",
+                "src": "assets/reference/Wheel Sorter/2e2deeb844b41ada550b08730cebb0af.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/2e2deeb844b41ada550b08730cebb0af_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #01",
+                "title": "[Wheel Sorter 영상 #01] Wheel Sorter 고밀도 팝업 휠 매트릭스 폴리백 초고속 분기",
+                "desc": "레드 프레임에 장착된 다열 옐로우·블랙 팝업 휠 모듈이 고속 진입하는 백색 폴리백 화물을 원하는 각도로 즉각 튕겨내어 분기하는 현장 가동 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-2",
+                "folder": "Wheel Sorter",
+                "index": 2,
+                "fileName": "3add31a4e16b10c9516fea3ac5389828.mp4",
+                "src": "assets/reference/Wheel Sorter/3add31a4e16b10c9516fea3ac5389828.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/3add31a4e16b10c9516fea3ac5389828_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #02",
+                "title": "[Wheel Sorter 영상 #02] Wheel Sorter 10축 독립 구동 서보 조향 메커니즘 실증(FAT)",
+                "desc": "다축 휠 모듈이 제어 신호에 맞춰 밀리초(ms) 단위로 정밀하게 좌·우 회전 각도를 전환하며 응답 속도와 내구성을 검증하는 공장 시운전 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-3",
+                "folder": "Wheel Sorter",
+                "index": 3,
+                "fileName": "3fba6eb03d423952ae925d41ee505a2d.mp4",
+                "src": "assets/reference/Wheel Sorter/3fba6eb03d423952ae925d41ee505a2d.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/3fba6eb03d423952ae925d41ee505a2d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #03",
+                "title": "[Wheel Sorter 영상 #03] Wheel Sorter 연속 택배 화물 양방향 논스톱 분류 가동",
+                "desc": "짧은 간격으로 연속 투입되는 다양한 규격의 택배 박스와 마대 화물을 병목 현상 없이 좌우 슈트로 번갈아 고속 분류하는 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-4",
+                "folder": "Wheel Sorter",
+                "index": 4,
+                "fileName": "4dc821f857b5456c2e939b1f0798a2bd.mp4",
+                "src": "assets/reference/Wheel Sorter/4dc821f857b5456c2e939b1f0798a2bd.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/4dc821f857b5456c2e939b1f0798a2bd_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #04",
+                "title": "[Wheel Sorter 영상 #04] Wheel Sorter 인피드(Infeed) 벨트 연동 및 바코드 스캔 분기",
+                "desc": "전단 벨트 컨베이어에서 가속된 화물이 휠 소터 상판에 진입하는 동시에 목적지 방향으로 매끄럽게 방향을 전환하는 정밀 제어 공정입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-5",
+                "folder": "Wheel Sorter",
+                "index": 5,
+                "fileName": "5f9f477ebd0e9161333166420c9d8dd6.mp4",
+                "src": "assets/reference/Wheel Sorter/5f9f477ebd0e9161333166420c9d8dd6.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/5f9f477ebd0e9161333166420c9d8dd6_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #05",
+                "title": "[Wheel Sorter 영상 #05] Wheel Sorter 고마찰 우레탄 휠 그립력 및 충격 최소화 검증",
+                "desc": "바닥면이 불균일한 연질 폴리백부터 단단한 골판지 박스까지 슬립(미끄러짐) 없이 균일한 속도로 밀어내는 고마찰 휠 기술 실증 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-6",
+                "folder": "Wheel Sorter",
+                "index": 6,
+                "fileName": "9dead2f88bb260cb0d5bc0648f7d6dbe.mp4",
+                "src": "assets/reference/Wheel Sorter/9dead2f88bb260cb0d5bc0648f7d6dbe.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/9dead2f88bb260cb0d5bc0648f7d6dbe_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #06",
+                "title": "[Wheel Sorter 영상 #06] Wheel Sorter 고밀도 팝업 휠 매트릭스 폴리백 초고속 분기",
+                "desc": "레드 프레임에 장착된 다열 옐로우·블랙 팝업 휠 모듈이 고속 진입하는 백색 폴리백 화물을 원하는 각도로 즉각 튕겨내어 분기하는 현장 가동 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-7",
+                "folder": "Wheel Sorter",
+                "index": 7,
+                "fileName": "55d139e6d20cb1ebfdfea205af334563.mp4",
+                "src": "assets/reference/Wheel Sorter/55d139e6d20cb1ebfdfea205af334563.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/55d139e6d20cb1ebfdfea205af334563_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #07",
+                "title": "[Wheel Sorter 영상 #07] Wheel Sorter 10축 독립 구동 서보 조향 메커니즘 실증(FAT)",
+                "desc": "다축 휠 모듈이 제어 신호에 맞춰 밀리초(ms) 단위로 정밀하게 좌·우 회전 각도를 전환하며 응답 속도와 내구성을 검증하는 공장 시운전 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-8",
+                "folder": "Wheel Sorter",
+                "index": 8,
+                "fileName": "490a8be681c8822474a9f00ff28e9d42.mp4",
+                "src": "assets/reference/Wheel Sorter/490a8be681c8822474a9f00ff28e9d42.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/490a8be681c8822474a9f00ff28e9d42_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #08",
+                "title": "[Wheel Sorter 영상 #08] Wheel Sorter 연속 택배 화물 양방향 논스톱 분류 가동",
+                "desc": "짧은 간격으로 연속 투입되는 다양한 규격의 택배 박스와 마대 화물을 병목 현상 없이 좌우 슈트로 번갈아 고속 분류하는 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-9",
+                "folder": "Wheel Sorter",
+                "index": 9,
+                "fileName": "6646f0a69480b06529c884928fa1a531.mp4",
+                "src": "assets/reference/Wheel Sorter/6646f0a69480b06529c884928fa1a531.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/6646f0a69480b06529c884928fa1a531_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #09",
+                "title": "[Wheel Sorter 영상 #09] Wheel Sorter 인피드(Infeed) 벨트 연동 및 바코드 스캔 분기",
+                "desc": "전단 벨트 컨베이어에서 가속된 화물이 휠 소터 상판에 진입하는 동시에 목적지 방향으로 매끄럽게 방향을 전환하는 정밀 제어 공정입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-10",
+                "folder": "Wheel Sorter",
+                "index": 10,
+                "fileName": "7707fb5252d4d29bba4d81632aedefe4.mp4",
+                "src": "assets/reference/Wheel Sorter/7707fb5252d4d29bba4d81632aedefe4.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/7707fb5252d4d29bba4d81632aedefe4_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #10",
+                "title": "[Wheel Sorter 영상 #10] Wheel Sorter 고마찰 우레탄 휠 그립력 및 충격 최소화 검증",
+                "desc": "바닥면이 불균일한 연질 폴리백부터 단단한 골판지 박스까지 슬립(미끄러짐) 없이 균일한 속도로 밀어내는 고마찰 휠 기술 실증 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-11",
+                "folder": "Wheel Sorter",
+                "index": 11,
+                "fileName": "b2bbdd0bc42dc1fefcce1345d40e25bd.mp4",
+                "src": "assets/reference/Wheel Sorter/b2bbdd0bc42dc1fefcce1345d40e25bd.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/b2bbdd0bc42dc1fefcce1345d40e25bd_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #11",
+                "title": "[Wheel Sorter 영상 #11] Wheel Sorter 고밀도 팝업 휠 매트릭스 폴리백 초고속 분기",
+                "desc": "레드 프레임에 장착된 다열 옐로우·블랙 팝업 휠 모듈이 고속 진입하는 백색 폴리백 화물을 원하는 각도로 즉각 튕겨내어 분기하는 현장 가동 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-12",
+                "folder": "Wheel Sorter",
+                "index": 12,
+                "fileName": "b825ec6ddb91f5b3523c95cf74598745.mp4",
+                "src": "assets/reference/Wheel Sorter/b825ec6ddb91f5b3523c95cf74598745.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/b825ec6ddb91f5b3523c95cf74598745_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #12",
+                "title": "[Wheel Sorter 영상 #12] Wheel Sorter 10축 독립 구동 서보 조향 메커니즘 실증(FAT)",
+                "desc": "다축 휠 모듈이 제어 신호에 맞춰 밀리초(ms) 단위로 정밀하게 좌·우 회전 각도를 전환하며 응답 속도와 내구성을 검증하는 공장 시운전 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-13",
+                "folder": "Wheel Sorter",
+                "index": 13,
+                "fileName": "bf99933c4f063b9a404773d8ebf16088.mp4",
+                "src": "assets/reference/Wheel Sorter/bf99933c4f063b9a404773d8ebf16088.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/bf99933c4f063b9a404773d8ebf16088_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #13",
+                "title": "[Wheel Sorter 영상 #13] Wheel Sorter 연속 택배 화물 양방향 논스톱 분류 가동",
+                "desc": "짧은 간격으로 연속 투입되는 다양한 규격의 택배 박스와 마대 화물을 병목 현상 없이 좌우 슈트로 번갈아 고속 분류하는 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-14",
+                "folder": "Wheel Sorter",
+                "index": 14,
+                "fileName": "bfafd228e5036feb1a51e9b14d348bb3.mp4",
+                "src": "assets/reference/Wheel Sorter/bfafd228e5036feb1a51e9b14d348bb3.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/bfafd228e5036feb1a51e9b14d348bb3_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #14",
+                "title": "[Wheel Sorter 영상 #14] Wheel Sorter 인피드(Infeed) 벨트 연동 및 바코드 스캔 분기",
+                "desc": "전단 벨트 컨베이어에서 가속된 화물이 휠 소터 상판에 진입하는 동시에 목적지 방향으로 매끄럽게 방향을 전환하는 정밀 제어 공정입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-15",
+                "folder": "Wheel Sorter",
+                "index": 15,
+                "fileName": "cfab01aec35365e32f24cfb4abb2a13e.mp4",
+                "src": "assets/reference/Wheel Sorter/cfab01aec35365e32f24cfb4abb2a13e.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/cfab01aec35365e32f24cfb4abb2a13e_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #15",
+                "title": "[Wheel Sorter 영상 #15] Wheel Sorter 고마찰 우레탄 휠 그립력 및 충격 최소화 검증",
+                "desc": "바닥면이 불균일한 연질 폴리백부터 단단한 골판지 박스까지 슬립(미끄러짐) 없이 균일한 속도로 밀어내는 고마찰 휠 기술 실증 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-16",
+                "folder": "Wheel Sorter",
+                "index": 16,
+                "fileName": "d8804faf73f906057f63a108a925d02d.mp4",
+                "src": "assets/reference/Wheel Sorter/d8804faf73f906057f63a108a925d02d.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/d8804faf73f906057f63a108a925d02d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #16",
+                "title": "[Wheel Sorter 영상 #16] Wheel Sorter 고밀도 팝업 휠 매트릭스 폴리백 초고속 분기",
+                "desc": "레드 프레임에 장착된 다열 옐로우·블랙 팝업 휠 모듈이 고속 진입하는 백색 폴리백 화물을 원하는 각도로 즉각 튕겨내어 분기하는 현장 가동 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-vid-17",
+                "folder": "Wheel Sorter",
+                "index": 17,
+                "fileName": "da5d2e7d328ea9749af8510475ced588.mp4",
+                "src": "assets/reference/Wheel Sorter/da5d2e7d328ea9749af8510475ced588.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                "thumb": "assets/reference/Wheel Sorter/da5d2e7d328ea9749af8510475ced588_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장영상 #17",
+                "title": "[Wheel Sorter 영상 #17] Wheel Sorter 10축 독립 구동 서보 조향 메커니즘 실증(FAT)",
+                "desc": "다축 휠 모듈이 제어 신호에 맞춰 밀리초(ms) 단위로 정밀하게 좌·우 회전 각도를 전환하며 응답 속도와 내구성을 검증하는 공장 시운전 영상입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            }
+        ],
+        "photos": [
+            {
+                "id": "Wheel Sorter-pho-1",
+                "folder": "Wheel Sorter",
+                "index": 1,
+                "fileName": "2e2deeb844b41ada550b08730cebb0af.jpg",
+                "src": "assets/reference/Wheel Sorter/2e2deeb844b41ada550b08730cebb0af.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/2e2deeb844b41ada550b08730cebb0af_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #01",
+                "title": "[Wheel Sorter 사진 #01] Wheel Sorter 다축 옐로우·블랙 팝업 휠 매트릭스 상판 가동 순간",
+                "desc": "레드 컬러의 고강성 상판에 촘촘히 배열된 독립 조향 팝업 휠들이 폴리백 화물을 우측 슈트로 고속 분기하는 역동적인 현장 클로즈업입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-2",
+                "folder": "Wheel Sorter",
+                "index": 2,
+                "fileName": "3add31a4e16b10c9516fea3ac5389828.jpg",
+                "src": "assets/reference/Wheel Sorter/3add31a4e16b10c9516fea3ac5389828.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/3add31a4e16b10c9516fea3ac5389828_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #02",
+                "title": "[Wheel Sorter 사진 #02] Wheel Sorter 현장 분류 라인 및 양방향 레드 가이드 슈트",
+                "desc": "분류 거점마다 설치된 Wheel Sorter 모듈과 화물 이탈을 방지하는 레드 스틸 슈트가 물류센터 메인 라인에 완벽히 통합된 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-3",
+                "folder": "Wheel Sorter",
+                "index": 3,
+                "fileName": "3fba6eb03d423952ae925d41ee505a2d.jpg",
+                "src": "assets/reference/Wheel Sorter/3fba6eb03d423952ae925d41ee505a2d.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/3fba6eb03d423952ae925d41ee505a2d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #03",
+                "title": "[Wheel Sorter 사진 #03] Wheel Sorter 정밀 구동축 및 모듈형 카트리지 내부 구조",
+                "desc": "개별 축의 점검과 교체가 간편하도록 설계된 모듈형 휠 어셈블리와 고정밀 서보 링크 메커니즘의 엔지니어링 디테일입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-4",
+                "folder": "Wheel Sorter",
+                "index": 4,
+                "fileName": "4dc821f857b5456c2e939b1f0798a2bd.jpg",
+                "src": "assets/reference/Wheel Sorter/4dc821f857b5456c2e939b1f0798a2bd.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/4dc821f857b5456c2e939b1f0798a2bd_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #04",
+                "title": "[Wheel Sorter 사진 #04] Wheel Sorter 출고 전 공장 사전 시운전(FAT) 및 품질 검수",
+                "desc": "고객사 현장 반입 전 당사 제조 거점에서 실제 화물을 투입하며 분기 각도, 처리 속도, 센서 동기화를 정밀 테스트하는 장면입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-5",
+                "folder": "Wheel Sorter",
+                "index": 5,
+                "fileName": "5f9f477ebd0e9161333166420c9d8dd6.jpg",
+                "src": "assets/reference/Wheel Sorter/5f9f477ebd0e9161333166420c9d8dd6.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/5f9f477ebd0e9161333166420c9d8dd6_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #05",
+                "title": "[Wheel Sorter 사진 #05] Wheel Sorter 다축 옐로우·블랙 팝업 휠 매트릭스 상판 가동 순간",
+                "desc": "레드 컬러의 고강성 상판에 촘촘히 배열된 독립 조향 팝업 휠들이 폴리백 화물을 우측 슈트로 고속 분기하는 역동적인 현장 클로즈업입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-6",
+                "folder": "Wheel Sorter",
+                "index": 6,
+                "fileName": "5f4659d5a2d92be2be75584456d78563.jpg",
+                "src": "assets/reference/Wheel Sorter/5f4659d5a2d92be2be75584456d78563.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/5f4659d5a2d92be2be75584456d78563.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #06",
+                "title": "[Wheel Sorter 사진 #06] Wheel Sorter 현장 분류 라인 및 양방향 레드 가이드 슈트",
+                "desc": "분류 거점마다 설치된 Wheel Sorter 모듈과 화물 이탈을 방지하는 레드 스틸 슈트가 물류센터 메인 라인에 완벽히 통합된 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-7",
+                "folder": "Wheel Sorter",
+                "index": 7,
+                "fileName": "6c99dba5b46971f35ba897c2729086cc.jpg",
+                "src": "assets/reference/Wheel Sorter/6c99dba5b46971f35ba897c2729086cc.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/6c99dba5b46971f35ba897c2729086cc_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #07",
+                "title": "[Wheel Sorter 사진 #07] Wheel Sorter 정밀 구동축 및 모듈형 카트리지 내부 구조",
+                "desc": "개별 축의 점검과 교체가 간편하도록 설계된 모듈형 휠 어셈블리와 고정밀 서보 링크 메커니즘의 엔지니어링 디테일입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-8",
+                "folder": "Wheel Sorter",
+                "index": 8,
+                "fileName": "9dead2f88bb260cb0d5bc0648f7d6dbe.jpg",
+                "src": "assets/reference/Wheel Sorter/9dead2f88bb260cb0d5bc0648f7d6dbe.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/9dead2f88bb260cb0d5bc0648f7d6dbe_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #08",
+                "title": "[Wheel Sorter 사진 #08] Wheel Sorter 출고 전 공장 사전 시운전(FAT) 및 품질 검수",
+                "desc": "고객사 현장 반입 전 당사 제조 거점에서 실제 화물을 투입하며 분기 각도, 처리 속도, 센서 동기화를 정밀 테스트하는 장면입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-9",
+                "folder": "Wheel Sorter",
+                "index": 9,
+                "fileName": "55d139e6d20cb1ebfdfea205af334563.jpg",
+                "src": "assets/reference/Wheel Sorter/55d139e6d20cb1ebfdfea205af334563.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/55d139e6d20cb1ebfdfea205af334563_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #09",
+                "title": "[Wheel Sorter 사진 #09] Wheel Sorter 다축 옐로우·블랙 팝업 휠 매트릭스 상판 가동 순간",
+                "desc": "레드 컬러의 고강성 상판에 촘촘히 배열된 독립 조향 팝업 휠들이 폴리백 화물을 우측 슈트로 고속 분기하는 역동적인 현장 클로즈업입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-10",
+                "folder": "Wheel Sorter",
+                "index": 10,
+                "fileName": "490a8be681c8822474a9f00ff28e9d42.jpg",
+                "src": "assets/reference/Wheel Sorter/490a8be681c8822474a9f00ff28e9d42.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/490a8be681c8822474a9f00ff28e9d42_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #10",
+                "title": "[Wheel Sorter 사진 #10] Wheel Sorter 현장 분류 라인 및 양방향 레드 가이드 슈트",
+                "desc": "분류 거점마다 설치된 Wheel Sorter 모듈과 화물 이탈을 방지하는 레드 스틸 슈트가 물류센터 메인 라인에 완벽히 통합된 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-11",
+                "folder": "Wheel Sorter",
+                "index": 11,
+                "fileName": "6646f0a69480b06529c884928fa1a531.jpg",
+                "src": "assets/reference/Wheel Sorter/6646f0a69480b06529c884928fa1a531.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/6646f0a69480b06529c884928fa1a531_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #11",
+                "title": "[Wheel Sorter 사진 #11] Wheel Sorter 정밀 구동축 및 모듈형 카트리지 내부 구조",
+                "desc": "개별 축의 점검과 교체가 간편하도록 설계된 모듈형 휠 어셈블리와 고정밀 서보 링크 메커니즘의 엔지니어링 디테일입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-12",
+                "folder": "Wheel Sorter",
+                "index": 12,
+                "fileName": "7707fb5252d4d29bba4d81632aedefe4.jpg",
+                "src": "assets/reference/Wheel Sorter/7707fb5252d4d29bba4d81632aedefe4.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/7707fb5252d4d29bba4d81632aedefe4_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #12",
+                "title": "[Wheel Sorter 사진 #12] Wheel Sorter 출고 전 공장 사전 시운전(FAT) 및 품질 검수",
+                "desc": "고객사 현장 반입 전 당사 제조 거점에서 실제 화물을 투입하며 분기 각도, 처리 속도, 센서 동기화를 정밀 테스트하는 장면입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-13",
+                "folder": "Wheel Sorter",
+                "index": 13,
+                "fileName": "26227c98e09c83bd39091beaf5d19461.jpg",
+                "src": "assets/reference/Wheel Sorter/26227c98e09c83bd39091beaf5d19461.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/26227c98e09c83bd39091beaf5d19461.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #13",
+                "title": "[Wheel Sorter 사진 #13] Wheel Sorter 다축 옐로우·블랙 팝업 휠 매트릭스 상판 가동 순간",
+                "desc": "레드 컬러의 고강성 상판에 촘촘히 배열된 독립 조향 팝업 휠들이 폴리백 화물을 우측 슈트로 고속 분기하는 역동적인 현장 클로즈업입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-14",
+                "folder": "Wheel Sorter",
+                "index": 14,
+                "fileName": "b2bbdd0bc42dc1fefcce1345d40e25bd.jpg",
+                "src": "assets/reference/Wheel Sorter/b2bbdd0bc42dc1fefcce1345d40e25bd.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/b2bbdd0bc42dc1fefcce1345d40e25bd_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #14",
+                "title": "[Wheel Sorter 사진 #14] Wheel Sorter 현장 분류 라인 및 양방향 레드 가이드 슈트",
+                "desc": "분류 거점마다 설치된 Wheel Sorter 모듈과 화물 이탈을 방지하는 레드 스틸 슈트가 물류센터 메인 라인에 완벽히 통합된 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-15",
+                "folder": "Wheel Sorter",
+                "index": 15,
+                "fileName": "b825ec6ddb91f5b3523c95cf74598745.jpg",
+                "src": "assets/reference/Wheel Sorter/b825ec6ddb91f5b3523c95cf74598745.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/b825ec6ddb91f5b3523c95cf74598745_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #15",
+                "title": "[Wheel Sorter 사진 #15] Wheel Sorter 정밀 구동축 및 모듈형 카트리지 내부 구조",
+                "desc": "개별 축의 점검과 교체가 간편하도록 설계된 모듈형 휠 어셈블리와 고정밀 서보 링크 메커니즘의 엔지니어링 디테일입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-16",
+                "folder": "Wheel Sorter",
+                "index": 16,
+                "fileName": "bf99933c4f063b9a404773d8ebf16088.jpg",
+                "src": "assets/reference/Wheel Sorter/bf99933c4f063b9a404773d8ebf16088.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/bf99933c4f063b9a404773d8ebf16088_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #16",
+                "title": "[Wheel Sorter 사진 #16] Wheel Sorter 출고 전 공장 사전 시운전(FAT) 및 품질 검수",
+                "desc": "고객사 현장 반입 전 당사 제조 거점에서 실제 화물을 투입하며 분기 각도, 처리 속도, 센서 동기화를 정밀 테스트하는 장면입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-17",
+                "folder": "Wheel Sorter",
+                "index": 17,
+                "fileName": "bfafd228e5036feb1a51e9b14d348bb3.jpg",
+                "src": "assets/reference/Wheel Sorter/bfafd228e5036feb1a51e9b14d348bb3.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/bfafd228e5036feb1a51e9b14d348bb3_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #17",
+                "title": "[Wheel Sorter 사진 #17] Wheel Sorter 다축 옐로우·블랙 팝업 휠 매트릭스 상판 가동 순간",
+                "desc": "레드 컬러의 고강성 상판에 촘촘히 배열된 독립 조향 팝업 휠들이 폴리백 화물을 우측 슈트로 고속 분기하는 역동적인 현장 클로즈업입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-18",
+                "folder": "Wheel Sorter",
+                "index": 18,
+                "fileName": "cfab01aec35365e32f24cfb4abb2a13e.jpg",
+                "src": "assets/reference/Wheel Sorter/cfab01aec35365e32f24cfb4abb2a13e.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/cfab01aec35365e32f24cfb4abb2a13e_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #18",
+                "title": "[Wheel Sorter 사진 #18] Wheel Sorter 현장 분류 라인 및 양방향 레드 가이드 슈트",
+                "desc": "분류 거점마다 설치된 Wheel Sorter 모듈과 화물 이탈을 방지하는 레드 스틸 슈트가 물류센터 메인 라인에 완벽히 통합된 모습입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-19",
+                "folder": "Wheel Sorter",
+                "index": 19,
+                "fileName": "d8804faf73f906057f63a108a925d02d.jpg",
+                "src": "assets/reference/Wheel Sorter/d8804faf73f906057f63a108a925d02d.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/d8804faf73f906057f63a108a925d02d_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #19",
+                "title": "[Wheel Sorter 사진 #19] Wheel Sorter 정밀 구동축 및 모듈형 카트리지 내부 구조",
+                "desc": "개별 축의 점검과 교체가 간편하도록 설계된 모듈형 휠 어셈블리와 고정밀 서보 링크 메커니즘의 엔지니어링 디테일입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            },
+            {
+                "id": "Wheel Sorter-pho-20",
+                "folder": "Wheel Sorter",
+                "index": 20,
+                "fileName": "da5d2e7d328ea9749af8510475ced588.jpg",
+                "src": "assets/reference/Wheel Sorter/da5d2e7d328ea9749af8510475ced588.jpg",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "thumb": "assets/reference/Wheel Sorter/da5d2e7d328ea9749af8510475ced588_thumb.jpg",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Wheel Sorter.png",
+                "clipCode": "Wheel Sorter 현장포토 #20",
+                "title": "[Wheel Sorter 사진 #20] Wheel Sorter 출고 전 공장 사전 시운전(FAT) 및 품질 검수",
+                "desc": "고객사 현장 반입 전 당사 제조 거점에서 실제 화물을 투입하며 분기 각도, 처리 속도, 센서 동기화를 정밀 테스트하는 장면입니다.",
+                "tags": [
+                    "Popup Wheel Sorter",
+                    "다축 독립 조향",
+                    "폴리백/소형박스 특화",
+                    "모듈형 빠른 설치"
+                ]
+            }
+        ]
+    },
+    "틸트트레이소터": {
+        "id": "틸트트레이소터",
+        "title": "틸트트레이소터",
+        "subtitle": "틸트트레이소터 [Tilt Tray Sorter] — 대용량 순환형 틸트트레이 분류 시스템",
+        "badge": "TILT TRAY SORTER",
+        "icon": "fa-clone",
+        "overview": "트랙을 따라 연속 순환하는 독립 트레이(Tray)가 목적지 슈트 상단에서 정밀하게 양방향 틸팅(기울임)되어 화물을 중력 슬라이딩 방식으로 안전하게 배출하는 순환형 자동 분류 시스템입니다. 의류, 폴리백, 서적, 소형 박스는 물론 신선 물류까지 폭넓은 카고 스펙트럼을 자랑합니다.",
+        "tags": [
+            "Tilt Tray Sorter",
+            "양방향 정밀 틸팅",
+            "순환형 루프 설계",
+            "의류/소형화물/신선물류"
+        ],
+        "videoTemplates": [
+            {
+                "title": "틸트트레이소터(Tilt Tray Sorter) 고속 순환 및 정밀 틸팅 시뮬레이션·가동",
+                "desc": "순환 트랙을 주행하는 트레이들이 지정된 배출구 위치에서 정확한 각도로 기울어지며 화물을 양측 슈트로 신속하게 분류하는 핵심 메커니즘 영상입니다."
+            }
+        ],
+        "photoTemplates": [
+            {
+                "title": "틸트트레이소터(Tilt Tray Sorter) 순환 루프 및 다열 슈트 3D 엔지니어링 레이아웃",
+                "desc": "고속 자동 투입 인덕션 라인, 순환형 트레이 트랙, 그리고 내·외측에 고밀도로 배치된 다열 배출 슈트의 전체 구조를 한눈에 보여주는 정밀 설계도입니다."
+            }
+        ],
+        "videoCount": 1,
+        "photoCount": 1,
+        "videos": [
+            {
+                "id": "틸트트레이소터-vid-1",
+                "folder": "틸트트레이소터",
+                "index": 1,
+                "fileName": "Tilt Tray Sorter.mp4",
+                "src": "assets/reference/틸트트레이소터/Tilt Tray Sorter.mp4",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4",
+                "thumb": "assets/reference/틸트트레이소터/Tilt Tray Sorter.png",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+                "clipCode": "Tilt Tray Sorter",
+                "title": "[틸트트레이소터 영상 #01] 틸트트레이소터(Tilt Tray Sorter) 고속 순환 및 정밀 틸팅 시뮬레이션·가동",
+                "desc": "순환 트랙을 주행하는 트레이들이 지정된 배출구 위치에서 정확한 각도로 기울어지며 화물을 양측 슈트로 신속하게 분류하는 핵심 메커니즘 영상입니다.",
+                "tags": [
+                    "Tilt Tray Sorter",
+                    "양방향 정밀 틸팅",
+                    "순환형 루프 설계",
+                    "의류/소형화물/신선물류"
+                ]
+            }
+        ],
+        "photos": [
+            {
+                "id": "틸트트레이소터-pho-1",
+                "folder": "틸트트레이소터",
+                "index": 1,
+                "fileName": "Tilt Tray Sorter.png",
+                "src": "assets/reference/틸트트레이소터/Tilt Tray Sorter.png",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+                "thumb": "assets/reference/틸트트레이소터/Tilt Tray Sorter.png",
+                "fallbackThumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+                "clipCode": "틸트트레이소터 현장포토 #01",
+                "title": "[틸트트레이소터 사진 #01] 틸트트레이소터(Tilt Tray Sorter) 순환 루프 및 다열 슈트 3D 엔지니어링 레이아웃",
+                "desc": "고속 자동 투입 인덕션 라인, 순환형 트레이 트랙, 그리고 내·외측에 고밀도로 배치된 다열 배출 슈트의 전체 구조를 한눈에 보여주는 정밀 설계도입니다.",
+                "tags": [
+                    "Tilt Tray Sorter",
+                    "양방향 정밀 틸팅",
+                    "순환형 루프 설계",
+                    "의류/소형화물/신선물류"
+                ]
+            }
+        ]
+    }
+};
+
+    // ==========================================================================
+    // 2. 상태 관리 변수
+    // ==========================================================================
+    var currentCategory = "all";       // 현재 선택된 폴더 ('all' 또는 6대 폴더명)
+    var currentVideoList = [];         // 현재 카테고리의 동영상 배열
+    var currentPhotoList = [];         // 현재 카테고리의 이미지 배열
+    var currentVideoIndex = 0;         // 가운데 동영상 플레이어에서 현재 재생 중인 인덱스
+    var currentPhotoIndex = 0;         // 가운데 이미지 뷰어에서 현재 표시 중인 인덱스
+    var autoPlayNextVideo = true;      // 동영상 종료 시 다음 영상 자동 재생 여부
+    var photoSlideshowTimer = null;    // 이미지 자동 슬라이드쇼 타이머
+
+    // ==========================================================================
+    // 3. 유틸리티 함수 (URL 안전 인코딩 및 무결점 이미지/영상 폴백 처리)
+    // ==========================================================================
+    function safeUrl(rawPath) {
+        if (!rawPath) return "";
+        return rawPath.split("/").map(function (segment) {
+            return encodeURIComponent(segment);
+        }).join("/");
     }
 
-    /**
-     * 레퍼런스 목록을 로컬스토리지에 저장합니다.
-     */
-    function saveReferencesList(list) {
-        try {
-            var jsonStr = JSON.stringify(list);
-            localStorage.setItem(STORAGE_KEY_REFERENCES, jsonStr);
-            localStorage.setItem("ata_reference_projects_db", jsonStr); // 통합 허브 및 백업 호환 키
-        } catch (e) {
-            console.error("[ReferenceAdmin] 저장 실패:", e);
-            alert("저장 공간이 부족하거나 브라우저 오류로 저장하지 못했습니다.");
-        }
+    function escapeHtml(str) {
+        if (str === null || str === undefined) return "";
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
-    /**
-     * 초기 기본 공식 실적으로 안전하게 복원합니다.
-     */
-    function resetReferencesData() {
-        if (!confirm("주요 구축 실적 데이터를 최초 기본값(7개 공식 실적)으로 복원하시겠습니까?\n새로 추가하거나 수정한 내용은 모두 초기화됩니다.")) {
+    // 이미지 로드 실패 시 원본 경로 -> 폴백 경로 -> 기본 플레이스홀더 순으로 무결점 복구
+    window.handleRefImgError = function (imgEl) {
+        if (!imgEl) return;
+        var rawSrc = imgEl.getAttribute("data-raw-src");
+        var fbSrc = imgEl.getAttribute("data-fallback-src");
+
+        if (!imgEl.dataset.triedRaw && rawSrc && imgEl.src.indexOf(rawSrc) === -1) {
+            imgEl.dataset.triedRaw = "1";
+            imgEl.src = rawSrc;
             return;
         }
-        saveReferencesList(INITIAL_REFERENCES_DATA);
-        renderReferencesCards(currentFilterCategory);
-        alert("주요 구축 실적이 최초 공식 데이터로 안전하게 복원되었습니다.");
+        if (!imgEl.dataset.triedFallback && fbSrc) {
+            imgEl.dataset.triedFallback = "1";
+            imgEl.src = safeUrl(fbSrc);
+            return;
+        }
+        imgEl.onerror = null;
+        imgEl.src = "assets/images/no-image.svg";
+    };
+
+    // 비디오 로드 실패 시 인코딩 경로 -> 원본 경로 -> 폴백 경로 순으로 무결점 복구
+    window.handleRefVideoError = function (videoEl) {
+        if (!videoEl) return;
+        var rawSrc = videoEl.getAttribute("data-raw-src");
+        var fbSrc = videoEl.getAttribute("data-fallback-src");
+
+        if (!videoEl.dataset.triedRaw && rawSrc) {
+            videoEl.dataset.triedRaw = "1";
+            videoEl.src = rawSrc;
+            videoEl.load();
+            return;
+        }
+        if (!videoEl.dataset.triedFallback && fbSrc) {
+            videoEl.dataset.triedFallback = "1";
+            videoEl.src = safeUrl(fbSrc);
+            videoEl.load();
+            return;
+        }
+    };
+
+    // 선택된 카테고리의 동영상/이미지 배열 반환
+    function getFilteredMedia(category) {
+        if (!category || category === "all") {
+            var allVideos = [];
+            var allPhotos = [];
+            FOLDER_ORDER.forEach(function (folderName) {
+                var folderData = REFERENCE_GALLERY_DB[folderName];
+                if (folderData) {
+                    allVideos = allVideos.concat(folderData.videos || []);
+                    allPhotos = allPhotos.concat(folderData.photos || []);
+                }
+            });
+            return {
+                id: "all",
+                title: "전체 구축 실적 (All Reference)",
+                subtitle: "스마트 물류 제조 거점 전경 및 5대 핵심 소터(CBS · NC CBS · NBS · Wheel Sorter · 틸트트레이소터) 종합 아카이브",
+                badge: "ALL LOGISTICS TRACK RECORD",
+                icon: "fa-layer-group",
+                overview: "주식회사 에이티에이기술의 대규모 스마트 물류 제조 거점 항공 전경부터 CBS, NC CBS, NBS, Wheel Sorter, 틸트트레이소터까지 실제 물류 현장에서 가동 중인 영상과 고화질 사진을 폴더별로 한눈에 확인하실 수 있습니다.",
+                tags: ["전경", "CBS", "NC CBS", "NBS", "Wheel Sorter", "틸트트레이소터"],
+                videos: allVideos,
+                photos: allPhotos
+            };
+        }
+
+        // 구형 카테고리 코드 호환 매핑
+        var mappedCategory = category;
+        if (category === "ecommerce") mappedCategory = "CBS";
+        else if (category === "food") mappedCategory = "NBS";
+        else if (category === "manu") mappedCategory = "Wheel Sorter";
+
+        var target = REFERENCE_GALLERY_DB[mappedCategory] || REFERENCE_GALLERY_DB["CBS"];
+        return {
+            id: target.id,
+            title: target.title,
+            subtitle: target.subtitle,
+            badge: target.badge,
+            icon: target.icon,
+            overview: target.overview,
+            tags: target.tags || [],
+            videos: target.videos || [],
+            photos: target.photos || []
+        };
     }
 
     // ==========================================================================
-    // 3-2. 웹-로컬 동기화 유틸리티 (JSON 백업 다운로드 / 가져오기 / 로컬 소스 복사)
+    // 4. 상단 폴더별 카테고리 탭 바 렌더링
     // ==========================================================================
+    function renderCategoryTabs() {
+        var tabBar = document.getElementById("ref-folder-tabs-bar");
+        if (!tabBar) return;
 
-    /**
-     * 웹에서 수정한 전체 레퍼런스 실적 데이터를 JSON 파일로 다운로드합니다.
-     */
-    function exportReferencesToJson() {
-        var list = getReferencesList();
-        var jsonStr = JSON.stringify(list, null, 2);
-        var blob = new Blob([jsonStr], { type: "application/json;charset=utf-8;" });
-        var url = URL.createObjectURL(blob);
-        var dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        var totalVideos = 0;
+        var totalPhotos = 0;
+        FOLDER_ORDER.forEach(function (f) {
+            totalVideos += (REFERENCE_GALLERY_DB[f].videoCount || 0);
+            totalPhotos += (REFERENCE_GALLERY_DB[f].photoCount || 0);
+        });
 
-        var a = document.createElement("a");
-        a.href = url;
-        a.download = "ata_references_backup_" + dateStr + ".json";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        var tabsConfig = [
+            {
+                id: "all",
+                label: "전체 보기",
+                icon: "fa-layer-group",
+                countText: "영상 " + totalVideos + " · 사진 " + totalPhotos
+            }
+        ];
+
+        FOLDER_ORDER.forEach(function (f) {
+            var d = REFERENCE_GALLERY_DB[f];
+            var badgeParts = [];
+            if (d.videoCount > 0) badgeParts.push("영상 " + d.videoCount);
+            if (d.photoCount > 0) badgeParts.push("사진 " + d.photoCount);
+            tabsConfig.push({
+                id: f,
+                label: f,
+                icon: d.icon || "fa-folder-open",
+                countText: badgeParts.join(" · ")
+            });
+        });
+
+        var html = [];
+        tabsConfig.forEach(function (tab) {
+            var isActive = (currentCategory === tab.id);
+            var btnClass = isActive
+                ? "ref-filter-tab min-h-[46px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-extrabold transition-all duration-300 shadow-lg bg-gradient-to-r from-blue-600 to-cyan-600 text-white ring-2 ring-blue-400 cursor-pointer active:scale-95"
+                : "ref-filter-tab min-h-[46px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50/50 border border-slate-200 cursor-pointer active:scale-95";
+            var badgeClass = isActive
+                ? "ref-tab-badge text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white/25 text-white"
+                : "ref-tab-badge text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200";
+            var iconClass = isActive ? "text-white" : "text-blue-500";
+
+            html.push(
+                '<button type="button" onclick="window.filterReference(\'' + escapeHtml(tab.id) + '\')" class="' + btnClass + '">',
+                '  <i class="fa-solid ' + tab.icon + ' ' + iconClass + ' text-xs"></i>',
+                '  <span>' + escapeHtml(tab.label) + '</span>',
+                '  <span class="' + badgeClass + '">' + escapeHtml(tab.countText) + '</span>',
+                '</button>'
+            );
+        });
+
+        tabBar.innerHTML = html.join("");
     }
 
-    /**
-     * 로컬에 보관된 JSON 백업 파일을 선택하여 웹사이트에 즉시 동기화(복원)합니다.
-     */
-    function importReferencesFromJson() {
-        var fileInput = document.createElement("input");
-        fileInput.type = "file";
-        fileInput.accept = ".json,application/json";
-        fileInput.onchange = function (e) {
-            var file = e.target.files[0];
-            if (!file) return;
+    // ==========================================================================
+    // 5. 선택된 폴더의 전문 분석 브리핑 배너 렌더링
+    // ==========================================================================
+    function renderCategoryBriefing(mediaData) {
+        var box = document.getElementById("ref-category-briefing");
+        if (!box) return;
 
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                try {
-                    var parsed = JSON.parse(event.target.result);
-                    if (!Array.isArray(parsed)) {
-                        alert("유효하지 않은 레퍼런스 실적 JSON 백업 파일 형식입니다.");
-                        return;
-                    }
-                    if (confirm("가져온 백업 파일(" + parsed.length + "개 실적)로 현재 레퍼런스를 교체하시겠습니까?")) {
-                        saveReferencesList(parsed);
-                        renderReferencesCards(currentFilterCategory);
-                        alert("성공적으로 레퍼런스 실적이 동기화되었습니다!");
-                    }
-                } catch (err) {
-                    alert("JSON 파일을 읽는 도중 오류가 발생했습니다: " + err.message);
+        var tagsHtml = (mediaData.tags || []).map(function (t) {
+            return '<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><i class="fa-solid fa-check text-[10px] text-blue-500"></i>' + escapeHtml(t) + '</span>';
+        }).join("");
+
+        var hasVideos = mediaData.videos && mediaData.videos.length > 0;
+        var hasPhotos = mediaData.photos && mediaData.photos.length > 0;
+
+        box.innerHTML = [
+            '<div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-md relative overflow-hidden">',
+            '  <div class="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-blue-50 via-cyan-50/40 to-transparent rounded-bl-full pointer-events-none"></div>',
+            '  <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">',
+            '    <div class="space-y-3 max-w-4xl">',
+            '      <div class="flex flex-wrap items-center gap-2.5">',
+            '        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-900 text-cyan-300">',
+            '          <i class="fa-solid ' + (mediaData.icon || 'fa-folder-open') + '"></i> ' + escapeHtml(mediaData.badge),
+            '        </span>',
+            hasVideos ? '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-red-600 border border-red-200"><i class="fa-brands fa-youtube"></i> 동영상 ' + mediaData.videos.length + '편</span>' : '',
+            hasPhotos ? '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><i class="fa-solid fa-images"></i> 이미지 ' + mediaData.photos.length + '장</span>' : '',
+            '      </div>',
+            '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-snug">',
+            '        ' + escapeHtml(mediaData.subtitle || mediaData.title),
+            '      </h3>',
+            '      <p class="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">',
+            '        ' + escapeHtml(mediaData.overview),
+            '      </p>',
+            '      <div class="flex flex-wrap gap-2 pt-1">' + tagsHtml + '</div>',
+            '    </div>',
+            '    <div class="flex sm:flex-row lg:flex-col gap-2.5 shrink-0">',
+            hasVideos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-youtube-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-red-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-brands fa-youtube text-base"></i> 동영상 시어터 바로가기 (' + mediaData.videos.length + ')</button>' : '',
+            hasPhotos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-photo-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-solid fa-images text-base"></i> 이미지 시어터 바로가기 (' + mediaData.photos.length + ')</button>' : '',
+            '    </div>',
+            '  </div>',
+            '</div>'
+        ].join("");
+    }
+
+    // ==========================================================================
+    // 6. 섹션 1: 동영상 시어터 (가운데 메인 영상 재생 + 우측 썸네일 리스트 표시)
+    // ==========================================================================
+    function renderYoutubeSection() {
+        var section = document.getElementById("ref-youtube-section");
+        if (!section) return;
+
+        if (!currentVideoList || currentVideoList.length === 0) {
+            section.innerHTML = "";
+            section.classList.add("hidden");
+            return;
+        }
+
+        section.classList.remove("hidden");
+        if (currentVideoIndex < 0 || currentVideoIndex >= currentVideoList.length) {
+            currentVideoIndex = 0;
+        }
+
+        var activeVid = currentVideoList[currentVideoIndex];
+        var videoSrc = safeUrl(activeVid.src);
+        var posterSrc = activeVid.thumb ? safeUrl(activeVid.thumb) : "";
+
+        // 우측 동영상 썸네일 목록 생성
+        var playlistHtml = currentVideoList.map(function (v, idx) {
+            var isPlaying = (idx === currentVideoIndex);
+            var itemBg = isPlaying
+                ? "bg-blue-950/90 border-cyan-400 ring-2 ring-cyan-400/50 shadow-md"
+                : "bg-slate-900/90 hover:bg-slate-800/90 border-slate-800";
+            var thumbUrl = v.thumb ? safeUrl(v.thumb) : "";
+
+            return [
+                '<div id="ref-yt-playlist-item-' + idx + '" onclick="window.ReferenceAdmin.playVideoAtIndex(' + idx + ')"',
+                '     class="ref-yt-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ' + itemBg + '">',
+                '  <!-- 썸네일 이미지 박스 -->',
+                '  <div class="w-32 sm:w-36 aspect-video rounded-lg overflow-hidden bg-slate-950 relative shrink-0 border border-slate-700/80">',
+                thumbUrl
+                    ? '    <img src="' + thumbUrl + '" data-raw-src="' + escapeHtml(v.thumb) + '" data-fallback-src="' + escapeHtml(v.fallbackThumb || '') + '" onerror="window.handleRefImgError(this)" loading="lazy" alt="' + escapeHtml(v.title) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">'
+                    : '    <div class="w-full h-full flex items-center justify-center bg-slate-900 text-slate-500"><i class="fa-solid fa-film text-xl"></i></div>',
+                '    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors flex items-center justify-center">',
+                isPlaying
+                    ? '      <span class="ref-yt-thumb-badge px-2 py-0.5 rounded bg-red-600 text-white text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow"><i class="fa-solid fa-volume-high animate-pulse"></i> 재생중</span>'
+                    : '      <div class="ref-yt-thumb-badge w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center group-hover:bg-red-600 transition-colors shadow"><i class="fa-solid fa-play text-xs ml-0.5"></i></div>',
+                '    </div>',
+                '    <span class="absolute bottom-1 right-1 bg-black/85 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">#' + String(idx + 1).padStart(2, "0") + '</span>',
+                '  </div>',
+                '  <!-- 우측 썸네일 텍스트 정보 -->',
+                '  <div class="flex-1 min-w-0 py-0.5">',
+                '    <div class="flex items-center gap-1.5 mb-1">',
+                '      <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">' + escapeHtml(v.folder) + '</span>',
+                '      <span class="text-[11px] text-slate-400 truncate">' + escapeHtml(v.clipCode) + '</span>',
+                '    </div>',
+                '    <h5 class="ref-yt-thumb-title text-xs sm:text-[13px] font-bold ' + (isPlaying ? 'text-cyan-300' : 'text-white group-hover:text-cyan-200') + ' line-clamp-2 leading-snug mb-1">' + escapeHtml(v.title) + '</h5>',
+                '    <p class="text-[11px] text-slate-400 line-clamp-1">' + escapeHtml(v.desc) + '</p>',
+                '  </div>',
+                '</div>'
+            ].join("");
+        }).join("");
+
+        section.innerHTML = [
+            '<div class="space-y-5">',
+            '  <!-- 섹션 타이틀 헤더 -->',
+            '  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-4">',
+            '    <div>',
+            '      <div class="inline-flex items-center gap-2 text-red-600 font-extrabold text-xs uppercase tracking-widest mb-1">',
+            '        <i class="fa-brands fa-youtube text-base"></i> YOUTUBE STYLE VIDEO THEATER',
+            '      </div>',
+            '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">',
+            '        동영상 시어터 <span class="text-base sm:text-lg font-bold text-red-600 ml-1">(총 ' + currentVideoList.length + '편 · 가운데 영상 재생 / 우측 썸네일 선택)</span>',
+            '      </h3>',
+            '    </div>',
+            '    <div class="flex flex-wrap items-center gap-2">',
+            '      <button type="button" id="ref-yt-autoplay-btn" onclick="window.ReferenceAdmin.toggleAutoPlay()" class="px-4 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ' + (autoPlayNextVideo ? 'bg-red-600 text-white border-red-600 shadow-sm' : 'bg-white text-slate-600 border-slate-300') + '">',
+            '        <i class="fa-solid ' + (autoPlayNextVideo ? 'fa-toggle-on text-white' : 'fa-toggle-off') + ' mr-1 text-sm"></i> 연속 자동재생 ' + (autoPlayNextVideo ? 'ON' : 'OFF'),
+            '      </button>',
+            '      <button type="button" onclick="window.ReferenceAdmin.prevVideo()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-bold transition-all cursor-pointer"><i class="fa-solid fa-backward-step mr-1"></i> 이전 영상</button>',
+            '      <button type="button" onclick="window.ReferenceAdmin.nextVideo()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-red-600 text-white text-xs font-bold transition-all cursor-pointer">다음 영상 <i class="fa-solid fa-forward-step ml-1"></i></button>',
+            '    </div>',
+            '  </div>',
+
+            '  <!-- 동영상 시어터 본체 (가운데 8칸: 메인 영상 플레이어 & 해설 / 우측 4칸: 동영상 썸네일 목록) -->',
+            '  <div id="ref-yt-theater-box" class="bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
+            '    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">',
+            '      <!-- [가운데 메인 영역 (8칸)] 비디오 플레이어 및 설비 분석 해설 -->',
+            '      <div class="lg:col-span-8 flex flex-col justify-between space-y-4">',
+            '        <div class="w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner flex items-center justify-center">',
+            '          <video id="ref-yt-main-video" controls playsinline preload="metadata"',
+            posterSrc ? '                 poster="' + posterSrc + '"' : '',
+            '                 src="' + videoSrc + '"',
+            '                 data-raw-src="' + escapeHtml(activeVid.src) + '"',
+            '                 data-fallback-src="' + escapeHtml(activeVid.fallbackSrc || '') + '"',
+            '                 onerror="window.handleRefVideoError(this)"',
+            '                 class="w-full h-full object-contain bg-black"></video>',
+            '        </div>',
+
+            '        <!-- 현재 재생 중인 동영상 제목 및 엔지니어링 분석 해설 -->',
+            '        <div class="bg-slate-900/95 rounded-2xl p-4 sm:p-5 border border-slate-800 space-y-3">',
+            '          <div class="flex flex-wrap items-center justify-between gap-2">',
+            '            <div class="flex flex-wrap items-center gap-2">',
+            '              <span id="ref-yt-active-folder" class="px-3 py-1 rounded-full text-xs font-extrabold bg-red-600 text-white flex items-center gap-1.5">',
+            '                <i class="fa-brands fa-youtube"></i> ' + escapeHtml(activeVid.folder),
+            '              </span>',
+            '              <span id="ref-yt-active-counter" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-cyan-300 border border-slate-700">',
+            '                영상 순서: ' + (currentVideoIndex + 1) + ' / ' + currentVideoList.length,
+            '              </span>',
+            '              <span id="ref-yt-active-clip" class="text-xs text-slate-400 font-medium">',
+            '                ' + escapeHtml(activeVid.clipCode),
+            '              </span>',
+            '            </div>',
+            '            <div class="flex items-center gap-2">',
+            '              <button type="button" onclick="window.ReferenceAdmin.prevVideo()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-colors cursor-pointer"><i class="fa-solid fa-chevron-left mr-1"></i>이전 영상</button>',
+            '              <button type="button" onclick="window.ReferenceAdmin.nextVideo()" class="px-3.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition-colors cursor-pointer">다음 영상<i class="fa-solid fa-chevron-right ml-1"></i></button>',
+            '            </div>',
+            '          </div>',
+            '          <h4 id="ref-yt-active-title" class="text-lg sm:text-xl font-black text-white leading-snug">',
+            '            ' + escapeHtml(activeVid.title),
+            '          </h4>',
+            '          <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800/90">',
+            '            <div class="text-[11px] font-bold text-cyan-400 mb-1 flex items-center gap-1.5">',
+            '              <i class="fa-solid fa-microchip"></i> 현장 동영상 분석 멘트',
+            '            </div>',
+            '            <p id="ref-yt-active-desc" class="text-xs sm:text-sm text-slate-200 leading-relaxed">',
+            '              ' + escapeHtml(activeVid.desc),
+            '            </p>',
+            '          </div>',
+            '        </div>',
+            '      </div>',
+
+            '      <!-- [우측 영역 (4칸)] 동영상 썸네일 재생목록 사이드바 -->',
+            '      <div class="lg:col-span-4 flex flex-col bg-slate-900/75 rounded-2xl border border-slate-800 overflow-hidden">',
+            '        <div class="p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">',
+            '          <div>',
+            '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2">',
+            '              <i class="fa-solid fa-circle-play text-red-500"></i> 동영상 썸네일 목록',
+            '            </h4>',
+            '            <p class="text-[11px] text-slate-400 mt-0.5">우측 썸네일을 클릭하면 가운데에서 재생됩니다</p>',
+            '          </div>',
+            '          <span id="ref-yt-playlist-badge" class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-red-500/20 text-red-300 border border-red-500/30">',
+            '            ' + (currentVideoIndex + 1) + ' / ' + currentVideoList.length,
+            '          </span>',
+            '        </div>',
+            '        <div id="ref-yt-playlist-scroll" class="p-3 space-y-2.5 max-h-[460px] lg:max-h-[560px] overflow-y-auto custom-scrollbar flex-1">',
+            playlistHtml,
+            '        </div>',
+            '      </div>',
+            '    </div>',
+            '  </div>',
+            '</div>'
+        ].join("");
+
+        bindVideoEndedEvent();
+    }
+
+    function bindVideoEndedEvent() {
+        var videoEl = document.getElementById("ref-yt-main-video");
+        if (videoEl) {
+            videoEl.onended = function () {
+                if (autoPlayNextVideo && currentVideoList.length > 1) {
+                    window.ReferenceAdmin.nextVideo();
                 }
             };
-            reader.readAsText(file, "utf-8");
-        };
-        fileInput.click();
-    }
-
-    /**
-     * 로컬 자바스크립트 소스코드(INITIAL_REFERENCES_DATA)로 원클릭 붙여넣기할 수 있도록 클립보드에 복사합니다.
-     */
-    function copyReferencesJsCode() {
-        var list = getReferencesList();
-        var code = "var INITIAL_REFERENCES_DATA = " + JSON.stringify(list, null, 4) + ";";
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(code).then(function () {
-                alert("현재 레퍼런스 실적 데이터가 자바스크립트 소스 코드 형태로 클립보드에 복사되었습니다!\nadmin_reference.js 파일의 INITIAL_REFERENCES_DATA 부분에 바로 붙여넣으시면 로컬 소스코드와 완벽히 동기화됩니다.");
-            }).catch(function () {
-                fallbackCopyText(code);
-            });
-        } else {
-            fallbackCopyText(code);
         }
     }
 
-    function fallbackCopyText(text) {
-        var textArea = document.createElement("textarea");
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-            document.execCommand("copy");
-            alert("클립보드에 복사되었습니다! 로컬 소스코드에 붙여넣으세요.");
-        } catch (e) {
-            prompt("아래 텍스트를 복사하여 로컬 소스코드에 붙여넣으세요:", text);
-        }
-        document.body.removeChild(textArea);
-    }
+    // 깜빡임 없이 가운데 동영상 플레이어와 우측 썸네일 활성 상태만 즉시 갱신
+    function updateActiveVideoUI(shouldAutoPlay) {
+        if (!currentVideoList || currentVideoList.length === 0) return;
+        var activeVid = currentVideoList[currentVideoIndex];
+        if (!activeVid) return;
 
-    // ==========================================================================
-    // 4. 관리자 권한 확인
-    // ==========================================================================
-    function isUserAdmin() {
-        if (window.AdminAuth && typeof window.AdminAuth.isLoggedIn === 'function') {
-            return window.AdminAuth.isLoggedIn();
-        }
-        try {
-            return sessionStorage.getItem("ata_admin_authenticated") === "true";
-        } catch (e) {
-            return false;
-        }
-    }
-
-    // ==========================================================================
-    // 5. 카테고리 탭 배지 숫자 및 스타일 동기화
-    // ==========================================================================
-    function updateCategoryTabBadges(list, activeCategory) {
-        var countAll = list.length;
-        var countEcom = list.filter(function (item) { return item.category === 'ecommerce'; }).length;
-        var countFood = list.filter(function (item) { return item.category === 'food'; }).length;
-        var countManu = list.filter(function (item) { return item.category === 'manu'; }).length;
-
-        var tabMap = {
-            'all': { btn: document.getElementById('ref-tab-all'), count: countAll },
-            'ecommerce': { btn: document.getElementById('ref-tab-ecommerce'), count: countEcom },
-            'food': { btn: document.getElementById('ref-tab-food'), count: countFood },
-            'manu': { btn: document.getElementById('ref-tab-manu'), count: countManu }
-        };
-
-        Object.keys(tabMap).forEach(function (catKey) {
-            var item = tabMap[catKey];
-            var btn = item.btn;
-            if (!btn) return;
-
-            // 뱃지 숫자 텍스트 갱신
-            var badge = btn.querySelector('.ref-tab-badge');
-            if (badge) {
-                badge.textContent = item.count;
-            }
-
-            // 활성 탭 스타일 업데이트
-            if (catKey === activeCategory) {
-                btn.className = 'ref-filter-tab px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 shadow-md bg-gradient-to-r from-blue-600 to-cyan-600 text-white ring-2 ring-blue-400 cursor-pointer';
-                if (badge) {
-                    badge.className = 'ref-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white';
-                }
-            } else {
-                btn.className = 'ref-filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer';
-                if (badge) {
-                    badge.className = 'ref-tab-badge ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200';
-                }
-            }
-        });
-    }
-
-    // ==========================================================================
-    // 6. 상단 관리자 컨트롤 바 렌더링
-    // ==========================================================================
-    function renderReferenceAdminControlBar(isAdmin) {
-        var barContainer = document.getElementById('reference-admin-control-bar');
-        if (!barContainer) return;
-
-        if (isAdmin) {
-            barContainer.innerHTML = [
-                '<div class="flex flex-wrap items-center justify-between gap-3 p-4 mb-8 bg-blue-50/90 border border-blue-200 rounded-2xl shadow-sm">',
-                '  <div class="flex items-center gap-3">',
-                '    <div class="w-10 h-10 rounded-xl bg-white text-blue-600 flex items-center justify-center text-lg font-bold border border-blue-200 shadow-sm">',
-                '      <i class="fa-solid fa-layer-group"></i>',
-                '    </div>',
-                '    <div>',
-                '      <div class="flex items-center gap-2">',
-                '        <h5 class="text-sm font-extrabold text-slate-900">주요 구축 실적 관리자 모드</h5>',
-                '        <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold">인증됨</span>',
-                '      </div>',
-                '      <p class="text-xs text-slate-600 mt-0.5">새로운 레퍼런스를 등록하거나 각 실적 카드의 수정/삭제 버튼을 눌러 내용을 편집할 수 있습니다. 수정한 내용은 브라우저에 영구 저장됩니다.</p>',
-                '    </div>',
-                '  </div>',
-                '  <div class="flex flex-wrap items-center gap-2">',
-                '    <button type="button" onclick="window.ReferenceAdmin.openCreateModal()" class="min-h-[38px] px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md transition-all cursor-pointer">',
-                '      <i class="fa-solid fa-plus"></i> 새 레퍼런스 등록',
-                '    </button>',
-                '    <button type="button" onclick="window.ReferenceAdmin.exportJson()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="현재 웹에서 수정한 전체 실적 데이터를 JSON 파일로 다운로드">',
-                '      <i class="fa-solid fa-download text-blue-600"></i> 백업 다운로드',
-                '    </button>',
-                '    <button type="button" onclick="window.ReferenceAdmin.importJson()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="백업된 JSON 파일을 불러와 동기화">',
-                '      <i class="fa-solid fa-upload text-cyan-600"></i> 데이터 가져오기',
-                '    </button>',
-                '    <button type="button" onclick="window.ReferenceAdmin.copyJsCode()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="로컬 자바스크립트 파일에 붙여넣을 코드 복사">',
-                '      <i class="fa-solid fa-copy text-amber-600"></i> 로컬코드 복사',
-                '    </button>',
-                '    <button type="button" onclick="window.ReferenceAdmin.resetToDefault()" class="min-h-[38px] px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-200 shadow-sm transition-colors flex items-center gap-1 cursor-pointer" title="최초 기본 데이터 복원">',
-                '      <i class="fa-solid fa-rotate-left text-slate-500"></i> 기본값 복원',
-                '    </button>',
-                '    <button type="button" onclick="window.ReferenceAdmin.triggerLogout()" class="min-h-[38px] px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs transition-colors flex items-center gap-1 cursor-pointer">',
-                '      <i class="fa-solid fa-right-from-bracket text-red-400"></i> 로그아웃',
-                '    </button>',
-                '  </div>',
-                '</div>'
-            ].join('');
-            barContainer.classList.remove('hidden');
-        } else {
-            // 미로그인 상태: 관리자 로그인 링크 노출
-            barContainer.innerHTML = [
-                '<div class="flex justify-end mb-4">',
-                '  <button type="button" onclick="window.ReferenceAdmin.triggerLoginModal()" class="text-xs text-slate-500 hover:text-blue-600 flex items-center gap-1.5 transition-colors cursor-pointer px-3 py-1.5 rounded-lg hover:bg-slate-100 border border-slate-200">',
-                '    <i class="fa-solid fa-lock text-[10px]"></i> 관리자 로그인',
-                '  </button>',
-                '</div>'
-            ].join('');
-            barContainer.classList.remove('hidden');
-        }
-    }
-
-    // ==========================================================================
-    // 7. 레퍼런스 카드 렌더링 (renderReferencesCards)
-    // ==========================================================================
-    function renderReferencesCards(category) {
-        if (category) {
-            currentFilterCategory = category;
-        } else {
-            category = currentFilterCategory;
-        }
-
-        var container = document.getElementById('reference-cards-grid');
-        if (!container) return;
-
-        var fullList = getReferencesList();
-        var isAdmin = isUserAdmin();
-
-        // 현재 활성화된 언어 및 사전 추출
-        var curLang = window.currentLanguage || (function () {
-            try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
-        })();
-        if (curLang === 'zh') curLang = 'cn';
-        var dict = (window.i18nData && window.i18nData[curLang]) || {};
-
-        // 상단 관리자 컨트롤 패널 업데이트
-        renderReferenceAdminControlBar(isAdmin);
-
-        // 상단 카테고리 탭 뱃지 및 스타일 동기화
-        updateCategoryTabBadges(fullList, category);
-
-        // 카테고리 필터링
-        var displayList = fullList;
-        if (category && category !== 'all') {
-            displayList = fullList.filter(function (item) {
-                return item.category === category;
-            });
-        }
-
-        if (displayList.length === 0) {
-            container.innerHTML = [
-                '<div class="col-span-1 md:col-span-2 lg:col-span-3 p-12 text-center rounded-2xl bg-[#0D1629] border border-slate-800">',
-                '  <i class="fa-solid fa-folder-open text-3xl text-slate-600 mb-3 block"></i>',
-                '  <p class="text-slate-400 text-sm">해당 카테고리에 등록된 구축 실적이 없습니다.</p>',
-                isAdmin ? '  <button type="button" onclick="window.ReferenceAdmin.openCreateModal()" class="mt-4 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"><i class="fa-solid fa-plus"></i> 이 카테고리에 새 실적 등록하기</button>' : '',
-                '</div>'
-            ].join('');
+        var videoEl = document.getElementById("ref-yt-main-video");
+        if (!videoEl) {
+            renderYoutubeSection();
             return;
         }
 
-        var html = '';
+        // 1) 가운데 비디오 플레이어 소스 및 포스터 교체
+        delete videoEl.dataset.triedRaw;
+        delete videoEl.dataset.triedFallback;
+        videoEl.setAttribute("data-raw-src", activeVid.src || "");
+        videoEl.setAttribute("data-fallback-src", activeVid.fallbackSrc || "");
+        if (activeVid.thumb) {
+            videoEl.poster = safeUrl(activeVid.thumb);
+        } else {
+            videoEl.removeAttribute("poster");
+        }
+        videoEl.src = safeUrl(activeVid.src);
+        videoEl.load();
 
-        displayList.forEach(function (card) {
-            // 카테고리별 배지 스타일 및 라벨 (다국어 지원)
-            var catBadgeBg = 'bg-blue-600/90';
-            var catIcon = 'fa-cart-shopping';
-            var catLabel = dict.ref_badge_ecom || '이커머스 / 유통';
-
-            if (card.category === 'food') {
-                catBadgeBg = 'bg-cyan-600/90';
-                catIcon = 'fa-snowflake';
-                catLabel = dict.ref_badge_food || '식음료 / 콜드체인';
-            } else if (card.category === 'manu') {
-                catBadgeBg = 'bg-slate-800 border border-slate-700';
-                catIcon = 'fa-industry';
-                catLabel = dict.ref_badge_manu || '제조 / 자동차';
+        if (shouldAutoPlay) {
+            var playPromise = videoEl.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(function () {});
             }
+        }
 
-            var fallbackUrl = card.fallbackUrl || 'Conveyors & ADD-Ons.jpg';
+        // 2) 가운데 하단 텍스트 정보 교체
+        var folderEl = document.getElementById("ref-yt-active-folder");
+        var counterEl = document.getElementById("ref-yt-active-counter");
+        var clipEl = document.getElementById("ref-yt-active-clip");
+        var titleEl = document.getElementById("ref-yt-active-title");
+        var descEl = document.getElementById("ref-yt-active-desc");
+        var badgeEl = document.getElementById("ref-yt-playlist-badge");
 
-            // 다국어 텍스트 매핑 (초기 기본 7개 구축 실적의 경우 i18n 번역 우선 적용)
-            var displayTitle = (dict[card.id + '_title']) || card.title || '구축 실적';
-            var displayDesc = (dict[card.id + '_desc']) || card.description || '';
-            var displayField = (dict[card.id + '_field']) || card.field || '물류 자동화';
-            var displaySubBadge = (dict[card.id + '_subbadge']) || card.subBadge || '';
-            var labelLarger = dict.ref_view_larger || '확대보기';
-            var labelField = dict.ref_field_label || '구축 분야';
+        if (folderEl) folderEl.innerHTML = '<i class="fa-brands fa-youtube"></i> ' + escapeHtml(activeVid.folder);
+        if (counterEl) counterEl.textContent = "영상 순서: " + (currentVideoIndex + 1) + " / " + currentVideoList.length;
+        if (clipEl) clipEl.textContent = activeVid.clipCode;
+        if (titleEl) titleEl.textContent = activeVid.title;
+        if (descEl) descEl.textContent = activeVid.desc;
+        if (badgeEl) badgeEl.textContent = (currentVideoIndex + 1) + " / " + currentVideoList.length;
 
-            html += '<div class="ref-card group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between" data-category="' + card.category + '" id="card-' + card.id + '">';
-
-            // 카드 상단 영역 (관리자 바 + 썸네일 + 본문)
-            html += '  <div>';
-
-            // 1. 관리자 모드인 경우: 카드 상단에 수정/삭제 액션 버튼 바 표시
-            if (isAdmin) {
-                html += '    <div class="flex items-center justify-between px-4 py-2.5 bg-blue-50 border-b border-blue-100 text-xs">';
-                html += '      <span class="font-bold text-blue-800 flex items-center gap-1.5">';
-                html += '        <i class="fa-solid fa-gear text-blue-600"></i> 실적 관리';
-                html += '      </span>';
-                html += '      <div class="flex items-center gap-1.5">';
-                html += '        <button type="button" onclick="window.ReferenceAdmin.openEditModal(\'' + card.id + '\')" class="px-2.5 py-1 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-semibold transition-colors flex items-center gap-1 shadow-sm cursor-pointer">';
-                html += '          <i class="fa-solid fa-pen-to-square"></i> 수정';
-                html += '        </button>';
-                html += '        <button type="button" onclick="window.ReferenceAdmin.deleteCard(\'' + card.id + '\')" class="px-2.5 py-1 rounded bg-rose-600/80 hover:bg-rose-500 text-white font-semibold transition-colors flex items-center gap-1 shadow-sm cursor-pointer">';
-                html += '          <i class="fa-solid fa-trash-can"></i> 삭제';
-                html += '        </button>';
-                html += '      </div>';
-                html += '    </div>';
+        // 3) 우측 썸네일 리스트 하이라이트 업데이트 및 자동 스크롤
+        currentVideoList.forEach(function (v, idx) {
+            var itemEl = document.getElementById("ref-yt-playlist-item-" + idx);
+            if (!itemEl) return;
+            var isPlaying = (idx === currentVideoIndex);
+            itemEl.className = "ref-yt-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer " + (
+                isPlaying
+                    ? "bg-blue-950/90 border-cyan-400 ring-2 ring-cyan-400/50 shadow-md"
+                    : "bg-slate-900/90 hover:bg-slate-800/90 border-slate-800"
+            );
+            var tEl = itemEl.querySelector(".ref-yt-thumb-title");
+            if (tEl) {
+                tEl.className = "ref-yt-thumb-title text-xs sm:text-[13px] font-bold " + (isPlaying ? "text-cyan-300" : "text-white group-hover:text-cyan-200") + " line-clamp-2 leading-snug mb-1";
             }
-
-            // 2. 썸네일 이미지 영역
-            // [무한루프 방지] fallbackUrl 안전 처리 및 onerror 2중 차단 로직 적용
-            var fallbackUrl = card.fallbackUrl || 'assets/images/no-image.svg';
-            if (fallbackUrl.indexOf('unsplash.com') !== -1) {
-                fallbackUrl = 'assets/images/no-image.svg';
+            var bEl = itemEl.querySelector(".ref-yt-thumb-badge");
+            if (bEl) {
+                bEl.outerHTML = isPlaying
+                    ? '<span class="ref-yt-thumb-badge px-2 py-0.5 rounded bg-red-600 text-white text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow"><i class="fa-solid fa-volume-high animate-pulse"></i> 재생중</span>'
+                    : '<div class="ref-yt-thumb-badge w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center group-hover:bg-red-600 transition-colors shadow"><i class="fa-solid fa-play text-xs ml-0.5"></i></div>';
             }
-            var safeImg = card.imageUrl ? card.imageUrl.replace(/'/g, "\\'") : fallbackUrl;
-            var safeTitle = displayTitle ? displayTitle.replace(/'/g, "\\'") : "구축 실적 이미지";
-
-            html += '    <div class="aspect-video bg-slate-950 relative overflow-hidden cursor-pointer" onclick="openImageModal(\'' + safeImg + '\', \'' + safeTitle + '\')">';
-            html += '      <img src="' + card.imageUrl + '" onerror="this.onerror=null; this.removeAttribute(\'onerror\'); this.src=\'' + fallbackUrl + '\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="' + safeTitle + '">';
-            html += '      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>';
-            
-            // 좌측 상단 카테고리 배지
-            var catI18nKey = card.category === 'food' ? 'ref_badge_food' : (card.category === 'manu' ? 'ref_badge_manu' : 'ref_badge_ecom');
-            html += '      <span class="absolute top-3 left-3 ' + catBadgeBg + ' text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">';
-            html += '        <i class="fa-solid ' + catIcon + ' text-[10px]"></i> <span data-i18n="' + catI18nKey + '">' + catLabel + '</span>';
-            html += '      </span>';
-
-            // 우측 하단 확대보기 안내 배지
-            html += '      <span class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">';
-            html += '        <i class="fa-solid fa-expand text-[10px]"></i> <span data-i18n="ref_view_larger">' + labelLarger + '</span>';
-            html += '      </span>';
-            html += '    </div>';
-
-            // 3. 카드 본문 콘텐츠
-            html += '    <div class="p-6">';
-
-            // 특화 서브 뱃지가 있을 경우 표시
-            if (displaySubBadge && displaySubBadge.trim().length > 0) {
-                var subBadgeColor = 'bg-blue-50 text-blue-700 border-blue-200';
-                if (card.category === 'food') {
-                    subBadgeColor = 'bg-sky-50 text-sky-700 border-sky-200';
-                } else if (card.category === 'manu') {
-                    subBadgeColor = 'bg-amber-50 text-amber-700 border-amber-200';
-                }
-                var subBadgeI18nAttr = dict[card.id + '_subbadge'] ? ' data-i18n="' + card.id + '_subbadge"' : '';
-                html += '      <div class="flex items-center gap-2 mb-2">';
-                html += '        <span class="text-xs font-bold px-2 py-0.5 ' + subBadgeColor + ' border rounded"' + subBadgeI18nAttr + '>' + displaySubBadge + '</span>';
-                html += '      </div>';
-            }
-
-            // 실적 명칭
-            var titleI18nAttr = dict[card.id + '_title'] ? ' data-i18n="' + card.id + '_title"' : '';
-            html += '      <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors leading-snug cursor-pointer" onclick="openImageModal(\'' + safeImg + '\', \'' + safeTitle + '\')"' + titleI18nAttr + '>';
-            html += '        ' + displayTitle;
-            html += '      </h3>';
-
-            // 기술 태그 목록
-            if (Array.isArray(card.tags) && card.tags.length > 0) {
-                html += '      <div class="flex flex-wrap gap-1.5 mb-3">';
-                card.tags.forEach(function (tag, tIdx) {
-                    if (tag && tag.trim().length > 0) {
-                        var tagI18nKey = card.id + '_tag' + (tIdx + 1);
-                        var tagText = dict[tagI18nKey] || tag.trim();
-                        var tagI18nAttr = dict[tagI18nKey] ? ' data-i18n="' + tagI18nKey + '"' : '';
-                        html += '        <span class="text-[11px] font-semibold bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200"' + tagI18nAttr + '>' + tagText + '</span>';
-                    }
-                });
-                html += '      </div>';
-            }
-
-            // 상세 설명
-            var descI18nAttr = dict[card.id + '_desc'] ? ' data-i18n="' + card.id + '_desc"' : '';
-            html += '      <p class="text-sm text-slate-700 leading-relaxed"' + descI18nAttr + '>';
-            html += '        ' + displayDesc;
-            html += '      </p>';
-            html += '    </div>';
-
-            html += '  </div>';
-
-            // 4. 카드 하단: 구축 분야
-            var fieldI18nAttr = dict[card.id + '_field'] ? ' data-i18n="' + card.id + '_field"' : '';
-            html += '  <div class="px-6 py-4 bg-[#0A101D] border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">';
-            html += '    <span class="font-medium text-slate-500" data-i18n="ref_field_label">' + labelField + '</span>';
-            html += '    <span class="font-semibold text-cyan-400"' + fieldI18nAttr + '>' + displayField + '</span>';
-            html += '  </div>';
-
-            html += '</div>';
         });
 
-        container.innerHTML = html;
+        var activeItemEl = document.getElementById("ref-yt-playlist-item-" + currentVideoIndex);
+        var scrollContainer = document.getElementById("ref-yt-playlist-scroll");
+        if (activeItemEl && scrollContainer) {
+            var itemTop = activeItemEl.offsetTop - scrollContainer.offsetTop;
+            scrollContainer.scrollTo({
+                top: Math.max(0, itemTop - 80),
+                behavior: "smooth"
+            });
+        }
     }
 
     // ==========================================================================
-    // 8. 레퍼런스 등록 및 수정 모달 생성 및 제어
+    // 7. 섹션 2: 이미지 시어터 (동영상과 동일한 스타일! 가운데 메인 사진 + 우측 썸네일 표시)
     // ==========================================================================
+    function renderPhotoSection() {
+        var section = document.getElementById("ref-photo-section");
+        if (!section) return;
 
-    /**
-     * 레퍼런스 모달 DOM을 동적으로 보장합니다.
-     */
-    function ensureReferenceEditModal() {
-        var existing = document.getElementById('reference-admin-edit-modal');
-        if (existing) return existing;
+        if (!currentPhotoList || currentPhotoList.length === 0) {
+            section.innerHTML = "";
+            section.classList.add("hidden");
+            return;
+        }
 
-        var modal = document.createElement('div');
-        modal.id = 'reference-admin-edit-modal';
-        modal.className = 'fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4';
-        modal.onclick = function (e) {
-            if (e.target === modal) {
-                closeReferenceEditModal();
-            }
-        };
+        section.classList.remove("hidden");
+        if (currentPhotoIndex < 0 || currentPhotoIndex >= currentPhotoList.length) {
+            currentPhotoIndex = 0;
+        }
 
-        modal.innerHTML = [
-            '<div class="bg-white border border-slate-200 w-full max-w-2xl max-h-[92vh] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative flex flex-col text-slate-800" onclick="event.stopPropagation()">',
-            '  <!-- 모달 헤더 -->',
-            '  <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50 shrink-0">',
-            '    <div class="flex items-center gap-2.5">',
-            '      <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center border border-blue-200 shadow-sm">',
-            '        <i class="fa-solid fa-layer-group text-sm"></i>',
-            '      </span>',
-            '      <div>',
-            '        <h3 id="ref-modal-title" class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">',
-            '          새 레퍼런스 등록하기',
-            '        </h3>',
-            '        <p class="text-xs text-slate-500">구축 실적 정보 입력 및 실시간 저장</p>',
+        var activePhoto = currentPhotoList[currentPhotoIndex];
+        var mainImgSrc = safeUrl(activePhoto.src);
+
+        // 우측 이미지 썸네일 목록 생성 (동영상 재생목록과 동일한 스타일)
+        var photoPlaylistHtml = currentPhotoList.map(function (p, idx) {
+            var isViewing = (idx === currentPhotoIndex);
+            var itemBg = isViewing
+                ? "bg-blue-950/90 border-cyan-400 ring-2 ring-cyan-400/50 shadow-md"
+                : "bg-slate-900/90 hover:bg-slate-800/90 border-slate-800";
+            var thumbUrl = safeUrl(p.thumb || p.src);
+
+            return [
+                '<div id="ref-photo-playlist-item-' + idx + '" onclick="window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ')"',
+                '     class="ref-photo-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ' + itemBg + '">',
+                '  <!-- 우측 포토 썸네일 박스 -->',
+                '  <div class="w-32 sm:w-36 aspect-video rounded-lg overflow-hidden bg-slate-950 relative shrink-0 border border-slate-700/80">',
+                '    <img src="' + thumbUrl + '" data-raw-src="' + escapeHtml(p.thumb || p.src) + '" data-fallback-src="' + escapeHtml(p.fallbackThumb || p.src) + '" onerror="window.handleRefImgError(this)" loading="lazy" alt="' + escapeHtml(p.title) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">',
+                '    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors flex items-center justify-center">',
+                isViewing
+                    ? '      <span class="ref-photo-thumb-badge px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow"><i class="fa-solid fa-eye"></i> 표시중</span>'
+                    : '      <div class="ref-photo-thumb-badge w-8 h-8 rounded-full bg-black/65 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-blue-600 transition-all shadow"><i class="fa-solid fa-image text-xs"></i></div>',
+                '    </div>',
+                '    <span class="absolute bottom-1 right-1 bg-black/85 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">#' + String(idx + 1).padStart(2, "0") + '</span>',
+                '  </div>',
+                '  <!-- 우측 포토 텍스트 정보 -->',
+                '  <div class="flex-1 min-w-0 py-0.5">',
+                '    <div class="flex items-center gap-1.5 mb-1">',
+                '      <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">' + escapeHtml(p.folder) + '</span>',
+                '      <span class="text-[11px] text-slate-400 truncate">' + escapeHtml(p.clipCode) + '</span>',
+                '    </div>',
+                '    <h5 class="ref-photo-thumb-title text-xs sm:text-[13px] font-bold ' + (isViewing ? 'text-cyan-300' : 'text-white group-hover:text-cyan-200') + ' line-clamp-2 leading-snug mb-1">' + escapeHtml(p.title) + '</h5>',
+                '    <p class="text-[11px] text-slate-400 line-clamp-1">' + escapeHtml(p.desc) + '</p>',
+                '  </div>',
+                '</div>'
+            ].join("");
+        }).join("");
+
+        var isSlideshowRunning = Boolean(photoSlideshowTimer);
+
+        section.innerHTML = [
+            '<div class="space-y-5">',
+            '  <!-- 이미지 시어터 타이틀 헤더 -->',
+            '  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-4">',
+            '    <div>',
+            '      <div class="inline-flex items-center gap-2 text-blue-600 font-extrabold text-xs uppercase tracking-widest mb-1">',
+            '        <i class="fa-solid fa-images text-base"></i> YOUTUBE STYLE PHOTO THEATER',
             '      </div>',
+            '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">',
+            '        현장 포토 시어터 <span class="text-base sm:text-lg font-bold text-blue-600 ml-1">(총 ' + currentPhotoList.length + '장 · 가운데 이미지 보기 / 우측 썸네일 선택)</span>',
+            '      </h3>',
             '    </div>',
-            '    <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="text-slate-400 hover:text-slate-800 p-2 rounded-lg hover:bg-slate-200 text-lg leading-none cursor-pointer">',
-            '      <i class="fa-solid fa-xmark"></i>',
-            '    </button>',
+            '    <div class="flex flex-wrap items-center gap-2">',
+            '      <button type="button" id="ref-photo-slideshow-btn" onclick="window.ReferenceAdmin.togglePhotoSlideshow()" class="px-4 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ' + (isSlideshowRunning ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-600 border-slate-300') + '">',
+            '        <i class="fa-solid ' + (isSlideshowRunning ? 'fa-pause' : 'fa-play') + ' mr-1"></i> 자동 슬라이드쇼 ' + (isSlideshowRunning ? 'ON' : 'OFF'),
+            '      </button>',
+            '      <button type="button" onclick="window.ReferenceAdmin.prevPhoto()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-bold transition-all cursor-pointer"><i class="fa-solid fa-backward-step mr-1"></i> 이전 사진</button>',
+            '      <button type="button" onclick="window.ReferenceAdmin.nextPhoto()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold transition-all cursor-pointer">다음 사진 <i class="fa-solid fa-forward-step ml-1"></i></button>',
+            '    </div>',
             '  </div>',
-            '  <!-- 폼 본문 (스크롤) -->',
-            '  <form id="ref-edit-form" onsubmit="window.ReferenceAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">',
-            '    <input type="hidden" id="ref-edit-id" value="">',
-            '    <!-- 1행: 카테고리 구분 & 구축 분야명 (2열) -->',
-            '    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
-            '      <div>',
-            '        <label for="ref-edit-category" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '          카테고리 구분 <span class="text-cyan-400">*</span>',
-            '        </label>',
-            '        <select id="ref-edit-category" required class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all cursor-pointer">',
-            '          <option value="ecommerce">이커머스 / 유통 (Ecommerce)</option>',
-            '          <option value="food">식음료 / 콜드체인 (Food & ColdChain)</option>',
-            '          <option value="manu">제조 / 자동차 (Manufacturing & Auto)</option>',
-            '        </select>',
+
+            '  <!-- 이미지 시어터 본체 (동영상과 동일한 2단 구조! 가운데 8칸: 메인 사진 & 분석 멘트 / 우측 4칸: 이미지 썸네일 목록) -->',
+            '  <div id="ref-photo-theater-box" class="bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
+            '    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">',
+            '      <!-- [가운데 메인 영역 (8칸)] 고화질 메인 이미지 뷰어 및 분석 해설 -->',
+            '      <div class="lg:col-span-8 flex flex-col justify-between space-y-4">',
+            '        <div class="w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner group flex items-center justify-center">',
+            '          <img id="ref-photo-main-img"',
+            '               src="' + mainImgSrc + '"',
+            '               data-raw-src="' + escapeHtml(activePhoto.src) + '"',
+            '               data-fallback-src="' + escapeHtml(activePhoto.fallbackSrc || '') + '"',
+            '               onerror="window.handleRefImgError(this)"',
+            '               onclick="window.ReferenceAdmin.openLightbox()"',
+            '               alt="' + escapeHtml(activePhoto.title) + '"',
+            '               class="w-full h-full object-contain bg-black cursor-zoom-in transition-transform duration-300">',
+            '          <!-- 좌우 이전/다음 오버레이 화살표 버튼 -->',
+            currentPhotoList.length > 1 ? [
+                '          <button type="button" onclick="window.ReferenceAdmin.prevPhoto()" title="이전 사진" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/65 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg">',
+                '            <i class="fa-solid fa-chevron-left"></i>',
+                '          </button>',
+                '          <button type="button" onclick="window.ReferenceAdmin.nextPhoto()" title="다음 사진" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/65 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg">',
+                '            <i class="fa-solid fa-chevron-right"></i>',
+                '          </button>'
+            ].join("") : '',
+            '          <!-- 우측 상단 전체화면 라이트박스 확대 버튼 -->',
+            '          <button type="button" onclick="window.ReferenceAdmin.openLightbox()" class="absolute top-3 right-3 px-3.5 py-2 rounded-xl bg-black/75 hover:bg-blue-600 text-white text-xs font-bold border border-white/15 flex items-center gap-1.5 transition-all cursor-pointer shadow-lg">',
+            '            <i class="fa-solid fa-expand"></i> 전체화면 확대',
+            '          </button>',
+            '        </div>',
+
+            '        <!-- 현재 표시 중인 이미지 제목 및 엔지니어링 분석 해설 -->',
+            '        <div class="bg-slate-900/95 rounded-2xl p-4 sm:p-5 border border-slate-800 space-y-3">',
+            '          <div class="flex flex-wrap items-center justify-between gap-2">',
+            '            <div class="flex flex-wrap items-center gap-2">',
+            '              <span id="ref-photo-active-folder" class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-600 text-white flex items-center gap-1.5">',
+            '                <i class="fa-solid fa-camera"></i> ' + escapeHtml(activePhoto.folder),
+            '              </span>',
+            '              <span id="ref-photo-active-counter" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-cyan-300 border border-slate-700">',
+            '                사진 순서: ' + (currentPhotoIndex + 1) + ' / ' + currentPhotoList.length,
+            '              </span>',
+            '              <span id="ref-photo-active-clip" class="text-xs text-slate-400 font-medium">',
+            '                ' + escapeHtml(activePhoto.clipCode),
+            '              </span>',
+            '            </div>',
+            '            <div class="flex items-center gap-2">',
+            '              <button type="button" onclick="window.ReferenceAdmin.prevPhoto()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-colors cursor-pointer"><i class="fa-solid fa-chevron-left mr-1"></i>이전 사진</button>',
+            '              <button type="button" onclick="window.ReferenceAdmin.nextPhoto()" class="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-colors cursor-pointer">다음 사진<i class="fa-solid fa-chevron-right ml-1"></i></button>',
+            '            </div>',
+            '          </div>',
+            '          <h4 id="ref-photo-active-title" class="text-lg sm:text-xl font-black text-white leading-snug">',
+            '            ' + escapeHtml(activePhoto.title),
+            '          </h4>',
+            '          <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800/90">',
+            '            <div class="text-[11px] font-bold text-cyan-400 mb-1 flex items-center gap-1.5">',
+            '              <i class="fa-solid fa-magnifying-glass-chart"></i> 현장 이미지 분석 멘트',
+            '            </div>',
+            '            <p id="ref-photo-active-desc" class="text-xs sm:text-sm text-slate-200 leading-relaxed">',
+            '              ' + escapeHtml(activePhoto.desc),
+            '            </p>',
+            '          </div>',
+            '        </div>',
             '      </div>',
-            '      <div>',
-            '        <label for="ref-edit-field" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '          구축 분야명 <span class="text-cyan-400">*</span>',
-            '        </label>',
-            '        <input type="text" id="ref-edit-field" required placeholder="예: 대형 풀필먼트 허브, 스마트 저온 물류" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">',
+
+            '      <!-- [우측 영역 (4칸)] 이미지 썸네일 목록 사이드바 -->',
+            '      <div class="lg:col-span-4 flex flex-col bg-slate-900/75 rounded-2xl border border-slate-800 overflow-hidden">',
+            '        <div class="p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">',
+            '          <div>',
+            '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2">',
+            '              <i class="fa-solid fa-images text-cyan-400"></i> 이미지 썸네일 목록',
+            '            </h4>',
+            '            <p class="text-[11px] text-slate-400 mt-0.5">우측 썸네일을 클릭하면 가운데에 크게 표시됩니다</p>',
+            '          </div>',
+            '          <span id="ref-photo-playlist-badge" class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">',
+            '            ' + (currentPhotoIndex + 1) + ' / ' + currentPhotoList.length,
+            '          </span>',
+            '        </div>',
+            '        <div id="ref-photo-playlist-scroll" class="p-3 space-y-2.5 max-h-[460px] lg:max-h-[560px] overflow-y-auto custom-scrollbar flex-1">',
+            photoPlaylistHtml,
+            '        </div>',
             '      </div>',
             '    </div>',
-            '    <!-- 2행: 실적 명칭 (제목) -->',
-            '    <div>',
-            '      <label for="ref-edit-title" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '        구축 실적 제목 <span class="text-cyan-400">*</span>',
-            '      </label>',
-            '      <input type="text" id="ref-edit-title" required placeholder="예: 국내 최대 이커머스 C사 메가 허브 터미널" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-bold">',
-            '    </div>',
-            '    <!-- 3행: 특화 서브 뱃지 & 정렬 순서 -->',
-            '    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
-            '      <div>',
-            '        <label for="ref-edit-subbadge" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '          상단 특화 뱃지 <span class="text-slate-500 font-normal">(선택 사항)</span>',
-            '        </label>',
-            '        <input type="text" id="ref-edit-subbadge" placeholder="예: 영하 20℃ 냉동창고, 2차전지 배터리" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">',
-            '      </div>',
-            '      <div>',
-            '        <label for="ref-edit-order" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '          정렬 순서 <span class="text-slate-500 font-normal">(숫자가 작을수록 앞에 표시)</span>',
-            '        </label>',
-            '        <input type="number" id="ref-edit-order" value="1" min="1" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">',
-            '      </div>',
-            '    </div>',
-            '    <!-- 4행: 대표 이미지 경로/파일명 -->',
-            '    <div>',
-            '      <label for="ref-edit-image" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '        대표 이미지 파일명 또는 웹 이미지 URL <span class="text-cyan-400">*</span>',
-            '      </label>',
-            '      <input type="text" id="ref-edit-image" required placeholder="예: Conveyors & ADD-Ons.jpg 또는 assets/images/no-image.svg" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-mono text-xs">',
-            '      <p class="text-[11px] text-slate-500 mt-1">프로젝트 폴더 내 이미지 파일명을 적으시거나 외부 이미지 웹 링크(URL)를 입력하실 수 있습니다.</p>',
-            '    </div>',
-            '    <!-- 5행: 기술 태그 (쉼표로 구분) -->',
-            '    <div>',
-            '      <label for="ref-edit-tags" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '        적용 기술 태그 <span class="text-slate-500 font-normal">(쉼표로 구분하여 여러 개 입력)</span>',
-            '      </label>',
-            '      <input type="text" id="ref-edit-tags" placeholder="예: Cross Belt Sorter, WCS, 텔레스코픽, AGV" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">',
-            '    </div>',
-            '    <!-- 6행: 상세 설명 (Textarea) -->',
-            '    <div>',
-            '      <label for="ref-edit-desc" class="block text-xs font-semibold text-slate-700 mb-1.5">',
-            '        구축 내용 상세 설명 <span class="text-cyan-400">*</span>',
-            '      </label>',
-            '      <textarea id="ref-edit-desc" rows="4" required placeholder="구축된 시스템의 규모, 처리 물동량, 도입 효과 등 상세 내용을 입력해 주세요." class="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-xs sm:text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all resize-y leading-relaxed"></textarea>',
-            '    </div>',
-            '    <!-- 모달 푸터 버튼 -->',
-            '    <div class="pt-3 border-t border-slate-200 flex items-center justify-end gap-2.5 bg-slate-50 -mx-6 -mb-6 p-4 rounded-b-2xl">',
-            '      <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer">',
-            '        취소',
-            '      </button>',
-            '      <button type="submit" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/25 flex items-center gap-2 cursor-pointer border border-cyan-400/30">',
-            '        <i class="fa-solid fa-check"></i>',
-            '        <span>레퍼런스 저장 완료</span>',
-            '      </button>',
-            '    </div>',
-            '  </form>',
+            '  </div>',
             '</div>'
-        ].join('');
+        ].join("");
+    }
+
+    // 깜빡임 없이 가운데 메인 이미지와 우측 썸네일 활성 상태만 즉시 갱신
+    function updateActivePhotoUI() {
+        if (!currentPhotoList || currentPhotoList.length === 0) return;
+        var activePhoto = currentPhotoList[currentPhotoIndex];
+        if (!activePhoto) return;
+
+        var imgEl = document.getElementById("ref-photo-main-img");
+        if (!imgEl) {
+            renderPhotoSection();
+            return;
+        }
+
+        // 1) 가운데 메인 이미지 교체
+        delete imgEl.dataset.triedRaw;
+        delete imgEl.dataset.triedFallback;
+        imgEl.setAttribute("data-raw-src", activePhoto.src || "");
+        imgEl.setAttribute("data-fallback-src", activePhoto.fallbackSrc || "");
+        imgEl.src = safeUrl(activePhoto.src);
+        imgEl.alt = activePhoto.title || "";
+
+        // 2) 가운데 하단 텍스트 정보 교체
+        var folderEl = document.getElementById("ref-photo-active-folder");
+        var counterEl = document.getElementById("ref-photo-active-counter");
+        var clipEl = document.getElementById("ref-photo-active-clip");
+        var titleEl = document.getElementById("ref-photo-active-title");
+        var descEl = document.getElementById("ref-photo-active-desc");
+        var badgeEl = document.getElementById("ref-photo-playlist-badge");
+
+        if (folderEl) folderEl.innerHTML = '<i class="fa-solid fa-camera"></i> ' + escapeHtml(activePhoto.folder);
+        if (counterEl) counterEl.textContent = "사진 순서: " + (currentPhotoIndex + 1) + " / " + currentPhotoList.length;
+        if (clipEl) clipEl.textContent = activePhoto.clipCode;
+        if (titleEl) titleEl.textContent = activePhoto.title;
+        if (descEl) descEl.textContent = activePhoto.desc;
+        if (badgeEl) badgeEl.textContent = (currentPhotoIndex + 1) + " / " + currentPhotoList.length;
+
+        // 3) 우측 이미지 썸네일 리스트 하이라이트 업데이트 및 자동 스크롤
+        currentPhotoList.forEach(function (p, idx) {
+            var itemEl = document.getElementById("ref-photo-playlist-item-" + idx);
+            if (!itemEl) return;
+            var isViewing = (idx === currentPhotoIndex);
+            itemEl.className = "ref-photo-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer " + (
+                isViewing
+                    ? "bg-blue-950/90 border-cyan-400 ring-2 ring-cyan-400/50 shadow-md"
+                    : "bg-slate-900/90 hover:bg-slate-800/90 border-slate-800"
+            );
+            var tEl = itemEl.querySelector(".ref-photo-thumb-title");
+            if (tEl) {
+                tEl.className = "ref-photo-thumb-title text-xs sm:text-[13px] font-bold " + (isViewing ? "text-cyan-300" : "text-white group-hover:text-cyan-200") + " line-clamp-2 leading-snug mb-1";
+            }
+            var bEl = itemEl.querySelector(".ref-photo-thumb-badge");
+            if (bEl) {
+                bEl.outerHTML = isViewing
+                    ? '<span class="ref-photo-thumb-badge px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow"><i class="fa-solid fa-eye"></i> 표시중</span>'
+                    : '<div class="ref-photo-thumb-badge w-8 h-8 rounded-full bg-black/65 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-blue-600 transition-all shadow"><i class="fa-solid fa-image text-xs"></i></div>';
+            }
+        });
+
+        var activeItemEl = document.getElementById("ref-photo-playlist-item-" + currentPhotoIndex);
+        var scrollContainer = document.getElementById("ref-photo-playlist-scroll");
+        if (activeItemEl && scrollContainer) {
+            var itemTop = activeItemEl.offsetTop - scrollContainer.offsetTop;
+            scrollContainer.scrollTo({
+                top: Math.max(0, itemTop - 80),
+                behavior: "smooth"
+            });
+        }
+    }
+
+    // ==========================================================================
+    // 8. 풀스크린 고해상도 포토 라이트박스 모달 제어
+    // ==========================================================================
+    function ensureLightboxModalExists() {
+        if (document.getElementById("ref-gallery-lightbox")) return;
+
+        var modal = document.createElement("div");
+        modal.id = "ref-gallery-lightbox";
+        modal.className = "fixed inset-0 z-[10050] bg-black/95 backdrop-blur-md hidden flex-col justify-between p-4 sm:p-6 select-none";
+        modal.innerHTML = [
+            '<!-- 상단 바 -->',
+            '<div class="flex items-center justify-between max-w-7xl w-full mx-auto text-white z-10">',
+            '  <div class="flex items-center gap-2.5">',
+            '    <span id="ref-lb-folder" class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-600 text-white">폴더</span>',
+            '    <span id="ref-lb-counter" class="text-xs sm:text-sm font-bold text-slate-300">1 / 1</span>',
+            '  </div>',
+            '  <button type="button" onclick="window.ReferenceAdmin.closeLightbox()" class="w-11 h-11 rounded-full bg-white/10 hover:bg-red-600 text-white flex items-center justify-center text-lg transition-colors cursor-pointer">',
+            '    <i class="fa-solid fa-xmark"></i>',
+            '  </button>',
+            '</div>',
+
+            '<!-- 중앙 이미지 및 좌우 네비게이션 -->',
+            '<div class="relative flex-1 flex items-center justify-center max-w-7xl w-full mx-auto my-2 overflow-hidden">',
+            '  <button type="button" onclick="window.ReferenceAdmin.prevLightboxPhoto()" class="absolute left-2 sm:left-4 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95">',
+            '    <i class="fa-solid fa-chevron-left text-base sm:text-lg"></i>',
+            '  </button>',
+            '  <img id="ref-lb-img" src="" onerror="window.handleRefImgError(this)" alt="고해상도 현장 사진" class="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl border border-white/10 transition-all duration-200">',
+            '  <button type="button" onclick="window.ReferenceAdmin.nextLightboxPhoto()" class="absolute right-2 sm:right-4 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95">',
+            '    <i class="fa-solid fa-chevron-right text-base sm:text-lg"></i>',
+            '  </button>',
+            '</div>',
+
+            '<!-- 하단 분석 멘트 캡션 -->',
+            '<div class="max-w-4xl w-full mx-auto bg-slate-900/90 border border-slate-700/80 rounded-2xl p-4 sm:p-5 text-white z-10">',
+            '  <h4 id="ref-lb-title" class="text-base sm:text-lg font-extrabold text-cyan-300 mb-1"></h4>',
+            '  <p id="ref-lb-desc" class="text-xs sm:text-sm text-slate-200 leading-relaxed"></p>',
+            '</div>'
+        ].join("");
+
+        modal.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                window.ReferenceAdmin.closeLightbox();
+            }
+        });
 
         document.body.appendChild(modal);
-        return modal;
-    }
 
-    /**
-     * 레퍼런스 작성/수정 모달 열기
-     */
-    function openReferenceEditModal(refId) {
-        var modal = ensureReferenceEditModal();
-        var titleEl = document.getElementById('ref-modal-title');
-        var form = document.getElementById('ref-edit-form');
-        if (form) form.reset();
-
-        var idInput = document.getElementById('ref-edit-id');
-        var catSelect = document.getElementById('ref-edit-category');
-        var fieldInput = document.getElementById('ref-edit-field');
-        var titleInput = document.getElementById('ref-edit-title');
-        var subbadgeInput = document.getElementById('ref-edit-subbadge');
-        var orderInput = document.getElementById('ref-edit-order');
-        var imgInput = document.getElementById('ref-edit-image');
-        var tagsInput = document.getElementById('ref-edit-tags');
-        var descInput = document.getElementById('ref-edit-desc');
-
-        if (refId) {
-            // 수정 모드
-            var list = getReferencesList();
-            var target = null;
-            for (var i = 0; i < list.length; i++) {
-                if (list[i].id === refId) {
-                    target = list[i];
-                    break;
-                }
-            }
-
-            if (!target) {
-                alert("해당 레퍼런스 실적 정보를 찾을 수 없습니다.");
-                return;
-            }
-
-            if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-400"></i> 레퍼런스 실적 수정하기';
-            if (idInput) idInput.value = target.id;
-            if (catSelect) catSelect.value = target.category || 'ecommerce';
-            if (fieldInput) fieldInput.value = target.field || '';
-            if (titleInput) titleInput.value = target.title || '';
-            if (subbadgeInput) subbadgeInput.value = target.subBadge || '';
-            if (orderInput) orderInput.value = target.sortOrder || 1;
-            if (imgInput) imgInput.value = target.imageUrl || '';
-            if (tagsInput) tagsInput.value = Array.isArray(target.tags) ? target.tags.join(', ') : '';
-            if (descInput) descInput.value = target.description || '';
-        } else {
-            // 신규 등록 모드
-            if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-plus text-cyan-400"></i> 새 레퍼런스 등록하기';
-            if (idInput) idInput.value = "";
-            if (catSelect) {
-                // 현재 선택된 카테고리가 'all'이 아니면 해당 카테고리를 기본 선택
-                catSelect.value = (currentFilterCategory && currentFilterCategory !== 'all') ? currentFilterCategory : 'ecommerce';
-            }
-            if (orderInput) {
-                var currentList = getReferencesList();
-                orderInput.value = currentList.length + 1;
-            }
-        }
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        setTimeout(function () {
-            if (titleInput) titleInput.focus();
-        }, 100);
-    }
-
-    /**
-     * 레퍼런스 모달 닫기
-     */
-    function closeReferenceEditModal() {
-        var modal = document.getElementById('reference-admin-edit-modal');
-        if (modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-    }
-
-    /**
-     * 레퍼런스 폼 제출 처리 (등록 또는 수정 저장)
-     */
-    function handleReferenceFormSubmit(e) {
-        if (e && e.preventDefault) e.preventDefault();
-
-        var idInput = document.getElementById('ref-edit-id');
-        var catSelect = document.getElementById('ref-edit-category');
-        var fieldInput = document.getElementById('ref-edit-field');
-        var titleInput = document.getElementById('ref-edit-title');
-        var subbadgeInput = document.getElementById('ref-edit-subbadge');
-        var orderInput = document.getElementById('ref-edit-order');
-        var imgInput = document.getElementById('ref-edit-image');
-        var tagsInput = document.getElementById('ref-edit-tags');
-        var descInput = document.getElementById('ref-edit-desc');
-
-        var editId = idInput ? idInput.value.trim() : "";
-        var category = catSelect ? catSelect.value : "ecommerce";
-        var field = fieldInput ? fieldInput.value.trim() : "";
-        var title = titleInput ? titleInput.value.trim() : "";
-        var subBadge = subbadgeInput ? subbadgeInput.value.trim() : "";
-        var sortOrder = orderInput ? parseInt(orderInput.value, 10) || 1 : 1;
-        var imageUrl = imgInput ? imgInput.value.trim() : "";
-        var tagsRaw = tagsInput ? tagsInput.value.trim() : "";
-        var description = descInput ? descInput.value.trim() : "";
-
-        if (!title) {
-            alert("구축 실적 제목을 입력해 주세요.");
-            return;
-        }
-        if (!imageUrl) {
-            alert("대표 이미지 경로 또는 웹 URL을 입력해 주세요.");
-            return;
-        }
-        if (!description) {
-            alert("구축 내용 상세 설명을 입력해 주세요.");
-            return;
-        }
-
-        // 태그 분리 및 정리
-        var tags = [];
-        if (tagsRaw) {
-            tags = tagsRaw.split(',').map(function (t) { return t.trim(); }).filter(function (t) { return t.length > 0; });
-        }
-
-        var list = getReferencesList();
-
-        if (editId) {
-            // 기존 실적 수정
-            var found = false;
-            for (var i = 0; i < list.length; i++) {
-                if (list[i].id === editId) {
-                    list[i].category = category;
-                    list[i].field = field;
-                    list[i].title = title;
-                    list[i].subBadge = subBadge;
-                    list[i].sortOrder = sortOrder;
-                    list[i].imageUrl = imageUrl;
-                    list[i].tags = tags;
-                    list[i].description = description;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                alert("수정할 실적을 찾지 못했습니다.");
-                return;
-            }
-        } else {
-            // 신규 실적 추가
-            var newId = "ref_" + Date.now();
-            var newCard = {
-                id: newId,
-                category: category,
-                field: field,
-                title: title,
-                subBadge: subBadge,
-                sortOrder: sortOrder,
-                imageUrl: imageUrl,
-                fallbackUrl: "assets/images/no-image.svg", // [안전성] 신규 생성 시 안전한 정적 에셋을 기본 fallback으로 설정
-                tags: tags,
-                description: description
-            };
-            list.push(newCard);
-        }
-
-        // 정렬 순서대로 재정렬
-        list.sort(function (a, b) {
-            return (a.sortOrder || 0) - (b.sortOrder || 0);
+        document.addEventListener("keydown", function (e) {
+            var lb = document.getElementById("ref-gallery-lightbox");
+            if (!lb || lb.classList.contains("hidden")) return;
+            if (e.key === "Escape") window.ReferenceAdmin.closeLightbox();
+            else if (e.key === "ArrowLeft") window.ReferenceAdmin.prevLightboxPhoto();
+            else if (e.key === "ArrowRight") window.ReferenceAdmin.nextLightboxPhoto();
         });
-
-        saveReferencesList(list);
-        closeReferenceEditModal();
-        renderReferencesCards(currentFilterCategory);
-
-        // GitHub 원격 저장소 동기화 연동
-        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
-            if (confirm((editId ? "레퍼런스 실적이 수정되었습니다!" : "새로운 레퍼런스 실적이 등록되었습니다!") + "\n\nGitHub 원격 저장소(main 브랜치)에도 지금 즉시 자동 반영(Push)하시겠습니까?")) {
-                window.GithubSync.syncAllToRemote(title + " 구축 실적 갱신");
-            }
-        } else {
-            alert(editId ? "레퍼런스 실적이 성공적으로 수정되었습니다.\n(다른 기기에서도 영구 유지하려면 관리자 센터의 [GitHub 연동 설정]에서 토큰을 등록해 주세요.)" : "새로운 레퍼런스 실적이 성공적으로 등록되었습니다!\n(다른 기기에서도 영구 유지하려면 관리자 센터의 [GitHub 연동 설정]에서 토큰을 등록해 주세요.)");
-        }
     }
 
-    /**
-     * 레퍼런스 실적 삭제
-     */
-    function deleteReferenceCard(refId) {
-        if (!confirm("이 레퍼런스 실적을 정말 삭제하시겠습니까?\n삭제된 내용은 복구할 수 없습니다.")) {
-            return;
+    function updateLightboxContent() {
+        ensureLightboxModalExists();
+        if (!currentPhotoList || currentPhotoList.length === 0) return;
+        if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotoList.length - 1;
+        if (currentPhotoIndex >= currentPhotoList.length) currentPhotoIndex = 0;
+
+        var item = currentPhotoList[currentPhotoIndex];
+        var imgEl = document.getElementById("ref-lb-img");
+        var folderEl = document.getElementById("ref-lb-folder");
+        var counterEl = document.getElementById("ref-lb-counter");
+        var titleEl = document.getElementById("ref-lb-title");
+        var descEl = document.getElementById("ref-lb-desc");
+
+        if (imgEl) {
+            delete imgEl.dataset.triedRaw;
+            delete imgEl.dataset.triedFallback;
+            imgEl.setAttribute("data-raw-src", item.src || "");
+            imgEl.setAttribute("data-fallback-src", item.fallbackSrc || "");
+            imgEl.src = safeUrl(item.src);
         }
-
-        var list = getReferencesList();
-        var targetItem = list.find(function (item) { return item.id === refId; });
-        var targetTitle = targetItem ? targetItem.title : "실적";
-
-        var nextList = list.filter(function (item) {
-            return item.id !== refId;
-        });
-
-        saveReferencesList(nextList);
-        renderReferencesCards(currentFilterCategory);
-
-        // GitHub 원격 저장소 동기화 연동
-        if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
-            if (confirm("[" + targetTitle + "] 실적이 삭제되었습니다.\n\nGitHub 원격 저장소(main 브랜치)에도 즉시 반영(Push)하시겠습니까?")) {
-                window.GithubSync.syncAllToRemote("[" + targetTitle + "] 구축 실적 삭제");
-            }
-        } else {
-            alert("레퍼런스 실적이 삭제되었습니다.");
-        }
+        if (folderEl) folderEl.textContent = item.folder;
+        if (counterEl) counterEl.textContent = (currentPhotoIndex + 1) + " / " + currentPhotoList.length;
+        if (titleEl) titleEl.textContent = item.title;
+        if (descEl) descEl.textContent = item.desc;
     }
 
     // ==========================================================================
-    // 9. 전역 API 노출 (window.ReferenceAdmin)
+    // 9. 전체 레퍼런스 페이지 통합 렌더링 함수
+    // ==========================================================================
+    function renderReferenceGallery(category) {
+        if (category) {
+            currentCategory = category;
+        }
+
+        if (photoSlideshowTimer) {
+            clearInterval(photoSlideshowTimer);
+            photoSlideshowTimer = null;
+        }
+
+        var mediaData = getFilteredMedia(currentCategory);
+        currentVideoList = mediaData.videos || [];
+        currentPhotoList = mediaData.photos || [];
+        currentVideoIndex = 0;
+        currentPhotoIndex = 0;
+
+        renderCategoryTabs();
+        renderCategoryBriefing(mediaData);
+        renderYoutubeSection();
+        renderPhotoSection();
+    }
+
+    // ==========================================================================
+    // 10. 외부 제어 인터페이스 노출 (window.ReferenceAdmin & window.filterReference)
     // ==========================================================================
     window.ReferenceAdmin = {
-        render: renderReferencesCards,
-        getData: getReferencesList, // GitHub 동기화 표준 API
-        setData: saveReferencesList, // GitHub 동기화 표준 API
-        openCreateModal: function () {
-            openReferenceEditModal(null);
+        render: function (cat) {
+            renderReferenceGallery(cat || currentCategory || "all");
         },
-        openEditModal: function (refId) {
-            openReferenceEditModal(refId);
+        getData: function () {
+            return REFERENCE_GALLERY_DB;
         },
-        closeEditModal: closeReferenceEditModal,
-        handleFormSubmit: handleReferenceFormSubmit,
-        deleteCard: deleteReferenceCard,
-        resetToDefault: resetReferencesData,
-        exportJson: exportReferencesToJson,
-        importJson: importReferencesFromJson,
-        copyJsCode: copyReferencesJsCode,
-        triggerLoginModal: function () {
-            if (typeof window.openAdminLoginModal === 'function') {
-                window.openAdminLoginModal();
-            } else if (typeof window.openAdminModal === 'function') {
-                window.openAdminModal();
-            } else {
-                alert("관리자 로그인은 페이지 하단 관리자 메뉴를 이용해 주세요.");
+        setData: function () {},
+        // 동영상 제어 (우측 썸네일 클릭 시 가운데 영상 재생)
+        playVideoAtIndex: function (idx) {
+            if (!currentVideoList || idx < 0 || idx >= currentVideoList.length) return;
+            currentVideoIndex = idx;
+            updateActiveVideoUI(true);
+        },
+        prevVideo: function () {
+            if (!currentVideoList || currentVideoList.length === 0) return;
+            currentVideoIndex = (currentVideoIndex - 1 + currentVideoList.length) % currentVideoList.length;
+            updateActiveVideoUI(true);
+        },
+        nextVideo: function () {
+            if (!currentVideoList || currentVideoList.length === 0) return;
+            currentVideoIndex = (currentVideoIndex + 1) % currentVideoList.length;
+            updateActiveVideoUI(true);
+        },
+        toggleAutoPlay: function () {
+            autoPlayNextVideo = !autoPlayNextVideo;
+            var btn = document.getElementById("ref-yt-autoplay-btn");
+            if (btn) {
+                btn.className = "px-4 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer " + (autoPlayNextVideo ? "bg-red-600 text-white border-red-600 shadow-sm" : "bg-white text-slate-600 border-slate-300");
+                btn.innerHTML = '<i class="fa-solid ' + (autoPlayNextVideo ? 'fa-toggle-on text-white' : 'fa-toggle-off') + ' mr-1 text-sm"></i> 연속 자동재생 ' + (autoPlayNextVideo ? 'ON' : 'OFF');
             }
         },
-        triggerLogout: function () {
-            if (window.AdminAuth && typeof window.AdminAuth.logout === 'function') {
-                window.AdminAuth.logout();
+        // 이미지 제어 (우측 썸네일 클릭 시 가운데 이미지 전환)
+        selectPhotoAtIndex: function (idx) {
+            if (!currentPhotoList || idx < 0 || idx >= currentPhotoList.length) return;
+            currentPhotoIndex = idx;
+            updateActivePhotoUI();
+        },
+        prevPhoto: function () {
+            if (!currentPhotoList || currentPhotoList.length === 0) return;
+            currentPhotoIndex = (currentPhotoIndex - 1 + currentPhotoList.length) % currentPhotoList.length;
+            updateActivePhotoUI();
+        },
+        nextPhoto: function () {
+            if (!currentPhotoList || currentPhotoList.length === 0) return;
+            currentPhotoIndex = (currentPhotoIndex + 1) % currentPhotoList.length;
+            updateActivePhotoUI();
+        },
+        togglePhotoSlideshow: function () {
+            if (photoSlideshowTimer) {
+                clearInterval(photoSlideshowTimer);
+                photoSlideshowTimer = null;
             } else {
-                sessionStorage.removeItem("ata_admin_authenticated");
+                photoSlideshowTimer = setInterval(function () {
+                    window.ReferenceAdmin.nextPhoto();
+                }, 3500);
             }
-            if (typeof window.refreshAdminUIState === 'function') {
-                window.refreshAdminUIState();
-            } else {
-                renderReferencesCards(currentFilterCategory);
+            var btn = document.getElementById("ref-photo-slideshow-btn");
+            var isRunning = Boolean(photoSlideshowTimer);
+            if (btn) {
+                btn.className = "px-4 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer " + (isRunning ? "bg-blue-600 text-white border-blue-600 shadow-sm" : "bg-white text-slate-600 border-slate-300");
+                btn.innerHTML = '<i class="fa-solid ' + (isRunning ? 'fa-pause' : 'fa-play') + ' mr-1"></i> 자동 슬라이드쇼 ' + (isRunning ? 'ON' : 'OFF');
             }
-            alert("관리자 세션에서 로그아웃되었습니다.");
+        },
+        openLightbox: function (idx) {
+            if (typeof idx === "number") {
+                currentPhotoIndex = idx;
+                updateActivePhotoUI();
+            }
+            updateLightboxContent();
+            var lb = document.getElementById("ref-gallery-lightbox");
+            if (lb) {
+                lb.classList.remove("hidden");
+                lb.classList.add("flex");
+                document.body.style.overflow = "hidden";
+            }
+        },
+        closeLightbox: function () {
+            var lb = document.getElementById("ref-gallery-lightbox");
+            if (lb) {
+                lb.classList.add("hidden");
+                lb.classList.remove("flex");
+                document.body.style.overflow = "";
+            }
+        },
+        prevLightboxPhoto: function () {
+            this.prevPhoto();
+            updateLightboxContent();
+        },
+        nextLightboxPhoto: function () {
+            this.nextPhoto();
+            updateLightboxContent();
+        },
+        scrollToSection: function (elementId) {
+            var el = document.getElementById(elementId);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
         }
     };
 
-    // 기존 filterReference 함수를 ReferenceAdmin과 상호 연동
-    var originalFilterReference = window.filterReference;
     window.filterReference = function (category) {
-        currentFilterCategory = category || 'all';
-        renderReferencesCards(currentFilterCategory);
-        if (typeof originalFilterReference === 'function') {
-            try {
-                originalFilterReference(category);
-            } catch (e) {
-                // 무시
-            }
-        }
+        renderReferenceGallery(category || "all");
     };
 
-    // DOM 로드 완료 시 초기 렌더링
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function () {
-            renderReferencesCards('all');
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+            renderReferenceGallery("all");
         });
     } else {
-        renderReferencesCards('all');
+        renderReferenceGallery("all");
     }
-
-    // 다른 탭이나 창에서 관리자 상태 또는 레퍼런스 데이터 변경 시 자동 동기화
-    window.addEventListener('storage', function (e) {
-        if (e.key === 'ata_admin_authenticated' || e.key === STORAGE_KEY_REFERENCES) {
-            renderReferencesCards(currentFilterCategory);
-        }
-    });
-
-    // 다국어 언어 변경 시 레퍼런스 실적 카드도 즉시 해당 언어로 동기화
-    window.addEventListener('languageChanged', function (e) {
-        renderReferencesCards(currentFilterCategory);
-    });
-
 })();
