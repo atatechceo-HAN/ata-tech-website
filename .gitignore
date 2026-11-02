@@ -20,4 +20,3 @@ service_account.json
 
 # 대용량 레퍼런스 로컬 미디어 폴더 제외
 assets/reference/
-node_modules/
