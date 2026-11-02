@@ -4917,13 +4917,13 @@
             imgEl.src = rawSrc;
             return;
         }
-        if (!imgEl.dataset.triedFallback && fbSrc) {
+        if (!imgEl.dataset.triedDrive && rawSrc && rawSrc.indexOf("assets/reference/") === 0) { imgEl.dataset.triedDrive = "1"; imgEl.src = safeUrl("../../A00. [ 주식회사 에이티에이기술 ]/■ 05. [ 주식회사 에이티에이기술 ] _ 제안서 및 제품소개서/[ Movie & Photo ]/" + rawSrc.substring(17)); return; } if (!imgEl.dataset.triedFallback && fbSrc) {
             imgEl.dataset.triedFallback = "1";
             imgEl.src = safeUrl(fbSrc);
             return;
         }
         imgEl.onerror = null;
-        imgEl.src = "assets/images/no-image.svg";
+        imgEl.src = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='360' viewBox='0 0 640 360'%3E%3Crect width='640' height='360' fill='%230f172a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2338bdf8' font-family='sans-serif' font-size='18' font-weight='bold'%3EATA TECHNOLOGY REFERENCE%3C/text%3E%3C/svg%3E";
     };
 
     // 비디오 로드 실패 시 인코딩 경로 -> 원본 경로 -> 폴백 경로 순으로 무결점 복구
@@ -4938,7 +4938,7 @@
             videoEl.load();
             return;
         }
-        if (!videoEl.dataset.triedFallback && fbSrc) {
+        if (!videoEl.dataset.triedDrive && rawSrc && rawSrc.indexOf("assets/reference/") === 0) { videoEl.dataset.triedDrive = "1"; videoEl.src = safeUrl("../../A00. [ 주식회사 에이티에이기술 ]/■ 05. [ 주식회사 에이티에이기술 ] _ 제안서 및 제품소개서/[ Movie & Photo ]/" + rawSrc.substring(17)); videoEl.load(); return; } if (!videoEl.dataset.triedFallback && fbSrc) {
             videoEl.dataset.triedFallback = "1";
             videoEl.src = safeUrl(fbSrc);
             videoEl.load();
@@ -5269,7 +5269,7 @@
         }
 
         // 1) 가운데 비디오 플레이어 소스 및 포스터 교체
-        delete videoEl.dataset.triedRaw;
+        delete videoEl.dataset.triedRaw; delete videoEl.dataset.triedDrive;
         delete videoEl.dataset.triedFallback;
         videoEl.setAttribute("data-raw-src", activeVid.src || "");
         videoEl.setAttribute("data-fallback-src", activeVid.fallbackSrc || "");
@@ -5512,7 +5512,7 @@
         }
 
         // 1) 가운데 메인 이미지 교체
-        delete imgEl.dataset.triedRaw;
+        delete imgEl.dataset.triedRaw; delete imgEl.dataset.triedDrive;
         delete imgEl.dataset.triedFallback;
         imgEl.setAttribute("data-raw-src", activePhoto.src || "");
         imgEl.setAttribute("data-fallback-src", activePhoto.fallbackSrc || "");
@@ -5637,7 +5637,7 @@
         var descEl = document.getElementById("ref-lb-desc");
 
         if (imgEl) {
-            delete imgEl.dataset.triedRaw;
+            delete imgEl.dataset.triedRaw; delete imgEl.dataset.triedDrive;
             delete imgEl.dataset.triedFallback;
             imgEl.setAttribute("data-raw-src", item.src || "");
             imgEl.setAttribute("data-fallback-src", item.fallbackSrc || "");
