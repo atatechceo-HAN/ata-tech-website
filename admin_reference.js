@@ -8,15 +8,166 @@
  *
  * [핵심 UI/UX 구조]:
  *   1. 6대 폴더('전경', 'CBS', 'NC CBS', 'NBS', 'Wheel Sorter', '틸트트레이소터')를 카테고리 탭으로 제공.
- *   2. [동영상 시어터]: 가운데(좌측 메인)에서 대형 영상을 재생하고, 우측에 스크롤 가능한 ' + tRef("vid_playlist") + '을 배치.
+ *   2. [동영상 시어터]: 가운데(좌측 메인)에서 대형 영상을 재생하고, 우측에 스크롤 가능한 '동영상 썸네일 목록'을 배치.
  *   3. [이미지 시어터]: 동영상과 완전히 동일한 스타일로, 가운데(좌측 메인)에 고해상도 이미지를 크게 표시하고
- *      우측에 스크롤 가능한 ' + tRef("pho_playlist") + '을 배치하여 클릭 즉시 가운데 이미지와 분석 해설이 전환됨.
+ *      우측에 스크롤 가능한 '이미지 썸네일 목록'을 배치하여 클릭 즉시 가운데 이미지와 분석 해설이 전환됨.
  *   4. 깜빡임 없는 부분 업데이트(DOM Partial Update)와 다중 경로 폴백(Fallback) 처리로 오류를 원천 차단.
  * ============================================================================
  */
 
 (function () {
     "use strict";
+
+    // ==========================================================================
+    // 1-1. 레퍼런스 4개국어(KO, EN, ZH, JA) 다국어 번역 사전
+    // ==========================================================================
+    var REF_I18N = {
+        "ko": {
+            "all_tab": "전체 보기",
+            "video_theater_title": "동영상 시어터",
+            "video_theater_sub": "(총 {count}편 · 가운데 영상 재생 / 우측 썸네일 선택)",
+            "photo_theater_title": "현장 포토 시어터",
+            "photo_theater_sub": "(총 {count}장 · 가운데 이미지 보기 / 우측 썸네일 선택)",
+            "autoplay_on": "연속 자동재생 ON",
+            "autoplay_off": "연속 자동재생 OFF",
+            "slideshow_on": "자동 슬라이드쇼 ON",
+            "slideshow_off": "자동 슬라이드쇼 OFF",
+            "prev_vid": "이전 영상",
+            "next_vid": "다음 영상",
+            "prev_pho": "이전 사진",
+            "next_pho": "다음 사진",
+            "vid_order": "영상 순서: {cur} / {total}",
+            "pho_order": "사진 순서: {cur} / {total}",
+            "vid_analysis": "현장 동영상 분석 멘트",
+            "pho_analysis": "현장 이미지 분석 멘트",
+            "vid_playlist": "동영상 썸네일 목록",
+            "vid_playlist_sub": "우측 썸네일을 클릭하면 가운데에서 재생됩니다",
+            "pho_playlist": "이미지 썸네일 목록",
+            "pho_playlist_sub": "우측 썸네일을 클릭하면 가운데에 크게 표시됩니다",
+            "playing": "재생중",
+            "showing": "표시중",
+            "zoom_fullscreen": "전체화면 확대",
+            "btn_go_vid": "동영상 시어터 바로가기 ({count})",
+            "btn_go_pho": "이미지 시어터 바로가기 ({count})",
+            "all_title": "전체 구축 실적 (All Reference)",
+            "all_subtitle": "스마트 물류 제조 거점 전경 및 5대 핵심 소터(CBS · NC CBS · NBS · Wheel Sorter · 틸트트레이소터) 종합 아카이브",
+            "all_overview": "주식회사 에이티에이기술의 대규모 스마트 물류 제조 거점 항공 전경부터 CBS, NC CBS, NBS, Wheel Sorter, 틸트트레이소터까지 실제 물류 현장에서 가동 중인 영상과 고화질 사진을 폴더별로 한눈에 확인하실 수 있습니다."
+        },
+        "en": {
+            "all_tab": "View All",
+            "video_theater_title": "Video Theater",
+            "video_theater_sub": "(Total {count} clips · Center player / Select playlist on right)",
+            "photo_theater_title": "On-Site Photo Theater",
+            "photo_theater_sub": "(Total {count} photos · Center viewer / Select gallery on right)",
+            "autoplay_on": "Auto-Play ON",
+            "autoplay_off": "Auto-Play OFF",
+            "slideshow_on": "SlideShow ON",
+            "slideshow_off": "SlideShow OFF",
+            "prev_vid": "Prev Video",
+            "next_vid": "Next Video",
+            "prev_pho": "Prev Photo",
+            "next_pho": "Next Photo",
+            "vid_order": "Video: {cur} / {total}",
+            "pho_order": "Photo: {cur} / {total}",
+            "vid_analysis": "Engineering Analysis Commentary",
+            "pho_analysis": "On-Site System Analysis Commentary",
+            "vid_playlist": "Video Playlist",
+            "vid_playlist_sub": "Click any thumbnail on the right to play in center",
+            "pho_playlist": "Photo Playlist",
+            "pho_playlist_sub": "Click any thumbnail on the right to view in center",
+            "playing": "PLAYING",
+            "showing": "VIEWING",
+            "zoom_fullscreen": "Fullscreen Zoom",
+            "btn_go_vid": "Jump to Video Theater ({count})",
+            "btn_go_pho": "Jump to Photo Theater ({count})",
+            "all_title": "Comprehensive Logistics Track Record",
+            "all_subtitle": "Aerial View of Smart Manufacturing Base & 5 Core Sorters (CBS, NC CBS, NBS, Wheel Sorter, Tilt Tray Sorter)",
+            "all_overview": "Explore ATA Technology's extensive smart logistics manufacturing campus and live operation clips & high-resolution photos of CBS, NC CBS, NBS, Wheel Sorter, and Tilt Tray Sorter systems deployed across global fulfillment centers."
+        },
+        "zh": {
+            "all_tab": "查看全部",
+            "video_theater_title": "视频剧场",
+            "video_theater_sub": "(共 {count} 部 · 中间播放 / 右侧缩略图选择)",
+            "photo_theater_title": "现场照片剧场",
+            "photo_theater_sub": "(共 {count} 张 · 中间展示 / 右侧画廊选择)",
+            "autoplay_on": "连续自动播放 开启",
+            "autoplay_off": "连续自动播放 关闭",
+            "slideshow_on": "自动幻灯片 开启",
+            "slideshow_off": "自动幻灯片 关闭",
+            "prev_vid": "上一部视频",
+            "next_vid": "下一部视频",
+            "prev_pho": "上一张照片",
+            "next_pho": "下一张照片",
+            "vid_order": "视频顺序: {cur} / {total}",
+            "pho_order": "照片顺序: {cur} / {total}",
+            "vid_analysis": "现场工程分析评注",
+            "pho_analysis": "现场系统分析评注",
+            "vid_playlist": "视频播放列表",
+            "vid_playlist_sub": "点击右侧缩略图即可在中间区域高清播放",
+            "pho_playlist": "照片画廊列表",
+            "pho_playlist_sub": "点击右侧缩略图即可在中间区域高清浏览",
+            "playing": "播放中",
+            "showing": "展示中",
+            "zoom_fullscreen": "全屏放大",
+            "btn_go_vid": "直达视频剧场 ({count})",
+            "btn_go_pho": "直达照片剧场 ({count})",
+            "all_title": "主要建设业绩综合归档 (All Reference)",
+            "all_subtitle": "智能物流制造基地全景及5大核心分拣机（CBS · NC CBS · NBS · 摆轮分拣机 · 斜盘分拣机）实绩",
+            "all_overview": "一览ATA技术大规模智能物流设备制造基地航拍全景及全球大型电商分拣中心实际运行的视频与高清现场实拍照片。"
+        },
+        "ja": {
+            "all_tab": "すべて表示",
+            "video_theater_title": "動画シアター",
+            "video_theater_sub": "(全 {count} 本 · 中央再生 / 右側サムネイル選択)",
+            "photo_theater_title": "現場フォトシアター",
+            "photo_theater_sub": "(全 {count} 枚 · 中央拡大 / 右側ギャラリー選択)",
+            "autoplay_on": "自動連続再生 ON",
+            "autoplay_off": "自動連続再生 OFF",
+            "slideshow_on": "スライドショー ON",
+            "slideshow_off": "スライドショー OFF",
+            "prev_vid": "前の動画",
+            "next_vid": "次の動画",
+            "prev_pho": "前の写真",
+            "next_pho": "次の写真",
+            "vid_order": "動画順序: {cur} / {total}",
+            "pho_order": "写真順序: {cur} / {total}",
+            "vid_analysis": "現場エンジニアリング解説",
+            "pho_analysis": "現場システム分析解説",
+            "vid_playlist": "動画プレイリスト",
+            "vid_playlist_sub": "右側のサムネイルをクリックすると中央で再生されます",
+            "pho_playlist": "画像ギャラリー一覧",
+            "pho_playlist_sub": "右側のサムネイルをクリックすると中央に大きく表示されます",
+            "playing": "再生中",
+            "showing": "表示中",
+            "zoom_fullscreen": "全画面拡大",
+            "btn_go_vid": "動画シアターへ移動 ({count})",
+            "btn_go_pho": "画像シアターへ移動 ({count})",
+            "all_title": "主要構築実績総合アーカイブ (All Reference)",
+            "all_subtitle": "スマート物流製造拠点全景および5大コアソーター（CBS・NC CBS・NBS・ホイールソーター・チルトトレイソーター）",
+            "all_overview": "ATAテクノロジーの大規模スマート物流製造拠点のドローン空撮全景から、CBS、NC CBS、NBS、ホイールソーター、チルトトレイソーターの現場実稼働映像と高解像度写真を網羅してご確認いただけます。"
+        }
+    };
+
+    function getRefLang() {
+        var lang = window.currentLanguage || (function () {
+            try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
+        })();
+        if (lang === 'cn') lang = 'zh';
+        return REF_I18N[lang] ? lang : 'ko';
+    }
+
+    function tRef(key, params) {
+        var lang = getRefLang();
+        var str = (REF_I18N[lang] && REF_I18N[lang][key]) || REF_I18N['ko'][key] || key;
+        if (params && typeof params === 'object') {
+            Object.keys(params).forEach(function (p) {
+                str = str.replace(new RegExp('\\\\{' + p + '\\\\}', 'g'), params[p]);
+            });
+        }
+        return str;
+    }
+
+
 
     // ==========================================================================
     // 1. 6대 폴더 순서 및 미디어/분석 멘트 통합 데이터베이스
@@ -4040,6 +4191,154 @@ var REFERENCE_GALLERY_DB = {
     // ==========================================================================
     // 9. 전체 레퍼런스 페이지 통합 렌더링 함수
     // ==========================================================================
+    
+    // ==========================================================================
+    // 8-1. 레퍼런스 관리자 CRUD 모달 및 데이터 영구 보존 엔진
+    // ==========================================================================
+    var STORAGE_KEY_CUSTOM_REF = "ata_reference_gallery_db_custom";
+
+    function loadCustomReferenceData() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY_CUSTOM_REF);
+            if (raw) {
+                var parsed = JSON.parse(raw);
+                if (parsed && typeof parsed === 'object') {
+                    FOLDER_ORDER.forEach(function (f) {
+                        if (parsed[f]) {
+                            REFERENCE_GALLERY_DB[f] = parsed[f];
+                        }
+                    });
+                }
+            }
+        } catch (e) {
+            console.warn("[ReferenceAdmin] 커스텀 데이터 로드 실패:", e);
+        }
+    }
+
+    function saveCustomReferenceData() {
+        try {
+            localStorage.setItem(STORAGE_KEY_CUSTOM_REF, JSON.stringify(REFERENCE_GALLERY_DB));
+            if (window.GithubSync && typeof window.GithubSync.syncAllToRemote === 'function') {
+                window.GithubSync.syncAllToRemote("레퍼런스(실적) 관리자 항목 갱신");
+            }
+        } catch (e) {
+            console.error("[ReferenceAdmin] 데이터 저장 실패:", e);
+        }
+    }
+
+    // 관리자 상단 제어 바 렌더링
+    function renderAdminControlBar() {
+        var bar = document.getElementById("reference-admin-control-bar");
+        if (!bar) return;
+
+        bar.innerHTML = [
+            '<div class="bg-white rounded-2xl p-4 border border-blue-200 shadow-sm flex flex-wrap items-center justify-between gap-3">',
+            '  <div class="flex items-center gap-2">',
+            '    <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow">',
+            '      <i class="fa-solid fa-screwdriver-wrench"></i>',
+            '    </span>',
+            '    <div>',
+            '      <h4 class="text-xs sm:text-sm font-extrabold text-slate-800">레퍼런스 실적 관리자 제어 바</h4>',
+            '      <p class="text-[11px] text-slate-500">6대 폴더별 동영상 및 사진 항목을 직접 추가, 수정, 삭제할 수 있습니다.</p>',
+            '    </div>',
+            '  </div>',
+            '  <div class="flex flex-wrap items-center gap-2">',
+            '    <button type="button" onclick="window.ReferenceAdmin.openCreateModal()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm transition-all cursor-pointer flex items-center gap-1.5">',
+            '      <i class="fa-solid fa-plus"></i> 신규 미디어 추가',
+            '    </button>',
+            '    <button type="button" onclick="window.ReferenceAdmin.exportJson()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-300 transition-all cursor-pointer flex items-center gap-1">',
+            '      <i class="fa-solid fa-download"></i> 백업(JSON)',
+            '    </button>',
+            '    <button type="button" onclick="window.ReferenceAdmin.importJson()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-300 transition-all cursor-pointer flex items-center gap-1">',
+            '      <i class="fa-solid fa-upload"></i> 복원',
+            '    </button>',
+            '    <button type="button" onclick="window.ReferenceAdmin.resetToDefault()" class="px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-semibold border border-rose-200 transition-all cursor-pointer flex items-center gap-1">',
+            '      <i class="fa-solid fa-rotate-left"></i> 기본값 복원',
+            '    </button>',
+            '  </div>',
+            '</div>'
+        ].join("");
+    }
+
+    // 신규 미디어 등록 / 기존 미디어 수정 모달 DOM 생성
+    function ensureEditModalExists() {
+        var existing = document.getElementById("ref-media-edit-modal");
+        if (existing) return existing;
+
+        var modal = document.createElement("div");
+        modal.id = "ref-media-edit-modal";
+        modal.className = "fixed inset-0 z-[10060] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 select-none";
+        modal.innerHTML = [
+            '<div class="bg-white rounded-3xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] text-slate-800" onclick="event.stopPropagation()">',
+            '  <!-- 모달 헤더 -->',
+            '  <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">',
+            '    <div class="flex items-center gap-2.5">',
+            '      <span class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-sm shadow"><i class="fa-solid fa-pen-to-square"></i></span>',
+            '      <h3 id="ref-modal-title" class="text-sm sm:text-base font-extrabold text-white">레퍼런스 미디어 항목 편집</h3>',
+            '    </div>',
+            '    <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="text-slate-400 hover:text-white p-1 text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>',
+            '  </div>',
+            '  <!-- 모달 폼 본문 -->',
+            '  <form id="ref-modal-form" onsubmit="window.ReferenceAdmin.handleFormSubmit(event)" class="p-6 space-y-4 overflow-y-auto custom-scrollbar text-xs">',
+            '    <input type="hidden" id="ref-form-mode" value="create">',
+            '    <input type="hidden" id="ref-form-item-id" value="">',
+            '    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">',
+            '      <div>',
+            '        <label class="block font-bold text-slate-700 mb-1">대상 폴더 카테고리 <span class="text-rose-500">*</span></label>',
+            '        <select id="ref-form-folder" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:ring-2 focus:ring-blue-500 text-xs">',
+            '          <option value="전경">전경</option>',
+            '          <option value="CBS">CBS</option>',
+            '          <option value="NC CBS">NC CBS</option>',
+            '          <option value="NBS">NBS</option>',
+            '          <option value="Wheel Sorter">Wheel Sorter</option>',
+            '          <option value="틸트트레이소터">틸트트레이소터</option>',
+            '        </select>',
+            '      </div>',
+            '      <div>',
+            '        <label class="block font-bold text-slate-700 mb-1">미디어 유형 <span class="text-rose-500">*</span></label>',
+            '        <select id="ref-form-type" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold focus:ring-2 focus:ring-blue-500 text-xs">',
+            '          <option value="video">동영상 (MP4)</option>',
+            '          <option value="photo">현장 사진 (JPG/PNG)</option>',
+            '        </select>',
+            '      </div>',
+            '    </div>',
+            '    <div>',
+            '      <label class="block font-bold text-slate-700 mb-1">미디어 파일 경로 (src) <span class="text-rose-500">*</span></label>',
+            '      <input type="text" id="ref-form-src" required placeholder="예: assets/reference/CBS/CBS (1).mp4" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-blue-500">',
+            '    </div>',
+            '    <div>',
+            '      <label class="block font-bold text-slate-700 mb-1">썸네일 이미지 경로 (thumb)</label>',
+            '      <input type="text" id="ref-form-thumb" placeholder="예: assets/reference/CBS/CBS (1).jpg" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-blue-500">',
+            '    </div>',
+            '    <div>',
+            '      <label class="block font-bold text-slate-700 mb-1">미디어 제목 (Title) <span class="text-rose-500">*</span></label>',
+            '      <input type="text" id="ref-form-title" required placeholder="현장 설비 명칭 및 공정 제목" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold focus:ring-2 focus:ring-blue-500">',
+            '    </div>',
+            '    <div>',
+            '      <label class="block font-bold text-slate-700 mb-1">현장 엔지니어링 분석 해설 (Description) <span class="text-rose-500">*</span></label>',
+            '      <textarea id="ref-form-desc" rows="3" required placeholder="설비의 주요 사양, 분류 속도, 현장 특장점 설명" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs leading-relaxed focus:ring-2 focus:ring-blue-500"></textarea>',
+            '    </div>',
+            '    <div>',
+            '      <label class="block font-bold text-slate-700 mb-1">검색 태그 (쉼표로 구분)</label>',
+            '      <input type="text" id="ref-form-tags" placeholder="스마트 팩토리, 고속 분류, 풀필먼트" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-500">',
+            '    </div>',
+            '    <!-- 하단 액션 버튼 -->',
+            '    <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-200">',
+            '      <button type="button" onclick="window.ReferenceAdmin.closeEditModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold cursor-pointer">취소</button>',
+            '      <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-check"></i> 저장 완료</button>',
+            '    </div>',
+            '  </form>',
+            '</div>'
+        ].join("");
+
+        modal.onclick = function (e) {
+            if (e.target === modal) window.ReferenceAdmin.closeEditModal();
+        };
+
+        document.body.appendChild(modal);
+        return modal;
+    }
+
     function renderReferenceGallery(category) {
         loadCustomReferenceData();
         renderAdminControlBar();
@@ -4075,6 +4374,184 @@ var REFERENCE_GALLERY_DB = {
         getData: function () {
             return REFERENCE_GALLERY_DB;
         },
+
+        openCreateModal: function () {
+            var modal = ensureEditModalExists();
+            document.getElementById("ref-modal-title").textContent = "신규 레퍼런스 미디어 등록";
+            document.getElementById("ref-form-mode").value = "create";
+            document.getElementById("ref-form-item-id").value = "";
+            document.getElementById("ref-form-folder").value = currentCategory === "all" ? "CBS" : currentCategory;
+            document.getElementById("ref-form-type").value = "video";
+            document.getElementById("ref-form-src").value = "";
+            document.getElementById("ref-form-thumb").value = "";
+            document.getElementById("ref-form-title").value = "";
+            document.getElementById("ref-form-desc").value = "";
+            document.getElementById("ref-form-tags").value = "";
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        },
+        openEditModal: function (id) {
+            var modal = ensureEditModalExists();
+            var targetItem = null;
+            var targetFolder = "";
+            var targetType = "";
+
+            FOLDER_ORDER.forEach(function (f) {
+                var d = REFERENCE_GALLERY_DB[f];
+                (d.videos || []).forEach(function (v) {
+                    if (v.id === id) { targetItem = v; targetFolder = f; targetType = "video"; }
+                });
+                (d.photos || []).forEach(function (p) {
+                    if (p.id === id) { targetItem = p; targetFolder = f; targetType = "photo"; }
+                });
+            });
+
+            if (!targetItem) {
+                alert("해당 항목을 찾을 수 없습니다.");
+                return;
+            }
+
+            document.getElementById("ref-modal-title").textContent = "레퍼런스 미디어 수정 (" + targetItem.clipCode + ")";
+            document.getElementById("ref-form-mode").value = "edit";
+            document.getElementById("ref-form-item-id").value = targetItem.id;
+            document.getElementById("ref-form-folder").value = targetFolder;
+            document.getElementById("ref-form-type").value = targetType;
+            document.getElementById("ref-form-src").value = targetItem.src || "";
+            document.getElementById("ref-form-thumb").value = targetItem.thumb || "";
+            document.getElementById("ref-form-title").value = targetItem.title || "";
+            document.getElementById("ref-form-desc").value = targetItem.desc || "";
+            document.getElementById("ref-form-tags").value = (targetItem.tags || []).join(", ");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        },
+        closeEditModal: function () {
+            var modal = document.getElementById("ref-media-edit-modal");
+            if (modal) {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+        },
+        handleFormSubmit: function (e) {
+            if (e && e.preventDefault) e.preventDefault();
+            var mode = document.getElementById("ref-form-mode").value;
+            var id = document.getElementById("ref-form-item-id").value;
+            var folder = document.getElementById("ref-form-folder").value;
+            var type = document.getElementById("ref-form-type").value;
+            var src = document.getElementById("ref-form-src").value.trim();
+            var thumb = document.getElementById("ref-form-thumb").value.trim() || src;
+            var title = document.getElementById("ref-form-title").value.trim();
+            var desc = document.getElementById("ref-form-desc").value.trim();
+            var tags = document.getElementById("ref-form-tags").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+
+            var folderData = REFERENCE_GALLERY_DB[folder];
+            if (!folderData) return;
+
+            if (mode === "create") {
+                var list = (type === "video") ? (folderData.videos = folderData.videos || []) : (folderData.photos = folderData.photos || []);
+                var newIndex = list.length + 1;
+                var newItem = {
+                    id: folder + "-" + (type === "video" ? "vid" : "pho") + "-" + Date.now(),
+                    folder: folder,
+                    index: newIndex,
+                    fileName: src.split("/").pop(),
+                    src: src,
+                    thumb: thumb,
+                    fallbackSrc: src,
+                    fallbackThumb: thumb,
+                    clipCode: folder + " " + (type === "video" ? "영상" : "현장포토") + " #" + String(newIndex).padStart(2, "0"),
+                    title: title,
+                    desc: desc,
+                    tags: tags
+                };
+                list.push(newItem);
+                if (type === "video") folderData.videoCount = list.length;
+                else folderData.photoCount = list.length;
+            } else {
+                var found = false;
+                ["videos", "photos"].forEach(function (listKey) {
+                    (folderData[listKey] || []).forEach(function (item) {
+                        if (item.id === id) {
+                            item.src = src;
+                            item.thumb = thumb;
+                            item.title = title;
+                            item.desc = desc;
+                            item.tags = tags;
+                            found = true;
+                        }
+                    });
+                });
+            }
+
+            saveCustomReferenceData();
+            this.closeEditModal();
+            renderReferenceGallery(folder);
+            alert("레퍼런스 항목이 성공적으로 저장되었습니다!");
+        },
+        deleteCard: function (id) {
+            if (!confirm("선택한 레퍼런스 항목을 삭제하시겠습니까?")) return;
+            var deleted = false;
+            FOLDER_ORDER.forEach(function (f) {
+                var d = REFERENCE_GALLERY_DB[f];
+                if (d.videos) {
+                    var vLen = d.videos.length;
+                    d.videos = d.videos.filter(function (v) { return v.id !== id; });
+                    if (d.videos.length !== vLen) { d.videoCount = d.videos.length; deleted = true; }
+                }
+                if (d.photos) {
+                    var pLen = d.photos.length;
+                    d.photos = d.photos.filter(function (p) { return p.id !== id; });
+                    if (d.photos.length !== pLen) { d.photoCount = d.photos.length; deleted = true; }
+                }
+            });
+            if (deleted) {
+                saveCustomReferenceData();
+                renderReferenceGallery(currentCategory);
+                alert("항목이 정상적으로 삭제되었습니다.");
+            }
+        },
+        exportJson: function () {
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(REFERENCE_GALLERY_DB, null, 2));
+            var a = document.createElement("a");
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", "ata_reference_backup_" + Date.now() + ".json");
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        },
+        importJson: function () {
+            var input = document.createElement("input");
+            input.type = "file";
+            input.accept = ".json";
+            input.onchange = function (e) {
+                var file = e.target.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    try {
+                        var parsed = JSON.parse(evt.target.result);
+                        if (parsed && typeof parsed === "object") {
+                            FOLDER_ORDER.forEach(function (f) {
+                                if (parsed[f]) REFERENCE_GALLERY_DB[f] = parsed[f];
+                            });
+                            saveCustomReferenceData();
+                            renderReferenceGallery("all");
+                            alert("레퍼런스 데이터가 성공적으로 복원되었습니다!");
+                        }
+                    } catch (err) {
+                        alert("올바르지 않은 JSON 파일입니다.");
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        },
+        resetToDefault: function () {
+            if (confirm("모든 커스텀 레퍼런스 설정을 초기화하고 기본 데이터로 되돌리시겠습니까?")) {
+                localStorage.removeItem(STORAGE_KEY_CUSTOM_REF);
+                location.reload();
+            }
+        },
+
         setData: function () {},
         // 동영상 제어 (우측 썸네일 클릭 시 가운데 영상 재생)
         playVideoAtIndex: function (idx) {
