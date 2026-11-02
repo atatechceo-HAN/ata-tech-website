@@ -956,7 +956,7 @@
                     <a href="#" onclick="navigate('solutions'); return false;"
                         class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_solution" class="whitespace-nowrap">SOLUTION</span> <i
+                        <span data-i18n="nav_solution" class="whitespace-nowrap">솔루션 (제품라인업)</span> <i
                             class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
@@ -1035,13 +1035,7 @@
 
 
 
-                <!-- 3-2. 제품 라인업 (PRODUCT LINEUP) -->
-                <div class="h-full flex items-center shrink-0">
-                    <a href="#" onclick="navigate('product-lineup'); return false;"
-                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-semibold whitespace-nowrap py-1">
-                        <span data-i18n="nav_product_lineup" class="whitespace-nowrap">제품 라인업</span>
-                    </a>
-                </div>
+                <!-- 3-2. 제품 라인업은 솔루션 (제품라인업)으로 통합 관리됨 -->
 
                 <!-- 4. REFERENCE (하위 메뉴 통합 단일 메인 메뉴) -->
 
@@ -1058,14 +1052,14 @@
 
 
 
-                <!-- 5. 중국지사_제조사 -->
+                <!-- 5. 중국법인_제조 -->
 
                 <div class="relative group h-full flex items-center shrink-0">
 
                     <a href="#" onclick="navigate('xingting-intro'); return false;"
                         class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_china" class="whitespace-nowrap">중국지사(제조사)</span> <i
+                        <span data-i18n="nav_china" class="whitespace-nowrap">중국법인 (제조)</span> <i
                             class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
@@ -1088,7 +1082,7 @@
                                 <div
                                     class="font-bold text-sm text-slate-900 group-hover/item:text-blue-600 transition-colors">
 
-                                    <span data-i18n="nav_china_intro">중국지사(제조사) 소개</span>
+                                    <span data-i18n="nav_china_intro">중국법인 (제조) 소개</span>
                                 </div>
 
                                 <div class="text-xs text-slate-500 truncate" data-i18n="nav_china_intro_sub">글로벌 하드웨어 제조
@@ -1453,7 +1447,7 @@
                     <div
                         class="text-slate-900 font-bold text-lg mb-3 border-b border-slate-200 pb-2 flex items-center justify-between">
 
-                        <span data-i18n="nav_solution">SOLUTION</span>
+                        <span data-i18n="nav_solution">솔루션 (제품라인업)</span>
 
                         <span class="text-xs text-slate-500 font-normal" data-i18n="nav_sub_solutions">자동화 라인업</span>
 
@@ -1555,20 +1549,7 @@
 
 
 
-                <div>
-                    <a href="javascript:void(0)" onclick="navigate('product-lineup'); toggleMobileMenu(false);"
-                        class="min-h-[44px] flex items-center justify-between text-slate-900 font-bold text-lg border-b border-slate-200 pb-2 hover:text-blue-600 active:text-blue-600 transition-colors cursor-pointer">
-                        <span data-i18n="nav_product_lineup">제품 라인업</span>
-                        <i class="fa-solid fa-angle-right text-xs text-blue-600"></i>
-                    </a>
-                    <div class="flex flex-col space-y-1.5 pl-1 pt-2">
-                        <a href="javascript:void(0)"
-                            onclick="navigate('product-lineup', 'all'); toggleMobileMenu(false);"
-                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer">
-                            <span data-i18n="lineup_heading">제품 라인업 전체 보기</span>
-                        </a>
-                    </div>
-                </div>
+                <!-- 모바일 제품 라인업 메뉴 항목 삭제 완료 -->
 
                 <div>
                     <a href="javascript:void(0)" onclick="navigate('reference'); toggleMobileMenu(false);"
@@ -1594,9 +1575,9 @@
                     <div
                         class="text-slate-900 font-bold text-lg mb-3 border-b border-slate-200 pb-2 flex items-center justify-between">
 
-                        <span data-i18n="nav_china">중국지사(제조사)</span>
+                        <span data-i18n="nav_china">중국법인 (제조)</span>
 
-                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_china_badge">중국지사(제조사)</span>
+                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_china_badge">중국법인 (제조)</span>
 
                     </div>
 
@@ -1604,7 +1585,7 @@
 
                         <a href="javascript:void(0)" onclick="navigate('xingting-intro'); toggleMobileMenu(false);"
                             class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"
-                            data-i18n="nav_china_intro">중국지사(제조사) 소개</a>
+                            data-i18n="nav_china_intro">중국법인 (제조) 소개</a>
 
                         <a href="javascript:void(0)" onclick="navigate('xingting-coop'); toggleMobileMenu(false);"
                             class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer">
@@ -3921,7 +3902,7 @@
 
 
 
-    <!-- 중국지사_제조사: 소개 -->
+    <!-- 중국법인_제조: 소개 -->
 
     <div id="view-xingting-intro" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
 
@@ -3937,17 +3918,17 @@
                         data-i18n="china_intro_badge">GLOBAL PARTNERSHIP & MANUFACTURING BASE</span>
 
                     <h2 class="text-4xl font-extrabold mb-6 leading-tight" data-i18n="china_intro_title">글로벌 물류 로보틱스
-                        선도기업,<br><span class="text-blue-900 font-extrabold">중국지사(제조사)</span></h2>
+                        선도기업,<br><span class="text-blue-900 font-extrabold">중국법인 (제조)</span></h2>
 
                     <p class="text-slate-700 text-lg leading-relaxed mb-6" data-i18n="china_intro_p1">
 
-                        중국지사(제조사)는 전 세계 최고 수준의 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.
+                        중국법인 (제조)는 전 세계 최고 수준의 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.
 
                     </p>
 
                     <p class="text-slate-600 leading-relaxed mb-8" data-i18n="china_intro_p2">
 
-                        (주)에이티에이기술은 중국지사(제조사)와의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어
+                        (주)에이티에이기술은 중국법인 (제조)와의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어
 
                         알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.
 
@@ -3979,7 +3960,7 @@
                 <div class="w-full lg:w-1/2 relative fade-in delay-100">
 
                     <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative z-10 group cursor-pointer bg-slate-100"
-                        onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png', '중국지사(제조사) 글로벌 네트워크 맵')">
+                        onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png', '중국법인 (제조) 글로벌 네트워크 맵')">
 
                         <img src="[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png"
                             onerror="this.onerror=null; this.src='assets/images/no-image.svg';"
@@ -4009,13 +3990,43 @@
 
 
 
-        </div>
+        
+            <!-- 중국법인 (제조) 스마트 제조·R&D 거점 항공 전경 사진 -->
+            <div class="mt-12 fade-in">
+                <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md overflow-hidden">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-600 text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-industry"></i> 중국법인 (제조) 생산 및 R&D 거점 전경
+                            </span>
+                            <span class="text-xs text-slate-500 font-medium">스마트 물류 제조 기지 항공 드론 촬영</span>
+                        </div>
+                        <span class="text-xs text-blue-600 font-semibold cursor-pointer hover:underline" onclick="openImageModal('assets/reference/전경/Image_20261028160029_29_105.jpg', '중국법인 (제조) 스마트 제조 및 R&D 거점 항공 전경')">
+                            <i class="fa-solid fa-expand mr-1"></i>고화질 원본 확대보기
+                        </span>
+                    </div>
+                    <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-inner border border-slate-200 relative group cursor-pointer bg-slate-950 flex items-center justify-center"
+                        onclick="openImageModal('assets/reference/전경/Image_20261028160029_29_105.jpg', '중국법인 (제조) 스마트 제조 및 R&D 거점 항공 전경')">
+                        <img src="assets/reference/전경/Image_20261028160029_29_105.jpg"
+                            onerror="this.onerror=null; this.src='[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg';"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            alt="중국법인 (제조) 스마트 제조 및 R&D 거점 항공 전경">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                            <span class="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-full font-bold shadow flex items-center gap-1.5">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 고화질 전경 사진 확대보기
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-4">
+                        태양광 친환경 루프탑 설비가 완비된 대규모 스마트 물류 장비 제조·조립 단지 및 R&D 실증 테스트 센터의 드론 항공 촬영 전경입니다. 대형 소터, 고속 인덕션 라인부터 자율주행 로봇(AGV/AMR)까지 정밀 가공 및 사전 시운전(FAT)을 원스톱으로 수행하는 핵심 제조 기지입니다.
+                    </p>
+                </div>
+            </div>
 
+        </div>
     </div>
 
-
-
-    <!-- 중국지사_제조사: 협력사업 -->
+    <!-- 중국법인_제조: 협력사업 -->
     <div id="view-xingting-coop" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
@@ -4024,7 +4035,7 @@
                     Business</span>
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4" data-i18n="china_coop_title">에이티에이기술
                     ✕
-                    중국지사(제조사) 주요 협력사업</h2>
+                    중국법인 (제조) 주요 협력사업</h2>
                 <p class="text-slate-600 leading-relaxed" data-i18n="china_coop_desc">
                     독점적 기술 제휴와 현지화 전략을 바탕으로 추진 중인 3대 핵심 협력 프로젝트입니다.<br class="hidden sm:inline">
                     각 카드의 인포그래픽 이미지를 클릭하시면 고화질 원본으로 확대하여 확인하실 수 있습니다.
@@ -4062,7 +4073,7 @@
                                 융합
                                 R&D</h3>
                             <p class="text-slate-600 leading-relaxed text-sm mb-4" data-i18n="china_coop_1_desc">
-                                중국지사(제조사)의 검증된 고정밀 하드웨어 메커니즘에 에이티에이기술의 한국형 물류 환경 맞춤형 WCS(관제 소프트웨어) 로직을 심는 차세대 공동 기술 개발을
+                                중국법인 (제조)의 검증된 고정밀 하드웨어 메커니즘에 에이티에이기술의 한국형 물류 환경 맞춤형 WCS(관제 소프트웨어) 로직을 심는 차세대 공동 기술 개발을
                                 진행합니다.
                             </p>
                         </div>
@@ -4169,7 +4180,7 @@
 
 
 
-    <!-- 중국지사_제조사: 글로벌 네트워크 -->
+    <!-- 중국법인_제조: 글로벌 네트워크 -->
 
     <div id="view-xingting-global" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
 
@@ -4279,7 +4290,7 @@
                         <div>
 
                             <h4 class="font-bold text-slate-900 text-base" data-i18n="china_global_base2_title">
-                                중국지사(제조사)
+                                중국법인 (제조)
                             </h4>
 
                             <p class="text-xs text-slate-600 mt-1" data-i18n="china_global_base2_desc">로보틱스 하드웨어 전문 설계,
@@ -4634,7 +4645,7 @@
                         <li><a href="javascript:void(0)" onclick="navigate('main', 'solution');"
                                 class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
-                                    data-i18n="nav_solution">SOLUTION</span></a></li>
+                                    data-i18n="nav_solution">솔루션 (제품라인업)</span></a></li>
 
                         <li><a href="javascript:void(0)" onclick="navigate('reference');"
                                 class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
@@ -4644,7 +4655,7 @@
                         <li><a href="javascript:void(0)" onclick="navigate('xingting-intro');"
                                 class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
                                     class="fa-solid fa-angle-right text-xs mr-2 text-blue-600"></i><span
-                                    data-i18n="nav_china">중국지사(제조사)</span></a></li>
+                                    data-i18n="nav_china">중국법인 (제조)</span></a></li>
 
                         <li><a href="javascript:void(0)" onclick="navigate('notice');"
                                 class="hover:text-blue-600 transition-colors flex items-center text-slate-700 min-h-[44px] py-2 px-2 -mx-2 rounded-lg active:bg-blue-50/80 cursor-pointer"><i
@@ -5902,7 +5913,7 @@
 
             if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') || q.includes('파트너')) {
 
-                return '**중국지사(제조사) 파트너십**\n- **역할**: 글로벌 자율주행 물류 로봇(AGV/AMR) 및 셔틀 하드웨어 양산 거점\n- **3대 협력사업**: H/W-S/W 융합 공동 R&D, 국내 대형 풀필먼트 공동 수주, 국내 24시간 로컬라이징 및 A/S 전담 센터 운영';
+                return '**중국법인 (제조) 파트너십**\n- **역할**: 글로벌 자율주행 물류 로봇(AGV/AMR) 및 셔틀 하드웨어 양산 거점\n- **3대 협력사업**: H/W-S/W 융합 공동 R&D, 국내 대형 풀필먼트 공동 수주, 국내 24시간 로컬라이징 및 A/S 전담 센터 운영';
 
             }
 
@@ -5980,7 +5991,7 @@
 
             const systemPrompt = `당신은 주식회사 에이티에이기술의 전문적인 AI 솔루션 어시스턴트입니다. 
 
-우리는 물류 자동화 솔루션 기업이며 취급 솔루션은 스마트 적재함, Shuttle AS/RS, AGV & AMR, Sorters, Robots, WCS, Conveyors 등입니다. 파트너사로 중국지사(제조사)가 있습니다. 
+우리는 물류 자동화 솔루션 기업이며 취급 솔루션은 스마트 적재함, Shuttle AS/RS, AGV & AMR, Sorters, Robots, WCS, Conveyors 등입니다. 파트너사로 중국법인 (제조)가 있습니다. 
 
 목표: 고객 질문에 친절하고, 가독성 높은 짧은 한국어로 응답하세요. 긴 답변은 피하고 불릿 포인트를 활용하세요.`;
 
