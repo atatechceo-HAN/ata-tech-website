@@ -24,3 +24,5 @@ assets/reference/
 # Exclude files larger than 25MB for Cloudflare Pages
 "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_8.mp4"
 [ Insert Data ]/[ Movie & Photo ]/CBS/CBS_8.mp4
+
+**/CBS_8.mp4
