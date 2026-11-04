@@ -1052,115 +1052,60 @@
 
 
 
-                <!-- 5. 중국법인_?�조 -->
-
+                <!-- 5. 한중 합자법인 (제조사) -->
                 <div class="relative group h-full flex items-center shrink-0">
-
-                    if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') ||
-                    q.includes('파트너')) {
-                    class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap
-                    py-1">
-
-                    <span data-i18n="nav_china" class="whitespace-nowrap">중국법인 (?�조)</span> <i
-                        class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
-
+                    <a href="#" onclick="navigate('china'); return false;"
+                        class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
+                        <span data-i18n="nav_china" class="whitespace-nowrap">한중 합자법인 (제조사)</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
                     </a>
-
-                    <div
-                        class="dropdown-menu absolute top-full left-0 w-80 bg-white text-slate-700 border border-slate-200 border-t-2 border-t-blue-600 shadow-2xl rounded-b-xl overflow-hidden p-2">
-
-                        if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') ||
-                        q.includes('파트너')) {
-                        class="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50/70 hover:text-blue-600
-                        transition-colors border-b border-slate-200/80 group/item">
-
-                        <div
-                            class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-200">
-
-                            <i class="fa-solid fa-building-flag text-lg"></i>
-
-                        </div>
-
-                        <div class="flex-1 min-w-0">
-
-                            <div
-                                class="font-bold text-sm text-slate-900 group-hover/item:text-blue-600 transition-colors">
-
-                                <span data-i18n="nav_china_intro">중국법인 (?�조) ?�개</span>
+                    <div class="dropdown-menu absolute top-full left-0 w-80 bg-white text-slate-700 border border-slate-200 border-t-2 border-t-blue-600 shadow-2xl rounded-b-xl overflow-hidden p-2">
+                        <a href="#" onclick="navigate('china', 'china-intro'); return false;"
+                            class="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50/70 hover:text-blue-600 transition-colors border-b border-slate-200/80 group/item">
+                            <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-200">
+                                <i class="fa-solid fa-building-flag text-lg"></i>
                             </div>
-
-                            <div class="text-xs text-slate-500 truncate" data-i18n="nav_china_intro_sub">글로벌 ?�드?�어 ?�조
-                                & ?�트?�십</div>
-
-                        </div>
-
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-sm text-slate-900 group-hover/item:text-blue-600 transition-colors">
+                                    <span data-i18n="nav_china_intro">한중 합자법인 (제조사) 소개</span>
+                                </div>
+                                <div class="text-xs text-slate-500 truncate" data-i18n="nav_china_intro_sub">글로벌 스마트 물류 설비 / 로보틱스 선도기업</div>
+                            </div>
                         </a>
-
-                        if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') ||
-                        q.includes('파트너')) {
-                        class="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50/70 hover:text-blue-600
-                        transition-colors border-b border-slate-200/80 group/item">
-
-                        <div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
-
-                            <img src="[ Insert Data ]/중국 지???�조???�력?�업/1. ?�드?�어-?�프?�웨???�합 R&D.png"
-                                onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
-                                class="w-full h-full object-cover group-hover/item:scale-105 transition-transform"
-                                alt="?�력?�업">
-
-                        </div>
-
-                        <div class="flex-1 min-w-0">
-
-                            <div
-                                class="font-bold text-sm text-slate-900 group-hover/item:text-blue-600 transition-colors">
-
-                                <span data-i18n="nav_china_coop">?�력?�업</span>
+                        <a href="#" onclick="navigate('china', 'china-coop'); return false;"
+                            class="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50/70 hover:text-blue-600 transition-colors border-b border-slate-200/80 group/item">
+                            <div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                                <img src="[ Insert Data ]/중국 지사_제조사/협력사업/1. 하드웨어-소프트웨어 융합 R&D.png"
+                                    onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
+                                    class="w-full h-full object-cover group-hover/item:scale-105 transition-transform"
+                                    alt="협력사업">
                             </div>
-
-                            <div class="text-xs text-slate-500 truncate" data-i18n="nav_china_coop_sub">R&D ?�합,
-                                ?�?�수�? A/S ?�담</div>
-
-                        </div>
-
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-sm text-slate-900 group-hover/item:text-blue-600 transition-colors">
+                                    <span data-i18n="nav_china_coop">협력사업</span>
+                                </div>
+                                <div class="text-xs text-slate-500 truncate" data-i18n="nav_china_coop_sub">R&D 융합, 대형수주 & A/S 전담</div>
+                            </div>
                         </a>
-
-                        if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') ||
-                        q.includes('파트너')) {
-                        class="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50/70 hover:text-blue-600
-                        transition-colors group/item">
-
-                        <div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
-
-                            <img src="[ Insert Data ]/중국 지???�조??글로벌 ?�트?�크/글로벌 ?�트?�크.png"
-                                onerror="this.onerror=null; this.src='assets/images/no-image.svg'"
-                                class="w-full h-full object-cover group-hover/item:scale-105 transition-transform"
-                                alt="글로벌 ?�트?�크">
-
-                        </div>
-
-                        <div class="flex-1 min-w-0">
-
-                            <div
-                                class="font-bold text-sm text-slate-900 group-hover/item:text-blue-600 transition-colors">
-
-                                <span data-i18n="nav_china_global">글로벌 ?�트?�크</span>
+                        <a href="#" onclick="navigate('china', 'china-global'); return false;"
+                            class="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50/70 hover:text-blue-600 transition-colors group/item">
+                            <div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                                <img src="[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png"
+                                    onerror="this.onerror=null; this.src='assets/images/no-image.svg'"
+                                    class="w-full h-full object-cover group-hover/item:scale-105 transition-transform"
+                                    alt="글로벌 네트워크">
                             </div>
-
-                            <div class="text-xs text-slate-500 truncate" data-i18n="nav_china_global_sub">??�??�합 ?�프??
-                                거점 �?/div>
-
+                            <div class="flex-1 min-w-0">
+                                <div class="font-bold text-sm text-slate-900 group-hover/item:text-blue-600 transition-colors">
+                                    <span data-i18n="nav_china_global">글로벌 네트워크</span>
+                                </div>
+                                <div class="text-xs text-slate-500 truncate" data-i18n="nav_china_global_sub">한중 융합 인프라 거점 맵</div>
                             </div>
-
-                            </a>
-
-                        </div>
-
+                        </a>
                     </div>
+                </div>
 
-
-
-                    <!-- 5-2. 공�??�항 (NOTICE) -->
+                <!-- 5-2. 공�??�항 (NOTICE) -->
                     <div class="h-full flex items-center shrink-0">
                         <a href="#" onclick="navigate('notice'); return false;"
                             class="hover:text-blue-600 transition-colors flex items-center text-slate-700 font-semibold whitespace-nowrap py-1">
@@ -1579,55 +1524,28 @@
 
 
                 <div>
-
-                    <div
-                        class="text-slate-900 font-bold text-lg mb-3 border-b border-slate-200 pb-2 flex items-center justify-between">
-
-                        <span data-i18n="nav_china">중국법인 (?�조)</span>
-
-                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_china_badge">중국법인 (?�조)</span>
-
+                    <div class="text-slate-900 font-bold text-lg mb-3 border-b border-slate-200 pb-2 flex items-center justify-between">
+                        <span data-i18n="nav_china">한중 합자법인 (제조사)</span>
+                        <span class="text-xs text-slate-500 font-normal" data-i18n="nav_china_badge">한중 합자법인 (제조사)</span>
                     </div>
-
                     <div class="flex flex-col space-y-1.5 pl-1">
-
-                        if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') ||
-                        q.includes('파트너')) {
-                        class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600
-                        active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"
-                        data-i18n="nav_china_intro">중국법인 (?�조) ?�개</a>
-
-                        if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') ||
-                        q.includes('파트너')) {
-                        class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-slate-700
-                        hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm
-                        cursor-pointer">
-
-                        <span data-i18n="nav_china_coop">?�력?�업</span>
-
-                        <span class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold"
-                            data-i18n="nav_china_projects">3?� ?�로?�트</span>
-
+                        <a href="javascript:void(0)" onclick="navigate('china', 'china-intro'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer"
+                            data-i18n="nav_china_intro">한중 합자법인 (제조사) 소개</a>
+                        <a href="javascript:void(0)" onclick="navigate('china', 'china-coop'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer">
+                            <span data-i18n="nav_china_coop">협력사업</span>
+                            <span class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold"
+                                data-i18n="nav_china_projects">3대 프로젝트</span>
                         </a>
-
-                        if (q.includes('중국') || q.includes('xingting') || q.includes('제조사') || q.includes('지사') ||
-                        q.includes('파트너')) {
-                        class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-slate-700
-                        hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm
-                        cursor-pointer">
-
-                        <span data-i18n="nav_china_global">글로벌 ?�트?�크</span>
-
-                        <span class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold"
-                            data-i18n="nav_china_map">?�프??�?/span>
-
-                            </a>
-
+                        <a href="javascript:void(0)" onclick="navigate('china', 'china-global'); toggleMobileMenu(false);"
+                            class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-slate-700 hover:text-blue-600 active:bg-blue-50 active:text-blue-600 transition-all font-medium text-sm cursor-pointer">
+                            <span data-i18n="nav_china_global">글로벌 네트워크</span>
+                            <span class="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full font-semibold"
+                                data-i18n="nav_china_map">인프라 맵</span>
+                        </a>
                     </div>
-
                 </div>
-
-
 
                 <div>
                     <a href="javascript:void(0)" onclick="navigate('notice'); toggleMobileMenu(false);"
@@ -1783,25 +1701,18 @@
             <!-- CEO ?�사�?-->
 
             <section id="about-ceo" class="py-24 bg-white border-b border-slate-200/80 text-slate-700">
-
                 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 items-center fade-in">
-
-                    <!-- CEO ?�사�?좌측: 기업 CI 로고 카드 ?�역 -->
-
+                    <!-- CEO 인사말 좌측: 대표자 프로필 고품격 이미지 프레임 카드 -->
                     <div class="w-full md:w-1/2 bg-gradient-to-br from-slate-50 via-white to-blue-50/40 rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl flex flex-col items-center justify-center text-center relative overflow-hidden group">
-                        <!-- 대표자 프로필 고품격 이미지 프레임 -->
                         <div class="relative w-full max-w-[360px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white mb-6 bg-slate-900">
                             <img src="assets/images/ceo_profile.png" alt="(주)에이티에이기술 대표자 프로필"
                                 class="w-full h-auto object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                 onerror="this.onerror=null; this.src='[ Insert Data ]/대표자 프로필 - 000.png';">
-                            <!-- 은은한 하단 그라데이션 및 명패 -->
                             <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950 via-slate-900/70 to-transparent p-5 text-center">
                                 <span class="text-[11px] uppercase tracking-widest font-extrabold text-blue-400 block mb-1">ATA TECHNOLOGY CO., LTD.</span>
                                 <h4 class="text-base sm:text-lg font-black text-white tracking-wide" data-i18n="ceo_card_title">(주)에이티에이기술 대표이사</h4>
                             </div>
                         </div>
-
-                        <!-- 기업 공식 CI 및 슬로건 배지 -->
                         <div class="flex items-center justify-center gap-2 mb-3">
                             <img src="Logo - 001.png" alt="에이티에이기술 로고" class="h-6 sm:h-7 object-contain" onerror="this.src='Logo - 001.jpg';">
                         </div>
@@ -1811,6 +1722,27 @@
                         </div>
                     </div>
 
+                    <!-- CEO 인사말 우측: 본문 메시지 영역 -->
+                    <div class="w-full md:w-1/2">
+                        <span class="text-blue-600 font-semibold tracking-widest text-sm mb-2 block"
+                            data-i18n="ceo_badge">CEO MESSAGE</span>
+                        <h3 class="text-2xl md:text-3xl font-extrabold mb-4 text-slate-900 leading-snug"
+                            data-i18n="ceo_heading">
+                            "가족경영, 지식경영, 미래경영을 경영이념으로,<br>초일류를 지향합니다."</h3>
+                        <p class="text-blue-600 font-bold mb-6 text-lg" data-i18n="ceo_quote">[ You will never fail with (주)에이티에이기술 ]</p>
+                        <p class="text-slate-700 leading-relaxed mb-4 text-sm md:text-base break-keep"
+                            data-i18n="ceo_p1">저희 <strong class="text-blue-600 font-bold">(주)에이티에이기술</strong>은 고객사와 협력사, 그리고 임직원이 동반자처럼 함께 성장하는 <strong class="text-cyan-700 font-bold">상생경영</strong>을 하고 있습니다.</p>
+                        <p class="text-slate-700 leading-relaxed mb-4 text-sm md:text-base break-keep"
+                            data-i18n="ceo_p2">기술개발에 열정적인 투자를 바탕으로 지식 및 기반 시스템을 고도화시키고, 창의적인 사고와 적극적인 실천을 통하여 고객사의 요구에 한발 앞선 혁신적인 제품 개발을 창조하는 <strong class="text-cyan-700 font-bold">지식경영</strong>을 하고 있습니다.</p>
+                        <p class="text-slate-700 leading-relaxed mb-4 text-sm md:text-base break-keep"
+                            data-i18n="ceo_p3">항상 먼 미래를 바라보고, 원대한 꿈을 열망하고 공감하며, 이를 실현하기 위하여 지금 현재 해야 할 일을 가장 우선적으로 정하고 민첩하게 실천하는 <strong class="text-cyan-700 font-bold">미래경영</strong>을 하고 있습니다.</p>
+                        <p class="text-slate-700 leading-relaxed mb-6 font-medium text-sm md:text-base break-keep bg-blue-50/60 p-6 rounded-2xl border-l-4 border-blue-600 border border-blue-100 shadow-sm"
+                            data-i18n="ceo_p4">(주)에이티에이기술은 <strong class="text-blue-600 font-bold">"World Wide Business"</strong>를 지향하고 <strong class="text-cyan-700 font-bold">"World Best Product"</strong>, <strong class="text-cyan-700 font-bold">"World First Process"</strong>를 제공하기 위한 열정과 노력으로 초일류 글로벌 기업으로 발전할 수 있도록 최선의 노력을 다하겠습니다.</p>
+                        <p class="text-slate-800 font-extrabold text-lg text-right mt-8" data-i18n="ceo_sign">주식회사 에이티에이기술 대표이사 <span
+                                class="text-2xl text-blue-900 font-black ml-2 tracking-wide">한 윤 규</span>
+                        </p>
+                    </div>
+                </div>
             </section>
 
 
