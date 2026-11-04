@@ -4142,6 +4142,9 @@ var REFERENCE_GALLERY_DB = {
             if (deleted) {
                 saveCustomReferenceData();
                 renderReferenceGallery(currentCategory);
+                if (typeof window.renderAdminHubReferenceList === 'function') {
+                    window.renderAdminHubReferenceList();
+                }
                 alert("항목이 정상적으로 삭제되었습니다.");
             }
         },

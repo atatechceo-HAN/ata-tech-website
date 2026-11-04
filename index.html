@@ -7615,14 +7615,14 @@
                         class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                         <div>
                             <h4 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
-                                <i class="fa-solid fa-trophy text-amber-500"></i> 주요 구축 실적(Reference) 관리
+                                <i class="fa-solid fa-trophy text-amber-500"></i> 스마트 물류 실적 아카이브 (영상·포토 미디어) 관리
                             </h4>
-                            <p class="text-xs text-slate-500 mt-0.5">이커머스, 콜드체인, 제조, 스마트물류 고객사 구축 실적을 등록·수정·삭제합니다.</p>
+                            <p class="text-xs text-slate-500 mt-0.5">실제 홈페이지 레퍼런스에 실시간 반영되는 6대 핵심 카테고리별 가동 동영상(56편)과 고화질 현장 사진(77장)을 등록·수정·삭제합니다.</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
                             <button type="button" onclick="window.ReferenceAdmin.openCreateModal()"
                                 class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition-all cursor-pointer">
-                                <i class="fa-solid fa-plus"></i> 새 실적 카드 등록
+                                <i class="fa-solid fa-plus"></i> 새 레퍼런스 미디어 등록
                             </button>
                             <button type="button" onclick="window.ReferenceAdmin.exportJson()"
                                 class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-colors flex items-center gap-1 cursor-pointer">
@@ -8290,42 +8290,142 @@
             /**
              * [탭 3: 레퍼런스 실적] 목록 렌더링
              */
-            function renderAdminHubReferenceList() {
+            function renderAdminHubReferenceList(filterFolder) {
                 var container = document.getElementById('admin-hub-reference-list');
                 if (!container) return;
 
-                var raw = localStorage.getItem('ata_reference_projects_db');
-                var refData = [];
-                try {
-                    if (raw) refData = JSON.parse(raw);
-                } catch (e) {
-                    refData = [];
+                if (filterFolder !== undefined) {
+                    window.adminHubRefCategory = filterFolder;
                 }
+                var curFilter = window.adminHubRefCategory || 'all';
 
-                if (!Array.isArray(refData) || refData.length === 0) {
-                    container.innerHTML = '<div class="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 text-xs">등록된 레퍼런스 실적이 없습니다. [새 실적 카드 등록]을 눌러보세요.</div>';
+                // 1. 실시간 REFERENCE_GALLERY_DB 가져오기
+                var db = (window.ReferenceAdmin && typeof window.ReferenceAdmin.getData === 'function')
+                    ? window.ReferenceAdmin.getData()
+                    : (typeof REFERENCE_GALLERY_DB !== 'undefined' ? REFERENCE_GALLERY_DB : null);
+
+                if (!db) {
+                    container.innerHTML = '<div class="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 text-xs">레퍼런스 미디어 데이터를 불러오는 중입니다...</div>';
                     return;
                 }
 
-                var html = [];
-                html.push('<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">');
-                refData.forEach(function (item) {
-                    html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col justify-between">');
-                    html.push('  <div>');
-                    html.push('    <div class="flex items-center justify-between mb-2">');
-                    html.push('      <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">' + (item.category || '분야') + '</span>');
-                    html.push('      <span class="text-[11px] text-slate-400 font-medium">' + (item.year || '') + '</span>');
-                    html.push('    </div>');
-                    html.push('    <h4 class="text-xs sm:text-sm font-bold text-slate-900 mb-1 leading-snug">' + (item.title || '고객사 / 프로젝트명') + '</h4>');
-                    html.push('    <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed mb-3">' + (item.description || item.scope || '') + '</p>');
-                    html.push('  </div>');
-                    html.push('  <div class="flex items-center justify-end gap-1.5 pt-2 border-t border-slate-100">');
-                    html.push('    <button type="button" onclick="window.ReferenceAdmin.openEditModal(\'' + item.id + '\')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-xs transition-colors cursor-pointer"><i class="fa-solid fa-pen-to-square"></i> 수정</button>');
-                    html.push('    <button type="button" onclick="window.ReferenceAdmin.deleteCard(\'' + item.id + '\'); window.switchAdminHubTab(\'reference\');" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white font-semibold text-xs transition-colors cursor-pointer"><i class="fa-solid fa-trash-can"></i> 삭제</button>');
-                    html.push('  </div>');
-                    html.push('</div>');
+                var folders = ["전경", "CBS", "NC CBS", "NBS", "Wheel Sorter", "틸트트레이소터"];
+
+                // 통계 집계
+                var totalVideos = 0;
+                var totalPhotos = 0;
+                var folderCounts = {};
+
+                folders.forEach(function (f) {
+                    var fd = db[f] || {};
+                    var vCount = (fd.videos || []).length;
+                    var pCount = (fd.photos || []).length;
+                    totalVideos += vCount;
+                    totalPhotos += pCount;
+                    folderCounts[f] = { v: vCount, p: pCount, total: vCount + pCount };
                 });
+
+                var allItems = [];
+                folders.forEach(function (f) {
+                    var fd = db[f] || {};
+                    (fd.videos || []).forEach(function (item) {
+                        allItems.push({ item: item, folder: f, type: 'video' });
+                    });
+                    (fd.photos || []).forEach(function (item) {
+                        allItems.push({ item: item, folder: f, type: 'photo' });
+                    });
+                });
+
+                // 필터링 적용
+                var filtered = (curFilter === 'all')
+                    ? allItems
+                    : allItems.filter(function (entry) { return entry.folder === curFilter; });
+
+                var html = [];
+
+                // 상단 통계 요약 바 & 카테고리 필터 탭
+                html.push('<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">');
+                html.push('  <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100">');
+                html.push('    <div class="text-xs font-bold text-slate-800 flex items-center gap-2">');
+                html.push('      <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-900 text-cyan-300 font-extrabold text-[11px]"><i class="fa-solid fa-layer-group"></i> 총 ' + allItems.length + '건</span>');
+                html.push('      <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-50 text-red-600 font-bold text-[11px] border border-red-200"><i class="fa-brands fa-youtube"></i> 가동 동영상 ' + totalVideos + '편</span>');
+                html.push('      <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-bold text-[11px] border border-blue-200"><i class="fa-solid fa-images"></i> 고화질 사진 ' + totalPhotos + '장</span>');
+                html.push('    </div>');
+                html.push('    <span class="text-[11px] text-slate-400">현재 표시: <strong class="text-blue-600">' + (curFilter === 'all' ? '전체' : curFilter) + '</strong> (' + filtered.length + '건)</span>');
+                html.push('  </div>');
+
+                // 카테고리 탭 버튼들
+                html.push('  <div class="flex flex-wrap items-center gap-1.5">');
+                var allActive = (curFilter === 'all') ? 'bg-blue-600 text-white shadow-sm font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+                html.push('    <button type="button" onclick="renderAdminHubReferenceList(\'all\')" class="px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ' + allActive + '">전체보기 (' + allItems.length + ')</button>');
+                folders.forEach(function (f) {
+                    var isActive = (curFilter === f) ? 'bg-blue-600 text-white shadow-sm font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+                    var count = folderCounts[f].total;
+                    html.push('    <button type="button" onclick="renderAdminHubReferenceList(\'' + f + '\')" class="px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ' + isActive + '">' + f + ' (' + count + ')</button>');
+                });
+                html.push('  </div>');
                 html.push('</div>');
+
+                // 항목 카드 목록
+                if (filtered.length === 0) {
+                    html.push('<div class="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 text-xs">해당 카테고리에 등록된 레퍼런스 미디어가 없습니다.</div>');
+                } else {
+                    html.push('<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">');
+                    filtered.forEach(function (entry) {
+                        var item = entry.item;
+                        var isVideo = entry.type === 'video';
+                        var thumbUrl = item.thumb || item.src;
+                        var safeTitle = (item.title || item.clipCode || '레퍼런스 항목').replace(/"/g, '&quot;');
+                        var safeDesc = (item.desc || '').replace(/"/g, '&quot;');
+
+                        html.push('<div class="bg-white border border-slate-200 hover:border-blue-300 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between transition-all group">');
+                        html.push('  <div>');
+                        
+                        // 썸네일 영역
+                        html.push('    <div class="aspect-video bg-slate-100 relative overflow-hidden flex items-center justify-center">');
+                        if (thumbUrl) {
+                            html.push('      <img src="' + encodeURI(decodeURI(thumbUrl)) + '" onerror="this.onerror=null; this.src=\'assets/images/no-image.svg\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="' + safeTitle + '">');
+                        } else {
+                            html.push('      <div class="text-slate-400 text-xs flex flex-col items-center gap-1"><i class="fa-solid fa-image text-2xl"></i><span>이미지 없음</span></div>');
+                        }
+                        
+                        // 미디어 타입 배지 (동영상 / 사진)
+                        if (isVideo) {
+                            html.push('      <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-red-600 text-white text-[10px] font-bold shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> 동영상</span>');
+                        } else {
+                            html.push('      <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-blue-600 text-white text-[10px] font-bold shadow flex items-center gap-1"><i class="fa-solid fa-camera"></i> 사진</span>');
+                        }
+
+                        // 폴더명 배지
+                        html.push('      <span class="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-slate-900/80 text-white text-[10px] font-semibold backdrop-blur-sm">' + entry.folder + '</span>');
+                        html.push('    </div>');
+
+                        // 본문 내용
+                        html.push('    <div class="p-3.5 space-y-1.5">');
+                        html.push('      <div class="text-[10px] text-blue-600 font-extrabold uppercase tracking-wider">' + (item.clipCode || (entry.folder + ' #' + item.index)) + '</div>');
+                        html.push('      <h4 class="text-xs sm:text-sm font-bold text-slate-900 line-clamp-1 leading-snug" title="' + safeTitle + '">' + safeTitle + '</h4>');
+                        if (safeDesc) {
+                            html.push('      <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">' + safeDesc + '</p>');
+                        }
+                        html.push('    </div>');
+                        html.push('  </div>');
+
+                        // 하단 액션 버튼
+                        html.push('  <div class="p-3 border-t border-slate-100 flex items-center justify-between gap-1.5 bg-slate-50/50">');
+                        if (item.src) {
+                            html.push('    <a href="' + encodeURI(decodeURI(item.src)) + '" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 font-semibold text-xs transition-colors flex items-center gap-1"><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> 보기</a>');
+                        } else {
+                            html.push('    <span></span>');
+                        }
+                        html.push('    <div class="flex items-center gap-1">');
+                        html.push('      <button type="button" onclick="window.ReferenceAdmin.openEditModal(\'' + item.id + '\')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-xs transition-colors cursor-pointer"><i class="fa-solid fa-pen-to-square"></i> 수정</button>');
+                        html.push('      <button type="button" onclick="window.ReferenceAdmin.deleteCard(\'' + item.id + '\'); setTimeout(renderAdminHubReferenceList, 100);" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white font-semibold text-xs transition-colors cursor-pointer"><i class="fa-solid fa-trash-can"></i> 삭제</button>');
+                        html.push('    </div>');
+                        html.push('  </div>');
+                        html.push('</div>');
+                    });
+                    html.push('</div>');
+                }
 
                 container.innerHTML = html.join('');
             }
