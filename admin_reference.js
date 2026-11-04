@@ -315,13 +315,39 @@
     if (!REF_I18N['zh'] && REF_I18N['cn']) REF_I18N['zh'] = REF_I18N['cn'];
     if (!REF_I18N['cn'] && REF_I18N['zh']) REF_I18N['cn'] = REF_I18N['zh'];
 
+    // 폴더명 4개국어 공식 매핑 사전 (한글 키 인코딩 불일치 완전 방어)
+    var FOLDER_LANG_MAP = {
+        "전경": { ko: "전경 (캠퍼스)", en: "Campus Aerial", zh: "基地全景 (园区)", ja: "拠点全景 (キャンパス)" },
+        "CBS": { ko: "CBS (크로스벨트)", en: "CBS (Cross Belt)", zh: "CBS (交叉带分拣机)", ja: "CBS (クロスベルト)" },
+        "NC CBS": { ko: "NC CBS (수치제어)", en: "NC CBS (Numerical Control)", zh: "NC CBS (数控交叉带)", ja: "NC CBS (数値制御)" },
+        "NBS": { ko: "NBS (내로우벨트)", en: "NBS (Narrow Belt)", zh: "NBS (窄带分拣机)", ja: "NBS (ナローベルト)" },
+        "Wheel Sorter": { ko: "Wheel Sorter (휠소터)", en: "Wheel Sorter", zh: "Wheel Sorter (摆轮分拣机)", ja: "Wheel Sorter (ホイールソーター)" },
+        "틸트트레이소터": { ko: "틸트트레이 소터", en: "Tilt Tray Sorter", zh: "翻盘分拣机 (Tilt Tray)", ja: "ティルトトレイソーター" }
+    };
+
+    function getFolderTabLabel(folderName) {
+        var lang = getRefLang();
+        if (FOLDER_LANG_MAP[folderName] && FOLDER_LANG_MAP[folderName][lang]) {
+            return FOLDER_LANG_MAP[folderName][lang];
+        }
+        var tabKey = "tab_" + folderName.replace(/\s+/g, "_");
+        var res = tRef(tabKey);
+        return (res && res !== tabKey) ? res : folderName;
+    }
+
     function tRef(key, params) {
         var lang = getRefLang();
-        var str = (REF_I18N[lang] && REF_I18N[lang][key]) || REF_I18N['ko'][key] || key;
+        var str = (REF_I18N[lang] && REF_I18N[lang][key]) || (REF_I18N['zh'] && REF_I18N['zh'][key]) || REF_I18N['ko'][key] || key;
+        if (typeof str !== 'string') return key;
         if (params && typeof params === 'object') {
             Object.keys(params).forEach(function (p) {
-                str = str.replace(new RegExp('\\{' + p + '\\}', 'g'), params[p]);
+                var val = (params[p] !== undefined && params[p] !== null) ? params[p] : '';
+                str = str.split('{' + p + '}').join(val);
             });
+        }
+        // 추가 안전망: 남아 있는 {count}가 있으면 params.count로 강제 치환
+        if (params && params.count !== undefined && params.count !== null) {
+            str = str.split('{count}').join(params.count);
         }
         return str;
     }
@@ -3205,8 +3231,7 @@ var REFERENCE_GALLERY_DB = {
 
         FOLDER_ORDER.forEach(function (f) {
             var d = REFERENCE_GALLERY_DB[f];
-            var tabKey = "tab_" + f.replace(/\s+/g, "_");
-            var tabLabel = tRef(tabKey) !== tabKey ? tRef(tabKey) : f;
+            var tabLabel = getFolderTabLabel(f);
             var badgeParts = [];
             if (d.videoCount > 0) badgeParts.push(tRef("vid_count_label", { count: d.videoCount }));
             if (d.photoCount > 0) badgeParts.push(tRef("pho_count_label", { count: d.photoCount }));
@@ -3285,8 +3310,8 @@ var REFERENCE_GALLERY_DB = {
             '      <div class="flex flex-wrap gap-2 pt-1">' + tagsHtml + '</div>',
             '    </div>',
             '    <div class="flex sm:flex-row lg:flex-col gap-2.5 shrink-0">',
-            hasVideos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-youtube-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-red-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-brands fa-youtube text-base"></i> 동영상 시어터 바로가기 (' + mediaData.videos.length + ')</button>' : '',
-            hasPhotos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-photo-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-solid fa-images text-base"></i> 이미지 시어터 바로가기 (' + mediaData.photos.length + ')</button>' : '',
+            hasVideos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-youtube-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-red-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-brands fa-youtube text-base"></i> ' + tRef("btn_go_vid", { count: mediaData.videos.length }) + '</button>' : '',
+            hasPhotos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-photo-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-solid fa-images text-base"></i> ' + tRef("btn_go_pho", { count: mediaData.photos.length }) + '</button>' : '',
             '    </div>',
             '  </div>',
             '</div>'
@@ -3380,14 +3405,22 @@ var REFERENCE_GALLERY_DB = {
             '    <div class="ref-theater-grid grid grid-cols-1 md:grid-cols-12 gap-6 items-start">',
             '      <!-- [가운데 메인 영역 (8칸)] 비디오 플레이어 및 설비 분석 해설 -->',
             '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4">',
-            '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner flex items-center justify-center">',
+            '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner flex items-center justify-center group/stage">',
             '          <video id="ref-yt-main-video" controls playsinline preload="metadata"',
             posterSrc ? '                 poster="' + posterSrc + '"' : '',
             '                 src="' + videoSrc + '"',
             '                 data-raw-src="' + escapeHtml(activeVid.src) + '"',
             '                 data-fallback-src="' + escapeHtml(activeVid.fallbackSrc || '') + '"',
             '                 onerror="window.handleRefVideoError(this)"',
-            '                 class="w-full h-full object-contain bg-black"></video>',
+            '                 class="w-full h-full object-contain bg-black cursor-pointer"></video>',
+            '          <!-- 모바일 및 터치 전용 중앙 대형 재생/일시정지 원터치 오버레이 버튼 -->',
+            '          <div id="ref-yt-center-play-overlay" onclick="window.ReferenceAdmin.toggleMainVideoPlay(event)" role="button" tabindex="0" aria-label="재생"',
+            '               class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 hover:bg-black/25 active:bg-black/50 transition-all duration-300 cursor-pointer z-20 group">',
+            '            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 group-active:scale-95 transition-transform border-2 border-white/50 backdrop-blur-sm">',
+            '              <i class="fa-solid fa-play text-2xl sm:text-3xl ml-1 text-white drop-shadow"></i>',
+            '            </div>',
+            '            <span class="mt-3 px-3.5 py-1 rounded-full bg-black/80 text-white text-xs font-bold border border-white/20 tracking-wider shadow">터치하여 재생 (▶)</span>',
+            '          </div>',
             '        </div>',
 
             '        <!-- 현재 재생 중인 동영상 제목 및 엔지니어링 분석 해설 -->',
@@ -3450,15 +3483,32 @@ var REFERENCE_GALLERY_DB = {
         bindVideoEndedEvent();
     }
 
+    function syncCenterPlayBtnState() {
+        var videoEl = document.getElementById("ref-yt-main-video");
+        var overlay = document.getElementById("ref-yt-center-play-overlay");
+        if (!videoEl || !overlay) return;
+        if (videoEl.paused || videoEl.ended) {
+            overlay.style.display = "flex";
+        } else {
+            overlay.style.display = "none";
+        }
+    }
+
     function bindVideoEndedEvent() {
         var videoEl = document.getElementById("ref-yt-main-video");
         if (videoEl) {
             videoEl.volume = 0.1;
+            videoEl.onplay = syncCenterPlayBtnState;
+            videoEl.onpause = syncCenterPlayBtnState;
+            videoEl.onplaying = syncCenterPlayBtnState;
+            videoEl.onwaiting = syncCenterPlayBtnState;
             videoEl.onended = function () {
+                syncCenterPlayBtnState();
                 if (autoPlayNextVideo && currentVideoList.length > 1) {
                     window.ReferenceAdmin.nextVideo();
                 }
             };
+            syncCenterPlayBtnState();
         }
     }
 
@@ -3548,6 +3598,9 @@ var REFERENCE_GALLERY_DB = {
                 behavior: "smooth"
             });
         }
+
+        // 중앙 대형 재생 버튼 상태 동기화
+        syncCenterPlayBtnState();
     }
 
     // ==========================================================================
@@ -4216,6 +4269,30 @@ var REFERENCE_GALLERY_DB = {
             if (!currentVideoList || idx < 0 || idx >= currentVideoList.length) return;
             currentVideoIndex = idx;
             updateActiveVideoUI(true);
+            // 모바일 화면(폭 1024px 미만)에서 상단 비디오 시어터로 부드럽게 자동 스크롤
+            if (window.innerWidth < 1024) {
+                var box = document.getElementById("ref-yt-theater-box");
+                if (box) {
+                    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                }
+            }
+        },
+        toggleMainVideoPlay: function (e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            if (e && e.preventDefault) e.preventDefault();
+            var videoEl = document.getElementById("ref-yt-main-video");
+            if (!videoEl) return;
+            if (videoEl.paused) {
+                var p = videoEl.play();
+                if (p && typeof p.catch === "function") {
+                    p.catch(function () {
+                        videoEl.muted = true;
+                        videoEl.play();
+                    });
+                }
+            } else {
+                videoEl.pause();
+            }
         },
         prevVideo: function () {
             if (!currentVideoList || currentVideoList.length === 0) return;
@@ -4240,6 +4317,13 @@ var REFERENCE_GALLERY_DB = {
             if (!currentPhotoList || idx < 0 || idx >= currentPhotoList.length) return;
             currentPhotoIndex = idx;
             updateActivePhotoUI();
+            // 모바일 화면(폭 1024px 미만)에서 상단 포토 시어터로 부드럽게 자동 스크롤
+            if (window.innerWidth < 1024) {
+                var box = document.getElementById("ref-photo-theater-box");
+                if (box) {
+                    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                }
+            }
         },
         prevPhoto: function () {
             if (!currentPhotoList || currentPhotoList.length === 0) return;

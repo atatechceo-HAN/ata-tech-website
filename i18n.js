@@ -1701,6 +1701,8 @@ const extendedI18nData = {
         "modal_contact_person": "代表理事 <strong class=\"text-blue-900 font-bold\">韓 允圭</strong>",
         "ref_badge": "PROVEN TRACK RECORD",
         "ref_heading": "主要项目业绩 <span class=\"text-accent font-normal text-2xl md:text-3xl block sm:inline sm:ml-2\">(客户案例)</span>",
+        "ref_subtitle": "全面展示从智能物流制造基地航拍<strong>全景</strong>到<strong>CBS</strong>、<strong>NC CBS</strong>、<strong>NBS</strong>、<strong>摆轮分拣机</strong>、<strong>翻盘分拣机</strong>的实际物流现场运行视频（YouTube剧场）与高清实拍画廊。",
+        "ref_subtitle": "全面展示从智能物流制造基地航拍<strong>全景</strong>到<strong>CBS</strong>、<strong>NC CBS</strong>、<strong>NBS</strong>、<strong>摆轮分拣机</strong>、<strong>翻盘分拣机</strong>的实际物流现场运行视频（YouTube剧场）与高清实拍画廊。",
         "ref_desc": "ATA Technology在电商/零售、食品冷链、制造与汽车等多元行业中经受实践检验的创新物流自动化落地成果。",
         "ref_tab_all": "全部查看",
         "ref_tab_ecommerce": "电商 / 零售物流",
@@ -1923,6 +1925,7 @@ const extendedI18nData = {
         "modal_contact_person": "代表取締役 <strong class=\"text-blue-900 font-bold\">韓 允 圭</strong>",
         "ref_badge": "PROVEN TRACK RECORD",
         "ref_heading": "主要導入実績 <span class=\"text-accent font-normal text-2xl md:text-3xl block sm:inline sm:ml-2\">(納入実績)</span>",
+        "ref_subtitle": "スマート物流製造拠点の空撮<strong>全景</strong>から<strong>CBS</strong>、<strong>NC CBS</strong>、<strong>NBS</strong>、<strong>ホイールソーター</strong>、<strong>ティルトトレイソーター</strong>まで、現場稼働動画（YouTubeシアター）と高解像度フォトギャラリーをご覧いただけます。",
         "ref_desc": "Eコマース・流通、食品・コールドチェーン、製造・自動車など多様な業界で実証された株式会社ATAテクノロジーの革新的物流自動化導入実績です。",
         "ref_tab_all": "すべて表示",
         "ref_tab_ecommerce": "EC・流通",
@@ -2131,6 +2134,7 @@ const extendedI18nData = {
         "modal_contact_person": "代表理事 <strong class=\"text-blue-900 font-bold\">韓 允圭</strong>",
         "ref_badge": "PROVEN TRACK RECORD",
         "ref_heading": "主要项目业绩 <span class=\"text-accent font-normal text-2xl md:text-3xl block sm:inline sm:ml-2\">(客户案例)</span>",
+        "ref_subtitle": "全面展示从智能物流制造基地航拍<strong>全景</strong>到<strong>CBS</strong>、<strong>NC CBS</strong>、<strong>NBS</strong>、<strong>摆轮分拣机</strong>、<strong>翻盘分拣机</strong>的实际物流现场运行视频（YouTube剧场）与高清实拍画廊。",
         "ref_desc": "ATA Technology在电商/零售、食品冷链、制造与汽车等多元行业中经受实践检验的创新物流自动化落地成果。",
         "ref_tab_all": "全部查看",
         "ref_tab_ecommerce": "电商 / 零售物流",
@@ -3065,6 +3069,8 @@ function setLanguage(lang, byUserSelection) {
         i18nData['cn'] = fullChinese;
         i18nData['zh'] = fullChinese;
     }
+
+    if (lang === 'cn') lang = 'zh';
 
     if (!i18nData[lang]) {
         lang = 'ko';
