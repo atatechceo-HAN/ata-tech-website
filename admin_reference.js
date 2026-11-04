@@ -3372,7 +3372,7 @@ var REFERENCE_GALLERY_DB = {
             '                <i class="fa-brands fa-youtube"></i> ' + escapeHtml(activeVid.folder),
             '              </span>',
             '              <span id="ref-yt-active-counter" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-cyan-300 border border-slate-700">',
-            '                영상 순서: ' + (currentVideoIndex + 1) + ' / ' + currentVideoList.length,
+            '                ' + tRef("vid_order", { cur: currentVideoIndex + 1, total: currentVideoList.length }),
             '              </span>',
             '              <span id="ref-yt-active-clip" class="text-xs text-slate-400 font-medium">',
             '                ' + escapeHtml(activeVid.clipCode),
@@ -3402,7 +3402,7 @@ var REFERENCE_GALLERY_DB = {
             '        <div class="ref-side-header p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">',
             '          <div>',
             '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2">',
-            '              <i class="fa-solid fa-circle-play text-red-500"></i> 동영상 썸네일 목록',
+            '              <i class="fa-solid fa-circle-play text-red-500"></i> ' + tRef("vid_playlist"),
             '            </h4>',
             '            <p class="text-[11px] text-slate-400 mt-0.5">' + tRef("vid_playlist_sub") + '</p>',
             '          </div>',
@@ -3477,7 +3477,7 @@ var REFERENCE_GALLERY_DB = {
         var badgeEl = document.getElementById("ref-yt-playlist-badge");
 
         if (folderEl) folderEl.innerHTML = '<i class="fa-brands fa-youtube"></i> ' + escapeHtml(activeVid.folder);
-        if (counterEl) counterEl.textContent = "영상 순서: " + (currentVideoIndex + 1) + " / " + currentVideoList.length;
+        if (counterEl) counterEl.textContent = tRef("vid_order", { cur: currentVideoIndex + 1, total: currentVideoList.length });
         if (clipEl) clipEl.textContent = activeVid.clipCode;
         if (titleEl) titleEl.textContent = activeVid.title;
         if (descEl) descEl.textContent = activeVid.desc;
@@ -3613,10 +3613,10 @@ var REFERENCE_GALLERY_DB = {
             '               class="w-full h-full object-contain bg-black cursor-zoom-in transition-transform duration-300">',
             '          <!-- 좌우 이전/다음 오버레이 화살표 버튼 -->',
             currentPhotoList.length > 1 ? [
-                '          <button type="button" onclick="window.ReferenceAdmin.prevPhoto()" title="이전 사진" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/65 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg">',
+                '          <button type="button" onclick="window.ReferenceAdmin.prevPhoto()" title="' + tRef("prev_pho") + '" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/65 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg">',
                 '            <i class="fa-solid fa-chevron-left"></i>',
                 '          </button>',
-                '          <button type="button" onclick="window.ReferenceAdmin.nextPhoto()" title="다음 사진" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/65 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg">',
+                '          <button type="button" onclick="window.ReferenceAdmin.nextPhoto()" title="' + tRef("next_pho") + '" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/65 hover:bg-blue-600 text-white border border-white/20 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg">',
                 '            <i class="fa-solid fa-chevron-right"></i>',
                 '          </button>'
             ].join("") : '',
@@ -3634,7 +3634,7 @@ var REFERENCE_GALLERY_DB = {
             '                <i class="fa-solid fa-camera"></i> ' + escapeHtml(activePhoto.folder),
             '              </span>',
             '              <span id="ref-photo-active-counter" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-cyan-300 border border-slate-700">',
-            '                사진 순서: ' + (currentPhotoIndex + 1) + ' / ' + currentPhotoList.length,
+            '                ' + tRef("pho_order", { cur: currentPhotoIndex + 1, total: currentPhotoList.length }),
             '              </span>',
             '              <span id="ref-photo-active-clip" class="text-xs text-slate-400 font-medium">',
             '                ' + escapeHtml(activePhoto.clipCode),
@@ -3664,7 +3664,7 @@ var REFERENCE_GALLERY_DB = {
             '        <div class="ref-side-header p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">',
             '          <div>',
             '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2">',
-            '              <i class="fa-solid fa-images text-cyan-400"></i> 이미지 썸네일 목록',
+            '              <i class="fa-solid fa-images text-cyan-400"></i> ' + tRef("pho_playlist"),
             '            </h4>',
             '            <p class="text-[11px] text-slate-400 mt-0.5">' + tRef("pho_playlist_sub") + '</p>',
             '          </div>',
@@ -3711,7 +3711,7 @@ var REFERENCE_GALLERY_DB = {
         var badgeEl = document.getElementById("ref-photo-playlist-badge");
 
         if (folderEl) folderEl.innerHTML = '<i class="fa-solid fa-camera"></i> ' + escapeHtml(activePhoto.folder);
-        if (counterEl) counterEl.textContent = "사진 순서: " + (currentPhotoIndex + 1) + " / " + currentPhotoList.length;
+        if (counterEl) counterEl.textContent = tRef("pho_order", { cur: currentPhotoIndex + 1, total: currentPhotoList.length });
         if (clipEl) clipEl.textContent = activePhoto.clipCode;
         if (titleEl) titleEl.textContent = activePhoto.title;
         if (descEl) descEl.textContent = activePhoto.desc;
@@ -4266,6 +4266,14 @@ var REFERENCE_GALLERY_DB = {
             }
         }
     };
+
+    
+    // [언어 변경 실시간 연동] 상단 언어 스위치 클릭 시 레퍼런스 갤러리 및 시어터 즉시 4개국어 재렌더링
+    window.addEventListener('languageChanged', function (e) {
+        var lang = (e && e.detail && e.detail.lang) || window.currentLanguage || 'ko';
+        console.log('[admin_reference] Realtime language sync triggered:', lang);
+        renderReferenceGallery(currentCategory || 'all');
+    });
 
     window.filterReference = function (category) {
         renderReferenceGallery(category || "all");

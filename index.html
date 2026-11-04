@@ -1263,10 +1263,10 @@
 
             <div class="flex items-center lg:hidden gap-1 sm:gap-2 shrink-0">
 
-                <!-- 모바일 헤더 언어 선택 버튼 (터치 히트박스 44px 확보) -->
+                <!-- 모바일 헤더 언어 선택 버튼 (초소형 화면 완벽 반응형) -->
                 <div class="relative">
                     <button type="button" onclick="toggleMobileLangDropdown(event)" id="mobile-lang-btn"
-                        class="flex items-center gap-1 px-2.5 sm:px-3 py-2 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold cursor-pointer">
+                        class="flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-[11px] sm:text-xs font-semibold cursor-pointer min-h-[38px]">
                         <i class="fa-solid fa-globe text-blue-600 text-xs"></i>
                         <span id="mobile-current-lang-label">KO</span>
                         <i class="fa-solid fa-chevron-down text-[8px] opacity-70"></i>
@@ -1296,11 +1296,11 @@
                     </div>
                 </div>
 
-                <!-- 모바일 도입 상담 버튼 (터치 히트박스 44px 확보) -->
+                <!-- 모바일 도입 상담 버튼 (초소형 화면 완벽 반응형) -->
                 <button type="button" onclick="openConsultModal()" style="touch-action: manipulation;"
-                    class="header-consult-btn-mobile bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs px-2.5 sm:px-3.5 py-2 rounded-full shadow flex items-center gap-1 sm:gap-1.5 border border-cyan-400/30 cursor-pointer shrink-0">
+                    class="header-consult-btn-mobile bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-[11px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2 rounded-full shadow flex items-center gap-1 sm:gap-1.5 border border-cyan-400/30 cursor-pointer shrink-0 min-h-[38px]">
 
-                    <i class="fa-solid fa-headset text-[12px]"></i>
+                    <i class="fa-solid fa-headset text-[11px] sm:text-[12px]"></i>
 
                     <span data-i18n="btn_consult">도입 상담</span>
 
@@ -1331,7 +1331,7 @@
         <!-- 모바일 전체 메뉴 (Z-index 9999, 부드러운 스크롤) -->
 
         <div id="mobile-menu"
-            class="fixed inset-0 bg-white z-[9999] hidden flex-col pt-20 pb-8 px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl">
+            class="fixed inset-0 h-[100dvh] bg-white z-[9999] hidden flex-col pt-16 sm:pt-20 pb-8 px-5 sm:px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl overscroll-contain">
 
             <div class="flex-1 overflow-y-auto custom-scrollbar pb-20 space-y-6">
 
@@ -4145,40 +4145,139 @@
                 </div>
             </div>
 
-            <!-- 거점 카드 2열 그리드 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- 거점 1: 한국 본사 -->
-                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm flex items-start gap-5 fade-in">
-                    <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-location-dot text-2xl text-blue-600"></i>
+            <!-- 거점 카드 2열 그리드 (프리미엄 엔터프라이즈 B2B 디자인 고도화) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
+                <!-- 거점 1: 한국 본사 & R&D 혁신 센터 -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col fade-in">
+                    <!-- 카드 헤더 배너 -->
+                    <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 p-6 sm:p-7 text-white relative">
+                        <div class="flex items-center justify-between gap-3 mb-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-cyan-300 text-xs font-bold tracking-wider uppercase">
+                                <i class="fa-solid fa-building-flag text-cyan-400 text-xs"></i>
+                                <span data-i18n="china_global_base1_badge">HEADQUARTERS & R&D</span>
+                            </span>
+                            <span class="text-xs text-slate-300 font-medium flex items-center gap-1">
+                                <span>🇰🇷</span> <span data-i18n="china_global_base1_nation">KOREA</span>
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-black text-white mb-1.5" data-i18n="china_global_base1_title">대한민국 본사 (ATA Technology)</h4>
+                        <p class="text-xs sm:text-sm text-cyan-300 font-semibold" data-i18n="china_global_base1_sub">Seoul & Osan R&D Center (오산 본사)</p>
                     </div>
-                    <div>
-                        <h4 class="text-lg font-bold text-slate-900 mb-1" data-i18n="china_global_base1_title">대한민국 본사 (ATA Technology)</h4>
-                        <p class="text-xs text-blue-600 font-semibold mb-2">Seoul & Osan R&D Center</p>
-                        <p class="text-slate-600 text-sm leading-relaxed" data-i18n="china_global_base1_desc">
-                            국내 사업 총괄, WCS 관제 시스템 개발, 24시간 기술 지원 및 A/S 센터 운영
-                        </p>
+                    <!-- 카드 본문 -->
+                    <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-5">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                <i class="fa-solid fa-map-location-dot text-blue-600 text-sm shrink-0"></i>
+                                <span data-i18n="china_global_base1_loc">경기도 오산시 수목원로 88번길 35 현대테라타워 CMC B동 1402호</span>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-5" data-i18n="china_global_base1_desc">
+                                국내 사업 총괄, WCS 관제 시스템 개발, 24시간 기술 지원 및 A/S 센터 운영
+                            </p>
+                            <!-- 핵심 역할 리스트 -->
+                            <div class="space-y-2.5 border-t border-slate-100 pt-4">
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-blue-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base1_f1">물류 자동화 WCS / WMS 통합 관제 소프트웨어 독자 개발</span>
+                                </div>
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-blue-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base1_f2">국내 대형 프로젝트 턴키(Turnkey) 엔지니어링 및 총괄 시공</span>
+                                </div>
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-blue-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base1_f3">24시간 전문 엔지니어 기술지원 및 신속 현장 출동 A/S 센터</span>
+                                </div>
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-blue-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base1_f4">하드웨어 현지화(Localization) 커스텀 기술 및 특허 인증</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-3">
+                            <button type="button" onclick="navigate('contact-map');"
+                                class="w-full py-2.5 px-4 rounded-xl bg-slate-50 hover:bg-blue-50 text-blue-600 hover:text-blue-700 border border-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                                <i class="fa-solid fa-location-arrow text-xs"></i>
+                                <span data-i18n="china_global_btn_hq_map">본사 오시는 길 바로가기</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 거점 2: 한중 합자법인 -->
-                <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm flex items-start gap-5 fade-in delay-100">
-                    <div class="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-200 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-industry text-2xl text-cyan-600"></i>
+                <!-- 거점 2: 한중 합자법인 (첨단 스마트 양산 공장) -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col fade-in delay-100">
+                    <!-- 카드 헤더 이미지 (스마트 공장 전경 파노라마) -->
+                    <div class="aspect-video w-full relative bg-slate-950 overflow-hidden group cursor-pointer"
+                        onclick="openImageModal('assets/images/china_factory_panorama.jpg', '한중 합자법인 첨단 스마트 공장 전경')">
+                        <img src="assets/images/china_factory_panorama.jpg"
+                            onerror="this.onerror=null; this.src='assets/images/no-image.svg';"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            alt="한중 합자법인 제조 공장 전경">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+                        <!-- 상단 배지 -->
+                        <div class="absolute top-4 left-4 right-4 flex items-center justify-between gap-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/30 backdrop-blur-md border border-cyan-400/40 text-cyan-200 text-xs font-bold tracking-wider uppercase">
+                                <i class="fa-solid fa-industry text-cyan-300 text-xs"></i>
+                                <span data-i18n="china_global_base2_badge">SMART FACTORY & HUB</span>
+                            </span>
+                            <span class="text-xs text-white/90 font-medium flex items-center gap-1 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full">
+                                <span>🇨🇳</span> <span data-i18n="china_global_base2_nation">JOINT VENTURE</span>
+                            </span>
+                        </div>
+                        <!-- 하단 텍스트 오버레이 -->
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h4 class="text-xl sm:text-2xl font-black text-white mb-0.5" data-i18n="china_global_base2_title">한중 합자법인 (제조사)</h4>
+                            <p class="text-xs text-cyan-300 font-semibold" data-i18n="china_global_base2_sub">Global Production & Export Hub (스마트 양산 거점)</p>
+                        </div>
+                        <!-- 호버 확대 힌트 -->
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-2">
+                            <i class="fa-solid fa-magnifying-glass-plus text-cyan-300"></i>
+                            <span data-i18n="china_factory_zoom_hint">클릭 시 전경 사진 고화질 확대</span>
+                        </div>
                     </div>
-                    <div>
-                        <h4 class="text-lg font-bold text-slate-900 mb-1" data-i18n="china_global_base2_title">한중 합자법인 (제조사)</h4>
-                        <p class="text-xs text-cyan-600 font-semibold mb-2">Manufacturing & Global Export Hub</p>
-                        <p class="text-slate-600 text-sm leading-relaxed" data-i18n="china_global_base2_desc">
-                            대규모 첨단 양산 공장 운영 및 글로벌 수출 기지
-                        </p>
+                    <!-- 카드 본문 -->
+                    <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-5">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                <i class="fa-solid fa-warehouse text-cyan-600 text-sm shrink-0"></i>
+                                <span data-i18n="china_global_base2_loc">첨단 물류 로보틱스 대규모 전용 양산 복합 클러스터</span>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-5" data-i18n="china_global_base2_desc">
+                                대규모 첨단 양산 공장 운영 및 글로벌 수출 기지
+                            </p>
+                            <!-- 핵심 역할 리스트 -->
+                            <div class="space-y-2.5 border-t border-slate-100 pt-4">
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-cyan-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base2_f1">연간 5,000+ 대 규모 첨단 소터 및 물류 로봇 양산 라인</span>
+                                </div>
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-cyan-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base2_f2">유럽 CE 및 ISO 9001 / ISO 14001 국제 표준 품질 규격 인증</span>
+                                </div>
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-cyan-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base2_f3">글로벌 16개국 직수출 공급망 및 초대형 허브 터미널 납품 실적</span>
+                                </div>
+                                <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-cyan-600 mt-1 shrink-0 text-xs"></i>
+                                    <span data-i18n="china_global_base2_f4">자체 정밀 가공 머시닝 센터 및 3단계 전수 신뢰성 테스트 검수</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-3">
+                            <button type="button" onclick="navigate('xingting-intro');"
+                                class="w-full py-2.5 px-4 rounded-xl bg-slate-50 hover:bg-cyan-50 text-cyan-700 hover:text-cyan-800 border border-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                                <i class="fa-solid fa-circle-info text-xs"></i>
+                                <span data-i18n="china_global_btn_factory_intro">한중 합자법인 소개 상세 보기</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    id="view-contact-map" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
+    <div id="view-contact-map" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
 
         <div class="max-w-7xl mx-auto px-6 py-24">
 
@@ -4247,7 +4346,7 @@
                     class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-slate-200 hover:shadow-xl transition-all fade-in flex flex-col items-center justify-center">
 
                     <h3
-                        class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center">
+                        class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center" data-i18n="contact_inquiry_card_ko">
 
                         Korean (국문)</h3>
 
@@ -4265,7 +4364,7 @@
                     class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-slate-200 hover:shadow-xl transition-all fade-in delay-100 flex flex-col items-center justify-center">
 
                     <h3
-                        class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center">
+                        class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center" data-i18n="contact_inquiry_card_en">
 
                         English (영문)</h3>
 
@@ -5141,14 +5240,10 @@
     };
 
     function navigate(viewId, param1, isPopState) {
-        // [자동 리다이렉트 1] contact-inquiry -> 상담 모달 및 문의 페이지 연동
+        // [문의하기 라우팅] contact-inquiry는 전용 서브페이지(view-contact-inquiry)로 온전히 독립 라우팅
         if (viewId === 'contact-inquiry') {
-            viewId = 'contact-map';
-            setTimeout(function() {
-                if (typeof window.openConsultModal === 'function') {
-                    window.openConsultModal();
-                }
-            }, 200);
+            // view-contact-inquiry 전용 뷰로 진입
+            viewId = 'contact-inquiry';
         }
 
         // [자동 리다이렉트 2] china / xingting 호환 라우팅
