@@ -2952,7 +2952,7 @@ var REFERENCE_GALLERY_DB = {
             ".ref-caption-box { background-color: #0f172a !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; padding: 1.25rem !important; }",
             ".ref-caption-inner { background-color: #020617 !important; border: 1px solid #1e293b !important; border-radius: 0.75rem !important; padding: 0.875rem !important; margin-top: 0.75rem !important; }",
             "/* 우측 썸네일 사이드바 패널 */",
-            ".ref-side-col { display: flex !important; flex-direction: column !important; background-color: #0f172a !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; overflow: hidden !important; min-width: 0 !important; max-height: 680px !important; }",
+            ".ref-side-col { display: flex !important; flex-direction: column !important; background-color: #0f172a !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; overflow: hidden !important; min-width: 0 !important; max-height: calc(100vh - 120px) !important; position: sticky !important; top: 90px !important; align-self: flex-start !important; z-index: 10 !important; }",
             ".ref-side-header { padding: 1rem 1.25rem !important; background-color: #0f172a !important; border-bottom: 1px solid #1e293b !important; display: flex !important; align-items: center !important; justify-content: space-between !important; flex-shrink: 0 !important; }",
             ".ref-playlist-scroll { padding: 0.75rem !important; overflow-y: auto !important; max-height: 580px !important; display: flex !important; flex-direction: column !important; gap: 0.625rem !important; flex: 1 1 auto !important; }",
             "/* 우측 개별 썸네일 아이템 카드 */",
@@ -3260,6 +3260,8 @@ var REFERENCE_GALLERY_DB = {
             '</div>'
         ].join("");
 
+        var vEl = document.getElementById("ref-yt-main-video");
+        if (vEl) { vEl.volume = 0.1; } // 초기 로드 기본 음량 10%
         bindVideoEndedEvent();
     }
 
@@ -3709,38 +3711,15 @@ var REFERENCE_GALLERY_DB = {
     // 관리자 상단 제어 바 렌더링
     function renderAdminControlBar() {
         var bar = document.getElementById("reference-admin-control-bar");
-        if (!bar) return;
-
-        bar.innerHTML = [
-            '<div class="bg-white rounded-2xl p-4 border border-blue-200 shadow-sm flex flex-wrap items-center justify-between gap-3">',
-            '  <div class="flex items-center gap-2">',
-            '    <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow">',
-            '      <i class="fa-solid fa-screwdriver-wrench"></i>',
-            '    </span>',
-            '    <div>',
-            '      <h4 class="text-xs sm:text-sm font-extrabold text-slate-800">레퍼런스 실적 관리자 제어 바</h4>',
-            '      <p class="text-[11px] text-slate-500">6대 폴더별 동영상 및 사진 항목을 직접 추가, 수정, 삭제할 수 있습니다.</p>',
-            '    </div>',
-            '  </div>',
-            '  <div class="flex flex-wrap items-center gap-2">',
-            '    <button type="button" onclick="window.ReferenceAdmin.openCreateModal()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm transition-all cursor-pointer flex items-center gap-1.5">',
-            '      <i class="fa-solid fa-plus"></i> 신규 미디어 추가',
-            '    </button>',
-            '    <button type="button" onclick="window.ReferenceAdmin.exportJson()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-300 transition-all cursor-pointer flex items-center gap-1">',
-            '      <i class="fa-solid fa-download"></i> 백업(JSON)',
-            '    </button>',
-            '    <button type="button" onclick="window.ReferenceAdmin.importJson()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-300 transition-all cursor-pointer flex items-center gap-1">',
-            '      <i class="fa-solid fa-upload"></i> 복원',
-            '    </button>',
-            '    <button type="button" onclick="window.ReferenceAdmin.resetToDefault()" class="px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-semibold border border-rose-200 transition-all cursor-pointer flex items-center gap-1">',
-            '      <i class="fa-solid fa-rotate-left"></i> 기본값 복원',
-            '    </button>',
-            '  </div>',
-            '</div>'
-        ].join("");
+        if (bar) {
+            bar.innerHTML = "";
+            bar.style.display = "none";
+        }
     }
 
-    // 신규 미디어 등록 / 기존 미디어 수정 모달 DOM 생성
+    // ==========================================================================
+    // 9. 관리자 전용 미디어 수정/추가 모달 시스템 (관리자 센터 연동)
+    // ==========================================================================
     function ensureEditModalExists() {
         var existing = document.getElementById("ref-media-edit-modal");
         if (existing) return existing;
