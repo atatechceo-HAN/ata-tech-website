@@ -2856,6 +2856,18 @@ function setLanguage(lang, byUserSelection) {
         window.syncNoticeLanguage(lang);
     }
 
+    // 6-2. 공지사항 게시판 4개국어 실시간 동적 동기화 (목록 및 모달 실시간 재렌더링)
+    if (typeof window.syncNoticeLanguage === 'function') {
+        window.syncNoticeLanguage(lang);
+    }
+
+    // 6-3. 레퍼런스 실적 갤러리 4개국어 실시간 동적 동기화
+    if (typeof window.filterReference === 'function') {
+        window.filterReference(window.currentReferenceCategory || 'all');
+    } else if (window.ReferenceAdmin && typeof window.ReferenceAdmin.render === 'function') {
+        window.ReferenceAdmin.render(window.currentReferenceCategory || 'all');
+    }
+
     // 7. UI 버튼 및 체크마크 업데이트
     updateLangUI(lang);
 
