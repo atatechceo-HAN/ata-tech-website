@@ -3110,15 +3110,26 @@ var REFERENCE_GALLERY_DB = {
             "/* 메인 하단 분석 해설 카드 */",
             ".ref-caption-box { background-color: #0f172a !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; padding: 1.25rem !important; }",
             ".ref-caption-inner { background-color: #020617 !important; border: 1px solid #1e293b !important; border-radius: 0.75rem !important; padding: 0.875rem !important; margin-top: 0.75rem !important; }",
-            "/* 우측 썸네일 사이드바 패널 */",
-            ".ref-side-col { display: flex !important; flex-direction: column !important; background-color: #0f172a !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; overflow: hidden !important; min-width: 0 !important; max-height: calc(100vh - 120px) !important; position: sticky !important; top: 90px !important; align-self: flex-start !important; z-index: 10 !important; }",
+            "/* 우측 썸네일 사이드바 패널 (모바일에서는 static 정상 흐름, PC에서만 sticky) */",
+            ".ref-side-col { display: flex !important; flex-direction: column !important; background-color: #0f172a !important; border: 1px solid #1e293b !important; border-radius: 1rem !important; overflow: hidden !important; min-width: 0 !important; position: static !important; z-index: 10 !important; }",
+            "@media (min-width: 1024px) {",
+            "  .ref-side-col { position: sticky !important; top: 90px !important; align-self: flex-start !important; max-height: calc(100vh - 120px) !important; }",
+            "}",
             ".ref-side-header { padding: 1rem 1.25rem !important; background-color: #0f172a !important; border-bottom: 1px solid #1e293b !important; display: flex !important; align-items: center !important; justify-content: space-between !important; flex-shrink: 0 !important; }",
-            ".ref-playlist-scroll { padding: 0.75rem !important; overflow-y: auto !important; max-height: 580px !important; display: flex !important; flex-direction: column !important; gap: 0.625rem !important; flex: 1 1 auto !important; }",
-            "/* 우측 개별 썸네일 아이템 카드 */",
-            ".ref-yt-thumb-item, .ref-photo-thumb-item { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 0.75rem !important; padding: 0.625rem !important; border-radius: 0.75rem !important; cursor: pointer !important; transition: all 0.2s ease !important; }",
-            "/* 우측 썸네일 이미지 박스 (128x72px 고정 크기로 절대 깨지지 않게 고정) */",
+            ".ref-playlist-scroll { padding: 0.75rem !important; overflow-y: auto !important; max-height: 480px !important; display: flex !important; flex-direction: column !important; gap: 0.625rem !important; flex: 1 1 auto !important; -webkit-overflow-scrolling: touch !important; touch-action: pan-y !important; }",
+            "@media (min-width: 1024px) {",
+            "  .ref-playlist-scroll { max-height: 580px !important; }",
+            "}",
+            "/* 우측 개별 썸네일 아이템 카드 (모바일 터치 100% 즉각 반응 보강) */",
+            ".ref-yt-thumb-item, .ref-photo-thumb-item { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 0.75rem !important; padding: 0.625rem !important; border-radius: 0.75rem !important; cursor: pointer !important; transition: all 0.2s ease !important; touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; user-select: none !important; -webkit-user-select: none !important; }",
+            ".ref-yt-thumb-item:active, .ref-photo-thumb-item:active { transform: scale(0.98) !important; opacity: 0.9 !important; }",
+            "/* 썸네일 내부 장식용 요소의 클릭 가로챔 방지 (터치가 카드 전체로 직접 전달) */",
+            ".ref-thumb-media-box, .ref-thumb-media-box * { pointer-events: none !important; }",
+            "/* 우측 썸네일 이미지 박스 (128x72px 고정 크기) */",
             ".ref-thumb-media-box { width: 128px !important; min-width: 128px !important; max-width: 128px !important; height: 72px !important; border-radius: 0.5rem !important; overflow: hidden !important; background-color: #020617 !important; position: relative !important; flex-shrink: 0 !important; border: 1px solid #334155 !important; }",
-            ".ref-thumb-media-box img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; }"
+            ".ref-thumb-media-box img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; }",
+            "/* 메인 스테이지 및 이미지 탭 최적화 */",
+            "#ref-photo-main-img { touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; }"
         ].join("\n");
         document.head.appendChild(styleEl);
     }
@@ -3313,7 +3324,7 @@ var REFERENCE_GALLERY_DB = {
             var thumbUrl = v.thumb ? safeUrl(v.thumb) : "";
 
             return [
-                '<div id="ref-yt-playlist-item-' + idx + '" onclick="window.ReferenceAdmin.playVideoAtIndex(' + idx + ')"',
+                '<div id="ref-yt-playlist-item-' + idx + '" role="button" tabindex="0" onclick="window.ReferenceAdmin.playVideoAtIndex(' + idx + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();window.ReferenceAdmin.playVideoAtIndex(' + idx + ');}"',
                 '     class="ref-yt-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ' + itemBg + '">',
                 '  <!-- 썸네일 이미지 박스 -->',
                 '  <div class="ref-thumb-media-box w-32 sm:w-36 aspect-video rounded-lg overflow-hidden bg-slate-950 relative shrink-0 border border-slate-700/80">',
@@ -3479,7 +3490,15 @@ var REFERENCE_GALLERY_DB = {
         if (shouldAutoPlay) {
             var playPromise = videoEl.play();
             if (playPromise && typeof playPromise.catch === "function") {
-                playPromise.catch(function () {});
+                playPromise.catch(function (err) {
+                    console.warn('[Video] Autoplay blocked, attempting muted fallback:', err);
+                    // 모바일 브라우저 음소거 자동재생 정책 대응: muted로 즉각 재생 재시도
+                    videoEl.muted = true;
+                    var retryPromise = videoEl.play();
+                    if (retryPromise && typeof retryPromise.catch === "function") {
+                        retryPromise.catch(function () {});
+                    }
+                });
             }
         }
 
@@ -3561,7 +3580,7 @@ var REFERENCE_GALLERY_DB = {
             var thumbUrl = safeUrl(p.thumb || p.src);
 
             return [
-                '<div id="ref-photo-playlist-item-' + idx + '" onclick="window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ')"',
+                '<div id="ref-photo-playlist-item-' + idx + '" role="button" tabindex="0" onclick="window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ');}"',
                 '     class="ref-photo-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ' + itemBg + '">',
                 '  <!-- 우측 포토 썸네일 박스 -->',
                 '  <div class="ref-thumb-media-box w-32 sm:w-36 aspect-video rounded-lg overflow-hidden bg-slate-950 relative shrink-0 border border-slate-700/80">',
