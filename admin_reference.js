@@ -23,6 +23,7 @@
     // ==========================================================================
     var REF_I18N = {
         "ko": {
+            "total_count_label": "(총 {count}건)",
             "vid_count_label": "영상 {count}",
             "pho_count_label": "사진 {count}",
 
@@ -92,6 +93,7 @@
             "all_overview": "주식회사 에이티에이기술의 대규모 스마트 물류 제조 거점 항공 전경부터 CBS, NC CBS, NBS, Wheel Sorter, 틸트트레이소터까지 실제 물류 현장에서 가동 중인 영상과 고화질 사진을 폴더별로 한눈에 확인하실 수 있습니다."
         },
         "en": {
+            "total_count_label": "(Total {count})",
             "vid_count_label": "Videos {count}",
             "pho_count_label": "Photos {count}",
 
@@ -161,6 +163,7 @@
             "all_overview": "Explore ATA Technology's extensive smart logistics manufacturing campus and live operation clips & high-resolution photos of CBS, NC CBS, NBS, Wheel Sorter, and Tilt Tray Sorter systems deployed across global fulfillment centers."
         },
         "zh": {
+            "total_count_label": "(共 {count}件)",
             "vid_count_label": "视频 {count}",
             "pho_count_label": "照片 {count}",
 
@@ -230,6 +233,7 @@
             "all_overview": "一览ATA技术大规模智能物流设备制造基地航拍全景及全球大型电商分拣中心实际运行的视频与高清现场实拍照片。"
         },
         "ja": {
+            "total_count_label": "(計 {count}件)",
             "vid_count_label": "動画 {count}",
             "pho_count_label": "写真 {count}",
 
@@ -3329,8 +3333,11 @@ var REFERENCE_GALLERY_DB = {
             '      <div class="inline-flex items-center gap-2 text-red-600 font-extrabold text-xs uppercase tracking-widest mb-1">',
             '        <i class="fa-brands fa-youtube text-base"></i> YOUTUBE STYLE VIDEO THEATER',
             '      </div>',
-            '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">',
-            '        ' + tRef("video_theater_title") + ' <span class="text-base sm:text-lg font-bold text-red-600 ml-1">' + tRef("video_theater_sub", { count: currentVideoList.length }) + '</span>',
+            '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center flex-wrap gap-2.5">',
+            '        <span>' + tRef("video_theater_title") + '</span>',
+            '        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-extrabold bg-red-50 text-red-600 border border-red-200 shadow-sm">',
+            '          <i class="fa-solid fa-film text-xs"></i> ' + tRef("total_count_label", { count: currentVideoList.length }),
+            '        </span>',
             '      </h3>',
             '    </div>',
             '    <div class="flex flex-wrap items-center gap-2">',
@@ -3574,8 +3581,11 @@ var REFERENCE_GALLERY_DB = {
             '      <div class="inline-flex items-center gap-2 text-blue-600 font-extrabold text-xs uppercase tracking-widest mb-1">',
             '        <i class="fa-solid fa-images text-base"></i> YOUTUBE STYLE PHOTO THEATER',
             '      </div>',
-            '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">',
-            '        ' + tRef("photo_theater_title") + ' <span class="text-base sm:text-lg font-bold text-blue-600 ml-1">' + tRef("photo_theater_sub", { count: currentPhotoList.length }) + '</span>',
+            '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center flex-wrap gap-2.5">',
+            '        <span>' + tRef("photo_theater_title") + '</span>',
+            '        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-extrabold bg-blue-50 text-blue-600 border border-blue-200 shadow-sm">',
+            '          <i class="fa-solid fa-camera text-xs"></i> ' + tRef("total_count_label", { count: currentPhotoList.length }),
+            '        </span>',
             '      </h3>',
             '    </div>',
             '    <div class="flex flex-wrap items-center gap-2">',
