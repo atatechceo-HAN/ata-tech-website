@@ -714,6 +714,7 @@ var i18nData = window.i18nData = window.i18nData || {
         "brochure_alert": "产品宣传册PDF即将更新。如果您提交咨询，我们的专员将通过电子邮件发送最新产品目录。"
     },
     "ja": {
+        "ref_subtitle": "スマート物流製造拠点の空撮<strong>全景</strong>から<strong>CBS</strong>、<strong>NC CBS</strong>、<strong>NBS</strong>、<strong>ホイールソーター</strong>、<strong>チルトトレイソーター</strong>まで、実際の物流現場で稼働中の映像（YouTubeシアター）と高画質フォトギャラリーをフォルダー別にご確認いただけます。",
         "ceo_card_name": "代表取締役 韓 允圭",
         "china_intro_badge": "GLOBAL PARTNERSHIP & MANUFACTURING BASE",
         "china_intro_title": "グローバルスマート物流設備・仕分け機械特化・ロボティクス＆専門制御ソフトウェアの先導企業",
@@ -966,7 +967,7 @@ var i18nData = window.i18nData = window.i18nData || {
         "brochure_alert": "製品カタログPDFは近日更新予定です。導入相談をお寄せいただければ、担当者より最新カタログをメールでお送りいたします。"
     },
     "cn": {
-        "ref_subtitle": "スマート物流製造拠点の<strong>空撮全景</strong>から<strong>CBS</strong>、<strong>NC CBS</strong>、<strong>NBS</strong>、<strong>ホイールソーター</strong>、<strong>チルトトレイソーター</strong>まで、国内外の稼働現場で実際に稼働している映像(YouTubeシアター)と高画質フォトギャラリーをカテゴリー別にご覧いただけます。",
+        "ref_subtitle": "全面展示从智能物流制造基地航拍<strong>全景</strong>到<strong>CBS</strong>、<strong>NC CBS</strong>、<strong>NBS</strong>、<strong>摆轮分拣机</strong>、<strong>翻盘分拣机</strong>的实际物流现场运行视频（YouTube剧场）与高清实拍画廊。",
         "ceo_card_name": "代表理事 韓 允圭",
         "china_intro_badge": "GLOBAL PARTNERSHIP & MANUFACTURING BASE",
         "china_intro_title": "全球智能物流设备 · 分拣机械特化 · 机器人及专业控制软件领航企业",
@@ -1530,15 +1531,19 @@ const extendedI18nData = {
         "ref_c7_desc": "Engineered customized sortation lines coupled with multi-angle machine vision barcode identification to automatically sort bulky, irregular rubber tires by destination.",
         "ref_c7_field": "Irregular Heavy Cargo Automation",
         "china_intro_badge": "GLOBAL PARTNERSHIP & MANUFACTURING BASE",
-        "china_intro_title": "글로벌 스마트 물류 설비 / 분류 장비 특화 / 로보틱스 / 전문 소프트웨어 선도기업",
-        "china_intro_heading": "한중 합자법인 (제조사)",
-        "china_intro_p1": "한중 합자법인 (제조사)는 전 세계 최고 수준의 스마트 물류 설비 및 자체 특허 및 기술력이 바탕이 된 분류 장비 / 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.",
-        "china_intro_p2": "(주)에이티에이기술은 한중 합자법입(제조사)과의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.",
+        "china_intro_title": "Global Smart Logistics Equipment · Sortation Machinery · Robotics & Professional Software Leader",
+        "china_intro_heading": "Korea-China Joint Venture (Manufacturer)",
+        "china_intro_p1": "The Korea-China Joint Venture (Manufacturer) is a global innovative manufacturing base specializing in the research and mass production of world-class smart logistics equipment, patented sortation machinery, autonomous mobile robots (AGV/AMR), and intelligent shuttle systems.",
+        "china_intro_p2": "Through an exclusive strategic partnership with the Korea-China Joint Venture, ATA Technology fuses China's overwhelming mass-production hardware competitiveness with Korea's precision WCS control algorithms, delivering smart logistics solutions with unmatched cost-efficiency and flawless performance.",
         "china_intro_stat1_num": "16+",
-        "china_intro_stat1_title": "보유 특허 및 각종 인증등",
+        "china_intro_stat1_title": "Patents & Certifications",
         "china_intro_stat2_num": "670+",
-        "china_intro_stat2_title": "글로벌 고객사 구축 현장",
+        "china_intro_stat2_title": "Global Client Deployments",
         "china_intro_map_zoom": "<i class=\"fa-solid fa-magnifying-glass-plus\"></i> Zoom Global Infrastructure Map",
+        "china_intro_factory_badge": "<i class=\"fa-solid fa-industry\"></i> Manufacturing & R&D Hub Panorama",
+        "china_intro_factory_sub": "Drone Aerial View of Smart Manufacturing Base",
+        "china_intro_factory_zoom": "<i class=\"fa-solid fa-expand mr-1\"></i>View High-Resolution Original",
+        "china_intro_factory_desc": "Drone aerial view of the large-scale smart logistics manufacturing complex and R&D verification testing center equipped with solar rooftop facilities. Precision mass production covers sorters, high-speed induction lines, and AGV/AMRs.",
         "china_subnav_badge": "SUB MENU NAVIGATION",
         "china_subnav_title": "China Branch Core Navigation",
         "china_subnav_c1_badge": "Sub Menu 1",
@@ -1748,15 +1753,19 @@ const extendedI18nData = {
         "ref_c7_desc": "将机器视觉条码识别与特化分拣输送线无缝结合，实现大件异形橡胶轮胎按出库流向全自动高速精准分流。",
         "ref_c7_field": "大件异形物流自动化",
         "china_intro_badge": "GLOBAL PARTNERSHIP & MANUFACTURING BASE",
-        "china_intro_title": "글로벌 스마트 물류 설비 / 분류 장비 특화 / 로보틱스 / 전문 소프트웨어 선도기업",
-        "china_intro_heading": "한중 합자법인 (제조사)",
-        "china_intro_p1": "한중 합자법인 (제조사)는 전 세계 최고 수준의 스마트 물류 설비 및 자체 특허 및 기술력이 바탕이 된 분류 장비 / 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.",
-        "china_intro_p2": "(주)에이티에이기술은 한중 합자법입(제조사)과의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.",
+        "china_intro_title": "全球智能物流设备 · 分拣机械特化 · 机器人与专业控制软件领军企业",
+        "china_intro_heading": "中韩合资法人（制造工厂）",
+        "china_intro_p1": "中韩合资法人（制造工厂）是专业研发与量产全球顶级智能分拣设备、自主专利核心分拣机械、自主移动物流机器人（AGV/AMR）及智能穿梭车系统的全球创新制造基地。",
+        "china_intro_p2": "ATA Technology通过与中韩合资法人（制造工厂）紧密的独家战略合作伙伴关系，将中国规模化硬件智能制造的绝对成本与产能优势，与韩国精密WCS控制算法及软件技术深度融合，向全球客户提供高性价比与零缺陷卓越性能的智能物流系统方案。",
         "china_intro_stat1_num": "16+",
-        "china_intro_stat1_title": "보유 특허 및 각종 인증등",
+        "china_intro_stat1_title": "核心自主专利与权威认证",
         "china_intro_stat2_num": "670+",
-        "china_intro_stat2_title": "글로벌 고객사 구축 현장",
+        "china_intro_stat2_title": "全球客户实绩与应用现场",
         "china_intro_map_zoom": "<i class=\"fa-solid fa-magnifying-glass-plus\"></i> 放大查看全球网络图",
+        "china_intro_factory_badge": "<i class=\"fa-solid fa-industry\"></i> 中韩合资法人（制造工厂）生产与研发基地全景",
+        "china_intro_factory_sub": "智能物流制造基地航拍无人机实景",
+        "china_intro_factory_zoom": "<i class=\"fa-solid fa-expand mr-1\"></i>查看高清原图",
+        "china_intro_factory_desc": "配备太阳能绿色屋顶的大型智能物流装备制造园区与研发实证测试中心航拍全景。涵盖大型分拣机、高速供件线及智能AGV/AMR机器人的精密量产体系。",
         "china_subnav_badge": "SUB MENU NAVIGATION",
         "china_subnav_title": "中国分公司核心快捷导航",
         "china_subnav_c1_badge": "子菜单 1",
@@ -1966,15 +1975,19 @@ const extendedI18nData = {
         "ref_c7_desc": "非定型な大型ゴムタイヤ貨物をバーコードビジョン認識と連携させ、仕向け地別に自動仕分けする特化ソーターラインを構築しました。",
         "ref_c7_field": "大型非定型貨物自動化",
         "china_intro_badge": "GLOBAL PARTNERSHIP & MANUFACTURING BASE",
-        "china_intro_title": "글로벌 스마트 물류 설비 / 분류 장비 특화 / 로보틱스 / 전문 소프트웨어 선도기업",
-        "china_intro_heading": "한중 합자법인 (제조사)",
-        "china_intro_p1": "한중 합자법인 (제조사)는 전 세계 최고 수준의 스마트 물류 설비 및 자체 특허 및 기술력이 바탕이 된 분류 장비 / 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.",
-        "china_intro_p2": "(주)에이티에이기술은 한중 합자법입(제조사)과의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.",
+        "china_intro_title": "グローバルスマート物流設備・仕分け機械特化・ロボティクス＆専門制御ソフトウェア先導企業",
+        "china_intro_heading": "韓中合弁法人（製造拠点）",
+        "china_intro_p1": "韓中合弁法人（製造拠点）は、世界最高水準のスマート仕分け設備および独自特許・技術に基づく自動仕分け機、自律走行搬送ロボット（AGV/AMR）、高密度シャトルシステムを専門的に研究・量産するグローバル革新技術製造拠点です。",
+        "china_intro_p2": "株式会社ATAテクノロジーは、韓中合弁法人（製造拠点）との緊密な独占的戦略パートナーシップを通じ、中国の圧倒的な量産ハードウェア製造競争力と韓国의 精密なソフトウェア（WCS）制御アルゴリズムを融合させ、世界最高水準のコストパフォーマンスと無欠陥性能を誇るスマート物流ソリューションを提供しています。",
         "china_intro_stat1_num": "16+",
-        "china_intro_stat1_title": "보유 특허 및 각종 인증등",
+        "china_intro_stat1_title": "保有特許及び各種認証等",
         "china_intro_stat2_num": "670+",
-        "china_intro_stat2_title": "글로벌 고객사 구축 현장",
+        "china_intro_stat2_title": "グローバル顧客導入現場",
         "china_intro_map_zoom": "<i class=\"fa-solid fa-magnifying-glass-plus\"></i> インフラマップ拡大表示",
+        "china_intro_factory_badge": "<i class=\"fa-solid fa-industry\"></i> 韓中合弁法人（製造拠点）生産およびR&D拠点全景",
+        "china_intro_factory_sub": "スマート物流製造拠点ドローン空撮",
+        "china_intro_factory_zoom": "<i class=\"fa-solid fa-expand mr-1\"></i>高画質原本拡大表示",
+        "china_intro_factory_desc": "太陽光発電エコ屋根設備を備えた大規模スマート物流設備製造・組立団地およびR&D実証テストセンターのドローン空撮全景です。大型ソーターからAGV/AMRまで精密量産体制を稼働しています。",
         "china_subnav_badge": "SUB MENU NAVIGATION",
         "china_subnav_title": "中国支社・製造拠点 主要メニュー",
         "china_subnav_c1_badge": "サブメニュー 1",
@@ -2170,15 +2183,19 @@ const extendedI18nData = {
         "ref_c7_desc": "将机器视觉条码识别与特化分拣输送线无缝结合，实现大件异形橡胶轮胎按出库流向全自动高速精准分流。",
         "ref_c7_field": "大件异形物流自动化",
         "china_intro_badge": "GLOBAL PARTNERSHIP & MANUFACTURING BASE",
-        "china_intro_title": "글로벌 스마트 물류 설비 / 분류 장비 특화 / 로보틱스 / 전문 소프트웨어 선도기업",
-        "china_intro_heading": "한중 합자법인 (제조사)",
-        "china_intro_p1": "한중 합자법인 (제조사)는 전 세계 최고 수준의 스마트 물류 설비 및 자체 특허 및 기술력이 바탕이 된 분류 장비 / 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.",
-        "china_intro_p2": "(주)에이티에이기술은 한중 합자법입(제조사)과의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.",
+        "china_intro_title": "全球智能物流设备 · 分拣机械特化 · 机器人与专业控制软件领军企业",
+        "china_intro_heading": "中韩合资法人（制造工厂）",
+        "china_intro_p1": "中韩合资法人（制造工厂）是专业研发与量产全球顶级智能分拣设备、自主专利核心分拣机械、自主移动物流机器人（AGV/AMR）及智能穿梭车系统的全球创新制造基地。",
+        "china_intro_p2": "ATA Technology通过与中韩合资法人（制造工厂）紧密的独家战略合作伙伴关系，将中国规模化硬件智能制造的绝对成本与产能优势，与韩国精密WCS控制算法及软件技术深度融合，向全球客户提供高性价比与零缺陷卓越性能的智能物流系统方案。",
         "china_intro_stat1_num": "16+",
-        "china_intro_stat1_title": "보유 특허 및 각종 인증등",
+        "china_intro_stat1_title": "核心自主专利与权威认证",
         "china_intro_stat2_num": "670+",
-        "china_intro_stat2_title": "글로벌 고객사 구축 현장",
+        "china_intro_stat2_title": "全球客户实绩与应用现场",
         "china_intro_map_zoom": "<i class=\"fa-solid fa-magnifying-glass-plus\"></i> 放大查看全球网络图",
+        "china_intro_factory_badge": "<i class=\"fa-solid fa-industry\"></i> 中韩合资法人（制造工厂）生产与研发基地全景",
+        "china_intro_factory_sub": "智能物流制造基地航拍无人机实景",
+        "china_intro_factory_zoom": "<i class=\"fa-solid fa-expand mr-1\"></i>查看高清原图",
+        "china_intro_factory_desc": "配备太阳能绿色屋顶的大型智能物流装备制造园区与研发实证测试中心航拍全景。涵盖大型分拣机、高速供件线及智能AGV/AMR机器人的精密量产体系。",
         "china_subnav_badge": "SUB MENU NAVIGATION",
         "china_subnav_title": "中国分公司核心快捷导航",
         "china_subnav_c1_badge": "子菜单 1",
@@ -3041,11 +3058,12 @@ window.setLanguage = setLanguage;
 function setLanguage(lang, byUserSelection) {
     if (byUserSelection === undefined) byUserSelection = true;
 
-    if (lang === 'cn' && !i18nData['cn'] && i18nData['zh']) {
-        i18nData['cn'] = i18nData['zh'];
-    }
-    if (lang === 'zh' && !i18nData['zh'] && i18nData['cn']) {
-        i18nData['zh'] = i18nData['cn'];
+    // [중국어 zh / cn 완전 통합 동기화]
+    // cn과 zh를 양방향으로 완벽 병합하여 어떤 키도 누락되지 않도록 100% 보장
+    if (i18nData['cn'] || i18nData['zh']) {
+        const fullChinese = Object.assign({}, i18nData['cn'] || {}, i18nData['zh'] || {});
+        i18nData['cn'] = fullChinese;
+        i18nData['zh'] = fullChinese;
     }
 
     if (!i18nData[lang]) {
@@ -3087,7 +3105,7 @@ function setLanguage(lang, byUserSelection) {
     // 5. 상세 페이지/제품 상세정보 영역 4개국어 동적 동기화
     window.currentLanguage = lang;
     if (typeof window.renderProductDetail === 'function') {
-        window.renderProductDetail(window.currentProductId || 'delivery-vehicle', lang);
+        window.renderProductDetail(window.currentProductId || '택배차량 배송 자동화 시스템', lang);
     }
 
     // 6. 도입 상담 모달 솔루션 옵션 언어 동기화
@@ -3331,6 +3349,13 @@ document.addEventListener('keydown', function (e) {
         saved = 'ko';
     }
     if (saved === 'zh') saved = 'cn';
+    // 초기화 시 중국어 사전 전수 병합
+    if (typeof i18nData !== 'undefined' && (i18nData.cn || i18nData.zh)) {
+        const fullChinese = Object.assign({}, i18nData.cn || {}, i18nData.zh || {});
+        i18nData.cn = fullChinese;
+        i18nData.zh = fullChinese;
+    }
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => setLanguage(saved, false));
     } else {

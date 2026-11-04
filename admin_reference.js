@@ -312,12 +312,15 @@
         return REF_I18N[lang] ? lang : 'ko';
     }
 
+    if (!REF_I18N['zh'] && REF_I18N['cn']) REF_I18N['zh'] = REF_I18N['cn'];
+    if (!REF_I18N['cn'] && REF_I18N['zh']) REF_I18N['cn'] = REF_I18N['zh'];
+
     function tRef(key, params) {
         var lang = getRefLang();
         var str = (REF_I18N[lang] && REF_I18N[lang][key]) || REF_I18N['ko'][key] || key;
         if (params && typeof params === 'object') {
             Object.keys(params).forEach(function (p) {
-                str = str.replace(new RegExp('\\\\{' + p + '\\\\}', 'g'), params[p]);
+                str = str.replace(new RegExp('\\{' + p + '\\}', 'g'), params[p]);
             });
         }
         return str;
@@ -3179,23 +3182,26 @@ var REFERENCE_GALLERY_DB = {
             totalPhotos += (REFERENCE_GALLERY_DB[f].photoCount || 0);
         });
 
+        var allLabel = tRef("tab_all") !== "tab_all" ? tRef("tab_all") : tRef("all_tab");
         var tabsConfig = [
             {
                 id: "all",
-                label: tRef("all_tab"),
+                label: allLabel,
                 icon: "fa-layer-group",
-                countText: "영상 " + totalVideos + " · 사진 " + totalPhotos
+                countText: tRef("vid_count_label", { count: totalVideos }) + " · " + tRef("pho_count_label", { count: totalPhotos })
             }
         ];
 
         FOLDER_ORDER.forEach(function (f) {
             var d = REFERENCE_GALLERY_DB[f];
+            var tabKey = "tab_" + f.replace(/\s+/g, "_");
+            var tabLabel = tRef(tabKey) !== tabKey ? tRef(tabKey) : f;
             var badgeParts = [];
-            if (d.videoCount > 0) badgeParts.push("영상 " + d.videoCount);
-            if (d.photoCount > 0) badgeParts.push("사진 " + d.photoCount);
+            if (d.videoCount > 0) badgeParts.push(tRef("vid_count_label", { count: d.videoCount }));
+            if (d.photoCount > 0) badgeParts.push(tRef("pho_count_label", { count: d.photoCount }));
             tabsConfig.push({
                 id: f,
-                label: f,
+                label: tabLabel,
                 icon: d.icon || "fa-folder-open",
                 countText: badgeParts.join(" · ")
             });

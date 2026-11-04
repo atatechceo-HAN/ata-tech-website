@@ -5209,8 +5209,10 @@
         
     // [제품 상세 페이지 동적 렌더러 - 11종 라인업 완벽 연동]
     window.renderProductDetail = function(productKey, lang) {
-        if (!productKey) productKey = 'delivery-vehicle';
+        if (!productKey) productKey = window.currentProductId || '택배차량 배송 자동화 시스템';
+        window.currentProductId = productKey;
         lang = lang || window.currentLanguage || 'ko';
+        if (lang === 'zh') lang = 'cn';
 
         // 1. productDb 또는 ata_product_lineup_db에서 제품 찾기
         var pData = null;
@@ -5417,12 +5419,13 @@
             } else if (viewId === 'reference') {
                 filterReference(param1 || 'all');
             } else if (viewId === 'product') {
+                if (param1) window.currentProductId = param1;
                 var curLang = window.currentLanguage || (function () {
                     try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
                 })();
                 if (curLang === 'zh') curLang = 'cn';
                 if (typeof window.renderProductDetail === 'function') {
-                    window.renderProductDetail(param1 || window.currentProductId || 'delivery-vehicle', curLang);
+                    window.renderProductDetail(window.currentProductId || '택배차량 배송 자동화 시스템', curLang);
                 }
             } else if (viewId === 'notice') {
                 if (typeof window.renderNoticeList === 'function') {
