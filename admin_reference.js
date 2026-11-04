@@ -3231,8 +3231,17 @@ var REFERENCE_GALLERY_DB = {
         var box = document.getElementById("ref-category-briefing");
         if (!box) return;
 
-        var tagsHtml = (mediaData.tags || []).map(function (t) {
-            return '<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><i class="fa-solid fa-check text-[10px] text-blue-500"></i>' + escapeHtml(t) + '</span>';
+        var catKey = (currentCategory || "all").replace(/\s+/g, "_");
+        var subKey = "cat_sub_" + catKey;
+        var descKey = "cat_desc_" + catKey;
+        var subText = (tRef(subKey) !== subKey) ? tRef(subKey) : (mediaData.subtitle || mediaData.title);
+        var descText = (tRef(descKey) !== descKey) ? tRef(descKey) : mediaData.overview;
+
+        // 태그 다국어 지원
+        var tagsKey = "cat_tags_" + catKey;
+        var tagsRaw = (tRef(tagsKey) !== tagsKey) ? tRef(tagsKey).split(",") : (mediaData.tags || []);
+        var tagsHtml = tagsRaw.map(function (t) {
+            return '<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><i class="fa-solid fa-check text-[10px] text-blue-500"></i>' + escapeHtml(t.trim()) + '</span>';
         }).join("");
 
         var hasVideos = mediaData.videos && mediaData.videos.length > 0;
@@ -3247,14 +3256,14 @@ var REFERENCE_GALLERY_DB = {
             '        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-900 text-cyan-300">',
             '          <i class="fa-solid ' + (mediaData.icon || 'fa-folder-open') + '"></i> ' + escapeHtml(mediaData.badge),
             '        </span>',
-            hasVideos ? '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-red-600 border border-red-200"><i class="fa-brands fa-youtube"></i> 동영상 ' + mediaData.videos.length + '편</span>' : '',
-            hasPhotos ? '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><i class="fa-solid fa-images"></i> 이미지 ' + mediaData.photos.length + '장</span>' : '',
+            hasVideos ? '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-red-600 border border-red-200"><i class="fa-brands fa-youtube"></i> ' + tRef("vid_count_label", { count: mediaData.videos.length }) + '</span>' : '',
+            hasPhotos ? '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><i class="fa-solid fa-images"></i> ' + tRef("pho_count_label", { count: mediaData.photos.length }) + '</span>' : '',
             '      </div>',
             '      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-snug">',
-            '        ' + escapeHtml(mediaData.subtitle || mediaData.title),
+            '        ' + escapeHtml(subText),
             '      </h3>',
             '      <p class="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">',
-            '        ' + escapeHtml(mediaData.overview),
+            '        ' + escapeHtml(descText),
             '      </p>',
             '      <div class="flex flex-wrap gap-2 pt-1">' + tagsHtml + '</div>',
             '    </div>',
