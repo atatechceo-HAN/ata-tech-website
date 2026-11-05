@@ -316,6 +316,62 @@
     if (!REF_I18N['cn'] && REF_I18N['zh']) REF_I18N['cn'] = REF_I18N['zh'];
 
     // 폴더명 4개국어 공식 매핑 사전 (한글 키 인코딩 불일치 완전 방어)
+        // 스마트폰 및 모바일 전용 시어터 컨테이너 정밀 스크롤 (80px 고정 헤더 완벽 오프셋)
+    function scrollToTheater(theaterId) {
+        if (window.innerWidth < 1024) {
+            var box = document.getElementById(theaterId);
+            if (box) {
+                var rect = box.getBoundingClientRect();
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+                var targetY = rect.top + scrollTop - 85; // 80px 헤더 + 5px 여유
+                window.scrollTo({
+                    top: Math.max(0, targetY),
+                    behavior: "smooth"
+                });
+            }
+        }
+    }
+
+    // 모바일 썸네일 스크롤 컨테이너 전용 고속 터치 위임 엔진 (스크롤 중이 아닌 탭 즉시 실행)
+    function bindPlaylistTouchDelegation(containerId, type) {
+        var container = document.getElementById(containerId);
+        if (!container || container.dataset.touchBound) return;
+        container.dataset.touchBound = "1";
+
+        var startX = 0, startY = 0, startTime = 0;
+        container.addEventListener('touchstart', function (e) {
+            if (e.touches && e.touches.length === 1) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                startTime = Date.now();
+            }
+        }, { passive: true });
+
+        container.addEventListener('touchend', function (e) {
+            if (!e.changedTouches || e.changedTouches.length === 0) return;
+            var endX = e.changedTouches[0].clientX;
+            var endY = e.changedTouches[0].clientY;
+            var diffX = Math.abs(endX - startX);
+            var diffY = Math.abs(endY - startY);
+            var duration = Date.now() - startTime;
+
+            // 탭 판정: 이동 반경 18px 이내 & 터치 시간 500ms 미만
+            if (diffX < 18 && diffY < 18 && duration < 500) {
+                var item = e.target.closest('.ref-yt-thumb-item, .ref-photo-thumb-item');
+                if (item && item.dataset.index !== undefined) {
+                    var idx = parseInt(item.dataset.index, 10);
+                    if (!isNaN(idx)) {
+                        if (type === 'video') {
+                            window.ReferenceAdmin.playVideoAtIndex(idx);
+                        } else {
+                            window.ReferenceAdmin.selectPhotoAtIndex(idx);
+                        }
+                    }
+                }
+            }
+        }, { passive: true });
+    }
+
     var FOLDER_LANG_MAP = {
         "전경": { ko: "전경 (캠퍼스)", en: "Campus Aerial", zh: "基地全景 (园区)", ja: "拠点全景 (キャンパス)" },
         "CBS": { ko: "CBS (크로스벨트)", en: "CBS (Cross Belt)", zh: "CBS (交叉带分拣机)", ja: "CBS (クロスベルト)" },
@@ -3147,7 +3203,8 @@ var REFERENCE_GALLERY_DB = {
             "  .ref-playlist-scroll { max-height: 580px !important; }",
             "}",
             "/* 우측 개별 썸네일 아이템 카드 (모바일 터치 100% 즉각 반응 보강) */",
-            ".ref-yt-thumb-item, .ref-photo-thumb-item { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 0.75rem !important; padding: 0.625rem !important; border-radius: 0.75rem !important; cursor: pointer !important; transition: all 0.2s ease !important; touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; user-select: none !important; -webkit-user-select: none !important; }",
+            ".ref-yt-thumb-item, .ref-photo-thumb-item { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 0.75rem !important; padding: 0.75rem !important; min-height: 84px !important; border-radius: 0.75rem !important; cursor: pointer !important; transition: all 0.2s ease !important; touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; user-select: none !important; -webkit-user-select: none !important; }",
+            ".ref-filter-tab { touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; }",
             ".ref-yt-thumb-item:active, .ref-photo-thumb-item:active { transform: scale(0.98) !important; opacity: 0.9 !important; }",
             "/* 썸네일 내부 장식용 요소의 클릭 가로챔 방지 (터치가 카드 전체로 직접 전달) */",
             ".ref-thumb-media-box, .ref-thumb-media-box * { pointer-events: none !important; }",
@@ -3316,6 +3373,8 @@ var REFERENCE_GALLERY_DB = {
             '  </div>',
             '</div>'
         ].join("");
+
+        bindPlaylistTouchDelegation("ref-photo-playlist-scroll", "photo");
     }
 
     // ==========================================================================
@@ -3406,7 +3465,7 @@ var REFERENCE_GALLERY_DB = {
             '      <!-- [가운데 메인 영역 (8칸)] 비디오 플레이어 및 설비 분석 해설 -->',
             '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4">',
             '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner flex items-center justify-center group/stage">',
-            '          <video id="ref-yt-main-video" controls playsinline preload="metadata"',
+            '          <video id="ref-yt-main-video" controls playsinline webkit-playsinline x5-playsinline preload="auto"',
             posterSrc ? '                 poster="' + posterSrc + '"' : '',
             '                 src="' + videoSrc + '"',
             '                 data-raw-src="' + escapeHtml(activeVid.src) + '"',
@@ -3481,6 +3540,7 @@ var REFERENCE_GALLERY_DB = {
         var vEl = document.getElementById("ref-yt-main-video");
         if (vEl) { vEl.volume = 0.1; } // 초기 로드 기본 음량 10%
         bindVideoEndedEvent();
+        bindPlaylistTouchDelegation("ref-yt-playlist-scroll", "video");
     }
 
     function syncCenterPlayBtnState() {
@@ -3767,6 +3827,8 @@ var REFERENCE_GALLERY_DB = {
             '  </div>',
             '</div>'
         ].join("");
+
+        bindPlaylistTouchDelegation("ref-photo-playlist-scroll", "photo");
     }
 
     // 깜빡임 없이 가운데 메인 이미지와 우측 썸네일 활성 상태만 즉시 갱신
@@ -4269,25 +4331,21 @@ var REFERENCE_GALLERY_DB = {
             if (!currentVideoList || idx < 0 || idx >= currentVideoList.length) return;
             currentVideoIndex = idx;
             updateActiveVideoUI(true);
-            // 모바일 화면(폭 1024px 미만)에서 상단 비디오 시어터로 부드럽게 자동 스크롤
-            if (window.innerWidth < 1024) {
-                var box = document.getElementById("ref-yt-theater-box");
-                if (box) {
-                    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                }
-            }
+            // 스마트폰 화면(폭 1024px 미만)에서 상단 비디오 시어터로 헤더 오프셋 정밀 스크롤
+            scrollToTheater("ref-yt-theater-box");
         },
         toggleMainVideoPlay: function (e) {
             if (e && e.stopPropagation) e.stopPropagation();
-            if (e && e.preventDefault) e.preventDefault();
+            // 주의: 모바일 브라우저의 유저 제스처 유실을 방지하기 위해 preventDefault()를 호출하지 않습니다.
             var videoEl = document.getElementById("ref-yt-main-video");
             if (!videoEl) return;
             if (videoEl.paused) {
-                var p = videoEl.play();
-                if (p && typeof p.catch === "function") {
-                    p.catch(function () {
+                var playPromise = videoEl.play();
+                if (playPromise && typeof playPromise.catch === "function") {
+                    playPromise.catch(function (err) {
+                        console.warn('[Video] Play blocked, trying muted playback:', err);
                         videoEl.muted = true;
-                        videoEl.play();
+                        videoEl.play().catch(function () {});
                     });
                 }
             } else {
@@ -4317,13 +4375,8 @@ var REFERENCE_GALLERY_DB = {
             if (!currentPhotoList || idx < 0 || idx >= currentPhotoList.length) return;
             currentPhotoIndex = idx;
             updateActivePhotoUI();
-            // 모바일 화면(폭 1024px 미만)에서 상단 포토 시어터로 부드럽게 자동 스크롤
-            if (window.innerWidth < 1024) {
-                var box = document.getElementById("ref-photo-theater-box");
-                if (box) {
-                    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                }
-            }
+            // 스마트폰 화면(폭 1024px 미만)에서 상단 포토 시어터로 헤더 오프셋 정밀 스크롤
+            scrollToTheater("ref-photo-theater-box");
         },
         prevPhoto: function () {
             if (!currentPhotoList || currentPhotoList.length === 0) return;
