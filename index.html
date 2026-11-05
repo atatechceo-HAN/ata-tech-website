@@ -284,7 +284,8 @@
         }
 
         /* 회사 연혁(History) 동적 카드 및 섹션이 모바일/PC 스크롤 시 투명(opacity:0) 상태로 남지 않도록 100% 가시성 보장 */
-        #about-history .fade-in, #view-reference .fade-in {
+        #about-history .fade-in,
+        #view-reference .fade-in {
             opacity: 1 !important;
             transform: translateY(0) !important;
 
@@ -1059,7 +1060,8 @@
                     <a href="#" onclick="navigate('xingting-intro'); return false;"
                         class="hover:text-blue-600 transition-colors flex items-center text-slate-700 whitespace-nowrap py-1">
 
-                        <span data-i18n="nav_china" class="whitespace-nowrap"><span data-i18n="china_global_base2_title">한중 합자법인 (제조사)</span></span> <i
+                        <span data-i18n="nav_china" class="whitespace-nowrap"><span
+                                data-i18n="china_global_base2_title">한중 합자법인 (제조사)</span></span> <i
                             class="fa-solid fa-chevron-down text-[9px] xl:text-[10px] ml-1 opacity-70"></i>
 
                     </a>
@@ -1778,13 +1780,17 @@
                         <div
                             class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 w-full max-w-md flex items-center justify-center mb-6">
 
-                            <div class="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-lg border border-slate-200 group bg-slate-100">
-                                <img src="assets/images/ceo_profile.png" onerror="this.onerror=null; this.src='[ Insert Data ]/대표자 프로필 - 000.png';" 
-                                     alt="주식회사 에이티에이기술 대표이사" 
-                                     class="w-full h-auto max-h-[380px] object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                     onerror="this.onerror=null; this.src='Logo - 001.png';">
-                                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent p-4 text-white text-left">
-                                    <p class="font-bold text-base tracking-wide" data-i18n="ceo_card_name">대표이사 한 윤 규</p>
+                            <div
+                                class="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-lg border border-slate-200 group bg-slate-100">
+                                <img src="assets/images/ceo_profile.png"
+                                    onerror="this.onerror=null; this.src='[ Insert Data ]/대표자 프로필 - 000.png';"
+                                    alt="주식회사 에이티에이기술 대표이사"
+                                    class="w-full h-auto max-h-[380px] object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                                    onerror="this.onerror=null; this.src='Logo - 001.png';">
+                                <div
+                                    class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent p-4 text-white text-left">
+                                    <p class="font-bold text-base tracking-wide" data-i18n="ceo_card_name">대표이사 한 윤 규
+                                    </p>
                                     <p class="text-xs text-blue-200">Always Transforming Automation</p>
                                 </div>
                             </div>
@@ -1840,9 +1846,10 @@
 
                         <div class="flex items-center justify-end gap-3 mt-8">
                             <p class="text-slate-800 font-extrabold text-lg text-right" data-i18n="ceo_sign">
-                                주식회사 에이티에이기술 대표이사 <span class="text-2xl text-blue-900 font-black ml-2 tracking-wide">한 윤 규</span>
+                                주식회사 에이티에이기술 대표이사 <span class="text-2xl text-blue-900 font-black ml-2 tracking-wide">한 윤
+                                    규</span>
                             </p>
-                            
+
                         </div>
 
                     </div>
@@ -3809,7 +3816,9 @@
                 </h2>
 
                 <p class="text-slate-600 text-base md:text-lg leading-relaxed" data-i18n="ref_subtitle">
-                    스마트 물류 제조 거점 항공 <strong>전경</strong>부터 <strong>CBS</strong>, <strong>NC CBS</strong>, <strong>NBS</strong>, <strong>Wheel Sorter</strong>, <strong>틸트트레이소터</strong>까지 실제 현장에서 가동 중인 영상(YouTube 시어터)과 고화질 포토 갤러리를 폴더별로 확인하실 수 있습니다.
+                    스마트 물류 제조 거점 항공 <strong>전경</strong>부터 <strong>CBS</strong>, <strong>NC CBS</strong>,
+                    <strong>NBS</strong>, <strong>Wheel Sorter</strong>, <strong>틸트트레이소터</strong>까지 실제 현장에서 가동 중인
+                    영상(YouTube 시어터)과 고화질 포토 갤러리를 폴더별로 확인하실 수 있습니다.
                 </p>
 
             </div>
@@ -3818,7 +3827,8 @@
             <div id="reference-admin-control-bar" class="fade-in mb-6"></div>
 
             <!-- [폴더별 카테고리 탭 바] 전체 보기 + 6대 폴더 (전경, CBS, NC CBS, NBS, Wheel Sorter, 틸트트레이소터) -->
-            <div id="ref-folder-tabs-bar" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 fade-in">
+            <div id="ref-folder-tabs-bar"
+                class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 fade-in">
                 <button type="button" onclick="window.filterReference('all')"
                     class="ref-filter-tab min-h-[46px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-extrabold transition-all duration-300 shadow-lg bg-gradient-to-r from-blue-600 to-cyan-600 text-white ring-2 ring-blue-400 cursor-pointer">
                     <i class="fa-solid fa-layer-group text-xs"></i>
@@ -3928,16 +3938,21 @@
                         한중 합자법인 (제조사)는 전 세계 최고 수준의 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.
                     </p>
                     <p class="text-slate-600 leading-relaxed mb-8" data-i18n="china_intro_p2">
-                        (주)에이티에이기술은 한중 합자법인 (제조사)와의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.
+                        (주)에이티에이기술은 한중 합자법인 (제조사)와의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS)
+                        제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.
                     </p>
                     <div class="grid grid-cols-2 gap-6 border-t border-slate-200 pt-8">
                         <div>
-                            <div class="text-3xl font-bold text-blue-600 mb-1" data-i18n="china_intro_stat1_num">16+</div>
-                            <div class="text-sm text-slate-600 font-semibold" data-i18n="china_intro_stat1_title">보유 특허 및 각종 인증등</div>
+                            <div class="text-3xl font-bold text-blue-600 mb-1" data-i18n="china_intro_stat1_num">16+
+                            </div>
+                            <div class="text-sm text-slate-600 font-semibold" data-i18n="china_intro_stat1_title">보유 특허
+                                및 각종 인증등</div>
                         </div>
                         <div>
-                            <div class="text-3xl font-bold text-blue-600 mb-1" data-i18n="china_intro_stat2_num">670+</div>
-                            <div class="text-sm text-slate-600 font-semibold" data-i18n="china_intro_stat2_title">글로벌 고객사 구축 현장</div>
+                            <div class="text-3xl font-bold text-blue-600 mb-1" data-i18n="china_intro_stat2_num">670+
+                            </div>
+                            <div class="text-sm text-slate-600 font-semibold" data-i18n="china_intro_stat2_title">글로벌
+                                고객사 구축 현장</div>
                         </div>
                     </div>
                 </div>
@@ -3948,8 +3963,10 @@
                             onerror="this.onerror=null; this.src='assets/images/no-image.svg';"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             alt="한중 합자법인 글로벌 네트워크 맵">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
-                            <span class="text-xs bg-accent text-white px-3 py-1.5 rounded-full font-bold shadow flex items-center gap-1.5"
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                            <span
+                                class="text-xs bg-accent text-white px-3 py-1.5 rounded-full font-bold shadow flex items-center gap-1.5"
                                 data-i18n="china_intro_map_zoom">
                                 <i class="fa-solid fa-magnifying-glass-plus"></i> 글로벌 인프라 맵 확대보기
                             </span>
@@ -3964,15 +3981,18 @@
                 <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md overflow-hidden">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                         <div class="flex items-center gap-2.5">
-                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-600 text-white flex items-center gap-1.5"
+                            <span
+                                class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-600 text-white flex items-center gap-1.5"
                                 data-i18n="china_intro_factory_badge">
                                 <i class="fa-solid fa-industry"></i> 한중 합자법인 (제조사) 생산 및 R&D 거점 전경
                             </span>
-                            <span class="text-xs text-slate-500 font-medium" data-i18n="china_intro_factory_sub">스마트 물류 제조 기지 항공 드론 촬영</span>
+                            <span class="text-xs text-slate-500 font-medium" data-i18n="china_intro_factory_sub">스마트 물류
+                                제조 기지 항공 드론 촬영</span>
                         </div>
-                        <span class="text-xs text-blue-600 font-semibold cursor-pointer hover:underline" 
-                              onclick="openImageModal('assets/images/china_factory_panorama.jpg', '한중 합자법인 (제조사) 스마트 제조 및 R&D 거점 항공 전경')">
-                            <span data-i18n="china_intro_factory_zoom"><i class="fa-solid fa-expand mr-1"></i>고화질 원본 확대보기</span>
+                        <span class="text-xs text-blue-600 font-semibold cursor-pointer hover:underline"
+                            onclick="openImageModal('assets/images/china_factory_panorama.jpg', '한중 합자법인 (제조사) 스마트 제조 및 R&D 거점 항공 전경')">
+                            <span data-i18n="china_intro_factory_zoom"><i class="fa-solid fa-expand mr-1"></i>고화질 원본
+                                확대보기</span>
                         </span>
                     </div>
                     <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-inner border border-slate-200 relative group cursor-pointer bg-slate-950 flex items-center justify-center"
@@ -3981,15 +4001,19 @@
                             onerror="this.onerror=null; this.src='[ Insert Data ]/[ Movie & Photo ]/전경/전경_1.jpg';"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             alt="한중 합자법인 (제조사) 스마트 제조 및 R&D 거점 항공 전경">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-6">
-                            <span class="text-xs bg-slate-900/90 text-white border border-white/20 px-3.5 py-1.5 rounded-full font-bold shadow flex items-center gap-1.5 backdrop-blur-sm"
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-6">
+                            <span
+                                class="text-xs bg-slate-900/90 text-white border border-white/20 px-3.5 py-1.5 rounded-full font-bold shadow flex items-center gap-1.5 backdrop-blur-sm"
                                 data-i18n="china_intro_factory_zoom">
                                 <i class="fa-solid fa-magnifying-glass-plus"></i> 클릭하여 고화질 전경 사진 확대보기
                             </span>
                         </div>
                     </div>
-                    <p class="text-slate-600 text-xs sm:text-sm mt-4 leading-relaxed" data-i18n="china_intro_factory_desc">
-                        태양광 친환경 루프탑 설비가 완비된 대규모 스마트 물류 장비 제조·조립 단지 및 R&D 실증 테스트 센터의 드론 항공 촬영 전경입니다. 대형 소터, 고속 인덕션 라인부터 자율주행 로봇(AGV/AMR)까지 정밀 양산 체계를 가동하고 있습니다.
+                    <p class="text-slate-600 text-xs sm:text-sm mt-4 leading-relaxed"
+                        data-i18n="china_intro_factory_desc">
+                        태양광 친환경 루프탑 설비가 완비된 대규모 스마트 물류 장비 제조·조립 단지 및 R&D 실증 테스트 센터의 드론 항공 촬영 전경입니다. 대형 소터, 고속 인덕션 라인부터
+                        자율주행 로봇(AGV/AMR)까지 정밀 양산 체계를 가동하고 있습니다.
                     </p>
                 </div>
             </div>
@@ -4002,7 +4026,8 @@
             <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
                 <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-2 block"
                     data-i18n="china_coop_badge">COOPERATIVE BUSINESS</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4" data-i18n="china_coop_title">한중 합자법인 (제조사) 주요 협력사업</h2>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4" data-i18n="china_coop_title">한중 합자법인
+                    (제조사) 주요 협력사업</h2>
                 <p class="text-slate-600 text-base leading-relaxed" data-i18n="china_coop_desc">
                     독점적 기술 제휴와 현지화 전략을 바탕으로 추진 중인 3대 핵심 협력 프로젝트입니다. 각 카드의 인포그래픽 이미지를 클릭하시면 고화질 원본으로 확대하여 확인하실 수 있습니다.
                 </p>
@@ -4011,7 +4036,8 @@
             <!-- 3대 핵심 협력 카드 그리드 -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- 협력 1 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow fade-in">
+                <div
+                    class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow fade-in">
                     <div>
                         <div class="aspect-video w-full rounded-xl overflow-hidden mb-6 bg-slate-100 relative group cursor-pointer border border-slate-200"
                             onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png', '1. 하드웨어-소프트웨어 융합 R&D')">
@@ -4024,9 +4050,11 @@
                                 <i class="fa-solid fa-magnifying-glass-plus text-accent"></i> 원본 크게 보기
                             </div>
                         </div>
-                        <span class="text-xs font-bold px-2.5 py-1 bg-blue-50 text-blue-600 rounded-full mb-3 inline-block"
+                        <span
+                            class="text-xs font-bold px-2.5 py-1 bg-blue-50 text-blue-600 rounded-full mb-3 inline-block"
                             data-i18n="china_coop_1_badge">핵심 협력 01</span>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="china_coop_1_title">하드웨어-소프트웨어 융합 R&D</h3>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="china_coop_1_title">하드웨어-소프트웨어 융합
+                            R&D</h3>
                         <p class="text-slate-600 text-sm leading-relaxed" data-i18n="china_coop_1_desc">
                             중국 제조사의 검증된 고정밀 하드웨어 메커니즘에 에이티에이기술의 한국형 물류 환경 맞춤형 WCS(관제 소프트웨어) 로직을 심는 차세대 공동 기술 개발을 진행합니다.
                         </p>
@@ -4042,7 +4070,8 @@
                 </div>
 
                 <!-- 협력 2 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow fade-in delay-100">
+                <div
+                    class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow fade-in delay-100">
                     <div>
                         <div class="aspect-video w-full rounded-xl overflow-hidden mb-6 bg-slate-100 relative group cursor-pointer border border-slate-200"
                             onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/렵력사업/2. 국내 대형 풀필먼트 공동 수주.png', '2. 국내 대형 풀필먼트 공동 수주')">
@@ -4055,11 +4084,14 @@
                                 <i class="fa-solid fa-magnifying-glass-plus text-accent"></i> 원본 크게 보기
                             </div>
                         </div>
-                        <span class="text-xs font-bold px-2.5 py-1 bg-cyan-50 text-cyan-600 rounded-full mb-3 inline-block"
+                        <span
+                            class="text-xs font-bold px-2.5 py-1 bg-cyan-50 text-cyan-600 rounded-full mb-3 inline-block"
                             data-i18n="china_coop_2_badge">핵심 협력 02</span>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="china_coop_2_title">국내 대형 풀필먼트 공동 수주</h3>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="china_coop_2_title">국내 대형 풀필먼트 공동
+                            수주</h3>
                         <p class="text-slate-600 text-sm leading-relaxed" data-i18n="china_coop_2_desc">
-                            국내 대표 이커머스 및 택배사 메가 허브 터미널 구축 시, 중국 제조사의 안정적인 양산 솔루션을 핵심 코어로 도입하여 압도적인 가격 경쟁력과 고성능을 고객에게 제안합니다.
+                            국내 대표 이커머스 및 택배사 메가 허브 터미널 구축 시, 중국 제조사의 안정적인 양산 솔루션을 핵심 코어로 도입하여 압도적인 가격 경쟁력과 고성능을 고객에게
+                            제안합니다.
                         </p>
                     </div>
                     <div class="pt-6 border-t border-slate-100 mt-6 flex justify-end">
@@ -4073,7 +4105,8 @@
                 </div>
 
                 <!-- 협력 3 -->
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow fade-in delay-200">
+                <div
+                    class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow fade-in delay-200">
                     <div>
                         <div class="aspect-video w-full rounded-xl overflow-hidden mb-6 bg-slate-100 relative group cursor-pointer border border-slate-200"
                             onclick="openImageModal('[ Insert Data ]/중국 지사_제조사/렵력사업/3. 로컬라이징 및 AS 전담 센터.png', '3. 로컬라이징 및 AS 전담 센터')">
@@ -4086,11 +4119,14 @@
                                 <i class="fa-solid fa-magnifying-glass-plus text-accent"></i> 원본 크게 보기
                             </div>
                         </div>
-                        <span class="text-xs font-bold px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-full mb-3 inline-block"
+                        <span
+                            class="text-xs font-bold px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-full mb-3 inline-block"
                             data-i18n="china_coop_3_badge">핵심 협력 03</span>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="china_coop_3_title">로컬라이징 및 A/S 전담 센터</h3>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="china_coop_3_title">로컬라이징 및 A/S 전담
+                            센터</h3>
                         <p class="text-slate-600 text-sm leading-relaxed" data-i18n="china_coop_3_desc">
-                            단순 수입 판매를 넘어, 에이티에이기술의 전문 엔지니어 그룹이 국내 도입된 제조사 전 설비의 현장 설치, 시운전, 그리고 24시간 실시간 무중단 유지보수(A/S)를 전담합니다.
+                            단순 수입 판매를 넘어, 에이티에이기술의 전문 엔지니어 그룹이 국내 도입된 제조사 전 설비의 현장 설치, 시운전, 그리고 24시간 실시간 무중단 유지보수(A/S)를
+                            전담합니다.
                         </p>
                     </div>
                     <div class="pt-6 border-t border-slate-100 mt-6 flex justify-end">
@@ -4121,9 +4157,11 @@
             </div>
 
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md mb-12 fade-in">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-900" data-i18n="china_global_map_title">글로벌 로보틱스 공급망 네트워크 맵</h3>
+                        <h3 class="text-lg font-bold text-slate-900" data-i18n="china_global_map_title">글로벌 로보틱스 공급망
+                            네트워크 맵</h3>
                         <p class="text-xs text-slate-500">Global Robotics Supply Chain & Deployment Hub</p>
                     </div>
                     <button type="button"
@@ -4139,7 +4177,8 @@
                         onerror="this.onerror=null; this.src='assets/images/no-image.svg';"
                         class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
                         alt="글로벌 네트워크 지도 인포그래픽">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-2">
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-2">
                         <i class="fa-solid fa-magnifying-glass-plus text-accent"></i> 클릭 시 고화질 확대
                     </div>
                 </div>
@@ -4148,11 +4187,14 @@
             <!-- 거점 카드 2열 그리드 (프리미엄 엔터프라이즈 B2B 디자인 고도화) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
                 <!-- 거점 1: 한국 본사 & R&D 혁신 센터 -->
-                <div class="bg-white rounded-3xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col fade-in">
+                <div
+                    class="bg-white rounded-3xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col fade-in">
                     <!-- 카드 헤더 배너 -->
-                    <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 p-6 sm:p-7 text-white relative">
+                    <div
+                        class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 p-6 sm:p-7 text-white relative">
                         <div class="flex items-center justify-between gap-3 mb-3">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-cyan-300 text-xs font-bold tracking-wider uppercase">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-cyan-300 text-xs font-bold tracking-wider uppercase">
                                 <i class="fa-solid fa-building-flag text-cyan-400 text-xs"></i>
                                 <span data-i18n="china_global_base1_badge">HEADQUARTERS & R&D</span>
                             </span>
@@ -4160,13 +4202,16 @@
                                 <span>🇰🇷</span> <span data-i18n="china_global_base1_nation">KOREA</span>
                             </span>
                         </div>
-                        <h4 class="text-xl sm:text-2xl font-black text-white mb-1.5" data-i18n="china_global_base1_title">대한민국 본사 (ATA Technology)</h4>
-                        <p class="text-xs sm:text-sm text-cyan-300 font-semibold" data-i18n="china_global_base1_sub">Seoul & Osan R&D Center (오산 본사)</p>
+                        <h4 class="text-xl sm:text-2xl font-black text-white mb-1.5"
+                            data-i18n="china_global_base1_title">대한민국 본사 (ATA Technology)</h4>
+                        <p class="text-xs sm:text-sm text-cyan-300 font-semibold" data-i18n="china_global_base1_sub">
+                            Seoul & Osan R&D Center (오산 본사)</p>
                     </div>
                     <!-- 카드 본문 -->
                     <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-5">
                         <div>
-                            <div class="flex items-center gap-2 text-xs text-slate-500 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                            <div
+                                class="flex items-center gap-2 text-xs text-slate-500 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                                 <i class="fa-solid fa-map-location-dot text-blue-600 text-sm shrink-0"></i>
                                 <span data-i18n="china_global_base1_loc">경기도 오산시 수목원로 88번길 35 현대테라타워 CMC B동 1402호</span>
                             </div>
@@ -4204,7 +4249,8 @@
                 </div>
 
                 <!-- 거점 2: 한중 합자법인 (첨단 스마트 양산 공장) -->
-                <div class="bg-white rounded-3xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col fade-in delay-100">
+                <div
+                    class="bg-white rounded-3xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col fade-in delay-100">
                     <!-- 카드 헤더 이미지 (스마트 공장 전경 파노라마) -->
                     <div class="aspect-video w-full relative bg-slate-950 overflow-hidden group cursor-pointer"
                         onclick="openImageModal('assets/images/china_factory_panorama.jpg', '한중 합자법인 첨단 스마트 공장 전경')">
@@ -4215,21 +4261,26 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
                         <!-- 상단 배지 -->
                         <div class="absolute top-4 left-4 right-4 flex items-center justify-between gap-3">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/30 backdrop-blur-md border border-cyan-400/40 text-cyan-200 text-xs font-bold tracking-wider uppercase">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/30 backdrop-blur-md border border-cyan-400/40 text-cyan-200 text-xs font-bold tracking-wider uppercase">
                                 <i class="fa-solid fa-industry text-cyan-300 text-xs"></i>
                                 <span data-i18n="china_global_base2_badge">SMART FACTORY & HUB</span>
                             </span>
-                            <span class="text-xs text-white/90 font-medium flex items-center gap-1 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full">
+                            <span
+                                class="text-xs text-white/90 font-medium flex items-center gap-1 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full">
                                 <span>🇨🇳</span> <span data-i18n="china_global_base2_nation">JOINT VENTURE</span>
                             </span>
                         </div>
                         <!-- 하단 텍스트 오버레이 -->
                         <div class="absolute bottom-4 left-4 right-4">
-                            <h4 class="text-xl sm:text-2xl font-black text-white mb-0.5" data-i18n="china_global_base2_title">한중 합자법인 (제조사)</h4>
-                            <p class="text-xs text-cyan-300 font-semibold" data-i18n="china_global_base2_sub">Global Production & Export Hub (스마트 양산 거점)</p>
+                            <h4 class="text-xl sm:text-2xl font-black text-white mb-0.5"
+                                data-i18n="china_global_base2_title">한중 합자법인 (제조사)</h4>
+                            <p class="text-xs text-cyan-300 font-semibold" data-i18n="china_global_base2_sub">Global
+                                Production & Export Hub (스마트 양산 거점)</p>
                         </div>
                         <!-- 호버 확대 힌트 -->
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-2">
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-2">
                             <i class="fa-solid fa-magnifying-glass-plus text-cyan-300"></i>
                             <span data-i18n="china_factory_zoom_hint">클릭 시 전경 사진 고화질 확대</span>
                         </div>
@@ -4237,7 +4288,8 @@
                     <!-- 카드 본문 -->
                     <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-5">
                         <div>
-                            <div class="flex items-center gap-2 text-xs text-slate-500 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                            <div
+                                class="flex items-center gap-2 text-xs text-slate-500 mb-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                                 <i class="fa-solid fa-warehouse text-cyan-600 text-sm shrink-0"></i>
                                 <span data-i18n="china_global_base2_loc">첨단 물류 로보틱스 대규모 전용 양산 복합 클러스터</span>
                             </div>
@@ -4252,7 +4304,8 @@
                                 </div>
                                 <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
                                     <i class="fa-solid fa-circle-check text-cyan-600 mt-1 shrink-0 text-xs"></i>
-                                    <span data-i18n="china_global_base2_f2">유럽 CE 및 ISO 9001 / ISO 14001 국제 표준 품질 규격 인증</span>
+                                    <span data-i18n="china_global_base2_f2">유럽 CE 및 ISO 9001 / ISO 14001 국제 표준 품질 규격
+                                        인증</span>
                                 </div>
                                 <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
                                     <i class="fa-solid fa-circle-check text-cyan-600 mt-1 shrink-0 text-xs"></i>
@@ -4345,8 +4398,8 @@
                 <div
                     class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-slate-200 hover:shadow-xl transition-all fade-in flex flex-col items-center justify-center">
 
-                    <h3
-                        class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center" data-i18n="contact_inquiry_card_ko">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center"
+                        data-i18n="contact_inquiry_card_ko">
 
                         Korean (국문)</h3>
 
@@ -4363,8 +4416,8 @@
                 <div
                     class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-slate-200 hover:shadow-xl transition-all fade-in delay-100 flex flex-col items-center justify-center">
 
-                    <h3
-                        class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center" data-i18n="contact_inquiry_card_en">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4 border-b-2 border-blue-600 pb-2 w-full text-center"
+                        data-i18n="contact_inquiry_card_en">
 
                         English (영문)</h3>
 
@@ -4580,7 +4633,8 @@
 
                 <div class="md:col-span-2">
 
-                    <div class="inline-block mb-6 bg-white px-5 py-3 sm:px-6 sm:py-3.5 rounded-2xl shadow-sm border border-slate-200/90 hover:shadow-md transition-all duration-300">
+                    <div
+                        class="inline-block mb-6 bg-white px-5 py-3 sm:px-6 sm:py-3.5 rounded-2xl shadow-sm border border-slate-200/90 hover:shadow-md transition-all duration-300">
                         <img src="Logo - 001.png" alt="ATA Technology"
                             class="h-16 sm:h-20 md:h-24 w-auto object-contain block"
                             onerror="if(!this.dataset.triedEnc){this.dataset.triedEnc='1';this.src='Logo%20-%20001.png';}else if(!this.dataset.triedJpg){this.dataset.triedJpg='1';this.src='Logo - 001.jpg';}else if(!this.dataset.triedJpgEnc){this.dataset.triedJpgEnc='1';this.src='Logo%20-%20001.jpg';}else{this.onerror=null;if(typeof this.removeAttribute==='function')this.removeAttribute('onerror');this.src='Logo - 001.jpg';}">
@@ -4881,12 +4935,12 @@
                 desc: '택배 차량 내 공간 활용도를 극대화하고, 작업자의 상하차 피로도를 줄여주는 차세대 스마트 배송 및 적재 자동화 솔루션입니다. 라스트마일 배송의 효율을 완성합니다.',
 
                 features: ['공간 효율성 극대화로 배송 단가 절감', '작업자 근골격계 질환 예방 및 상하차 피로도 대폭 감소', '라스트마일 배송 시간 단축'],
-                ko: {"title":"택배차량 배송 자동화 시스템 (NEW)","desc":"택배 차량 내 공간 활용도를 극대화하고, 작업자의 상하차 피로도를 줄여주는 차세대 스마트 배송 및 적재 자동화 솔루션입니다. 라스트마일 배송의 효율을 완성합니다.","features":["공간 효율성 극대화로 배송 단가 절감","작업자 근골격계 질환 예방 및 상하차 피로도 대폭 감소","라스트마일 배송 시간 단축"]},
-                en: {"title":"Delivery Vehicle Automation System (NEW)","desc":"A next-generation smart delivery and automated loading solution that maximizes cargo space utilization and drastically reduces driver loading/unloading fatigue.","features":["Maximizes space efficiency to reduce unit delivery costs","Prevents musculoskeletal fatigue & injury during loading/unloading","Significantly shortens last-mile turnaround times"]},
-                zh: {"title":"快递物流车辆装卸配送自动化系统 (NEW)","desc":"极大提升货运车辆内部空间利用率，大幅降低作业人员上下车装卸强度的下一代智能配送与自动装载系统，全面赋能最后一公里高效履约。","features":["极致提升货箱空间利用率，显著降低单票配送成本","大幅减轻作业人员装卸搬运疲劳，预防职业损伤","显著缩短末端装卸与周转耗时，提升全天配送时效"]},
-                cn: {"title":"快递物流车辆装卸配送自动化系统 (NEW)","desc":"极大提升货运车辆内部空间利用率，大幅降低作业人员上下车装卸强度的下一代智能配送与自动装载系统，全面赋能最后一公里高效履约。","features":["极致提升货箱空间利用率，显著降低单票配送成本","大幅减轻作业人员装卸搬运疲劳，预防职业损伤","显著缩短末端装卸与周转耗时，提升全天配送时效"]},
-                ja: {"title":"配送車両 荷役・配送自動化システム (NEW)","desc":"宅配車両内の積載スペースを最大限に活用し、作業者の荷役疲労を大幅に低減する次世代スマート配送・自動積載ソリューションです。","features":["空間効率を極大化し配送コストを低減","作業者の腰痛予防および荷役疲劳の大幅軽減","ラストワンマイル配送時間を劇的に短縮"]},
-                
+                ko: { "title": "택배차량 배송 자동화 시스템 (NEW)", "desc": "택배 차량 내 공간 활용도를 극대화하고, 작업자의 상하차 피로도를 줄여주는 차세대 스마트 배송 및 적재 자동화 솔루션입니다. 라스트마일 배송의 효율을 완성합니다.", "features": ["공간 효율성 극대화로 배송 단가 절감", "작업자 근골격계 질환 예방 및 상하차 피로도 대폭 감소", "라스트마일 배송 시간 단축"] },
+                en: { "title": "Delivery Vehicle Automation System (NEW)", "desc": "A next-generation smart delivery and automated loading solution that maximizes cargo space utilization and drastically reduces driver loading/unloading fatigue.", "features": ["Maximizes space efficiency to reduce unit delivery costs", "Prevents musculoskeletal fatigue & injury during loading/unloading", "Significantly shortens last-mile turnaround times"] },
+                zh: { "title": "快递物流车辆装卸配送自动化系统 (NEW)", "desc": "极大提升货运车辆内部空间利用率，大幅降低作业人员上下车装卸强度的下一代智能配送与自动装载系统，全面赋能最后一公里高效履约。", "features": ["极致提升货箱空间利用率，显著降低单票配送成本", "大幅减轻作业人员装卸搬运疲劳，预防职业损伤", "显著缩短末端装卸与周转耗时，提升全天配送时效"] },
+                cn: { "title": "快递物流车辆装卸配送自动化系统 (NEW)", "desc": "极大提升货运车辆内部空间利用率，大幅降低作业人员上下车装卸强度的下一代智能配送与自动装载系统，全面赋能最后一公里高效履约。", "features": ["极致提升货箱空间利用率，显著降低单票配送成本", "大幅减轻作业人员装卸搬运疲劳，预防职业损伤", "显著缩短末端装卸与周转耗时，提升全天配送时效"] },
+                ja: { "title": "配送車両 荷役・配送自動化システム (NEW)", "desc": "宅配車両内の積載スペースを最大限に活用し、作業者の荷役疲労を大幅に低減する次世代スマート配送・自動積載ソリューションです。", "features": ["空間効率を極大化し配送コストを低減", "作業者の腰痛予防および荷役疲劳の大幅軽減", "ラストワンマイル配送時間を劇的に短縮"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg',
 
@@ -4899,12 +4953,12 @@
                 desc: '소형 화물을 빠르고 정확하게 분류하기 위해 개발된 좁은 벨트 형태의 고효율 특화형 소터 시스템입니다.',
 
                 features: ['작고 가벼운 의류/잡화 화물 분류 최적화', '설치 면적 최소화로 좁은 물류센터 내 도입 용이', '부드러운 분류 메커니즘으로 화물 손상 방지'],
-                ko: {"title":"NBS [Narrow Belt Sorter]","desc":"소형 화물을 빠르고 정확하게 분류하기 위해 개발된 좁은 벨트 형태의 고효율 특화형 소터 시스템입니다.","features":["작고 가벼운 의류/잡화 화물 분류 최적화","설치 면적 최소화로 좁은 물류센터 내 도입 용이","부드러운 분류 메커니즘으로 화물 손상 방지"]},
-                en: {"title":"NBS [Narrow Belt Sorter]","desc":"A high-efficiency narrow belt sortation system specifically engineered for fast, precise sorting of small to medium parcels and polybags.","features":["Optimized for small, lightweight apparel and general parcel sorting","Minimal installation footprint ideal for compact warehouse layouts","Gentle diverter mechanisms preventing fragile parcel damage"]},
-                zh: {"title":"NBS [Narrow Belt Sorter] 窄带分拣机","desc":"专为轻小件包裹、服装杂货及软包袋装高速精准分流而量身打造的高性价比窄皮带特化型自动分拣系统。","features":["针对轻小件服装、鞋帽及电商软包的高效分拣优化","占地面积小，极其易于在紧凑型中小型转运中心导入","柔和的分流拨叉机构，彻底杜绝货物破损或卡件"]},
-                cn: {"title":"NBS [Narrow Belt Sorter] 窄带分拣机","desc":"专为轻小件包裹、服装杂货及软包袋装高速精准分流而量身打造的高性价比窄皮带特化型自动分拣系统。","features":["针对轻小件服装、鞋帽及电商软包的高效分拣优化","占地面积小，极其易于在紧凑型中小型转运中心导入","柔和的分流拨叉机构，彻底杜绝货物破损或卡件"]},
-                ja: {"title":"NBS [Narrow Belt Sorter] ナローベルトソーター","desc":"小型・軽量小包を高速かつ正確に仕分けるために設計された、ナローベルト方式の高効率特化型ソーターシステムです。","features":["アパレル・雑貨などの小型軽量荷物の仕分けに最適化","省スペース設計で狭小な物流拠点への導入が容易","ソフトな仕分け機構により荷物の破損や衝撃を防止"]},
-                
+                ko: { "title": "NBS [Narrow Belt Sorter]", "desc": "소형 화물을 빠르고 정확하게 분류하기 위해 개발된 좁은 벨트 형태의 고효율 특화형 소터 시스템입니다.", "features": ["작고 가벼운 의류/잡화 화물 분류 최적화", "설치 면적 최소화로 좁은 물류센터 내 도입 용이", "부드러운 분류 메커니즘으로 화물 손상 방지"] },
+                en: { "title": "NBS [Narrow Belt Sorter]", "desc": "A high-efficiency narrow belt sortation system specifically engineered for fast, precise sorting of small to medium parcels and polybags.", "features": ["Optimized for small, lightweight apparel and general parcel sorting", "Minimal installation footprint ideal for compact warehouse layouts", "Gentle diverter mechanisms preventing fragile parcel damage"] },
+                zh: { "title": "NBS [Narrow Belt Sorter] 窄带分拣机", "desc": "专为轻小件包裹、服装杂货及软包袋装高速精准分流而量身打造的高性价比窄皮带特化型自动分拣系统。", "features": ["针对轻小件服装、鞋帽及电商软包的高效分拣优化", "占地面积小，极其易于在紧凑型中小型转运中心导入", "柔和的分流拨叉机构，彻底杜绝货物破损或卡件"] },
+                cn: { "title": "NBS [Narrow Belt Sorter] 窄带分拣机", "desc": "专为轻小件包裹、服装杂货及软包袋装高速精准分流而量身打造的高性价比窄皮带特化型自动分拣系统。", "features": ["针对轻小件服装、鞋帽及电商软包的高效分拣优化", "占地面积小，极其易于在紧凑型中小型转运中心导入", "柔和的分流拨叉机构，彻底杜绝货物破损或卡件"] },
+                ja: { "title": "NBS [Narrow Belt Sorter] ナローベルトソーター", "desc": "小型・軽量小包を高速かつ正確に仕分けるために設計された、ナローベルト方式の高効率特化型ソーターシステムです。", "features": ["アパレル・雑貨などの小型軽量荷物の仕分けに最適化", "省スペース設計で狭小な物流拠点への導入が容易", "ソフトな仕分け機構により荷物の破損や衝撃を防止"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/NBS.jpg',
 
@@ -4917,12 +4971,12 @@
                 desc: '주행 캐리어 상단의 소형 컨베이어 벨트를 통해 화물을 목적지 슈트로 고속 배출하는 대표적인 크로스 벨트 분류 시스템입니다.',
 
                 features: ['시간당 수만 건의 대용량 고속 분류 처리', '다양한 규격 및 이형 화물의 안정적인 이송/배출', '정밀 제어로 오분류율 0.01% 미만 실현'],
-                ko: {"title":"CBS [Cross Belt Sorter]","desc":"주행 캐리어 상단의 소형 컨베이어 벨트를 통해 화물을 목적지 슈트로 고속 배출하는 대표적인 크로스 벨트 분류 시스템입니다.","features":["시간당 수만 건의 대용량 고속 분류 처리","다양한 규격 및 이형 화물의 안정적인 이송/배출","정밀 제어로 오분류율 0.01% 미만 실현"]},
-                en: {"title":"CBS [Cross Belt Sorter]","desc":"A leading cross belt sortation system that discharges parcels to destination chutes at high speed via miniature conveyor belts atop moving carriers.","features":["Massive high-speed throughput handling tens of thousands of parcels per hour","Stable conveying & discharge for diverse parcel dimensions and irregular packages","Ultra-low mis-sort rate below 0.01% realized by precision control"]},
-                zh: {"title":"CBS [Cross Belt Sorter] 交叉带分拣机","desc":"通过运行小车上方的微型皮带传送带，将货物高速精准卸载至目标格口的代表性交叉带自动分拣系统。","features":["每小时数万件超大规模高速分拣吞吐能力","广泛兼容各类标准包装与异形件的平稳输送/落格","精密伺服闭环控制，实现分拣误差率低于0.01%"]},
-                cn: {"title":"CBS [Cross Belt Sorter] 交叉带分拣机","desc":"通过运行小车上方的微型皮带传送带，将货物高速精准卸载至目标格口的代表性交叉带自动分拣系统。","features":["每小时数万件超大规模高速分拣吞吐能力","广泛兼容各类标准包装与异形件的平稳输送/落格","精密伺服闭环控制，实现分拣误差率低于0.01%"]},
-                ja: {"title":"CBS [Cross Belt Sorter] クロスベルトソーター","desc":"走行キャリア上部の小型コンベアベルトを通じて荷物を目的のシュートへ高速排出する代表的なクロスベルト仕分けシステムです。","features":["1時間あたり数万個の大容量・超高速仕分け処理","多彩なサイズおよび異形荷物の安定した搬送・排出","精密制御により誤仕分け率0.01%未満を実現"]},
-                
+                ko: { "title": "CBS [Cross Belt Sorter]", "desc": "주행 캐리어 상단의 소형 컨베이어 벨트를 통해 화물을 목적지 슈트로 고속 배출하는 대표적인 크로스 벨트 분류 시스템입니다.", "features": ["시간당 수만 건의 대용량 고속 분류 처리", "다양한 규격 및 이형 화물의 안정적인 이송/배출", "정밀 제어로 오분류율 0.01% 미만 실현"] },
+                en: { "title": "CBS [Cross Belt Sorter]", "desc": "A leading cross belt sortation system that discharges parcels to destination chutes at high speed via miniature conveyor belts atop moving carriers.", "features": ["Massive high-speed throughput handling tens of thousands of parcels per hour", "Stable conveying & discharge for diverse parcel dimensions and irregular packages", "Ultra-low mis-sort rate below 0.01% realized by precision control"] },
+                zh: { "title": "CBS [Cross Belt Sorter] 交叉带分拣机", "desc": "通过运行小车上方的微型皮带传送带，将货物高速精准卸载至目标格口的代表性交叉带自动分拣系统。", "features": ["每小时数万件超大规模高速分拣吞吐能力", "广泛兼容各类标准包装与异形件的平稳输送/落格", "精密伺服闭环控制，实现分拣误差率低于0.01%"] },
+                cn: { "title": "CBS [Cross Belt Sorter] 交叉带分拣机", "desc": "通过运行小车上方的微型皮带传送带，将货物高速精准卸载至目标格口的代表性交叉带自动分拣系统。", "features": ["每小时数万件超大规模高速分拣吞吐能力", "广泛兼容各类标准包装与异形件的平稳输送/落格", "精密伺服闭环控制，实现分拣误差率低于0.01%"] },
+                ja: { "title": "CBS [Cross Belt Sorter] クロスベルトソーター", "desc": "走行キャリア上部の小型コンベアベルトを通じて荷物を目的のシュートへ高速排出する代表的なクロスベルト仕分けシステムです。", "features": ["1時間あたり数万個の大容量・超高速仕分け処理", "多彩なサイズおよび異形荷物の安定した搬送・排出", "精密制御により誤仕分け率0.01%未満を実現"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/CBS.jpg',
 
@@ -4935,12 +4989,12 @@
                 desc: '기존 기계적 정밀도와 소프트웨어 로직을 한 단계 업그레이드한 차세대 고속, 고정밀 수치제어 크로스 벨트 분류 시스템입니다.',
 
                 features: ['초고속 환경에서도 흔들림 없는 화물 안정성', '특수 마찰 벨트 적용으로 슬립 방지', '실시간 데이터 기반 예지 보전 시스템 탑재'],
-                ko: {"title":"NC CBS [NC Cross Belt Sorter]","desc":"기존 기계적 정밀도와 소프트웨어 로직을 한 단계 업그레이드한 차세대 고속, 고정밀 수치제어 크로스 벨트 분류 시스템입니다.","features":["초고속 환경에서도 흔들림 없는 화물 안정성","특수 마찰 벨트 적용으로 슬립 방지","실시간 데이터 기반 예지 보전 시스템 탑재"]},
-                en: {"title":"NC CBS [NC Cross Belt Sorter]","desc":"A next-generation high-speed numerical-control cross belt sortation system boasting upgraded mechanical precision and smart software algorithms.","features":["Exceptional cargo stability without slippage even at ultra-high speeds","High-friction engineered belts prevent skewing and shifting","Integrated real-time IoT diagnostic & predictive maintenance algorithms"]},
-                zh: {"title":"NC CBS [NC Cross Belt Sorter] 数控高速交叉带分拣机","desc":"全面升级机械精密传动与软件算法架构的下一代高精度数字控制高速交叉带分拣系统。","features":["超高速运行工况下依旧保持极致平稳无晃动","采用特种高摩擦力微型皮带，杜绝高速打滑","内置基于实时运行大数据的智能预见性维护系统"]},
-                cn: {"title":"NC CBS [NC Cross Belt Sorter] 数控高速交叉带分拣机","desc":"全面升级机械精密传动与软件算法架构的下一代高精度数字控制高速交叉带分拣系统。","features":["超高速运行工况下依旧保持极致平稳无晃动","采用特种高摩擦力微型皮带，杜绝高速打滑","内置基于实时运行大数据的智能预见性维护系统"]},
-                ja: {"title":"NC CBS [NC Cross Belt Sorter] 高速数値制御クロスベルトソーター","desc":"機械的精度と制御ソフトウェアロジックを飛躍的に進化させた、次世代の超高速・高精度数値制御型クロスベルトソーターです。","features":["超高速搬送時でも荷物の揺れやズレが生じない高い安定性","特殊摩擦ベルトの採用でスリップや偏荷重を防止","リアルタイム稼働データに基づく予知保全システムを標準搭載"]},
-                
+                ko: { "title": "NC CBS [NC Cross Belt Sorter]", "desc": "기존 기계적 정밀도와 소프트웨어 로직을 한 단계 업그레이드한 차세대 고속, 고정밀 수치제어 크로스 벨트 분류 시스템입니다.", "features": ["초고속 환경에서도 흔들림 없는 화물 안정성", "특수 마찰 벨트 적용으로 슬립 방지", "실시간 데이터 기반 예지 보전 시스템 탑재"] },
+                en: { "title": "NC CBS [NC Cross Belt Sorter]", "desc": "A next-generation high-speed numerical-control cross belt sortation system boasting upgraded mechanical precision and smart software algorithms.", "features": ["Exceptional cargo stability without slippage even at ultra-high speeds", "High-friction engineered belts prevent skewing and shifting", "Integrated real-time IoT diagnostic & predictive maintenance algorithms"] },
+                zh: { "title": "NC CBS [NC Cross Belt Sorter] 数控高速交叉带分拣机", "desc": "全面升级机械精密传动与软件算法架构的下一代高精度数字控制高速交叉带分拣系统。", "features": ["超高速运行工况下依旧保持极致平稳无晃动", "采用特种高摩擦力微型皮带，杜绝高速打滑", "内置基于实时运行大数据的智能预见性维护系统"] },
+                cn: { "title": "NC CBS [NC Cross Belt Sorter] 数控高速交叉带分拣机", "desc": "全面升级机械精密传动与软件算法架构的下一代高精度数字控制高速交叉带分拣系统。", "features": ["超高速运行工况下依旧保持极致平稳无晃动", "采用特种高摩擦力微型皮带，杜绝高速打滑", "内置基于实时运行大数据的智能预见性维护系统"] },
+                ja: { "title": "NC CBS [NC Cross Belt Sorter] 高速数値制御クロスベルトソーター", "desc": "機械的精度と制御ソフトウェアロジックを飛躍的に進化させた、次世代の超高速・高精度数値制御型クロスベルトソーターです。", "features": ["超高速搬送時でも荷物の揺れやズレが生じない高い安定性", "特殊摩擦ベルトの採用でスリップや偏荷重を防止", "リアルタイム稼働データに基づく予知保全システムを標準搭載"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/NC CBS.jpg',
 
@@ -4953,12 +5007,12 @@
                 desc: '인라인 상에 배치된 회전 휠의 각도를 제어하여 박스 및 파우치 화물을 연속적으로 분기·분류하는 고효율 휠 소터 시스템입니다.',
 
                 features: ['콤팩트한 모듈 구조로 기존 컨베이어 라인에 손쉬운 인라인 삽입', '다양한 각도(30°, 45°, 90°)의 다방향 분류 지원', '저소음 고속 분기 응답 메커니즘'],
-                ko: {"title":"Wheel Sorter","desc":"인라인 상에 배치된 회전 휠의 각도를 제어하여 박스 및 파우치 화물을 연속적으로 분기·분류하는 고효율 휠 소터 시스템입니다.","features":["콤팩트한 모듈 구조로 기존 컨베이어 라인에 손쉬운 인라인 삽입","다양한 각도(30°, 45°, 90°)의 다방향 분류 지원","저소음 고속 분기 응답 메커니즘"]},
-                en: {"title":"Wheel Sorter","desc":"A high-efficiency modular wheel sortation system that diverts boxes and parcels continuously by rotating steering wheels in-line.","features":["Compact modular architecture effortlessly integrated into existing conveyor lines","Multi-directional sorting supporting diverse divert angles (30°, 45°, 90°)","Low-noise, high-speed instant divert actuation mechanism"]},
-                zh: {"title":"Wheel Sorter 智能摆轮分拣机","desc":"通过精密控制内置舵轮单元的转向偏转角度，实现对纸箱、塑料箱及中大件包裹连续分流的高效率摆轮分拣系统。","features":["结构紧凑模块化，可无缝嵌入改建现有输送流水线","支持30度、45度、90度等多角度双向高速连续分流","超低静音电机驱动，具备毫秒级高速分流响应能力"]},
-                cn: {"title":"Wheel Sorter 智能摆轮分拣机","desc":"通过精密控制内置舵轮单元的转向偏转角度，实现对纸箱、塑料箱及中大件包裹连续分流的高效率摆轮分拣系统。","features":["结构紧凑模块化，可无缝嵌入改建现有输送流水线","支持30度、45度、90度等多角度双向高速连续分流","超低静音电机驱动，具备毫秒级高速分流响应能力"]},
-                ja: {"title":"Wheel Sorter ホイールソーター (スイングアーム式)","desc":"コンベア上に配置された回転ホイールの角度をミリ秒単位で制御し、段ボールやケース類を連続的に分岐・仕分ける高効率ホイールソーターです。","features":["コンパクトなモジュール構造で既存コンベアラインに容易にインライン挿入","30°・45°・90°など多角度・双方向の仕分けに対応","静音・高速応答のステアリングホイール機構"]},
-                
+                ko: { "title": "Wheel Sorter", "desc": "인라인 상에 배치된 회전 휠의 각도를 제어하여 박스 및 파우치 화물을 연속적으로 분기·분류하는 고효율 휠 소터 시스템입니다.", "features": ["콤팩트한 모듈 구조로 기존 컨베이어 라인에 손쉬운 인라인 삽입", "다양한 각도(30°, 45°, 90°)의 다방향 분류 지원", "저소음 고속 분기 응답 메커니즘"] },
+                en: { "title": "Wheel Sorter", "desc": "A high-efficiency modular wheel sortation system that diverts boxes and parcels continuously by rotating steering wheels in-line.", "features": ["Compact modular architecture effortlessly integrated into existing conveyor lines", "Multi-directional sorting supporting diverse divert angles (30°, 45°, 90°)", "Low-noise, high-speed instant divert actuation mechanism"] },
+                zh: { "title": "Wheel Sorter 智能摆轮分拣机", "desc": "通过精密控制内置舵轮单元的转向偏转角度，实现对纸箱、塑料箱及中大件包裹连续分流的高效率摆轮分拣系统。", "features": ["结构紧凑模块化，可无缝嵌入改建现有输送流水线", "支持30度、45度、90度等多角度双向高速连续分流", "超低静音电机驱动，具备毫秒级高速分流响应能力"] },
+                cn: { "title": "Wheel Sorter 智能摆轮分拣机", "desc": "通过精密控制内置舵轮单元的转向偏转角度，实现对纸箱、塑料箱及中大件包裹连续分流的高效率摆轮分拣系统。", "features": ["结构紧凑模块化，可无缝嵌入改建现有输送流水线", "支持30度、45度、90度等多角度双向高速连续分流", "超低静音电机驱动，具备毫秒级高速分流响应能力"] },
+                ja: { "title": "Wheel Sorter ホイールソーター (スイングアーム式)", "desc": "コンベア上に配置された回転ホイールの角度をミリ秒単位で制御し、段ボールやケース類を連続的に分岐・仕分ける高効率ホイールソーターです。", "features": ["コンパクトなモジュール構造で既存コンベアラインに容易にインライン挿入", "30°・45°・90°など多角度・双方向の仕分けに対応", "静音・高速応答のステアリングホイール機構"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/Wheel Sorter.jpg',
 
@@ -4971,12 +5025,12 @@
                 desc: '운반 트레이를 기울여 화물을 정해진 슈트 목적지로 미끄러뜨려 분류하는 범용적인 틸트 트레이 시스템입니다.',
 
                 features: ['민감한 화물 파손 손상 최소화', '다양한 크기와 형태를 동시에 수용', '소음이 적어 작업 환경 개선'],
-                ko: {"title":"Tilt Tray Sorter","desc":"운반 트레이를 기울여 화물을 정해진 슈트 목적지로 미끄러뜨려 분류하는 범용적인 틸트 트레이 시스템입니다.","features":["민감한 화물 파손 손상 최소화","다양한 크기와 형태를 동시에 수용","소음이 적어 작업 환경 개선"]},
-                en: {"title":"Tilt Tray Sorter","desc":"A proven, versatile tilt tray sortation system that gently slides parcels into designated chutes by tilting carrier trays.","features":["Minimizes drop shock to protect fragile goods","Simultaneously handles diverse shapes, weights, and packaging types","Quiet mechanical operation improving warehouse ergonomics"]},
-                zh: {"title":"Tilt Tray Sorter 翻盘分拣机","desc":"通过翻转倾斜托盘将货物轻柔平稳滑入指定格口滑槽的通用型翻盘式高速自动分拣系统。","features":["最大程度降低掉落冲击，有效保护易碎及高价值货品","同时兼容从微小件到大件包裹等不同形态与材质货物","机械运行噪音低，大幅改善现场一线作业环境"]},
-                cn: {"title":"Tilt Tray Sorter 翻盘分拣机","desc":"通过翻转倾斜托盘将货物轻柔平稳滑入指定格口滑槽的通用型翻盘式高速自动分拣系统。","features":["最大程度降低掉落冲击，有效保护易碎及高价值货品","同时兼容从微小件到大件包裹等不同形态与材质货物","机械运行噪音低，大幅改善现场一线作业环境"]},
-                ja: {"title":"Tilt Tray Sorter チルトトレイソーター","desc":"搬送トレイを傾斜させ、荷物を所定のシュートへ滑り込ませて仕分ける高信頼性のチルトトレイ方式ソーターです。","features":["落下衝撃を最小化し、精密機器や壊れやすい荷物を保護","多様なサイズ・形状・重量の荷物を柔軟に同時処理","低騒音設計により現場の作業環境を大幅に改善"]},
-                
+                ko: { "title": "Tilt Tray Sorter", "desc": "운반 트레이를 기울여 화물을 정해진 슈트 목적지로 미끄러뜨려 분류하는 범용적인 틸트 트레이 시스템입니다.", "features": ["민감한 화물 파손 손상 최소화", "다양한 크기와 형태를 동시에 수용", "소음이 적어 작업 환경 개선"] },
+                en: { "title": "Tilt Tray Sorter", "desc": "A proven, versatile tilt tray sortation system that gently slides parcels into designated chutes by tilting carrier trays.", "features": ["Minimizes drop shock to protect fragile goods", "Simultaneously handles diverse shapes, weights, and packaging types", "Quiet mechanical operation improving warehouse ergonomics"] },
+                zh: { "title": "Tilt Tray Sorter 翻盘分拣机", "desc": "通过翻转倾斜托盘将货物轻柔平稳滑入指定格口滑槽的通用型翻盘式高速自动分拣系统。", "features": ["最大程度降低掉落冲击，有效保护易碎及高价值货品", "同时兼容从微小件到大件包裹等不同形态与材质货物", "机械运行噪音低，大幅改善现场一线作业环境"] },
+                cn: { "title": "Tilt Tray Sorter 翻盘分拣机", "desc": "通过翻转倾斜托盘将货物轻柔平稳滑入指定格口滑槽的通用型翻盘式高速自动分拣系统。", "features": ["最大程度降低掉落冲击，有效保护易碎及高价值货品", "同时兼容从微小件到大件包裹等不同形态与材质货物", "机械运行噪音低，大幅改善现场一线作业环境"] },
+                ja: { "title": "Tilt Tray Sorter チルトトレイソーター", "desc": "搬送トレイを傾斜させ、荷物を所定のシュートへ滑り込ませて仕分ける高信頼性のチルトトレイ方式ソーターです。", "features": ["落下衝撃を最小化し、精密機器や壊れやすい荷物を保護", "多様なサイズ・形状・重量の荷物を柔軟に同時処理", "低騒音設計により現場の作業環境を大幅に改善"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png',
 
@@ -4989,12 +5043,12 @@
                 desc: '현장 레이아웃과 화물 특성에 맞춰 롤러, 벨트 등 최적의 맞춤형 구성을 제공하는 컨베이어 및 부가 설비입니다.',
 
                 features: ['견고한 모듈형 하드웨어 설계', '저소음 고효율 모터 적용', '유지보수가 간편한 표준 모듈 구조'],
-                ko: {"title":"Conveyors & ADD-Ons","desc":"현장 레이아웃과 화물 특성에 맞춰 롤러, 벨트 등 최적의 맞춤형 구성을 제공하는 컨베이어 및 부가 설비입니다.","features":["견고한 모듈형 하드웨어 설계","저소음 고효율 모터 적용","유지보수가 간편한 표준 모듈 구조"]},
-                en: {"title":"Conveyors & ADD-Ons","desc":"Tailored conveying and auxiliary equipment providing optimal configurations of rollers, belts, and diverters customized to site layouts.","features":["Robust modular hardware engineering","Energy-efficient, ultra-quiet motorized drive units","Standardized plug-and-play components for effortless maintenance"]},
-                zh: {"title":"Conveyors & ADD-Ons 输送机与外围配套装备","desc":"针对各类复杂仓储布局与货物流向，提供滚筒、皮带、合流、移载等最优定制组合的输送线与外围辅助系统。","features":["坚固耐用的工业级模块化结构硬件设计","全线采用低噪音、高能效驱动电机与节能控制","标准模块化接口，易拆装维护，后期扩展成本低"]},
-                cn: {"title":"Conveyors & ADD-Ons 输送机与外围配套装备","desc":"针对各类复杂仓储布局与货物流向，提供滚筒、皮带、合流、移载等最优定制组合的输送线与外围辅助系统。","features":["坚固耐用的工业级模块化结构硬件设计","全线采用低噪音、高能效驱动电机与节能控制","标准模块化接口，易拆装维护，后期扩展成本低"]},
-                ja: {"title":"Conveyors & ADD-Ons 各種コンベア＆周辺付帯設備","desc":"拠点のレイアウトや貨物特性に合わせ、ローラーやベルトなど最適なカスタム構成を提供する搬送コンベアおよび周辺設備です。","features":["堅牢なモジュール式ハードウェア設計","低騒音・高効率モーター採用による省エネ設計","メンテナンスが極めて容易な標準化コンポーネント構造"]},
-                
+                ko: { "title": "Conveyors & ADD-Ons", "desc": "현장 레이아웃과 화물 특성에 맞춰 롤러, 벨트 등 최적의 맞춤형 구성을 제공하는 컨베이어 및 부가 설비입니다.", "features": ["견고한 모듈형 하드웨어 설계", "저소음 고효율 모터 적용", "유지보수가 간편한 표준 모듈 구조"] },
+                en: { "title": "Conveyors & ADD-Ons", "desc": "Tailored conveying and auxiliary equipment providing optimal configurations of rollers, belts, and diverters customized to site layouts.", "features": ["Robust modular hardware engineering", "Energy-efficient, ultra-quiet motorized drive units", "Standardized plug-and-play components for effortless maintenance"] },
+                zh: { "title": "Conveyors & ADD-Ons 输送机与外围配套装备", "desc": "针对各类复杂仓储布局与货物流向，提供滚筒、皮带、合流、移载等最优定制组合的输送线与外围辅助系统。", "features": ["坚固耐用的工业级模块化结构硬件设计", "全线采用低噪音、高能效驱动电机与节能控制", "标准模块化接口，易拆装维护，后期扩展成本低"] },
+                cn: { "title": "Conveyors & ADD-Ons 输送机与外围配套装备", "desc": "针对各类复杂仓储布局与货物流向，提供滚筒、皮带、合流、移载等最优定制组合的输送线与外围辅助系统。", "features": ["坚固耐用的工业级模块化结构硬件设计", "全线采用低噪音、高能效驱动电机与节能控制", "标准模块化接口，易拆装维护，后期扩展成本低"] },
+                ja: { "title": "Conveyors & ADD-Ons 各種コンベア＆周辺付帯設備", "desc": "拠点のレイアウトや貨物特性に合わせ、ローラーやベルトなど最適なカスタム構成を提供する搬送コンベアおよび周辺設備です。", "features": ["堅牢なモジュール式ハードウェア設計", "低騒音・高効率モーター採用による省エネ設計", "メンテナンスが極めて容易な標準化コンポーネント構造"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg',
 
@@ -5007,12 +5061,12 @@
                 desc: '차량 내부 깊숙한 곳까지 컨베이어 끝단이 신축 연장되어 상하차 작업 효율을 극적으로 끌어올리는 텔레스코픽 설비입니다.',
 
                 features: ['버튼 하나로 길이 자유 연장/축소', '작업자 동선 최소화 및 인체공학적 작업 환경 제공', '안전 센서 감지 확보'],
-                ko: {"title":"Telescopic [텔레스코픽 컨베이어]","desc":"차량 내부 깊숙한 곳까지 컨베이어 끝단이 신축 연장되어 상하차 작업 효율을 극적으로 끌어올리는 텔레스코픽 설비입니다.","features":["버튼 하나로 길이 자유 연장/축소","작업자 동선 최소화 및 인체공학적 작업 환경 제공","안전 센서 감지 확보"]},
-                en: {"title":"Telescopic Boom Conveyor","desc":"A heavy-duty extendable boom conveyor that stretches deep into trailer interiors, drastically boosting loading and unloading productivity.","features":["Effortless length extension & retraction via one-touch pendant controls","Ergonomic operation reducing manual lifting and walking distances","Triple safety sensor protection guarding operators and equipment"]},
-                zh: {"title":"Telescopic 伸缩皮带输送机","desc":"输送末端可自由伸展深入车厢内部最深处，大幅减少人工搬运往返距离、成倍提升卡车装卸效率的重载伸缩机。","features":["一键电动连续伸缩调节，灵活适应各类车厢长度","符合人体工学设计，大幅减轻作业人员弯腰搬运负担","配备多重防夹与防撞安全感应器，作业安全有保障"]},
-                cn: {"title":"Telescopic 伸缩皮带输送机","desc":"输送末端可自由伸展深入车厢内部最深处，大幅减少人工搬运往返距离、成倍提升卡车装卸效率的重载伸缩机。","features":["一键电动连续伸缩调节，灵活适应各类车厢长度","符合人体工学设计，大幅减轻作业人员弯腰搬运负担","配备多重防夹与防撞安全感应器，作业安全有保障"]},
-                ja: {"title":"Telescopic 伸縮式テレスコピックコンベア","desc":"トラックの荷台最奥部までコンベア先端が自在に伸縮し、荷役・荷降ろし作業の効率を劇的に向上させるテレスコピック設備です。","features":["ボタン1つで伸縮長さを自由自在に電動制御","作業者の動線を最小化し腰への負担を軽減する人間工学設計","挟み込み防止安全センサーを多重搭載し作業安全を徹底確保"]},
-                
+                ko: { "title": "Telescopic [텔레스코픽 컨베이어]", "desc": "차량 내부 깊숙한 곳까지 컨베이어 끝단이 신축 연장되어 상하차 작업 효율을 극적으로 끌어올리는 텔레스코픽 설비입니다.", "features": ["버튼 하나로 길이 자유 연장/축소", "작업자 동선 최소화 및 인체공학적 작업 환경 제공", "안전 센서 감지 확보"] },
+                en: { "title": "Telescopic Boom Conveyor", "desc": "A heavy-duty extendable boom conveyor that stretches deep into trailer interiors, drastically boosting loading and unloading productivity.", "features": ["Effortless length extension & retraction via one-touch pendant controls", "Ergonomic operation reducing manual lifting and walking distances", "Triple safety sensor protection guarding operators and equipment"] },
+                zh: { "title": "Telescopic 伸缩皮带输送机", "desc": "输送末端可自由伸展深入车厢内部最深处，大幅减少人工搬运往返距离、成倍提升卡车装卸效率的重载伸缩机。", "features": ["一键电动连续伸缩调节，灵活适应各类车厢长度", "符合人体工学设计，大幅减轻作业人员弯腰搬运负担", "配备多重防夹与防撞安全感应器，作业安全有保障"] },
+                cn: { "title": "Telescopic 伸缩皮带输送机", "desc": "输送末端可自由伸展深入车厢内部最深处，大幅减少人工搬运往返距离、成倍提升卡车装卸效率的重载伸缩机。", "features": ["一键电动连续伸缩调节，灵活适应各类车厢长度", "符合人体工学设计，大幅减轻作业人员弯腰搬运负担", "配备多重防夹与防撞安全感应器，作业安全有保障"] },
+                ja: { "title": "Telescopic 伸縮式テレスコピックコンベア", "desc": "トラックの荷台最奥部までコンベア先端が自在に伸縮し、荷役・荷降ろし作業の効率を劇的に向上させるテレスコピック設備です。", "features": ["ボタン1つで伸縮長さを自由自在に電動制御", "作業者の動線を最小化し腰への負担を軽減する人間工学設計", "挟み込み防止安全センサーを多重搭載し作業安全を徹底確保"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/Telescopic.png',
 
@@ -5025,12 +5079,12 @@
                 desc: '선반 사이를 자유로이 움직이는 소형 셔틀이 상품을 적재 및 인출하는 고밀도 자동 보관 시스템입니다.',
 
                 features: ['고속 입출고를 통한 작업 속도 향상', '선반 공간 효율 극대화 및 고밀도 보관', '모듈식 설계로 시스템 확장 용이'],
-                ko: {"title":"Shuttle AS/RS [고밀도 자동창고]","desc":"선반 사이를 자유로이 움직이는 소형 셔틀이 상품을 적재 및 인출하는 고밀도 자동 보관 시스템입니다.","features":["고속 입출고를 통한 작업 속도 향상","선반 공간 효율 극대화 및 고밀도 보관","모듈식 설계로 시스템 확장 용이"]},
-                en: {"title":"Shuttle AS/RS High-Density Storage","desc":"A multi-tier automated storage and retrieval system featuring agile intelligent shuttles traversing rack lanes to deposit and retrieve totes/pallets.","features":["High-speed cycle rates dramatically boosting order fulfillment speeds","Maximizes vertical cube utilization for dense warehouse footprint","Modular architecture allowing flexible phase-by-phase capacity scaling"]},
-                zh: {"title":"Shuttle AS/RS 高密穿梭车立体库系统","desc":"多层智能穿梭小车在货架深处轨道高速往返穿梭，实现货物高密立体存储与极速出入库的下一代自动化立库系统。","features":["超高速出入库周转，大幅压缩订单波次履约响应时间","空间利用率极高，同等占地面积下存储密度成倍提升","高度模块化堆叠设计，便于后期随业务增长弹性平滑扩容"]},
-                cn: {"title":"Shuttle AS/RS 高密穿梭车立体库系统","desc":"多层智能穿梭小车在货架深处轨道高速往返穿梭，实现货物高密立体存储与极速出入库的下一代自动化立库系统。","features":["超高速出入库周转，大幅压缩订单波次履约响应时间","空间利用率极高，同等占地面积下存储密度成倍提升","高度模块化堆叠设计，便于后期随业务增长弹性平滑扩容"]},
-                ja: {"title":"Shuttle AS/RS 高密度シャトル式自動倉庫","desc":"ラック間をインテリジェントシャトルが縦横無尽に走行し、ケースやトレイを高密度に自動格納・搬出する次世代AS/RSシステムです。","features":["超高速入出庫サイクルによりピッキング作業速度を飛躍的に向上","天井高を最大限に活用した超高密度保管で保管効率を極大化","モジュール設計により将来的なキャパシティ拡張が極めて容易"]},
-                
+                ko: { "title": "Shuttle AS/RS [고밀도 자동창고]", "desc": "선반 사이를 자유로이 움직이는 소형 셔틀이 상품을 적재 및 인출하는 고밀도 자동 보관 시스템입니다.", "features": ["고속 입출고를 통한 작업 속도 향상", "선반 공간 효율 극대화 및 고밀도 보관", "모듈식 설계로 시스템 확장 용이"] },
+                en: { "title": "Shuttle AS/RS High-Density Storage", "desc": "A multi-tier automated storage and retrieval system featuring agile intelligent shuttles traversing rack lanes to deposit and retrieve totes/pallets.", "features": ["High-speed cycle rates dramatically boosting order fulfillment speeds", "Maximizes vertical cube utilization for dense warehouse footprint", "Modular architecture allowing flexible phase-by-phase capacity scaling"] },
+                zh: { "title": "Shuttle AS/RS 高密穿梭车立体库系统", "desc": "多层智能穿梭小车在货架深处轨道高速往返穿梭，实现货物高密立体存储与极速出入库的下一代自动化立库系统。", "features": ["超高速出入库周转，大幅压缩订单波次履约响应时间", "空间利用率极高，同等占地面积下存储密度成倍提升", "高度模块化堆叠设计，便于后期随业务增长弹性平滑扩容"] },
+                cn: { "title": "Shuttle AS/RS 高密穿梭车立体库系统", "desc": "多层智能穿梭小车在货架深处轨道高速往返穿梭，实现货物高密立体存储与极速出入库的下一代自动化立库系统。", "features": ["超高速出入库周转，大幅压缩订单波次履约响应时间", "空间利用率极高，同等占地面积下存储密度成倍提升", "高度模块化堆叠设计，便于后期随业务增长弹性平滑扩容"] },
+                ja: { "title": "Shuttle AS/RS 高密度シャトル式自動倉庫", "desc": "ラック間をインテリジェントシャトルが縦横無尽に走行し、ケースやトレイを高密度に自動格納・搬出する次世代AS/RSシステムです。", "features": ["超高速入出庫サイクルによりピッキング作業速度を飛躍的に向上", "天井高を最大限に活用した超高密度保管で保管効率を極大化", "モジュール設計により将来的なキャパシティ拡張が極めて容易"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/shuttle ASRS.png',
 
@@ -5043,12 +5097,12 @@
                 desc: '소형 물류 로봇을 고밀도로 배치해 단위 공간 내 분류 및 이송 효율을 극적으로 끌어올리는 유연한 자율주행 솔루션입니다.',
 
                 features: ['고정 인프라 없이 유연한 경로 설정', 'AI 알고리즘 기반 최적 경로 탐색 및 충돌 회피', '야간 무인화 작업 지원'],
-                ko: {"title":"AGV & AMR [자율주행 물류 로봇]","desc":"소형 물류 로봇을 고밀도로 배치해 단위 공간 내 분류 및 이송 효율을 극적으로 끌어올리는 유연한 자율주행 솔루션입니다.","features":["고정 인프라 없이 유연한 경로 설정","AI 알고리즘 기반 최적 경로 탐색 및 충돌 회피","야간 무인화 작업 지원"]},
-                en: {"title":"AGV & AMR Autonomous Mobile Robots","desc":"A flexible robotic fleet solution deploying intelligent mobile robots to dramatically boost sorting, conveying, and warehouse transport efficiency.","features":["Infrastructure-free natural navigation allowing rapid route adaptation","AI-driven dynamic routing, multi-robot traffic coordination & obstacle avoidance","24/7 continuous lights-out unattended operation support"]},
-                zh: {"title":"AGV & AMR 自主移动物流机器人","desc":"通过群控调度高密度移动搬运机器人，打破传统固定输送线束缚，显著提升柔性搬运、拣选与分拣效率的自主移动机器人系统。","features":["无需改造地面环境设施，灵活自主SLAM建图与动态导航","AI群控算法赋能全局最优路径规划与主动智能避障","支持24小时全天候黑灯无人化连续高可靠作业"]},
-                cn: {"title":"AGV & AMR 自主移动物流机器人","desc":"通过群控调度高密度移动搬运机器人，打破传统固定输送线束缚，显著提升柔性搬运、拣选与分拣效率的自主移动机器人系统。","features":["无需改造地面环境设施，灵活自主SLAM建图与动态导航","AI群控算法赋能全局最优路径规划与主动智能避障","支持24小时全天候黑灯无人化连续高可靠作业"]},
-                ja: {"title":"AGV & AMR 自律走行型搬送ロボット","desc":"高性能な自律移動ロボットを配備し、固定コンベアの制約を超えて拠点内の搬送・仕分け効率を飛躍的に高めるフレキシブルロボティクスです。","features":["大がかりな床面工事不要で柔軟なルート設定・レイアウト変更が可能","AIアルゴリズムによるリアルタイム最適経路探索と高精度障害物回避","夜間や休日を含む24時間完全無人化オペレーションを支援"]},
-                
+                ko: { "title": "AGV & AMR [자율주행 물류 로봇]", "desc": "소형 물류 로봇을 고밀도로 배치해 단위 공간 내 분류 및 이송 효율을 극적으로 끌어올리는 유연한 자율주행 솔루션입니다.", "features": ["고정 인프라 없이 유연한 경로 설정", "AI 알고리즘 기반 최적 경로 탐색 및 충돌 회피", "야간 무인화 작업 지원"] },
+                en: { "title": "AGV & AMR Autonomous Mobile Robots", "desc": "A flexible robotic fleet solution deploying intelligent mobile robots to dramatically boost sorting, conveying, and warehouse transport efficiency.", "features": ["Infrastructure-free natural navigation allowing rapid route adaptation", "AI-driven dynamic routing, multi-robot traffic coordination & obstacle avoidance", "24/7 continuous lights-out unattended operation support"] },
+                zh: { "title": "AGV & AMR 自主移动物流机器人", "desc": "通过群控调度高密度移动搬运机器人，打破传统固定输送线束缚，显著提升柔性搬运、拣选与分拣效率的自主移动机器人系统。", "features": ["无需改造地面环境设施，灵活自主SLAM建图与动态导航", "AI群控算法赋能全局最优路径规划与主动智能避障", "支持24小时全天候黑灯无人化连续高可靠作业"] },
+                cn: { "title": "AGV & AMR 自主移动物流机器人", "desc": "通过群控调度高密度移动搬运机器人，打破传统固定输送线束缚，显著提升柔性搬运、拣选与分拣效率的自主移动机器人系统。", "features": ["无需改造地面环境设施，灵活自主SLAM建图与动态导航", "AI群控算法赋能全局最优路径规划与主动智能避障", "支持24小时全天候黑灯无人化连续高可靠作业"] },
+                ja: { "title": "AGV & AMR 自律走行型搬送ロボット", "desc": "高性能な自律移動ロボットを配備し、固定コンベアの制約を超えて拠点内の搬送・仕分け効率を飛躍的に高めるフレキシブルロボティクスです。", "features": ["大がかりな床面工事不要で柔軟なルート設定・レイアウト変更が可能", "AIアルゴリズムによるリアルタイム最適経路探索と高精度障害物回避", "夜間や休日を含む24時間完全無人化オペレーションを支援"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/AGV & AMR.png',
 
@@ -5061,12 +5115,12 @@
                 desc: '물류 자동화 솔루션 내 모든 설비 제어, 실시간 모니터링, 관리 통제가 가능한 최상위 통합 관제 시스템입니다.',
 
                 features: ['다기종 설비 통합 실시간 제어', '병목 현상 사전 감지 및 트래픽 분산', 'ERP/WMS 시스템 간의 완벽한 데이터 인터페이스'],
-                ko: {"title":"WCS [창고제어시스템]","desc":"물류 자동화 솔루션 내 모든 설비 제어, 실시간 모니터링, 관리 통제가 가능한 최상위 통합 관제 시스템입니다.","features":["다기종 설비 통합 실시간 제어","병목 현상 사전 감지 및 트래픽 분산","ERP/WMS 시스템 간의 완벽한 데이터 인터페이스"]},
-                en: {"title":"WCS [Warehouse Control System]","desc":"A master logistics integration software platform providing real-time equipment orchestration, 3D digital-twin monitoring, and complete automation control.","features":["Seamless heterogeneous equipment coordination across conveyors, sorters, & robots","Predictive bottleneck detection with dynamic parcel traffic rerouting","Native bidirectional API interfaces bridging ERP and enterprise WMS"]},
-                zh: {"title":"WCS [Warehouse Control System] 仓库控制与设备集成调度系统","desc":"全面接管并统一调度物流中心所有自动化设备，提供全域数字孪生实时监控与集中管控的最高级中央中枢系统。","features":["打破多品牌多机型壁垒，全厂异构自动化装备毫秒级协同调度","实时智能拥堵预警算法，自动动态平衡各分区分流负荷","与上层ERP、WMS及第三方企业管理系统无缝高效数据对接"]},
-                cn: {"title":"WCS [Warehouse Control System] 仓库控制与设备集成调度系统","desc":"全面接管并统一调度物流中心所有自动化设备，提供全域数字孪生实时监控与集中管控的最高级中央中枢系统。","features":["打破多品牌多机型壁垒，全厂异构自动化装备毫秒级协同调度","实时智能拥堵预警算法，自动动态平衡各分区分流负荷","与上层ERP、WMS及第三方企业管理系统无缝高效数据对接"]},
-                ja: {"title":"WCS [Warehouse Control System] 倉庫制御・統合設備管制システム","desc":"物流拠点内の全自動化設備を一元的に制御・監視し、リアルタイムデータ連携を実現する最上位の統合管制ソフトウェアです。","features":["異種・他社製設備を含む拠点内全マテハン機器の統合リアルタイム制御","搬送ボトルネックの事前検知と自動トラフィック負荷分散","上位ERPおよびWMSシステムとの堅牢なリアルタイムデータ双方向連携"]},
-                
+                ko: { "title": "WCS [창고제어시스템]", "desc": "물류 자동화 솔루션 내 모든 설비 제어, 실시간 모니터링, 관리 통제가 가능한 최상위 통합 관제 시스템입니다.", "features": ["다기종 설비 통합 실시간 제어", "병목 현상 사전 감지 및 트래픽 분산", "ERP/WMS 시스템 간의 완벽한 데이터 인터페이스"] },
+                en: { "title": "WCS [Warehouse Control System]", "desc": "A master logistics integration software platform providing real-time equipment orchestration, 3D digital-twin monitoring, and complete automation control.", "features": ["Seamless heterogeneous equipment coordination across conveyors, sorters, & robots", "Predictive bottleneck detection with dynamic parcel traffic rerouting", "Native bidirectional API interfaces bridging ERP and enterprise WMS"] },
+                zh: { "title": "WCS [Warehouse Control System] 仓库控制与设备集成调度系统", "desc": "全面接管并统一调度物流中心所有自动化设备，提供全域数字孪生实时监控与集中管控的最高级中央中枢系统。", "features": ["打破多品牌多机型壁垒，全厂异构自动化装备毫秒级协同调度", "实时智能拥堵预警算法，自动动态平衡各分区分流负荷", "与上层ERP、WMS及第三方企业管理系统无缝高效数据对接"] },
+                cn: { "title": "WCS [Warehouse Control System] 仓库控制与设备集成调度系统", "desc": "全面接管并统一调度物流中心所有自动化设备，提供全域数字孪生实时监控与集中管控的最高级中央中枢系统。", "features": ["打破多品牌多机型壁垒，全厂异构自动化装备毫秒级协同调度", "实时智能拥堵预警算法，自动动态平衡各分区分流负荷", "与上层ERP、WMS及第三方企业管理系统无缝高效数据对接"] },
+                ja: { "title": "WCS [Warehouse Control System] 倉庫制御・統合設備管制システム", "desc": "物流拠点内の全自動化設備を一元的に制御・監視し、リアルタイムデータ連携を実現する最上位の統合管制ソフトウェアです。", "features": ["異種・他社製設備を含む拠点内全マテハン機器の統合リアルタイム制御", "搬送ボトルネックの事前検知と自動トラフィック負荷分散", "上位ERPおよびWMSシステムとの堅牢なリアルタイムデータ双方向連携"] },
+
 
                 img: '[ Insert Data ]/SOLUTION/WCS [창고제어시스템].png',
 
@@ -5208,133 +5262,133 @@
         // 2. window.addEventListener('popstate'): 브라우저 뒤로가기/앞으로가기 시 전단계 화면 즉각 복원
         // 3. parseHashAndNavigate(isPopState): URL 해시 기반 라우팅 및 초기 로드 지원
         // ========================================================
-        
-    // [제품 상세 페이지 동적 렌더러 - 11종 라인업 완벽 연동]
-    window.renderProductDetail = function(productKey, lang) {
-        if (!productKey) productKey = window.currentProductId || '택배차량 배송 자동화 시스템';
-        window.currentProductId = productKey;
-        lang = lang || window.currentLanguage || 'ko';
-        if (lang === 'zh') lang = 'cn';
 
-        // 1. productDb 또는 ata_product_lineup_db에서 제품 찾기
-        var pData = null;
-        if (typeof productDb !== 'undefined' && productDb) {
-            if (productDb[productKey]) {
-                pData = productDb[productKey];
-            } else {
-                for (var k in productDb) {
-                    if (productDb[k].title === productKey || productDb[k].name === productKey || (productDb[k].ko && productDb[k].ko.title === productKey)) {
-                        pData = productDb[k];
-                        break;
+        // [제품 상세 페이지 동적 렌더러 - 11종 라인업 완벽 연동]
+        window.renderProductDetail = function (productKey, lang) {
+            if (!productKey) productKey = window.currentProductId || '택배차량 배송 자동화 시스템';
+            window.currentProductId = productKey;
+            lang = lang || window.currentLanguage || 'ko';
+            if (lang === 'zh') lang = 'cn';
+
+            // 1. productDb 또는 ata_product_lineup_db에서 제품 찾기
+            var pData = null;
+            if (typeof productDb !== 'undefined' && productDb) {
+                if (productDb[productKey]) {
+                    pData = productDb[productKey];
+                } else {
+                    for (var k in productDb) {
+                        if (productDb[k].title === productKey || productDb[k].name === productKey || (productDb[k].ko && productDb[k].ko.title === productKey)) {
+                            pData = productDb[k];
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        if (!pData && typeof ata_product_lineup_db !== 'undefined' && Array.isArray(ata_product_lineup_db)) {
-            pData = ata_product_lineup_db.find(function(item) {
-                return item.id === productKey || item.title === productKey || item.titleKo === productKey;
-            });
-        }
-
-        // 2. 제목, 설명, 미디어 추출
-        var title = productKey;
-        var desc = "주식회사 에이티에이기술의 혁신적인 스마트 물류 자동화 솔루션입니다.";
-        var imgSrc = "";
-        var videoSrc = "";
-        var features = [];
-
-        if (pData) {
-            // cn과 zh의 양방향 호환 매핑
-            var targetLang = lang;
-            if (!pData[targetLang]) {
-                if (targetLang === 'cn' && pData['zh']) targetLang = 'zh';
-                else if (targetLang === 'zh' && pData['cn']) targetLang = 'cn';
+            if (!pData && typeof ata_product_lineup_db !== 'undefined' && Array.isArray(ata_product_lineup_db)) {
+                pData = ata_product_lineup_db.find(function (item) {
+                    return item.id === productKey || item.title === productKey || item.titleKo === productKey;
+                });
             }
-            if (pData[targetLang]) {
-                title = pData[targetLang].title || pData[targetLang].name || title;
-                desc = pData[targetLang].desc || pData[targetLang].description || desc;
-                features = pData[targetLang].features || pData[targetLang].specs || [];
-            } else {
-                title = pData.title || pData.titleKo || pData.name || title;
-                desc = pData.desc || pData.description || pData.descKo || desc;
-                features = pData.features || pData.specs || [];
+
+            // 2. 제목, 설명, 미디어 추출
+            var title = productKey;
+            var desc = "주식회사 에이티에이기술의 혁신적인 스마트 물류 자동화 솔루션입니다.";
+            var imgSrc = "";
+            var videoSrc = "";
+            var features = [];
+
+            if (pData) {
+                // cn과 zh의 양방향 호환 매핑
+                var targetLang = lang;
+                if (!pData[targetLang]) {
+                    if (targetLang === 'cn' && pData['zh']) targetLang = 'zh';
+                    else if (targetLang === 'zh' && pData['cn']) targetLang = 'cn';
+                }
+                if (pData[targetLang]) {
+                    title = pData[targetLang].title || pData[targetLang].name || title;
+                    desc = pData[targetLang].desc || pData[targetLang].description || desc;
+                    features = pData[targetLang].features || pData[targetLang].specs || [];
+                } else {
+                    title = pData.title || pData.titleKo || pData.name || title;
+                    desc = pData.desc || pData.description || pData.descKo || desc;
+                    features = pData.features || pData.specs || [];
+                }
+                imgSrc = pData.image || pData.img || pData.thumb || "";
+                videoSrc = pData.video || pData.videoSrc || "";
             }
-            imgSrc = pData.image || pData.img || pData.thumb || "";
-            videoSrc = pData.video || pData.videoSrc || "";
-        }
 
-        // 3. DOM 요소 업데이트
-        var titleEl = document.getElementById('product-detail-title');
-        if (titleEl) titleEl.textContent = title;
+            // 3. DOM 요소 업데이트
+            var titleEl = document.getElementById('product-detail-title');
+            if (titleEl) titleEl.textContent = title;
 
-        var descEl = document.getElementById('product-detail-desc');
-        if (descEl) descEl.textContent = desc;
+            var descEl = document.getElementById('product-detail-desc');
+            if (descEl) descEl.textContent = desc;
 
-        var videoEl = document.getElementById('product-detail-video');
-        var imgEl = document.getElementById('product-detail-img');
-        var fallbackEl = document.getElementById('product-detail-fallback');
+            var videoEl = document.getElementById('product-detail-video');
+            var imgEl = document.getElementById('product-detail-img');
+            var fallbackEl = document.getElementById('product-detail-fallback');
 
-        // 1) 상단 대표 제품 사진은 비디오 유무와 관계없이 항상 선명하게 표시
-        if (imgEl && imgSrc) {
-            imgEl.src = imgSrc;
-            imgEl.classList.remove('hidden');
-            if (fallbackEl) fallbackEl.classList.add('hidden');
-        } else if (imgEl) {
-            imgEl.src = 'Conveyors & ADD-Ons.jpg';
-            imgEl.classList.remove('hidden');
-            if (fallbackEl) fallbackEl.classList.add('hidden');
-        }
+            // 1) 상단 대표 제품 사진은 비디오 유무와 관계없이 항상 선명하게 표시
+            if (imgEl && imgSrc) {
+                imgEl.src = imgSrc;
+                imgEl.classList.remove('hidden');
+                if (fallbackEl) fallbackEl.classList.add('hidden');
+            } else if (imgEl) {
+                imgEl.src = 'Conveyors & ADD-Ons.jpg';
+                imgEl.classList.remove('hidden');
+                if (fallbackEl) fallbackEl.classList.add('hidden');
+            }
 
-        // 2) 하단 가동 영상은 음량 10%(volume = 0.1)로 안전하게 재생
-        var videoWrap = document.getElementById('product-detail-video-wrap');
-        var videoBadge = document.getElementById('product-detail-video-badge');
-        var videoFallback = document.getElementById('product-detail-video-fallback');
+            // 2) 하단 가동 영상은 음량 10%(volume = 0.1)로 안전하게 재생
+            var videoWrap = document.getElementById('product-detail-video-wrap');
+            var videoBadge = document.getElementById('product-detail-video-badge');
+            var videoFallback = document.getElementById('product-detail-video-fallback');
 
-        if (videoEl && videoSrc) {
-            videoEl.src = videoSrc;
-            videoEl.volume = 0.1; // 기본 음량 10%
-            videoEl.classList.remove('hidden');
-            if (videoFallback) videoFallback.classList.add('hidden');
-            if (videoBadge) videoBadge.classList.remove('hidden');
-            videoEl.load();
-            videoEl.play().catch(function() {});
-        } else if (videoEl) {
-            videoEl.pause();
-            videoEl.classList.add('hidden');
-            if (videoFallback) videoFallback.classList.remove('hidden');
-            if (videoBadge) videoBadge.classList.add('hidden');
-        }
+            if (videoEl && videoSrc) {
+                videoEl.src = videoSrc;
+                videoEl.volume = 0.1; // 기본 음량 10%
+                videoEl.classList.remove('hidden');
+                if (videoFallback) videoFallback.classList.add('hidden');
+                if (videoBadge) videoBadge.classList.remove('hidden');
+                videoEl.load();
+                videoEl.play().catch(function () { });
+            } else if (videoEl) {
+                videoEl.pause();
+                videoEl.classList.add('hidden');
+                if (videoFallback) videoFallback.classList.remove('hidden');
+                if (videoBadge) videoBadge.classList.add('hidden');
+            }
 
-        // 4. 특징 리스트 업데이트
-        var featEl = document.getElementById('product-detail-features');
-        if (featEl && Array.isArray(features) && features.length > 0) {
-            featEl.innerHTML = features.map(function(f) {
-                return '<li class="flex items-start gap-2 text-slate-700 text-sm sm:text-base"><i class="fa-solid fa-circle-check text-blue-600 mt-1 shrink-0"></i><span>' + f + '</span></li>';
-            }).join('');
-        }
-    };
+            // 4. 특징 리스트 업데이트
+            var featEl = document.getElementById('product-detail-features');
+            if (featEl && Array.isArray(features) && features.length > 0) {
+                featEl.innerHTML = features.map(function (f) {
+                    return '<li class="flex items-start gap-2 text-slate-700 text-sm sm:text-base"><i class="fa-solid fa-circle-check text-blue-600 mt-1 shrink-0"></i><span>' + f + '</span></li>';
+                }).join('');
+            }
+        };
 
-    function navigate(viewId, param1, isPopState) {
-        // [문의하기 라우팅] contact-inquiry는 전용 서브페이지(view-contact-inquiry)로 온전히 독립 라우팅
-        if (viewId === 'contact-inquiry') {
-            // view-contact-inquiry 전용 뷰로 진입
-            viewId = 'contact-inquiry';
-        }
+        function navigate(viewId, param1, isPopState) {
+            // [문의하기 라우팅] contact-inquiry는 전용 서브페이지(view-contact-inquiry)로 온전히 독립 라우팅
+            if (viewId === 'contact-inquiry') {
+                // view-contact-inquiry 전용 뷰로 진입
+                viewId = 'contact-inquiry';
+            }
 
-        // [자동 리다이렉트 2] china / xingting 호환 라우팅
-        if (viewId === 'china') {
-            if (param1 === 'china-coop' || param1 === 'xingting-coop') viewId = 'xingting-coop';
-            else if (param1 === 'china-global' || param1 === 'xingting-global') viewId = 'xingting-global';
-            else viewId = 'xingting-intro';
-            param1 = null;
-        } else if (viewId === 'china-intro') {
-            viewId = 'xingting-intro';
-        } else if (viewId === 'china-coop') {
-            viewId = 'xingting-coop';
-        } else if (viewId === 'china-global') {
-            viewId = 'xingting-global';
-        }
+            // [자동 리다이렉트 2] china / xingting 호환 라우팅
+            if (viewId === 'china') {
+                if (param1 === 'china-coop' || param1 === 'xingting-coop') viewId = 'xingting-coop';
+                else if (param1 === 'china-global' || param1 === 'xingting-global') viewId = 'xingting-global';
+                else viewId = 'xingting-intro';
+                param1 = null;
+            } else if (viewId === 'china-intro') {
+                viewId = 'xingting-intro';
+            } else if (viewId === 'china-coop') {
+                viewId = 'xingting-coop';
+            } else if (viewId === 'china-global') {
+                viewId = 'xingting-global';
+            }
 
 
             // 솔루션 뷰 독립 분리 호환성 리다이렉트
@@ -7619,7 +7673,8 @@
                             <h4 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
                                 <i class="fa-solid fa-trophy text-amber-500"></i> 스마트 물류 실적 아카이브 (영상·포토 미디어) 관리
                             </h4>
-                            <p class="text-xs text-slate-500 mt-0.5">실제 홈페이지 레퍼런스에 실시간 반영되는 6대 핵심 카테고리별 가동 동영상(56편)과 고화질 현장 사진(77장)을 등록·수정·삭제합니다.</p>
+                            <p class="text-xs text-slate-500 mt-0.5">실제 홈페이지 레퍼런스에 실시간 반영되는 6대 핵심 카테고리별 가동 동영상(56편)과 고화질
+                                현장 사진(77장)을 등록·수정·삭제합니다.</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
                             <button type="button" onclick="window.ReferenceAdmin.openCreateModal()"
@@ -8382,7 +8437,7 @@
 
                         html.push('<div class="bg-white border border-slate-200 hover:border-blue-300 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between transition-all group">');
                         html.push('  <div>');
-                        
+
                         // 썸네일 영역
                         html.push('    <div class="aspect-video bg-slate-100 relative overflow-hidden flex items-center justify-center">');
                         if (thumbUrl) {
@@ -8390,7 +8445,7 @@
                         } else {
                             html.push('      <div class="text-slate-400 text-xs flex flex-col items-center gap-1"><i class="fa-solid fa-image text-2xl"></i><span>이미지 없음</span></div>');
                         }
-                        
+
                         // 미디어 타입 배지 (동영상 / 사진)
                         if (isVideo) {
                             html.push('      <span class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-red-600 text-white text-[10px] font-bold shadow flex items-center gap-1"><i class="fa-brands fa-youtube"></i> 동영상</span>');
