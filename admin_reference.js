@@ -3410,15 +3410,14 @@ var REFERENCE_GALLERY_DB = {
                 : "bg-slate-900/90 hover:bg-slate-800/90 border-slate-800";
             var thumbUrl = v.thumb ? safeUrl(v.thumb) : "";
 
+            var actualVidSrc = safeUrl(v.src);
             return [
                 '<div id="ref-yt-playlist-item-' + idx + '" data-index="' + idx + '" role="button" tabindex="0" onclick="window.ReferenceAdmin.playVideoAtIndex(' + idx + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();window.ReferenceAdmin.playVideoAtIndex(' + idx + ');}"',
                 '     class="ref-yt-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ' + itemBg + '">',
-                '  <!-- 썸네일 이미지 박스 -->',
+                '  <!-- 썸네일 미디어 박스: 실제 동영상 1번째 프레임 100% 일치 렌더링 -->',
                 '  <div class="ref-thumb-media-box w-32 sm:w-36 aspect-video rounded-lg overflow-hidden bg-slate-950 relative shrink-0 border border-slate-700/80">',
-                thumbUrl
-                    ? '    <img src="' + thumbUrl + '" data-raw-src="' + escapeHtml(v.thumb) + '" data-fallback-src="' + escapeHtml(v.fallbackThumb || '') + '" onerror="window.handleRefImgError(this)" loading="lazy" alt="' + escapeHtml(v.title) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">'
-                    : '    <div class="w-full h-full flex items-center justify-center bg-slate-900 text-slate-500"><i class="fa-solid fa-film text-xl"></i></div>',
-                '    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors flex items-center justify-center">',
+                '    <video src="' + actualVidSrc + '#t=0.5" preload="metadata" muted playsinline webkit-playsinline class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none"></video>',
+                '    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">',
                 isPlaying
                     ? '      <span class="ref-yt-thumb-badge px-2 py-0.5 rounded bg-red-600 text-white text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow"><i class="fa-solid fa-volume-high animate-pulse"></i> 재생중</span>'
                     : '      <div class="ref-yt-thumb-badge w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center group-hover:bg-red-600 transition-colors shadow"><i class="fa-solid fa-play text-xs ml-0.5"></i></div>',
@@ -3465,8 +3464,8 @@ var REFERENCE_GALLERY_DB = {
             '  <!-- 동영상 시어터 본체 (가운데 8칸: 메인 영상 플레이어 & 해설 / 우측 4칸: 동영상 썸네일 목록) -->',
             '  <div id="ref-yt-theater-box" class="ref-theater-shell bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
             '    <div class="ref-theater-grid grid grid-cols-1 md:grid-cols-12 gap-6 items-start">',
-            '      <!-- [가운데 메인 영역 (8칸)] 비디오 플레이어 및 설비 분석 해설 -->',
-            '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4">',
+            '      <!-- [가운데 메인 영역 (8칸)] 비디오 플레이어 및 설비 분석 해설 (좌측 화면 상단 고정) -->',
+            '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4 lg:sticky lg:top-24 z-10">',
             '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner flex items-center justify-center group/stage">',
             '          <video id="ref-yt-main-video" controls playsinline webkit-playsinline x5-playsinline preload="auto"',
             posterSrc ? '                 poster="' + posterSrc + '"' : '',
@@ -3532,7 +3531,7 @@ var REFERENCE_GALLERY_DB = {
             '            ' + (currentVideoIndex + 1) + ' / ' + currentVideoList.length,
             '          </span>',
             '        </div>',
-            '        <div id="ref-yt-playlist-scroll" class="ref-playlist-scroll p-3 space-y-2.5 max-h-[460px] lg:max-h-[560px] overflow-y-auto custom-scrollbar flex-1">',
+            '        <div id="ref-yt-playlist-scroll" class="ref-playlist-scroll p-3 space-y-2.5 max-h-[500px] lg:max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar flex-1 overscroll-contain" style="overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;">',
             playlistHtml,
             '        </div>',
             '      </div>',
@@ -3692,13 +3691,13 @@ var REFERENCE_GALLERY_DB = {
         var activePhoto = currentPhotoList[currentPhotoIndex];
         var mainImgSrc = safeUrl(activePhoto.src);
 
-        // 우측 이미지 썸네일 목록 생성 (동영상 재생목록과 동일한 스타일)
+        // 우측 이미지 썸네일 목록 생성 (실제 원본 사진과 100% 일치)
         var photoPlaylistHtml = currentPhotoList.map(function (p, idx) {
             var isViewing = (idx === currentPhotoIndex);
             var itemBg = isViewing
                 ? "bg-blue-950/90 border-cyan-400 ring-2 ring-cyan-400/50 shadow-md"
                 : "bg-slate-900/90 hover:bg-slate-800/90 border-slate-800";
-            var thumbUrl = safeUrl(p.thumb || p.src);
+            var thumbUrl = safeUrl(p.src || p.thumb);
 
             return [
                 '<div id="ref-photo-playlist-item-' + idx + '" data-index="' + idx + '" role="button" tabindex="0" onclick="window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ');}"',
@@ -3755,8 +3754,8 @@ var REFERENCE_GALLERY_DB = {
             '  <!-- 이미지 시어터 본체 (동영상과 동일한 2단 구조! 가운데 8칸: 메인 사진 & 분석 멘트 / 우측 4칸: 이미지 썸네일 목록) -->',
             '  <div id="ref-photo-theater-box" class="ref-theater-shell bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
             '    <div class="ref-theater-grid grid grid-cols-1 md:grid-cols-12 gap-6 items-start">',
-            '      <!-- [가운데 메인 영역 (8칸)] 고화질 메인 이미지 뷰어 및 분석 해설 -->',
-            '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4">',
+            '      <!-- [가운데 메인 영역 (8칸)] 고화질 메인 이미지 뷰어 및 분석 해설 (좌측 화면 상단 고정) -->',
+            '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4 lg:sticky lg:top-24 z-10">',
             '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner group flex items-center justify-center">',
             '          <img id="ref-photo-main-img"',
             '               src="' + mainImgSrc + '"',
@@ -3827,7 +3826,7 @@ var REFERENCE_GALLERY_DB = {
             '            ' + (currentPhotoIndex + 1) + ' / ' + currentPhotoList.length,
             '          </span>',
             '        </div>',
-            '        <div id="ref-photo-playlist-scroll" class="ref-playlist-scroll p-3 space-y-2.5 max-h-[460px] lg:max-h-[560px] overflow-y-auto custom-scrollbar flex-1">',
+            '        <div id="ref-photo-playlist-scroll" class="ref-playlist-scroll p-3 space-y-2.5 max-h-[500px] lg:max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar flex-1 overscroll-contain" style="overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;">',
             photoPlaylistHtml,
             '        </div>',
             '      </div>',
