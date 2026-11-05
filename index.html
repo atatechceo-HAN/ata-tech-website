@@ -2109,441 +2109,46 @@
                     스마트 물류 자동화 솔루션을 만나보세요.</p>
             </div>
 
-            <!-- 11대 솔루션 카드 그리드 (독립 뷰로 완벽 제공) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 관리자 모드 실시간 제어 바 -->
+            <div id="solution-admin-control-bar" class="fade-in mb-6"></div>
 
-                <!-- 1. 택배차량 배송 자동화 시스템 -->
-                <div onclick="navigate('product', '택배차량 배송 자동화 시스템')"
-                    class="bg-white border-2 border-blue-500/80 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:border-blue-600 transition-all duration-300 group cursor-pointer fade-in ring-2 ring-blue-400/30 flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="택배차량 배송 자동화 시스템">
-                            <div
-                                class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
-                                NEW</div>
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('택배차량 배송 자동화 시스템', '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">01.
-                                Automation System</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c1_title">택배차량 배송 자동화 시스템</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2 mb-3" data-i18n="sol_c1_desc">차량 내 공간 활용 극대화 및
-                                작업자
-                                피로도를 줄이는 차세대 배송·적재 자동화 솔루션</p>
-                            <!-- [SEO 서브페이지 연계 링크] -->
-                            <a href="/vehicle-mounted-sorting-system" onclick="event.stopPropagation();"
-                                class="w-full py-2.5 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center justify-between transition-colors shadow-sm">
-                                <span class="flex items-center gap-1.5">
-                                    <i class="fa-solid fa-medal text-amber-500"></i> KAIA 우수기술 전문 서브페이지
-                                </span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-[11px] text-emerald-600"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
+            <!-- 솔루션 카테고리 필터 탭 바 (6대 카테고리) -->
+            <div class="flex flex-wrap items-center justify-start gap-2 sm:gap-2.5 mb-8 fade-in" id="solution-filter-tabs-bar">
+                <button type="button" onclick="renderSolutionsGrid('all')" id="sol-tab-all"
+                    class="solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 shadow-sm bg-gradient-to-r from-blue-600 to-cyan-600 text-white ring-2 ring-blue-400 cursor-pointer active:scale-95">
+                    <span data-i18n="lineup_tab_all">전체</span> <span id="sol-badge-all"
+                        class="ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white">11</span>
+                </button>
+                <button type="button" onclick="renderSolutionsGrid('delivery')" id="sol-tab-delivery"
+                    class="solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-truck-fast mr-1.5 text-blue-500"></i><span data-i18n="lineup_tab_delivery">물류 배송 라인</span> <span id="sol-badge-delivery"
+                        class="ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">1</span>
+                </button>
+                <button type="button" onclick="renderSolutionsGrid('transfer')" id="sol-tab-transfer"
+                    class="solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-arrows-split-up-and-left mr-1.5 text-cyan-500"></i><span data-i18n="lineup_tab_transfer">물류 이송 라인</span> <span id="sol-badge-transfer"
+                        class="ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">2</span>
+                </button>
+                <button type="button" onclick="renderSolutionsGrid('sorting')" id="sol-tab-sorting"
+                    class="solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-shuffle mr-1.5 text-indigo-500"></i><span data-i18n="lineup_tab_sorting">물류 분류 라인</span> <span id="sol-badge-sorting"
+                        class="ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">5</span>
+                </button>
+                <button type="button" onclick="renderSolutionsGrid('warehouse')" id="sol-tab-warehouse"
+                    class="solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-warehouse mr-1.5 text-emerald-500"></i><span data-i18n="lineup_tab_warehouse">물류 창고 라인</span> <span id="sol-badge-warehouse"
+                        class="ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">2</span>
+                </button>
+                <button type="button" onclick="renderSolutionsGrid('etc')" id="sol-tab-etc"
+                    class="solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95">
+                    <i class="fa-solid fa-ellipsis-vertical mr-1.5 text-slate-500"></i><span data-i18n="lineup_tab_etc">Etc.</span> <span id="sol-badge-etc"
+                        class="ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">1</span>
+                </button>
+            </div>
 
-                <!-- 2. NBS [Narrow Belt Sorter] -->
-                <div onclick="navigate('product', 'NBS [Narrow Belt Sorter]')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/NBS.jpg"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="NBS [Narrow Belt Sorter]">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('NBS [Narrow Belt Sorter]', '[ Insert Data ]/SOLUTION/NBS.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">02.
-                                Sorting Solution</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c2_title">NBS [Narrow Belt Sorter]</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c2_desc">소형 화물을 빠르고 정확하게 분류하는
-                                좁은 면적의 고효율 특화 소터</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 3. CBS [Cross Belt Sorter] -->
-                <div onclick="navigate('product', 'CBS [Cross Belt Sorter]')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/CBS.jpg"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="CBS [Cross Belt Sorter]">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('CBS [Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/CBS.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">03.
-                                High-Speed Sorter</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c3_title">CBS [Cross Belt Sorter]</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c3_desc">양방향 크로스 벨트 메커니즘으로 대용량
-                                화물을 초고속 정밀 분류하는 대표 소터</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 4. NC CBS [NC Cross Belt Sorter] -->
-                <div onclick="navigate('product', 'NC CBS [NC Cross Belt Sorter]')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/NC CBS.jpg"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="NC CBS [NC Cross Belt Sorter]">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('NC CBS [NC Cross Belt Sorter]', '[ Insert Data ]/SOLUTION/NC CBS.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">04.
-                                Precision Sorter</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c4_title">NC CBS [NC Cross Belt Sorter]</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c4_desc">흔들림 없이 초고속으로 대량 분류를
-                                처리하는 차세대 정밀 제어 크로스 벨트 소터</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 5. Wheel Sorter -->
-                <div onclick="navigate('product', 'Wheel Sorter')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/Wheel Sorter.jpg"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="Wheel Sorter">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('Wheel Sorter', '[ Insert Data ]/SOLUTION/Wheel Sorter.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">05. Divert
-                                Sorter</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c5_title">Wheel Sorter</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c5_desc">회전 휠의 각도 제어를 통해 다양한
-                                크기의 박스 및 파우치를 유연하게 분기·분류하는 시스템</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 6. Tilt Tray Sorter -->
-                <div onclick="navigate('product', 'Tilt Tray Sorter')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="Tilt Tray Sorter">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('Tilt Tray Sorter', '[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">06. Tilt
-                                Sorter</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c6_title">Tilt Tray Sorter</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c6_desc">트레이를 부드럽게 기울여 파손 위험을
-                                줄인 안정적인 다목적 경사 트레이 분류기</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 7. Conveyors & ADD-Ons -->
-                <div onclick="navigate('product', 'Conveyors & ADD-Ons')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="Conveyors & ADD-Ons 물류 창고 이송 및 분류">
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">07.
-                                Conveyor System</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c7_title">Conveyors & ADD-Ons</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c7_desc">다양한 물류 현장 환경에 대응하는
-                                맞춤형 롤러·벨트 컨베이어 및 부가 확장 설비</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400">맞춤형 설계</span>
-                    </div>
-                </div>
-
-                <!-- 8. Telescopic -->
-                <div onclick="navigate('product', 'Telescopic')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/Telescopic.png"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="Telescopic">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('Telescopic', '[ Insert Data ]/SOLUTION/Telescopic.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">08.
-                                Loading System</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c8_title">Telescopic</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c8_desc">화물 차량 내부 깊숙이 신축 연장되어
-                                상하차 작업 효율을 극대화하는 텔레스코픽 컨베이어</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 9. Shuttle AS/RS -->
-                <div onclick="navigate('product', 'Shuttle AS/RS')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/shuttle ASRS.png"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="Shuttle AS/RS">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('Shuttle AS/RS', '[ Insert Data ]/SOLUTION/shuttle ASRS.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">09.
-                                Storage AS/RS</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c9_title">Shuttle AS/RS</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c9_desc">선반 사이를 자유로이 움직이며 상품을
-                                적재/인출하는 고밀도 자동 보관 시스템</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 10. AGV & AMR -->
-                <div onclick="navigate('product', 'AGV & AMR')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/AGV & AMR.png"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="AGV & AMR">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('AGV & AMR', '[ Insert Data ]/SOLUTION/AGV & AMR.mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">10.
-                                Autonomous Mobile Robot</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c10_title">AGV & AMR</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c10_desc">자율이송 및 무인 물류 로봇을 통한
-                                유연한 상품 이송과 물류센터 무인화 솔루션</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
-                <!-- 11. WCS [창고제어시스템] -->
-                <div onclick="navigate('product', 'WCS [창고제어시스템]')"
-                    class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">
-                    <div>
-                        <div class="aspect-video bg-slate-100 relative overflow-hidden">
-                            <img src="[ Insert Data ]/SOLUTION/WCS [창고제어시스템].png"
-                                onerror="this.onerror=null; this.src='Conveyors & ADD-Ons.jpg';"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                alt="WCS [창고제어시스템]">
-                            <button
-                                onclick="event.stopPropagation(); openSolutionVideoModal('WCS [창고제어시스템]', '[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4');"
-                                class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10"
-                                title="구동 영상 보기">
-                                <i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상
-                                    보기</span>
-                            </button>
-                        </div>
-                        <div class="p-6">
-                            <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">11.
-                                Warehouse Control System</span>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors"
-                                data-i18n="sol_c11_title">WCS [창고제어시스템]</h3>
-                            <p class="text-sm text-slate-600 line-clamp-2" data-i18n="sol_c11_desc">전체 설비 제어 및 트래픽 분산,
-                                장비 상태를 실시간 모니터링하는 최상위 통합 관제 시스템</p>
-                        </div>
-                    </div>
-                    <div
-                        class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">
-                        <span
-                            class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                            data-i18n="sol_btn_detail">
-                            상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                        </span>
-                        <span class="flex items-center gap-1 text-slate-400"><i
-                                class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상
-                                포함</span></span>
-                    </div>
-                </div>
-
+            <!-- 동적 솔루션 카드 그리드 컨테이너 (관리자 모드 및 로컬스토리지 실시간 일원화) -->
+            <div id="solutions-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- JavaScript renderSolutionsGrid() 함수에 의해 실시간 동적 렌더링됩니다 -->
             </div>
         </div>
     </div>
@@ -5263,16 +4868,267 @@
         // 3. parseHashAndNavigate(isPopState): URL 해시 기반 라우팅 및 초기 로드 지원
         // ========================================================
 
-        // [제품 상세 페이지 동적 렌더러 - 11종 라인업 완벽 연동]
+                // ========================================================
+        // [솔루션(제품 라인업) 데이터 소스 일원화 및 동적 렌더러]
+        // - 관리자 모드(Admin Hub)와 동일한 데이터 원본(ata_product_lineup_db)을 실시간 바인딩합니다.
+        // - 관리자 모드에서 제품 정보를 수정/추가/삭제하면 즉시 화면에 동기화 반영됩니다.
+        // ========================================================
+        window.currentSolutionFilter = 'all';
+
+        // 솔루션 비디오 경로 기본 매핑 테이블 (설비별 기본 고화질 구동 영상)
+        window.SOLUTION_VIDEO_MAP = {
+            'prod_delivery_1': '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4',
+            'prod_sorting_1': '[ Insert Data ]/SOLUTION/CBS.mp4',
+            'prod_sorting_2': '[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4',
+            'prod_sorting_3': 'gemini_generated_video_58322012.mp4',
+            'prod_sorting_4': '[ Insert Data ]/SOLUTION/Wheel Sorter.mp4',
+            'prod_sorting_5': 'gemini_generated_video_58322012.mp4',
+            'prod_transfer_1': '[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.mp4',
+            'prod_transfer_2': '[ Insert Data ]/SOLUTION/AGV & AMR.mp4',
+            'prod_warehouse_1': '[ Insert Data ]/SOLUTION/shuttle ASRS.mp4',
+            'prod_warehouse_2': 'gemini_generated_video_58322012.mp4',
+            'prod_etc_1': '[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4'
+        };
+
+        // 카테고리 메타 정보 헬퍼
+        function getSolutionCategoryMeta(category) {
+            var metaMap = {
+                'delivery': { label: '물류 배송 라인', color: 'blue', icon: 'fa-truck-fast', tagBg: 'bg-blue-50 text-blue-700 border-blue-200' },
+                'transfer': { label: '물류 이송 라인', color: 'cyan', icon: 'fa-arrows-split-up-and-left', tagBg: 'bg-cyan-50 text-cyan-700 border-cyan-200' },
+                'sorting': { label: '물류 분류 라인', color: 'indigo', icon: 'fa-shuffle', tagBg: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+                'warehouse': { label: '물류 창고 라인', color: 'emerald', icon: 'fa-warehouse', tagBg: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+                'etc': { label: 'Etc.', color: 'slate', icon: 'fa-ellipsis-vertical', tagBg: 'bg-slate-100 text-slate-700 border-slate-200' }
+            };
+            return metaMap[category] || { label: '스마트 물류', color: 'blue', icon: 'fa-box', tagBg: 'bg-blue-50 text-blue-700 border-blue-200' };
+        }
+
+        // 최신 제품 목록 조회 (관리자 모드와 100% 동일 데이터 원본)
+        function getUnifiedProductsList() {
+            if (window.ProductLineupAdmin && typeof window.ProductLineupAdmin.getProductsList === 'function') {
+                return window.ProductLineupAdmin.getProductsList();
+            }
+            try {
+                var raw = localStorage.getItem('ata_product_lineup_db');
+                if (raw) {
+                    var parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch (e) {
+                console.warn('[SolutionsGrid] localStorage 조회 오류:', e);
+            }
+            return [];
+        }
+
+        // 솔루션 그리드 렌더링 함수
+        window.renderSolutionsGrid = function (filterCategory) {
+            if (filterCategory) {
+                window.currentSolutionFilter = filterCategory;
+            } else {
+                filterCategory = window.currentSolutionFilter || 'all';
+            }
+
+            var gridContainer = document.getElementById('solutions-cards-grid');
+            if (!gridContainer) return;
+
+            var fullList = getUnifiedProductsList();
+            var curLang = window.currentLanguage || (function () {
+                try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
+            })();
+            if (curLang === 'zh') curLang = 'cn';
+
+            // 관리자 로그인 여부 확인
+            var isAdmin = false;
+            try {
+                isAdmin = sessionStorage.getItem('ata_admin_authenticated') === 'true' ||
+                    (window.AdminHub && typeof window.AdminHub.isLoggedIn === 'function' && window.AdminHub.isLoggedIn());
+            } catch (e) { }
+
+            // 1. 관리자 실시간 제어 바 업데이트
+            var adminControlBar = document.getElementById('solution-admin-control-bar');
+            if (adminControlBar) {
+                if (isAdmin) {
+                    adminControlBar.innerHTML = [
+                        '<div class="p-4 rounded-2xl bg-gradient-to-r from-blue-900 to-slate-900 text-white shadow-lg border border-blue-700/50 flex flex-wrap items-center justify-between gap-3">',
+                        '  <div class="flex items-center gap-2.5">',
+                        '    <span class="px-2.5 py-1 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 text-xs font-bold flex items-center gap-1.5">',
+                        '      <i class="fa-solid fa-crown text-[11px]"></i> 관리자 실시간 동기화 모드',
+                        '    </span>',
+                        '    <span class="text-xs text-slate-300 hidden sm:inline">수정 및 등록된 데이터가 메인 솔루션 화면에 즉시 실시간 반영됩니다.</span>',
+                        '  </div>',
+                        '  <div class="flex items-center gap-2">',
+                        '    <button type="button" onclick="if(window.ProductLineupAdmin){window.ProductLineupAdmin.openCreateModal();}" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow transition-all cursor-pointer flex items-center gap-1.5">',
+                        '      <i class="fa-solid fa-plus text-xs"></i> 새 솔루션 등록',
+                        '    </button>',
+                        '    <button type="button" onclick="if(typeof openIntegratedAdminHub===\'function\'){openIntegratedAdminHub();openAdminHubTab(\'products\');}" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5">',
+                        '      <i class="fa-solid fa-sliders text-xs"></i> 통합 관리자 센터',
+                        '    </button>',
+                        '  </div>',
+                        '</div>'
+                    ].join('');
+                    adminControlBar.classList.remove('hidden');
+                } else {
+                    adminControlBar.innerHTML = '';
+                    adminControlBar.classList.add('hidden');
+                }
+            }
+
+            // 2. 카테고리 탭 뱃지 카운트 및 스타일 동기화
+            var categories = ['all', 'delivery', 'transfer', 'sorting', 'warehouse', 'etc'];
+            var counts = { all: fullList.length, delivery: 0, transfer: 0, sorting: 0, warehouse: 0, etc: 0 };
+            fullList.forEach(function (item) {
+                if (counts[item.category] !== undefined) counts[item.category]++;
+            });
+
+            categories.forEach(function (cat) {
+                var badgeEl = document.getElementById('sol-badge-' + cat);
+                if (badgeEl) badgeEl.textContent = counts[cat] || 0;
+
+                var tabEl = document.getElementById('sol-tab-' + cat);
+                if (tabEl) {
+                    if (cat === filterCategory) {
+                        tabEl.className = 'solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 shadow-md bg-gradient-to-r from-blue-600 to-cyan-600 text-white ring-2 ring-blue-400 cursor-pointer active:scale-95';
+                        var b = tabEl.querySelector('span:last-child');
+                        if (b) b.className = 'ml-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white';
+                    } else {
+                        tabEl.className = 'solution-filter-tab min-h-[42px] inline-flex items-center justify-center px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 shadow-sm bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 cursor-pointer active:scale-95';
+                        var b = tabEl.querySelector('span:last-child');
+                        if (b) b.className = 'ml-1 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200';
+                    }
+                }
+            });
+
+            // 3. 필터링된 목록 산출
+            var displayList = fullList;
+            if (filterCategory && filterCategory !== 'all') {
+                displayList = fullList.filter(function (item) {
+                    return item.category === filterCategory;
+                });
+            }
+
+            if (displayList.length === 0) {
+                gridContainer.innerHTML = [
+                    '<div class="col-span-1 md:col-span-2 lg:col-span-3 p-12 text-center rounded-2xl bg-white border border-slate-200 shadow-sm">',
+                    '  <i class="fa-solid fa-box-open text-3xl text-slate-300 mb-3 block"></i>',
+                    '  <p class="text-slate-600 text-sm font-medium">해당 카테고리에 등록된 솔루션이 없습니다.</p>',
+                    isAdmin ? '  <button type="button" onclick="if(window.ProductLineupAdmin){window.ProductLineupAdmin.openCreateModal();}" class="mt-4 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow"><i class="fa-solid fa-plus"></i> 새 솔루션 등록하기</button>' : '',
+                    '</div>'
+                ].join('');
+                return;
+            }
+
+            // 4. 카드 렌더링
+            var html = '';
+            displayList.forEach(function (item, idx) {
+                var meta = getSolutionCategoryMeta(item.category);
+                var fallback = item.fallbackUrl || 'assets/images/no-image.svg';
+                var safeImg = item.imageUrl || fallback;
+                var safeTitle = item.title || '솔루션';
+                var safeDesc = item.description || '';
+                var videoUrl = item.videoUrl || window.SOLUTION_VIDEO_MAP[item.id] || '';
+                var sortNum = item.sortOrder ? (item.sortOrder < 10 ? '0' + item.sortOrder : item.sortOrder) : (idx + 1 < 10 ? '0' + (idx + 1) : idx + 1);
+
+                html += '<div onclick="navigate(\'product\', \'' + item.id + '\')" class="bg-white border border-slate-200 hover:border-blue-400 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">';
+                html += '  <div>';
+
+                // 관리자 수정/삭제 바로가기 바
+                if (isAdmin) {
+                    html += '    <div class="flex items-center justify-between px-4 py-2 bg-blue-50 border-b border-blue-100 text-xs" onclick="event.stopPropagation();">';
+                    html += '      <span class="font-bold text-blue-800 flex items-center gap-1.5"><i class="fa-solid fa-gear text-blue-600"></i> 솔루션 관리</span>';
+                    html += '      <div class="flex items-center gap-1.5">';
+                    html += '        <button type="button" onclick="event.stopPropagation(); if(window.ProductLineupAdmin){window.ProductLineupAdmin.openEditModal(\'' + item.id + '\');}" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors flex items-center gap-1 shadow-sm cursor-pointer"><i class="fa-solid fa-pen-to-square"></i> 수정</button>';
+                    html += '        <button type="button" onclick="event.stopPropagation(); if(window.ProductLineupAdmin){window.ProductLineupAdmin.deleteCard(\'' + item.id + '\');}" class="px-2.5 py-1 rounded bg-rose-600 hover:bg-rose-700 text-white font-semibold transition-colors flex items-center gap-1 shadow-sm cursor-pointer"><i class="fa-solid fa-trash-can"></i> 삭제</button>';
+                    html += '      </div>';
+                    html += '    </div>';
+                }
+
+                // 썸네일 영역
+                html += '    <div class="aspect-video bg-slate-100 relative overflow-hidden">';
+                html += '      <img src="' + safeImg + '" onerror="this.onerror=null; this.src=\'assets/images/no-image.svg\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="' + safeTitle + '">';
+                html += '      <div class="absolute top-3 left-3 ' + meta.tagBg + ' text-xs font-bold px-3 py-1 rounded-full shadow-md z-10 flex items-center gap-1.5"><i class="fa-solid ' + meta.icon + '"></i> ' + meta.label + '</div>';
+
+                // 비디오 재생 버튼
+                if (videoUrl) {
+                    html += '      <button type="button" onclick="event.stopPropagation(); openSolutionVideoModal(\'' + safeTitle.replace(/'/g, "\\'") + '\', \'' + videoUrl.replace(/'/g, "\\'") + '\');" class="absolute bottom-3 right-3 bg-black/75 hover:bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg flex items-center gap-1.5 transition-all duration-300 hover:scale-105 z-10 cursor-pointer" title="구동 영상 보기"><i class="fa-solid fa-circle-play text-accent"></i> <span data-i18n="sol_btn_video">영상 보기</span></button>';
+                }
+                html += '    </div>';
+
+                // 본문 텍스트 영역
+                html += '    <div class="p-6">';
+                html += '      <span class="text-blue-600 text-xs font-bold uppercase tracking-wider block mb-1">' + sortNum + '. ' + meta.label + '</span>';
+                html += '      <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">' + safeTitle + '</h3>';
+                html += '      <p class="text-sm text-slate-600 line-clamp-2 mb-3">' + safeDesc + '</p>';
+                html += '    </div>';
+                html += '  </div>';
+
+                // 하단 액션 영역
+                html += '  <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 mt-auto pt-3">';
+                html += '    <span class="text-blue-600 font-semibold flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-i18n="sol_btn_detail">상세 정보 보기 <i class="fa-solid fa-arrow-right text-[10px]"></i></span>';
+                if (videoUrl) {
+                    html += '    <span class="flex items-center gap-1 text-slate-400"><i class="fa-solid fa-film text-accent"></i> <span data-i18n="sol_label_video">시연영상 포함</span></span>';
+                }
+                html += '  </div>';
+
+                html += '</div>';
+            });
+
+            gridContainer.innerHTML = html;
+        };
+
+        // 데이터 변경 및 다국어 언어 변경 시 자동 동기화 리스너 등록
+        window.addEventListener('productDataChanged', function () {
+            if (typeof window.renderSolutionsGrid === 'function') {
+                window.renderSolutionsGrid();
+            }
+        });
+
+        window.addEventListener('languageChanged', function () {
+            if (typeof window.renderSolutionsGrid === 'function') {
+                window.renderSolutionsGrid();
+            }
+        });
+
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'ata_product_lineup_db' || e.key === 'ata_admin_authenticated') {
+                if (typeof window.renderSolutionsGrid === 'function') {
+                    window.renderSolutionsGrid();
+                }
+            }
+        });
+
+        // 초기 로드 시 솔루션 그리드 자동 렌더링
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                if (typeof window.renderSolutionsGrid === 'function') {
+                    window.renderSolutionsGrid('all');
+                }
+            });
+        } else {
+            setTimeout(function () {
+                if (typeof window.renderSolutionsGrid === 'function') {
+                    window.renderSolutionsGrid('all');
+                }
+            }, 50);
+        }
+
+
+// [제품 상세 페이지 동적 렌더러 - 11종 라인업 완벽 연동]
         window.renderProductDetail = function (productKey, lang) {
             if (!productKey) productKey = window.currentProductId || '택배차량 배송 자동화 시스템';
             window.currentProductId = productKey;
             lang = lang || window.currentLanguage || 'ko';
             if (lang === 'zh') lang = 'cn';
 
-            // 1. productDb 또는 ata_product_lineup_db에서 제품 찾기
+            // 1. [데이터 일원화] 관리자 모드 최신 데이터(ata_product_lineup_db)를 1순위로 최우선 조회
             var pData = null;
-            if (typeof productDb !== 'undefined' && productDb) {
+            var unifiedList = getUnifiedProductsList();
+            if (unifiedList && unifiedList.length > 0) {
+                pData = unifiedList.find(function (item) {
+                    return item.id === productKey || item.title === productKey || (item.ko && item.ko.title === productKey);
+                });
+            }
+
+            // 2순위: 기존 정적 productDb 보조 검색
+            if (!pData && typeof productDb !== 'undefined' && productDb) {
                 if (productDb[productKey]) {
                     pData = productDb[productKey];
                 } else {
@@ -5283,12 +5139,6 @@
                         }
                     }
                 }
-            }
-
-            if (!pData && typeof ata_product_lineup_db !== 'undefined' && Array.isArray(ata_product_lineup_db)) {
-                pData = ata_product_lineup_db.find(function (item) {
-                    return item.id === productKey || item.title === productKey || item.titleKo === productKey;
-                });
             }
 
             // 2. 제목, 설명, 미디어 추출
@@ -5466,7 +5316,10 @@
                         window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                     }
                 }, 150);
-            } else if (viewId === 'product-lineup') {
+            } else if (viewId === 'solutions' || viewId === 'product-lineup') {
+                if (typeof window.renderSolutionsGrid === 'function') {
+                    window.renderSolutionsGrid(param1 || 'all');
+                }
                 if (typeof window.filterProductLineup === 'function') {
                     window.filterProductLineup(param1 || 'all');
                 } else if (window.ProductLineupAdmin && typeof window.ProductLineupAdmin.render === 'function') {

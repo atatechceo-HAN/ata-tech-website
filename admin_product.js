@@ -390,6 +390,11 @@
         try {
             localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(list));
             localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_STORAGE_VERSION);
+            // [실시간 데이터 일원화 동기화] 메인 솔루션 그리드 및 전체 시스템 즉시 갱신
+            if (typeof window.renderSolutionsGrid === 'function') {
+                window.renderSolutionsGrid();
+            }
+            window.dispatchEvent(new CustomEvent('productDataChanged', { detail: { products: list } }));
         } catch (e) {
             console.error("[ProductAdmin] 저장 실패:", e);
             alert("저장 공간이 부족하거나 브라우저 오류로 저장하지 못했습니다. (이미지 용량이 너무 큰 경우 외부 URL이나 압축된 이미지를 사용해 주세요.)");
