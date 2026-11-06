@@ -3414,9 +3414,11 @@ var REFERENCE_GALLERY_DB = {
             return [
                 '<div id="ref-yt-playlist-item-' + idx + '" data-index="' + idx + '" role="button" tabindex="0" onclick="window.ReferenceAdmin.playVideoAtIndex(' + idx + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();window.ReferenceAdmin.playVideoAtIndex(' + idx + ');}"',
                 '     class="ref-yt-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ' + itemBg + '">',
-                '  <!-- 썸네일 미디어 박스: 실제 동영상 1번째 프레임 100% 일치 렌더링 -->',
-                '  <div class="ref-thumb-media-box w-32 sm:w-36 aspect-video rounded-lg overflow-hidden bg-slate-950 relative shrink-0 border border-slate-700/80">',
-                '    <video src="' + actualVidSrc + '#t=0.5" preload="metadata" muted playsinline webkit-playsinline class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none"></video>',
+                '  <!-- 썸네일 미디어 박스: 선명한 썸네일 포스터 기반 (검은 화면 원천 방어) -->',
+                '  <div class="ref-thumb-media-box w-28 sm:w-32 aspect-video rounded-lg overflow-hidden bg-slate-900 relative shrink-0 border border-slate-700/80">',
+                thumbUrl
+                    ? '    <img src="' + thumbUrl + '" onerror="this.onerror=null; this.src=\'assets/images/no-image.svg\';" loading="lazy" alt="' + escapeHtml(v.title) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">'
+                    : '    <video src="' + actualVidSrc + '#t=0.5" preload="metadata" muted playsinline class="w-full h-full object-cover pointer-events-none"></video>',
                 '    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">',
                 isPlaying
                     ? '      <span class="ref-yt-thumb-badge px-2 py-0.5 rounded bg-red-600 text-white text-[10px] font-extrabold tracking-wider flex items-center gap-1 shadow"><i class="fa-solid fa-volume-high animate-pulse"></i> 재생중</span>'
@@ -3463,9 +3465,9 @@ var REFERENCE_GALLERY_DB = {
 
             '  <!-- 동영상 시어터 본체 (가운데 8칸: 메인 영상 플레이어 & 해설 / 우측 4칸: 동영상 썸네일 목록) -->',
             '  <div id="ref-yt-theater-box" class="ref-theater-shell bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
-            '    <div class="ref-theater-grid" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: flex-start; gap: 24px; width: 100%;">',
-            '      <!-- [좌측 메인 영역 (65%)] 비디오 플레이어 및 설비 분석 해설 (상단 완전 고정) -->',
-            '      <div class="ref-main-col flex flex-col justify-between space-y-4" style="flex: 1 1 65%; width: 65%; min-width: 0; position: -webkit-sticky; position: sticky; top: 90px; z-index: 15;">',
+            '    <div class="ref-theater-grid" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: flex-start; justify-content: space-between; gap: 24px; width: 100%;">',
+            '      <!-- [좌측 메인 영역 (67%)] 비디오 플레이어 및 설비 분석 해설 (비디오 바로 밑에 해설 밀착 & 상단 고정) -->',
+            '      <div class="ref-main-col flex flex-col justify-start space-y-4" style="flex: 1 1 67%; width: 67%; min-width: 0; position: -webkit-sticky; position: sticky; top: 90px; z-index: 15;">',
             '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner flex items-center justify-center group/stage">',
             '          <video id="ref-yt-main-video" controls playsinline webkit-playsinline x5-playsinline preload="auto"',
             posterSrc ? '                 poster="' + posterSrc + '"' : '',
@@ -3518,11 +3520,11 @@ var REFERENCE_GALLERY_DB = {
             '        </div>',
             '      </div>',
 
-            '      <!-- [우측 영역 (35%)] 동영상 썸네일 재생목록 사이드바 (재생창 우측 나란히 배치) -->',
-            '      <div class="ref-side-col flex flex-col bg-slate-900/75 rounded-2xl border border-slate-800 overflow-hidden" style="flex: 0 0 35%; width: 35%; min-width: 320px; max-width: 440px;">',
-            '        <div class="ref-side-header p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">',
-            '          <div>',
-            '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2">',
+            '      <!-- [우측 영역 (33%)] 동영상 썸네일 재생목록 사이드바 (재생창 우측 나란히 배치) -->',
+            '      <div class="ref-side-col flex flex-col bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden shrink-0" style="flex: 0 0 33%; width: 33%; min-width: 330px;">',
+            '        <div class="ref-side-header px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0 whitespace-nowrap">',
+            '          <div class="whitespace-nowrap">',
+            '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2 whitespace-nowrap">',
             '              <i class="fa-solid fa-circle-play text-red-500"></i> ' + tRef("vid_playlist"),
             '            </h4>',
             '            <p class="text-[11px] text-slate-400 mt-0.5">' + tRef("vid_playlist_sub") + '</p>',
@@ -3703,7 +3705,7 @@ var REFERENCE_GALLERY_DB = {
                 '<div id="ref-photo-playlist-item-' + idx + '" data-index="' + idx + '" role="button" tabindex="0" onclick="window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();window.ReferenceAdmin.selectPhotoAtIndex(' + idx + ');}"',
                 '     class="ref-photo-thumb-item group flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer ' + itemBg + '">',
                 '  <!-- 우측 포토 썸네일 박스 -->',
-                '  <div class="ref-thumb-media-box w-32 sm:w-36 aspect-video rounded-lg overflow-hidden bg-slate-950 relative shrink-0 border border-slate-700/80">',
+                '  <div class="ref-thumb-media-box w-28 sm:w-32 aspect-video rounded-lg overflow-hidden bg-slate-900 relative shrink-0 border border-slate-700/80">',
                 '    <img src="' + thumbUrl + '" data-raw-src="' + escapeHtml(p.thumb || p.src) + '" data-fallback-src="' + escapeHtml(p.fallbackThumb || p.src) + '" onerror="window.handleRefImgError(this)" loading="lazy" alt="' + escapeHtml(p.title) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">',
                 '    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors flex items-center justify-center">',
                 isViewing
@@ -3753,9 +3755,9 @@ var REFERENCE_GALLERY_DB = {
 
             '  <!-- 이미지 시어터 본체 (동영상과 동일한 2단 구조! 가운데 8칸: 메인 사진 & 분석 멘트 / 우측 4칸: 이미지 썸네일 목록) -->',
             '  <div id="ref-photo-theater-box" class="ref-theater-shell bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
-            '    <div class="ref-theater-grid" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: flex-start; gap: 24px; width: 100%;">',
-            '      <!-- [좌측 메인 영역 (65%)] 고화질 메인 이미지 뷰어 및 분석 해설 (상단 완전 고정) -->',
-            '      <div class="ref-main-col flex flex-col justify-between space-y-4" style="flex: 1 1 65%; width: 65%; min-width: 0; position: -webkit-sticky; position: sticky; top: 90px; z-index: 15;">',
+            '    <div class="ref-theater-grid" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: flex-start; justify-content: space-between; gap: 24px; width: 100%;">',
+            '      <!-- [좌측 메인 영역 (67%)] 고화질 메인 이미지 뷰어 및 분석 해설 (메인사진 바로 밑에 해설 밀착 & 상단 고정) -->',
+            '      <div class="ref-main-col flex flex-col justify-start space-y-4" style="flex: 1 1 67%; width: 67%; min-width: 0; position: -webkit-sticky; position: sticky; top: 90px; z-index: 15;">',
             '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner group flex items-center justify-center">',
             '          <img id="ref-photo-main-img"',
             '               src="' + mainImgSrc + '"',
@@ -3813,11 +3815,11 @@ var REFERENCE_GALLERY_DB = {
             '        </div>',
             '      </div>',
 
-            '      <!-- [우측 영역 (35%)] 이미지 썸네일 목록 사이드바 (메인사진 우측 나란히 배치) -->',
-            '      <div class="ref-side-col flex flex-col bg-slate-900/75 rounded-2xl border border-slate-800 overflow-hidden" style="flex: 0 0 35%; width: 35%; min-width: 320px; max-width: 440px;">',
-            '        <div class="ref-side-header p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">',
-            '          <div>',
-            '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2">',
+            '      <!-- [우측 영역 (33%)] 이미지 썸네일 목록 사이드바 (메인사진 우측 나란히 배치) -->',
+            '      <div class="ref-side-col flex flex-col bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden shrink-0" style="flex: 0 0 33%; width: 33%; min-width: 330px;">',
+            '        <div class="ref-side-header px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0 whitespace-nowrap">',
+            '          <div class="whitespace-nowrap">',
+            '            <h4 class="text-sm font-extrabold text-white flex items-center gap-2 whitespace-nowrap">',
             '              <i class="fa-solid fa-images text-cyan-400"></i> ' + tRef("pho_playlist"),
             '            </h4>',
             '            <p class="text-[11px] text-slate-400 mt-0.5">' + tRef("pho_playlist_sub") + '</p>',
