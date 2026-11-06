@@ -3352,11 +3352,79 @@ var REFERENCE_GALLERY_DB = {
         var hasVideos = mediaData.videos && mediaData.videos.length > 0;
         var hasPhotos = mediaData.photos && mediaData.photos.length > 0;
 
+        // 대표 동영상 및 대표 사진 썸네일 안전 추출 (절대 공란 방지)
+        var firstVideo = hasVideos ? mediaData.videos[0] : null;
+        var firstPhoto = hasPhotos ? mediaData.photos[0] : null;
+        var vidThumbUrl = firstVideo ? safeUrl(firstVideo.thumb || firstVideo.fallbackThumb || firstVideo.src || '') : '';
+        var phoThumbUrl = firstPhoto ? safeUrl(firstPhoto.thumb || firstPhoto.src || firstPhoto.fallbackSrc || '') : '';
+
+        // 동영상 대표 프리뷰 카드 HTML (인라인 스타일 보장으로 공란 원천 차단)
+        var videoCardHtml = '';
+        if (hasVideos) {
+            videoCardHtml = [
+                '<div onclick="window.ReferenceAdmin.scrollToSection(\'ref-youtube-section\')" role="button" tabindex="0" title="클릭 시 동영상 시어터로 이동"',
+                '     style="width: 200px; min-width: 180px; height: 110px; position: relative; border-radius: 1rem; overflow: hidden; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.25); border: 2px solid #ef4444; background-color: #0f172a; flex-shrink: 0;"',
+                '     class="group/vcard hover:scale-105 active:scale-95 transition-all duration-300">',
+                vidThumbUrl ? '  <img src="' + vidThumbUrl + '" onerror="this.style.display=\'none\';" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.65);" class="group-hover/vcard:scale-110 transition-transform duration-500" alt="대표 영상">' : '',
+                '  <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.45) 60%, rgba(15,23,42,0.15) 100%); pointer-events: none;"></div>',
+                '  <div style="position: absolute; inset: 0; padding: 0.65rem 0.75rem; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none;">',
+                '    <div style="display: flex; align-items: center; justify-content: space-between;">',
+                '      <span style="background-color: #dc2626; color: #ffffff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">',
+                '        <i class="fa-brands fa-youtube"></i> 영상 ' + mediaData.videos.length + '개',
+                '      </span>',
+                '      <span style="width: 24px; height: 24px; border-radius: 9999px; background-color: #ef4444; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">',
+                '        <i class="fa-solid fa-play" style="margin-left: 1px;"></i>',
+                '      </span>',
+                '    </div>',
+                '    <div>',
+                '      <div style="color: #ffffff; font-size: 12px; font-weight: 800; text-shadow: 0 1px 3px rgba(0,0,0,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">',
+                '        ' + tRef("btn_go_vid", { count: mediaData.videos.length }),
+                '      </div>',
+                '      <div style="color: #fca5a5; font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; margin-top: 1px;">',
+                '        <span>영상 시어터 이동</span><i class="fa-solid fa-arrow-down text-[9px]"></i>',
+                '      </div>',
+                '    </div>',
+                '  </div>',
+                '</div>'
+            ].join("");
+        }
+
+        // 이미지 대표 프리뷰 카드 HTML (실제 고화질 사진 배경 노출)
+        var photoCardHtml = '';
+        if (hasPhotos) {
+            photoCardHtml = [
+                '<div onclick="window.ReferenceAdmin.scrollToSection(\'ref-photo-section\')" role="button" tabindex="0" title="클릭 시 이미지 시어터로 이동"',
+                '     style="width: 200px; min-width: 180px; height: 110px; position: relative; border-radius: 1rem; overflow: hidden; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.25); border: 2px solid #3b82f6; background-color: #0f172a; flex-shrink: 0;"',
+                '     class="group/pcard hover:scale-105 active:scale-95 transition-all duration-300">',
+                phoThumbUrl ? '  <img src="' + phoThumbUrl + '" onerror="this.style.display=\'none\';" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.65);" class="group-hover/pcard:scale-110 transition-transform duration-500" alt="대표 사진">' : '',
+                '  <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.45) 60%, rgba(15,23,42,0.15) 100%); pointer-events: none;"></div>',
+                '  <div style="position: absolute; inset: 0; padding: 0.65rem 0.75rem; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none;">',
+                '    <div style="display: flex; align-items: center; justify-content: space-between;">',
+                '      <span style="background-color: #2563eb; color: #ffffff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">',
+                '        <i class="fa-solid fa-images"></i> 사진 ' + mediaData.photos.length + '장',
+                '      </span>',
+                '      <span style="width: 24px; height: 24px; border-radius: 9999px; background-color: #3b82f6; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">',
+                '        <i class="fa-solid fa-expand"></i>',
+                '      </span>',
+                '    </div>',
+                '    <div>',
+                '      <div style="color: #ffffff; font-size: 12px; font-weight: 800; text-shadow: 0 1px 3px rgba(0,0,0,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">',
+                '        ' + tRef("btn_go_pho", { count: mediaData.photos.length }),
+                '      </div>',
+                '      <div style="color: #93c5fd; font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; margin-top: 1px;">',
+                '        <span>포토 갤러리 이동</span><i class="fa-solid fa-arrow-down text-[9px]"></i>',
+                '      </div>',
+                '    </div>',
+                '  </div>',
+                '</div>'
+            ].join("");
+        }
+
         box.innerHTML = [
             '<div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-md relative overflow-hidden">',
             '  <div class="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-blue-50 via-cyan-50/40 to-transparent rounded-bl-full pointer-events-none"></div>',
             '  <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">',
-            '    <div class="space-y-3 max-w-4xl">',
+            '    <div class="space-y-3 max-w-3xl">',
             '      <div class="flex flex-wrap items-center gap-2.5">',
             '        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-900 text-cyan-300">',
             '          <i class="fa-solid ' + (mediaData.icon || 'fa-folder-open') + '"></i> ' + escapeHtml(mediaData.badge),
@@ -3372,9 +3440,9 @@ var REFERENCE_GALLERY_DB = {
             '      </p>',
             '      <div class="flex flex-wrap gap-2 pt-1">' + tagsHtml + '</div>',
             '    </div>',
-            '    <div class="flex sm:flex-row lg:flex-col gap-2.5 shrink-0">',
-            hasVideos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-youtube-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-red-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-brands fa-youtube text-base"></i> ' + tRef("btn_go_vid", { count: mediaData.videos.length }) + '</button>' : '',
-            hasPhotos ? '      <button type="button" onclick="window.ReferenceAdmin.scrollToSection(\'ref-photo-section\')" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-600/20 transition-all cursor-pointer active:scale-95"><i class="fa-solid fa-images text-base"></i> ' + tRef("btn_go_pho", { count: mediaData.photos.length }) + '</button>' : '',
+            '    <div class="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">',
+            videoCardHtml,
+            photoCardHtml,
             '    </div>',
             '  </div>',
             '</div>'

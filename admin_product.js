@@ -1191,7 +1191,7 @@
 
                     // JPEG 압축된 Base64 생성
                     var optimizedUrl = canvas.toDataURL('image/jpeg', quality);
-                    
+
                     textInput.value = optimizedUrl;
                     setPreviewState(optimizedUrl, file.name);
                 };
@@ -1487,7 +1487,7 @@
         // 상단 카테고리 필터 바 및 등록 버튼
         html.push('  <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">');
         html.push('    <div class="flex flex-wrap items-center gap-1.5">');
-        
+
         var cats = [
             { key: 'all', label: '전체 (' + fullList.length + ')' },
             { key: 'delivery', label: '물류 배송' },
