@@ -212,9 +212,9 @@
     <!-- 공지사항 관리자 인증 및 작성·수정·삭제 엔진 (admin_notice.js) -->
     <script src="admin_notice.js"></script>
     <!-- 주요 구축 실적(Reference) 관리자 인증 및 작성·수정·삭제 엔진 (admin_reference.js) -->
-    <script src="admin_reference.js"></script>
+    <script src="admin_reference.js?v=20261107_01"></script>
     <!-- 스마트 물류 핵심 장비 '제품 라인업' 관리자 인증 및 작성·수정·삭제 엔진 (admin_product.js) -->
-    <script src="admin_product.js"></script>
+    <script src="admin_product.js?v=20261107_01"></script>
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
@@ -232,55 +232,148 @@
 
     <style>
         /* ======================================================== */
-        /* [레퍼런스 미디어 시어터 전용 2열 좌우 배치 및 고정 스크롤 엔진] */
-        /* Tailwind output.css 컴파일 여부와 무관하게 100% 무조건 좌측 고정 + 우측 리스트 배치 보장 */
+        /* [레퍼런스 미디어 시어터 전용 7:3 분할 및 좌우 높이 일치 정밀 그리드] */
         /* ======================================================== */
-        @media (min-width: 900px) {
+        .ref-theater-shell {
+            background-color: #020617 !important;
+            color: #ffffff !important;
+            border-radius: 1.5rem !important;
+            padding: 1.25rem !important;
+            border: 1px solid #1e293b !important;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5) !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        @media (min-width: 860px) {
             .ref-theater-grid {
-                display: flex !important;
-                flex-direction: row !important;
-                align-items: flex-start !important;
-                justify-content: space-between !important;
-                gap: 1.5rem !important;
+                display: grid !important;
+                grid-template-columns: minmax(0, 7fr) minmax(320px, 3fr) !important;
+                gap: 24px !important;
+                align-items: stretch !important;
                 width: 100% !important;
+                box-sizing: border-box !important;
             }
             .ref-main-col {
-                flex: 1 1 67% !important;
-                width: 67% !important;
-                min-width: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
                 justify-content: flex-start !important;
-                position: -webkit-sticky !important;
-                position: sticky !important;
-                top: 90px !important;
-                z-index: 20 !important;
+                gap: 24px !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
             }
             .ref-side-col {
-                flex: 0 0 33% !important;
-                width: 33% !important;
-                min-width: 330px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                min-width: 320px !important;
+                height: 100% !important;
+                max-height: 100% !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+                background-color: #0f172a !important;
+                border: 1px solid #1e293b !important;
+                border-radius: 1rem !important;
+            }
+            .ref-side-header, .ref-side-header * {
+                white-space: nowrap !important;
             }
             .ref-playlist-scroll {
-                max-height: calc(100vh - 240px) !important;
-                min-height: 520px !important;
+                flex: 1 1 0% !important;
+                min-height: 0 !important;
                 overflow-y: auto !important;
                 overscroll-behavior-y: contain !important;
                 -webkit-overflow-scrolling: touch !important;
+                padding: 0.75rem !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.625rem !important;
             }
         }
-        @media (max-width: 899px) {
+        @media (max-width: 859px) {
             .ref-theater-grid {
+                display: flex !important;
                 flex-direction: column !important;
+                gap: 24px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
             .ref-main-col {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                gap: 24px !important;
                 width: 100% !important;
-                max-width: 100% !important;
-                position: relative !important;
-                top: 0 !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
             }
             .ref-side-col {
+                display: flex !important;
+                flex-direction: column !important;
                 width: 100% !important;
-                max-width: 100% !important;
+                min-width: 0 !important;
+                height: auto !important;
+                max-height: 520px !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+                background-color: #0f172a !important;
+                border: 1px solid #1e293b !important;
+                border-radius: 1rem !important;
             }
+            .ref-playlist-scroll {
+                max-height: 440px !important;
+                overflow-y: auto !important;
+                overscroll-behavior-y: contain !important;
+                -webkit-overflow-scrolling: touch !important;
+                padding: 0.75rem !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.625rem !important;
+            }
+        }
+        .ref-main-stage {
+            width: 100% !important;
+            aspect-ratio: 16 / 9 !important;
+            height: auto !important;
+            max-height: 540px !important;
+            background-color: #000000 !important;
+            border-radius: 1rem !important;
+            overflow: hidden !important;
+            position: relative !important;
+            border: 1px solid #1e293b !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+        .ref-main-stage video, .ref-main-stage img {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 540px !important;
+            object-fit: contain !important;
+            background-color: #000000 !important;
+            display: block !important;
+        }
+        .ref-caption-box {
+            width: 100% !important;
+            background-color: #0f172a !important;
+            border: 1px solid #1e293b !important;
+            border-radius: 1rem !important;
+            padding: 1.25rem !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .ref-caption-inner {
+            background-color: #020617 !important;
+            border: 1px solid #1e293b !important;
+            border-radius: 0.75rem !important;
+            padding: 0.875rem !important;
+            margin-top: 0.75rem !important;
+            box-sizing: border-box !important;
+        }
+        .ref-yt-thumb-item, .ref-photo-thumb-item {
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
 
         body {

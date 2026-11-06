@@ -390,10 +390,18 @@
         try {
             localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(list));
             localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_STORAGE_VERSION);
-            // [실시간 데이터 일원화 동기화] 메인 솔루션 그리드 및 전체 시스템 즉시 갱신
+            // [실시간 데이터 일원화 동기화] 1. 메인 솔루션 그리드 즉시 갱신
             if (typeof window.renderSolutionsGrid === 'function') {
                 window.renderSolutionsGrid();
             }
+            // [실시간 데이터 일원화 동기화] 2. 관리자 허브 내 제품 목록 즉시 갱신
+            var hubProductList = document.getElementById('admin-hub-product-list');
+            if (hubProductList) {
+                renderProductManagerList(hubProductList, currentFilterCategory || 'all');
+            }
+            // [실시간 데이터 일원화 동기화] 3. 제품 라인업 기존 뷰 즉시 갱신
+            renderProductCards(currentFilterCategory);
+            // [실시간 데이터 일원화 동기화] 4. 커스텀 이벤트 및 스토리지 브로드캐스트
             window.dispatchEvent(new CustomEvent('productDataChanged', { detail: { products: list } }));
         } catch (e) {
             console.error("[ProductAdmin] 저장 실패:", e);
