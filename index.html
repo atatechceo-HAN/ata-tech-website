@@ -231,6 +231,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* ======================================================== */
+        /* [레퍼런스 미디어 시어터 전용 2열 좌우 배치 및 고정 스크롤 엔진] */
+        /* Tailwind output.css 컴파일 여부와 무관하게 100% 무조건 좌측 고정 + 우측 리스트 배치 보장 */
+        /* ======================================================== */
+        @media (min-width: 900px) {
+            .ref-theater-grid {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: flex-start !important;
+                gap: 1.5rem !important;
+                width: 100% !important;
+            }
+            .ref-main-col {
+                flex: 1 1 66% !important;
+                width: 66% !important;
+                max-width: 68% !important;
+                position: -webkit-sticky !important;
+                position: sticky !important;
+                top: 96px !important;
+                z-index: 20 !important;
+            }
+            .ref-side-col {
+                flex: 1 1 34% !important;
+                width: 34% !important;
+                min-width: 320px !important;
+                max-width: 420px !important;
+            }
+            .ref-playlist-scroll {
+                max-height: calc(100vh - 240px) !important;
+                min-height: 520px !important;
+                overflow-y: auto !important;
+                overscroll-behavior-y: contain !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+        }
+
         body {
 
             font-family: 'Pretendard', sans-serif;

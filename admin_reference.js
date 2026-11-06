@@ -3463,7 +3463,7 @@ var REFERENCE_GALLERY_DB = {
 
             '  <!-- 동영상 시어터 본체 (가운데 8칸: 메인 영상 플레이어 & 해설 / 우측 4칸: 동영상 썸네일 목록) -->',
             '  <div id="ref-yt-theater-box" class="ref-theater-shell bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
-            '    <div class="ref-theater-grid grid grid-cols-1 md:grid-cols-12 gap-6 items-start">',
+            '    <div class="ref-theater-grid flex flex-col lg:flex-row gap-6 items-start w-full">',
             '      <!-- [가운데 메인 영역 (8칸)] 비디오 플레이어 및 설비 분석 해설 (좌측 화면 상단 고정) -->',
             '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4 lg:sticky lg:top-24 z-10">',
             '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner flex items-center justify-center group/stage">',
@@ -3753,7 +3753,7 @@ var REFERENCE_GALLERY_DB = {
 
             '  <!-- 이미지 시어터 본체 (동영상과 동일한 2단 구조! 가운데 8칸: 메인 사진 & 분석 멘트 / 우측 4칸: 이미지 썸네일 목록) -->',
             '  <div id="ref-photo-theater-box" class="ref-theater-shell bg-slate-950 rounded-3xl p-4 sm:p-6 lg:p-7 shadow-2xl border border-slate-800 text-white">',
-            '    <div class="ref-theater-grid grid grid-cols-1 md:grid-cols-12 gap-6 items-start">',
+            '    <div class="ref-theater-grid flex flex-col lg:flex-row gap-6 items-start w-full">',
             '      <!-- [가운데 메인 영역 (8칸)] 고화질 메인 이미지 뷰어 및 분석 해설 (좌측 화면 상단 고정) -->',
             '      <div class="ref-main-col md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-4 lg:sticky lg:top-24 z-10">',
             '        <div class="ref-main-stage w-full aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 shadow-inner group flex items-center justify-center">',
