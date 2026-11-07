@@ -26,7 +26,7 @@
     // ==========================================================================
     var STORAGE_KEY_PRODUCTS = "ata_product_lineup_db"; // 브라우저 로컬 저장소 키
     var STORAGE_VERSION_KEY = "ata_product_lineup_version"; // 데이터 구조 버전 키
-    var CURRENT_STORAGE_VERSION = "2.1_fix_no_image_fallback"; // [긴급 패치] Unsplash 의존성 제거 및 내부 정적 fallback 적용 버전
+    var CURRENT_STORAGE_VERSION = "20261107_v2"; // [동기화] 홈페이지 11대 핵심 솔루션과 100% 일원화 버전 // [동기화] 홈페이지 11대 핵심 솔루션과 100% 일원화 버전 // [긴급 패치] Unsplash 의존성 제거 및 내부 정적 fallback 적용 버전
     var currentFilterCategory = "all"; // 현재 활성화된 카테고리 필터 ('all', 'delivery', 'transfer', 'sorting', 'warehouse', 'etc')
     var currentLightboxCardId = null; // 현재 열려있는 라이트박스 제품 ID 추적
 
@@ -35,266 +35,332 @@
     // [보안/안전성 강화] 외부 불안정 URL(Unsplash 등) 제거 및 프로젝트 내부 정적 에셋 연동
     // ==========================================================================
     var INITIAL_PRODUCTS_DATA = [
-        {
-            id: "prod_delivery_1",
-            category: "delivery", // 물류 배송 라인
-            title: "초고속 텔레스코픽 로더 (Telescopic Loader)",
-            description: "트럭 및 컨테이너 내부로 자동 연장되어 상하차 효율을 극대화하는 상하차 자동화 설비",
-            imageUrl: "Conveyors & ADD-Ons.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 1
-        },
-        {
-            id: "prod_sorting_1",
-            category: "sorting", // 물류 분류 라인
-            title: "크로스벨트 소터 (Cross Belt Sorter)",
-            description: "시간당 25,000개 이상의 다양한 화물을 고속 정밀 분류하는 최첨단 루프형 분류 시스템",
-            imageUrl: "[ Insert Data ]/SOLUTION/CBS.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 2
-        },
-        {
-            id: "prod_sorting_2",
-            category: "sorting", // 물류 분류 라인
-            title: "틸트트레이 소터 (Tilt Tray Sorter)",
-            description: "기울임 트레이 방식으로 의류, 소형 패키지, 도서 등을 안전하고 부드럽게 고속 분류",
-            imageUrl: "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 3
-        },
-        {
-            id: "prod_sorting_3",
-            category: "sorting", // 물류 분류 라인
-            title: "슬라이딩 슈 소터 (Sliding Shoe Sorter)",
-            description: "신발 형태의 다이버터가 부드럽게 화물을 밀어내어 중대형 박스를 손상 없이 고속 분기",
-            imageUrl: "Conveyors & ADD-Ons.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 4
-        },
-        {
-            id: "prod_sorting_4",
-            category: "sorting", // 물류 분류 라인
-            title: "팝업 휠 소터 (Pop-up Wheel Diverter)",
-            description: "컨베이어 라인 중간에 모듈형으로 설치되어 직각 또는 45도 방향으로 고속 분기",
-            imageUrl: "[ Insert Data ]/SOLUTION/Wheel Sorter.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 5
-        },
-        {
-            id: "prod_sorting_5",
-            category: "sorting", // 물류 분류 라인
-            title: "버티컬 연속 리프터 (Vertical Continuous Lifter)",
-            description: "복층 물류센터 간 상하 수직 방향으로 화물을 쉼 없이 고속 연속 이송",
-            imageUrl: "Conveyors & ADD-Ons.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 6
-        },
-        {
-            id: "prod_transfer_1",
-            category: "transfer", // 물류 이송 라인
-            title: "스마트 모듈형 롤러 컨베이어 (MDR Conveyor)",
-            description: "구간별 모터 롤러 제어(ZPA)를 통해 무충돌 병목 제어 및 전력 소비를 50% 절감",
-            imageUrl: "[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 7
-        },
-        {
-            id: "prod_transfer_2",
-            category: "transfer", // 물류 이송 라인
-            title: "자율주행 이송로봇 (AGV & AMR System)",
-            description: "SLAM 라이다 내비게이션 기반의 무인 지능형 물류 팔레트 및 대차 이송 로봇 솔루션",
-            imageUrl: "[ Insert Data ]/SOLUTION/AGV & AMR.png",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 8
-        },
-        {
-            id: "prod_warehouse_1",
-            category: "warehouse", // 물류 창고 라인
-            title: "스마트 셔틀 입출고 시스템 (Multi-Tier Shuttle AS/RS)",
-            description: "고밀도 랙 공간에서 초고속 셔틀 카트와 수직 리프터가 결합된 무인 자동 보관·피킹 시스템",
-            imageUrl: "[ Insert Data ]/SOLUTION/shuttle ASRS.png",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 9
-        },
-        {
-            id: "prod_warehouse_2",
-            category: "warehouse", // 물류 창고 라인
-            title: "초고층 팔레트 스태커 크레인 (Pallet Stacker Crane)",
-            description: "최대 40m 높이의 대형 물류 랙에 중량물 팔레트를 정밀 자동 적재·인출하는 고하중 크레인",
-            imageUrl: "Conveyors & ADD-Ons.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 10
-        },
-        {
-            id: "prod_etc_1",
-            category: "etc", // Etc. (기타)
-            title: "지능형 물류 통합 관제 시스템 (ATA-WCS / WES)",
-            description: "물류 장비 전체의 트래픽을 1ms 단위로 최적 제어하는 3D 디지털 트윈 기반 관제 소프트웨어",
-            imageUrl: "핵심기술개요.jpg",
-            fallbackUrl: "assets/images/no-image.svg",
-            sortOrder: 11
-        }
-    ];
+    {
+        "id": "prod_delivery_1",
+        "category": "delivery",
+        "title": "택배차량 배송 자동화 시스템",
+        "description": "택배 차량 내 공간 활용도를 극대화하고, 작업자의 상하차 피로도를 줄여주는 차세대 스마트 배송 및 적재 자동화 솔루션입니다. 라스트마일 배송의 효율을 완성합니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4",
+        "sortOrder": 1,
+        "features": [
+            "공간 효율성 극대화로 배송 단가 절감",
+            "작업자 근골격계 질환 예방 및 상하차 피로도 대폭 감소",
+            "라스트마일 배송 시간 단축"
+        ]
+    },
+    {
+        "id": "prod_delivery_2",
+        "category": "delivery",
+        "title": "Telescopic",
+        "description": "차량 내부 깊숙한 곳까지 컨베이어 끝단이 신축 연장되어 상하차 작업 효율을 극적으로 끌어올리는 텔레스코픽 설비입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/Telescopic.png",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/Telescopic.mp4",
+        "sortOrder": 2,
+        "features": [
+            "버튼 하나로 길이 자유 연장/축소",
+            "작업자 동선 최소화 및 인체공학적 작업 환경 제공",
+            "안전 센서 감지 확보"
+        ]
+    },
+    {
+        "id": "prod_transfer_1",
+        "category": "transfer",
+        "title": "Conveyors & ADD-Ons",
+        "description": "현장 레이아웃과 화물 특성에 맞춰 롤러, 벨트 등 최적의 맞춤형 구성을 제공하는 컨베이어 및 부가 설비입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "",
+        "sortOrder": 3,
+        "features": [
+            "견고한 모듈형 하드웨어 설계",
+            "저소음 고효율 모터 적용",
+            "유지보수가 간편한 표준 모듈 구조"
+        ]
+    },
+    {
+        "id": "prod_transfer_2",
+        "category": "transfer",
+        "title": "AGV & AMR",
+        "description": "소형 물류 로봇을 고밀도로 배치해 단위 공간 내 분류 및 이송 효율을 극적으로 끌어올리는 유연한 자율주행 솔루션입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/AGV & AMR.png",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/AGV & AMR.mp4",
+        "sortOrder": 4,
+        "features": [
+            "고정 인프라 없이 유연한 경로 설정",
+            "AI 알고리즘 기반 최적 경로 탐색 및 충돌 회피",
+            "야간 무인화 작업 지원"
+        ]
+    },
+    {
+        "id": "prod_sorting_1",
+        "category": "sorting",
+        "title": "CBS [Cross Belt Sorter]",
+        "description": "주행 캐리어 상단의 소형 컨베이어 벨트를 통해 화물을 목적지 슈트로 고속 배출하는 대표적인 크로스 벨트 분류 시스템입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/CBS.jpg",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/CBS.mp4",
+        "sortOrder": 5,
+        "features": [
+            "시간당 수만 건의 대용량 고속 분류 처리",
+            "다양한 규격 및 이형 화물의 안정적인 이송/배출",
+            "정밀 제어로 오분류율 0.01% 미만 실현"
+        ]
+    },
+    {
+        "id": "prod_sorting_2",
+        "category": "sorting",
+        "title": "NC CBS [NC Cross Belt Sorter]",
+        "description": "기존 기계적 정밀도와 소프트웨어 로직을 한 단계 업그레이드한 차세대 고속, 고정밀 수치제어 크로스 벨트 분류 시스템입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/NC CBS.jpg",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/NC CBS.mp4",
+        "sortOrder": 6,
+        "features": [
+            "초고속 환경에서도 흔들림 없는 화물 안정성",
+            "특수 마찰 벨트 적용으로 슬립 방지",
+            "실시간 데이터 기반 예지 보전 시스템 탑재"
+        ]
+    },
+    {
+        "id": "prod_sorting_3",
+        "category": "sorting",
+        "title": "NBS [Narrow Belt Sorter]",
+        "description": "소형 화물을 빠르고 정확하게 분류하기 위해 개발된 좁은 벨트 형태의 고효율 특화형 소터 시스템입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/NBS.jpg",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/NBS.mp4",
+        "sortOrder": 7,
+        "features": [
+            "작고 가벼운 의류/잡화 화물 분류 최적화",
+            "설치 면적 최소화로 좁은 물류센터 내 도입 용이",
+            "부드러운 분류 메커니즘으로 화물 손상 방지"
+        ]
+    },
+    {
+        "id": "prod_sorting_4",
+        "category": "sorting",
+        "title": "Wheel Sorter",
+        "description": "인라인 상에 배치된 회전 휠의 각도를 제어하여 박스 및 파우치 화물을 연속적으로 분기·분류하는 고효율 휠 소터 시스템입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/Wheel Sorter.jpg",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+        "sortOrder": 8,
+        "features": [
+            "콤팩트한 모듈 구조로 기존 컨베이어 라인에 손쉬운 인라인 삽입",
+            "다양한 각도(30°, 45°, 90°)의 다방향 분류 지원",
+            "저소음 고속 분기 응답 메커니즘"
+        ]
+    },
+    {
+        "id": "prod_sorting_5",
+        "category": "sorting",
+        "title": "Tilt Tray Sorter",
+        "description": "운반 트레이를 기울여 화물을 정해진 슈트 목적지로 미끄러뜨려 분류하는 범용적인 틸트 트레이 시스템입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4",
+        "sortOrder": 9,
+        "features": [
+            "민감한 화물 파손 손상 최소화",
+            "다양한 크기와 형태를 동시에 수용",
+            "소음이 적어 작업 환경 개선"
+        ]
+    },
+    {
+        "id": "prod_warehouse_1",
+        "category": "warehouse",
+        "title": "Shuttle AS/RS",
+        "description": "선반 사이를 자유로이 움직이는 소형 셔틀이 상품을 적재 및 인출하는 고밀도 자동 보관 시스템입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/shuttle ASRS.png",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/shuttle ASRS.mp4",
+        "sortOrder": 10,
+        "features": [
+            "고속 입출고를 통한 작업 속도 향상",
+            "선반 공간 효율 극대화 및 고밀도 보관",
+            "모듈식 설계로 시스템 확장 용이"
+        ]
+    },
+    {
+        "id": "prod_etc_1",
+        "category": "etc",
+        "title": "WCS [창고제어시스템]",
+        "description": "물류 자동화 솔루션 내 모든 설비 제어, 실시간 모니터링, 관리 통제가 가능한 최상위 통합 관제 시스템입니다.",
+        "imageUrl": "[ Insert Data ]/SOLUTION/WCS [창고제어시스템].png",
+        "fallbackUrl": "assets/images/no-image.svg",
+        "videoUrl": "[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4",
+        "sortOrder": 11,
+        "features": [
+            "다기종 설비 통합 실시간 제어",
+            "병목 현상 사전 감지 및 트래픽 분산",
+            "ERP/WMS 시스템 간의 완벽한 데이터 인터페이스"
+        ]
+    }
+];
 
     // ==========================================================================
     // 2-2. 11대 핵심 제품 라인업 4개국어(KO, EN, CN, JA) 다국어 번역 데이터베이스
     // ==========================================================================
     var PRODUCT_I18N_MAP = {
-        "prod_delivery_1": {
-            title: {
-                ko: "초고속 텔레스코픽 로더 (Telescopic Loader)",
-                en: "High-Speed Telescopic Loader",
-                cn: "超高速伸缩装卸机 (Telescopic Loader)",
-                ja: "超高速テレスコピックローダー (Telescopic Loader)"
-            },
-            desc: {
-                ko: "트럭 및 컨테이너 내부로 자동 연장되어 상하차 효율을 극대화하는 상하차 자동화 설비",
-                en: "Automated loading and unloading equipment that extends into trucks and containers to maximize loading efficiency.",
-                cn: "自动延伸至货车及集装箱内部、大幅提升装卸效率的自动化装卸设备。",
-                ja: "トラックやコンテナ内部へ自動伸縮し、荷役効率を最大化する自動荷役設備。"
-            }
+    "prod_delivery_1": {
+        "title": {
+            "ko": "택배차량 배송 자동화 시스템 (NEW)",
+            "en": "Delivery Vehicle Automation System (NEW)",
+            "cn": "快递物流车辆装卸配送自动化系统 (NEW)",
+            "ja": "配送車両 荷役・配送自動化システム (NEW)"
         },
-        "prod_sorting_1": {
-            title: {
-                ko: "크로스벨트 소터 (Cross Belt Sorter)",
-                en: "Cross Belt Sorter",
-                cn: "交叉带分拣机 (Cross Belt Sorter)",
-                ja: "クロスベルトソーター (Cross Belt Sorter)"
-            },
-            desc: {
-                ko: "시간당 25,000개 이상의 다양한 화물을 고속 정밀 분류하는 최첨단 루프형 분류 시스템",
-                en: "Advanced loop-type sorting system that accurately sorts over 25,000 diverse parcels per hour at high speed.",
-                cn: "每小时高精度分拣超25,000件各类货物的尖端环形分拣系统。",
-                ja: "毎時25,000個以上の多様な荷物を高速・精密に仕分ける最先端ループ型ソーターシステム。"
-            }
-        },
-        "prod_sorting_2": {
-            title: {
-                ko: "틸트트레이 소터 (Tilt Tray Sorter)",
-                en: "Tilt Tray Sorter",
-                cn: "翻盘分拣机 (Tilt Tray Sorter)",
-                ja: "チルトトレイソーター (Tilt Tray Sorter)"
-            },
-            desc: {
-                ko: "기울임 트레이 방식으로 의류, 소형 패키지, 도서 등을 안전하고 부드럽게 고속 분류",
-                en: "Gentle and high-speed sorting of apparel, small parcels, and books using a precision tilting tray mechanism.",
-                cn: "采用托盘倾斜机构，平稳、高速分拣服装、小包裹、图书等品类。",
-                ja: "トレイ傾斜方式により、アパレル、小型小包、書籍などを安全・スムーズに高速仕分け。"
-            }
-        },
-        "prod_sorting_3": {
-            title: {
-                ko: "슬라이딩 슈 소터 (Sliding Shoe Sorter)",
-                en: "Sliding Shoe Sorter",
-                cn: "滑块分拣机 (Sliding Shoe Sorter)",
-                ja: "スライディングシューソーター (Sliding Shoe Sorter)"
-            },
-            desc: {
-                ko: "신발 형태의 다이버터가 부드럽게 화물을 밀어내어 중대형 박스를 손상 없이 고속 분기",
-                en: "Shoe-type diverters gently slide and guide medium-to-large cartons without damage at high throughput.",
-                cn: "滑块式转向机构平稳推送货物，实现中大型纸箱无损高速分流。",
-                ja: "シュー型ダイバータが荷物をスムーズに押し出し、中大型カートンを損傷なく高速分岐。"
-            }
-        },
-        "prod_sorting_4": {
-            title: {
-                ko: "팝업 휠 소터 (Pop-up Wheel Diverter)",
-                en: "Pop-up Wheel Diverter",
-                cn: "斜轮分拣机 / 顶升转向机 (Pop-up Wheel Diverter)",
-                ja: "ポップアップホイールソーター (Pop-up Wheel Diverter)"
-            },
-            desc: {
-                ko: "컨베이어 라인 중간에 모듈형으로 설치되어 직각 또는 45도 방향으로 고속 분기",
-                en: "Modular diverter installed along conveyor lines for rapid 90-degree or 45-degree parcel diversion.",
-                cn: "模块化集成于输送线中，实现直角或45度方向的高速平稳分流。",
-                ja: "コンベヤライン途中にモジュール設置され、直角または45度方向へ高速分岐。"
-            }
-        },
-        "prod_sorting_5": {
-            title: {
-                ko: "버티컬 연속 리프터 (Vertical Continuous Lifter)",
-                en: "Vertical Continuous Lifter",
-                cn: "连续式垂直提升机 (Vertical Continuous Lifter)",
-                ja: "垂直連続リフター (Vertical Continuous Lifter)"
-            },
-            desc: {
-                ko: "복층 물류센터 간 상하 수직 방향으로 화물을 쉼 없이 고속 연속 이송",
-                en: "Continuous, uninterrupted vertical elevation of parcels between multi-tier logistics floors.",
-                cn: "实现多层仓储中心之间货物不间断的高速垂直连续提升与输送。",
-                ja: "多層階物流センター間で荷物を途切れなく高速・連続昇降搬送。"
-            }
-        },
-        "prod_transfer_1": {
-            title: {
-                ko: "스마트 모듈형 롤러 컨베이어 (MDR Conveyor)",
-                en: "Smart Modular MDR Conveyor",
-                cn: "智能模块化电动滚筒输送机 (MDR Conveyor)",
-                ja: "スマートモジュール型MDRコンベヤ (MDR Conveyor)"
-            },
-            desc: {
-                ko: "구간별 모터 롤러 제어(ZPA)를 통해 무충돌 병목 제어 및 전력 소비를 50% 절감",
-                en: "Zero Pressure Accumulation (ZPA) motorized roller control reducing bottlenecks and cutting energy use by 50%.",
-                cn: "分段智能电动滚筒无压力积放(ZPA)控制，杜绝碰撞并节省50%能耗。",
-                ja: "区画別モーターローラー制御(ZPA)により無衝突バッファ制御と消費電力50%削減を実現。"
-            }
-        },
-        "prod_transfer_2": {
-            title: {
-                ko: "자율주행 이송로봇 (AGV & AMR System)",
-                en: "Autonomous Mobile Robots (AGV & AMR System)",
-                cn: "自主移动搬运机器人 (AGV & AMR System)",
-                ja: "自律走行搬送ロボット (AGV & AMR System)"
-            },
-            desc: {
-                ko: "SLAM 라이다 내비게이션 기반의 무인 지능형 물류 팔레트 및 대차 이송 로봇 솔루션",
-                en: "SLAM LiDAR-guided intelligent unmanned transport robots for pallet and cart logistics.",
-                cn: "基于激光SLAM导航的智能化无人托盘与料车搬运机器人解决方案。",
-                ja: "SLAM LiDAR自律走行に基づく無人インテリジェントパレット・台車搬送ロボットソリューション。"
-            }
-        },
-        "prod_warehouse_1": {
-            title: {
-                ko: "스마트 셔틀 입출고 시스템 (Multi-Tier Shuttle AS/RS)",
-                en: "Multi-Tier Shuttle AS/RS",
-                cn: "多层穿梭车立体库系统 (Multi-Tier Shuttle AS/RS)",
-                ja: "マルチシャトル自動倉庫システム (Multi-Tier Shuttle AS/RS)"
-            },
-            desc: {
-                ko: "고밀도 랙 공간에서 초고속 셔틀 카트와 수직 리프터가 결합된 무인 자동 보관·피킹 시스템",
-                en: "High-density automated storage and picking system combining ultra-fast shuttle carts and vertical lifters.",
-                cn: "高密度密集存储货架中结合超高速穿梭小车与提升机的全自动存储与分拣系统。",
-                ja: "高密度ラック内で超高速シャトルカートと垂直リフターが連動する無人自動保管・ピッキングシステム。"
-            }
-        },
-        "prod_warehouse_2": {
-            title: {
-                ko: "초고층 팔레트 스태커 크레인 (Pallet Stacker Crane)",
-                en: "High-Bay Pallet Stacker Crane",
-                cn: "高架托盘堆垛机 (Pallet Stacker Crane)",
-                ja: "高層パレットスタッカークレーン (Pallet Stacker Crane)"
-            },
-            desc: {
-                ko: "최대 40m 높이의 대형 물류 랙에 중량물 팔레트를 정밀 자동 적재·인출하는 고하중 크레인",
-                en: "Heavy-duty automated crane for precision high-bay storage and retrieval of pallets up to 40 meters.",
-                cn: "最高可达40米高位货架、精准自动化存取重型托盘的重载堆垛机系统。",
-                ja: "最大40mの自動倉庫ラックで重量物パレットを高精度に自動格納・出庫する高荷重クレーン。"
-            }
-        },
-        "prod_etc_1": {
-            title: {
-                ko: "지능형 물류 통합 관제 시스템 (ATA-WCS / WES)",
-                en: "Intelligent Warehouse Control System (ATA-WCS / WES)",
-                cn: "智能仓储集成控制系统 (ATA-WCS / WES)",
-                ja: "インテリジェント物流統合制御系统 (ATA-WCS / WES)"
-            },
-            desc: {
-                ko: "물류 장비 전체의 트래픽을 1ms 단위로 최적 제어하는 3D 디지털 트윈 기반 관제 소프트웨어",
-                en: "3D digital-twin logistics control software optimizing all material handling equipment traffic with 1ms responsiveness.",
-                cn: "基于3D数字孪生、以毫秒级响应精准调度全场物流设备的智能管控软件平台。",
-                ja: "全物流設備のトラフィックを1ms単位で最適制御する3Dデジタルツイン基盤の統合制御ソフトウェア。"
-            }
+        "desc": {
+            "ko": "택배 차량 내 공간 활용도를 극대화하고, 작업자의 상하차 피로도를 줄여주는 차세대 스마트 배송 및 적재 자동화 솔루션입니다. 라스트마일 배송의 효율을 완성합니다.",
+            "en": "A next-generation smart delivery and automated loading solution that maximizes cargo space utilization and drastically reduces driver loading/unloading fatigue.",
+            "cn": "极大提升货运车辆内部空间利用率，大幅降低作业人员上下车装卸强度的下一代智能配送与自动装载系统，全面赋能最后一公里高效履约。",
+            "ja": "宅配車両内の積載スペースを最大限に活用し、作業者の荷役疲労を大幅に低減する次世代スマート配送・自動積載ソリューションです。"
         }
-    };
+    },
+    "prod_delivery_2": {
+        "title": {
+            "ko": "Telescopic [텔레스코픽 컨베이어]",
+            "en": "Telescopic Boom Conveyor",
+            "cn": "Telescopic 伸缩皮带输送机",
+            "ja": "Telescopic 伸縮式テレスコピックコンベア"
+        },
+        "desc": {
+            "ko": "차량 내부 깊숙한 곳까지 컨베이어 끝단이 신축 연장되어 상하차 작업 효율을 극적으로 끌어올리는 텔레스코픽 설비입니다.",
+            "en": "A heavy-duty extendable boom conveyor that stretches deep into trailer interiors, drastically boosting loading and unloading productivity.",
+            "cn": "输送末端可自由伸展深入车厢内部最深处，大幅减少人工搬运往返距离、成倍提升卡车装卸效率的重载伸缩机。",
+            "ja": "トラックの荷台最奥部までコンベア先端が自在に伸縮し、荷役・荷降ろし作業の効率を劇的に向上させるテレスコピック設備です。"
+        }
+    },
+    "prod_transfer_1": {
+        "title": {
+            "ko": "Conveyors & ADD-Ons",
+            "en": "Conveyors & ADD-Ons",
+            "cn": "Conveyors & ADD-Ons 输送机与外围配套装备",
+            "ja": "Conveyors & ADD-Ons 各種コンベア＆周辺付帯設備"
+        },
+        "desc": {
+            "ko": "현장 레이아웃과 화물 특성에 맞춰 롤러, 벨트 등 최적의 맞춤형 구성을 제공하는 컨베이어 및 부가 설비입니다.",
+            "en": "Tailored conveying and auxiliary equipment providing optimal configurations of rollers, belts, and diverters customized to site layouts.",
+            "cn": "针对各类复杂仓储布局与货物流向，提供滚筒、皮带、合流、移载等最优定制组合的输送线与外围辅助系统。",
+            "ja": "拠点のレイアウトや貨物特性に合わせ、ローラーやベルトなど最適なカスタム構成を提供する搬送コンベアおよび周辺設備です。"
+        }
+    },
+    "prod_transfer_2": {
+        "title": {
+            "ko": "AGV & AMR [자율주행 물류 로봇]",
+            "en": "AGV & AMR Autonomous Mobile Robots",
+            "cn": "AGV & AMR 自主移动物流机器人",
+            "ja": "AGV & AMR 自律走行型搬送ロボット"
+        },
+        "desc": {
+            "ko": "소형 물류 로봇을 고밀도로 배치해 단위 공간 내 분류 및 이송 효율을 극적으로 끌어올리는 유연한 자율주행 솔루션입니다.",
+            "en": "A flexible robotic fleet solution deploying intelligent mobile robots to dramatically boost sorting, conveying, and warehouse transport efficiency.",
+            "cn": "通过群控调度高密度移动搬运机器人，打破传统固定输送线束缚，显著提升柔性搬运、拣选与分拣效率的自主移动机器人系统。",
+            "ja": "高性能な自律移動ロボットを配備し、固定コンベアの制約を超えて拠点内の搬送・仕分け効率を飛躍的に高めるフレキシブルロボティクスです。"
+        }
+    },
+    "prod_sorting_1": {
+        "title": {
+            "ko": "CBS [Cross Belt Sorter]",
+            "en": "CBS [Cross Belt Sorter]",
+            "cn": "CBS [Cross Belt Sorter] 交叉带分拣机",
+            "ja": "CBS [Cross Belt Sorter] クロスベルトソーター"
+        },
+        "desc": {
+            "ko": "주행 캐리어 상단의 소형 컨베이어 벨트를 통해 화물을 목적지 슈트로 고속 배출하는 대표적인 크로스 벨트 분류 시스템입니다.",
+            "en": "A leading cross belt sortation system that discharges parcels to destination chutes at high speed via miniature conveyor belts atop moving carriers.",
+            "cn": "通过运行小车上方的微型皮带传送带，将货物高速精准卸载至目标格口的代表性交叉带自动分拣系统。",
+            "ja": "走行キャリア上部の小型コンベアベルトを通じて荷物を目的のシュートへ高速排出する代表的なクロスベルト仕分けシステムです。"
+        }
+    },
+    "prod_sorting_2": {
+        "title": {
+            "ko": "NC CBS [NC Cross Belt Sorter]",
+            "en": "NC CBS [NC Cross Belt Sorter]",
+            "cn": "NC CBS [NC Cross Belt Sorter] 数控高速交叉带分拣机",
+            "ja": "NC CBS [NC Cross Belt Sorter] 高速数値制御クロスベルトソーター"
+        },
+        "desc": {
+            "ko": "기존 기계적 정밀도와 소프트웨어 로직을 한 단계 업그레이드한 차세대 고속, 고정밀 수치제어 크로스 벨트 분류 시스템입니다.",
+            "en": "A next-generation high-speed numerical-control cross belt sortation system boasting upgraded mechanical precision and smart software algorithms.",
+            "cn": "全面升级机械精密传动与软件算法架构的下一代高精度数字控制高速交叉带分拣系统。",
+            "ja": "機械的精度と制御ソフトウェアロジックを飛躍的に進化させた、次世代の超高速・高精度数値制御型クロスベルトソーターです。"
+        }
+    },
+    "prod_sorting_3": {
+        "title": {
+            "ko": "NBS [Narrow Belt Sorter]",
+            "en": "NBS [Narrow Belt Sorter]",
+            "cn": "NBS [Narrow Belt Sorter] 窄带分拣机",
+            "ja": "NBS [Narrow Belt Sorter] ナローベルトソーター"
+        },
+        "desc": {
+            "ko": "소형 화물을 빠르고 정확하게 분류하기 위해 개발된 좁은 벨트 형태의 고효율 특화형 소터 시스템입니다.",
+            "en": "A high-efficiency narrow belt sortation system specifically engineered for fast, precise sorting of small to medium parcels and polybags.",
+            "cn": "专为轻小件包裹、服装杂货及软包袋装高速精准分流而量身打造的高性价比窄皮带特化型自动分拣系统。",
+            "ja": "小型・軽量小包を高速かつ正確に仕分けるために設計された、ナローベルト方式の高効率特化型ソーターシステムです。"
+        }
+    },
+    "prod_sorting_4": {
+        "title": {
+            "ko": "Wheel Sorter",
+            "en": "Wheel Sorter",
+            "cn": "Wheel Sorter 智能摆轮分拣机",
+            "ja": "Wheel Sorter ホイールソーター (スイングアーム式)"
+        },
+        "desc": {
+            "ko": "인라인 상에 배치된 회전 휠의 각도를 제어하여 박스 및 파우치 화물을 연속적으로 분기·분류하는 고효율 휠 소터 시스템입니다.",
+            "en": "A high-efficiency modular wheel sortation system that diverts boxes and parcels continuously by rotating steering wheels in-line.",
+            "cn": "通过精密控制内置舵轮单元的转向偏转角度，实现对纸箱、塑料箱及中大件包裹连续分流的高效率摆轮分拣系统。",
+            "ja": "コンベア上に配置された回転ホイールの角度をミリ秒単位で制御し、段ボールやケース類を連続的に分岐・仕分ける高効率ホイールソーターです。"
+        }
+    },
+    "prod_sorting_5": {
+        "title": {
+            "ko": "Tilt Tray Sorter",
+            "en": "Tilt Tray Sorter",
+            "cn": "Tilt Tray Sorter 翻盘分拣机",
+            "ja": "Tilt Tray Sorter チルトトレイソーター"
+        },
+        "desc": {
+            "ko": "운반 트레이를 기울여 화물을 정해진 슈트 목적지로 미끄러뜨려 분류하는 범용적인 틸트 트레이 시스템입니다.",
+            "en": "A proven, versatile tilt tray sortation system that gently slides parcels into designated chutes by tilting carrier trays.",
+            "cn": "通过翻转倾斜托盘将货物轻柔平稳滑入指定格口滑槽的通用型翻盘式高速自动分拣系统。",
+            "ja": "搬送トレイを傾斜させ、荷物を所定のシュートへ滑り込ませて仕分ける高信頼性のチルトトレイ方式ソーターです。"
+        }
+    },
+    "prod_warehouse_1": {
+        "title": {
+            "ko": "Shuttle AS/RS [고밀도 자동창고]",
+            "en": "Shuttle AS/RS High-Density Storage",
+            "cn": "Shuttle AS/RS 高密穿梭车立体库系统",
+            "ja": "Shuttle AS/RS 高密度シャトル式自動倉庫"
+        },
+        "desc": {
+            "ko": "선반 사이를 자유로이 움직이는 소형 셔틀이 상품을 적재 및 인출하는 고밀도 자동 보관 시스템입니다.",
+            "en": "A multi-tier automated storage and retrieval system featuring agile intelligent shuttles traversing rack lanes to deposit and retrieve totes/pallets.",
+            "cn": "多层智能穿梭小车在货架深处轨道高速往返穿梭，实现货物高密立体存储与极速出入库的下一代自动化立库系统。",
+            "ja": "ラック間をインテリジェントシャトルが縦横無尽に走行し、ケースやトレイを高密度に自動格納・搬出する次世代AS/RSシステムです。"
+        }
+    },
+    "prod_etc_1": {
+        "title": {
+            "ko": "WCS [창고제어시스템]",
+            "en": "WCS [Warehouse Control System]",
+            "cn": "WCS [Warehouse Control System] 仓库控制与设备集成调度系统",
+            "ja": "WCS [Warehouse Control System] 倉庫制御・統合設備管制システム"
+        },
+        "desc": {
+            "ko": "물류 자동화 솔루션 내 모든 설비 제어, 실시간 모니터링, 관리 통제가 가능한 최상위 통합 관제 시스템입니다.",
+            "en": "A master logistics integration software platform providing real-time equipment orchestration, 3D digital-twin monitoring, and complete automation control.",
+            "cn": "全面接管并统一调度物流中心所有自动化设备，提供全域数字孪生实时监控与集中管控的最高级中央中枢系统。",
+            "ja": "物流拠点内の全自動化設備を一元的に制御・監視し、リアルタイムデータ連携を実現する最上位の統合管制ソフトウェアです。"
+        }
+    }
+};
 
     /**
      * 현재 활성화된 언어에 맞춰 제품의 다국어 타이틀과 상세 설명을 반환합니다.
