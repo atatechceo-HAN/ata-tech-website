@@ -2454,6 +2454,31 @@
 
             </div>
 
+            <!-- [신설] 솔루션 상세페이지 내부: 11대 전체 솔루션 라인업 둘러보기 (전체보기) 네비게이터 -->
+            <div id="product-detail-all-solutions-wrap" class="mt-16 pt-12 border-t border-slate-200">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
+                            <i class="fa-solid fa-boxes-stacked text-blue-600"></i> TOTAL 11 SOLUTIONS
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"
+                            data-i18n="detail_all_solutions_title">전체 솔루션 라인업 둘러보기</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1"
+                            data-i18n="detail_all_solutions_desc">에이티에이기술의 11대 스마트 물류 자동화 솔루션을 클릭하여 즉시 확인하세요.</p>
+                    </div>
+                    <button type="button" onclick="navigate('solutions'); return false;"
+                        class="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm">
+                        <span data-i18n="detail_btn_view_all">솔루션 전체 목록 바로가기</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- 11대 솔루션 동적 카드 그리드 -->
+                <div id="product-detail-solutions-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+                    <!-- JavaScript renderDetailAllSolutionsGrid() 함수에 의해 실시간 렌더링됩니다 -->
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -5071,10 +5096,180 @@
             return metaMap[category] || { label: '스마트 물류', color: 'blue', icon: 'fa-box', tagBg: 'bg-blue-50 text-blue-700 border-blue-200' };
         }
 
-        // 최신 제품 목록 조회 (관리자 모드와 100% 동일 데이터 원본)
+        // 11대 핵심 솔루션 영구 안전 기본 데이터 (Fallback용)
+        var DEFAULT_SOLUTIONS_FALLBACK = [
+          {
+                    "id": "prod_delivery_1",
+                    "category": "delivery",
+                    "title": "택배차량 배송 자동화 시스템",
+                    "description": "택배 차량 내 공간 활용도를 극대화하고, 작업자의 상하차 피로도를 줄여주는 차세대 스마트 배송 및 적재 자동화 솔루션입니다. 라스트마일 배송의 효율을 완성합니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.mp4",
+                    "sortOrder": 1,
+                    "features": [
+                              "공간 효율성 극대화로 배송 단가 절감",
+                              "작업자 근골격계 질환 예방 및 상하차 피로도 대폭 감소",
+                              "라스트마일 배송 시간 단축"
+                    ]
+          },
+          {
+                    "id": "prod_delivery_2",
+                    "category": "delivery",
+                    "title": "Telescopic",
+                    "description": "차량 내부 깊숙한 곳까지 컨베이어 끝단이 신축 연장되어 상하차 작업 효율을 극적으로 끌어올리는 텔레스코픽 설비입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/Telescopic.png",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/Telescopic.mp4",
+                    "sortOrder": 2,
+                    "features": [
+                              "버튼 하나로 길이 자유 연장/축소",
+                              "작업자 동선 최소화 및 인체공학적 작업 환경 제공",
+                              "안전 센서 감지 확보"
+                    ]
+          },
+          {
+                    "id": "prod_transfer_1",
+                    "category": "transfer",
+                    "title": "Conveyors & ADD-Ons",
+                    "description": "현장 레이아웃과 화물 특성에 맞춰 롤러, 벨트 등 최적의 맞춤형 구성을 제공하는 컨베이어 및 부가 설비입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/Conveyors & ADD-Ons.jpg",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "",
+                    "sortOrder": 3,
+                    "features": [
+                              "견고한 모듈형 하드웨어 설계",
+                              "저소음 고효율 모터 적용",
+                              "유지보수가 간편한 표준 모듈 구조"
+                    ]
+          },
+          {
+                    "id": "prod_transfer_2",
+                    "category": "transfer",
+                    "title": "AGV & AMR",
+                    "description": "소형 물류 로봇을 고밀도로 배치해 단위 공간 내 분류 및 이송 효율을 극적으로 끌어올리는 유연한 자율주행 솔루션입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/AGV & AMR.png",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/AGV & AMR.mp4",
+                    "sortOrder": 4,
+                    "features": [
+                              "고정 인프라 없이 유연한 경로 설정",
+                              "AI 알고리즘 기반 최적 경로 탐색 및 충돌 회피",
+                              "야간 무인화 작업 지원"
+                    ]
+          },
+          {
+                    "id": "prod_sorting_1",
+                    "category": "sorting",
+                    "title": "CBS [Cross Belt Sorter]",
+                    "description": "주행 캐리어 상단의 소형 컨베이어 벨트를 통해 화물을 목적지 슈트로 고속 배출하는 대표적인 크로스 벨트 분류 시스템입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/CBS.jpg",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/CBS.mp4",
+                    "sortOrder": 5,
+                    "features": [
+                              "시간당 수만 건의 대용량 고속 분류 처리",
+                              "다양한 규격 및 이형 화물의 안정적인 이송/배출",
+                              "정밀 제어로 오분류율 0.01% 미만 실현"
+                    ]
+          },
+          {
+                    "id": "prod_sorting_2",
+                    "category": "sorting",
+                    "title": "NC CBS [NC Cross Belt Sorter]",
+                    "description": "기존 기계적 정밀도와 소프트웨어 로직을 한 단계 업그레이드한 차세대 고속, 고정밀 수치제어 크로스 벨트 분류 시스템입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/NC CBS.jpg",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/NC CBS.mp4",
+                    "sortOrder": 6,
+                    "features": [
+                              "초고속 환경에서도 흔들림 없는 화물 안정성",
+                              "특수 마찰 벨트 적용으로 슬립 방지",
+                              "실시간 데이터 기반 예지 보전 시스템 탑재"
+                    ]
+          },
+          {
+                    "id": "prod_sorting_3",
+                    "category": "sorting",
+                    "title": "NBS [Narrow Belt Sorter]",
+                    "description": "소형 화물을 빠르고 정확하게 분류하기 위해 개발된 좁은 벨트 형태의 고효율 특화형 소터 시스템입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/NBS.jpg",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/NBS.mp4",
+                    "sortOrder": 7,
+                    "features": [
+                              "작고 가벼운 의류/잡화 화물 분류 최적화",
+                              "설치 면적 최소화로 좁은 물류센터 내 도입 용이",
+                              "부드러운 분류 메커니즘으로 화물 손상 방지"
+                    ]
+          },
+          {
+                    "id": "prod_sorting_4",
+                    "category": "sorting",
+                    "title": "Wheel Sorter",
+                    "description": "인라인 상에 배치된 회전 휠의 각도를 제어하여 박스 및 파우치 화물을 연속적으로 분기·분류하는 고효율 휠 소터 시스템입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/Wheel Sorter.jpg",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/Wheel Sorter.mp4",
+                    "sortOrder": 8,
+                    "features": [
+                              "콤팩트한 모듈 구조로 기존 컨베이어 라인에 손쉬운 인라인 삽입",
+                              "다양한 각도(30°, 45°, 90°)의 다방향 분류 지원",
+                              "저소음 고속 분기 응답 메커니즘"
+                    ]
+          },
+          {
+                    "id": "prod_sorting_5",
+                    "category": "sorting",
+                    "title": "Tilt Tray Sorter",
+                    "description": "운반 트레이를 기울여 화물을 정해진 슈트 목적지로 미끄러뜨려 분류하는 범용적인 틸트 트레이 시스템입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4",
+                    "sortOrder": 9,
+                    "features": [
+                              "민감한 화물 파손 손상 최소화",
+                              "다양한 크기와 형태를 동시에 수용",
+                              "소음이 적어 작업 환경 개선"
+                    ]
+          },
+          {
+                    "id": "prod_warehouse_1",
+                    "category": "warehouse",
+                    "title": "Shuttle AS/RS",
+                    "description": "선반 사이를 자유로이 움직이는 소형 셔틀이 상품을 적재 및 인출하는 고밀도 자동 보관 시스템입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/shuttle ASRS.png",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/shuttle ASRS.mp4",
+                    "sortOrder": 10,
+                    "features": [
+                              "고속 입출고를 통한 작업 속도 향상",
+                              "선반 공간 효율 극대화 및 고밀도 보관",
+                              "모듈식 설계로 시스템 확장 용이"
+                    ]
+          },
+          {
+                    "id": "prod_etc_1",
+                    "category": "etc",
+                    "title": "WCS [창고제어시스템]",
+                    "description": "물류 자동화 솔루션 내 모든 설비 제어, 실시간 모니터링, 관리 통제가 가능한 최상위 통합 관제 시스템입니다.",
+                    "imageUrl": "[ Insert Data ]/SOLUTION/WCS [창고제어시스템].png",
+                    "fallbackUrl": "assets/images/no-image.svg",
+                    "videoUrl": "[ Insert Data ]/SOLUTION/WCS [창고제어시스템].mp4",
+                    "sortOrder": 11,
+                    "features": [
+                              "다기종 설비 통합 실시간 제어",
+                              "병목 현상 사전 감지 및 트래픽 분산",
+                              "ERP/WMS 시스템 간의 완벽한 데이터 인터페이스"
+                    ]
+          }
+];
+
+        // 최신 제품 목록 조회 (관리자 모드와 100% 동일 데이터 원본 + 영구 안전 폴백)
         function getUnifiedProductsList() {
             if (window.ProductLineupAdmin && typeof window.ProductLineupAdmin.getProductsList === 'function') {
-                return window.ProductLineupAdmin.getProductsList();
+                var list = window.ProductLineupAdmin.getProductsList();
+                if (Array.isArray(list) && list.length > 0) return list;
             }
             try {
                 var raw = localStorage.getItem('ata_product_lineup_db');
@@ -5085,7 +5280,7 @@
             } catch (e) {
                 console.warn('[SolutionsGrid] localStorage 조회 오류:', e);
             }
-            return [];
+            return DEFAULT_SOLUTIONS_FALLBACK.slice();
         }
 
         // 솔루션 그리드 렌더링 함수
@@ -5193,7 +5388,7 @@
                 var safeImg = item.imageUrl || fallback;
                 var safeTitle = item.title || '솔루션';
                 var safeDesc = item.description || '';
-                var videoUrl = item.videoUrl || window.SOLUTION_VIDEO_MAP[item.id] || '';
+                var videoUrl = item.videoUrl || '';
                 var sortNum = item.sortOrder ? (item.sortOrder < 10 ? '0' + item.sortOrder : item.sortOrder) : (idx + 1 < 10 ? '0' + (idx + 1) : idx + 1);
 
                 html += '<div onclick="navigate(\'product\', \'' + item.id + '\')" class="bg-white border border-slate-200 hover:border-blue-400 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 group cursor-pointer fade-in flex flex-col justify-between">';
@@ -5249,50 +5444,79 @@
                 window.renderSolutionsGrid();
             }
         });
-
         window.addEventListener('languageChanged', function () {
             if (typeof window.renderSolutionsGrid === 'function') {
                 window.renderSolutionsGrid();
             }
-        });
-
-        window.addEventListener('storage', function (e) {
-            if (e.key === 'ata_product_lineup_db' || e.key === 'ata_admin_authenticated') {
-                if (typeof window.renderSolutionsGrid === 'function') {
-                    window.renderSolutionsGrid();
-                }
+            if (window.currentActiveView === 'product' && typeof window.renderProductDetail === 'function') {
+                window.renderProductDetail(window.currentProductId);
             }
         });
 
-        // 초기 로드 시 솔루션 그리드 자동 렌더링
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function () {
-                if (typeof window.renderSolutionsGrid === 'function') {
-                    window.renderSolutionsGrid('all');
-                }
-            });
-        } else {
-            setTimeout(function () {
-                if (typeof window.renderSolutionsGrid === 'function') {
-                    window.renderSolutionsGrid('all');
-                }
-            }, 50);
-        }
+        // [신설] 상세페이지 하단 11대 전체 솔루션 라인업 (전체보기) 동적 렌더러
+        function renderDetailAllSolutionsGrid(currentActiveId, lang) {
+            var sliderContainer = document.getElementById('product-detail-solutions-grid');
+            if (!sliderContainer) return;
 
+            var fullList = getUnifiedProductsList();
+            if (!fullList || fullList.length === 0) return;
+
+            var html = '';
+            fullList.forEach(function (item, idx) {
+                var isCurrent = (item.id === currentActiveId || item.title === currentActiveId);
+                var meta = getSolutionCategoryMeta(item.category);
+                var safeImg = item.imageUrl || item.fallbackUrl || 'assets/images/no-image.svg';
+                var safeTitle = item.title;
+                var safeDesc = item.description || '';
+                
+                // 다국어 명칭 반영
+                if (lang && item[lang] && item[lang].title) {
+                    safeTitle = item[lang].title;
+                } else if (item.ko && item.ko.title) {
+                    safeTitle = item.ko.title;
+                }
+
+                var cardBorder = isCurrent 
+                    ? 'border-2 border-blue-600 ring-2 ring-blue-400/50 bg-blue-50/40 shadow-md' 
+                    : 'border border-slate-200 hover:border-blue-400 hover:shadow-lg bg-white';
+
+                html += '<div onclick="navigate(\'product\', \'' + item.id + '\')" class="' + cardBorder + ' rounded-xl overflow-hidden p-2.5 transition-all cursor-pointer group flex flex-col justify-between relative">';
+                
+                if (isCurrent) {
+                    html += '<span class="absolute top-2 right-2 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow z-10">현재 선택됨</span>';
+                }
+
+                html += '  <div class="aspect-video bg-slate-100 rounded-lg overflow-hidden mb-2 relative">';
+                html += '    <img src="' + safeImg + '" onerror="this.onerror=null; this.src=\'assets/images/no-image.svg\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="' + safeTitle + '">';
+                html += '  </div>';
+
+                html += '  <div>';
+                html += '    <span class="text-[10px] text-blue-600 font-bold block truncate">' + meta.label + '</span>';
+                html += '    <h4 class="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition-colors line-clamp-1">' + safeTitle + '</h4>';
+                html += '  </div>';
+
+                html += '</div>';
+            });
+
+            sliderContainer.innerHTML = html;
+        }
 
         // [제품 상세 페이지 동적 렌더러 - 11종 라인업 완벽 연동]
         window.renderProductDetail = function (productKey, lang) {
-            if (!productKey) productKey = window.currentProductId || '택배차량 배송 자동화 시스템';
+            if (!productKey) productKey = window.currentProductId || 'prod_delivery_1';
             window.currentProductId = productKey;
             lang = lang || window.currentLanguage || 'ko';
             if (lang === 'zh') lang = 'cn';
 
-            // 1. [데이터 일원화] 관리자 모드 최신 데이터(ata_product_lineup_db)를 1순위로 최우선 조회
+            // 1. [데이터 일원화] 관리자 모드 최신 데이터 및 Fallback에서 제품 검색 (ID/타이틀 완벽 지원)
             var pData = null;
             var unifiedList = getUnifiedProductsList();
             if (unifiedList && unifiedList.length > 0) {
                 pData = unifiedList.find(function (item) {
-                    return item.id === productKey || item.title === productKey || (item.ko && item.ko.title === productKey);
+                    return item.id === productKey ||
+                        item.title === productKey ||
+                        (item.ko && item.ko.title === productKey) ||
+                        (item.title && productKey && (item.title.indexOf(productKey) !== -1 || productKey.indexOf(item.title) !== -1));
                 });
             }
 
@@ -5302,7 +5526,9 @@
                     pData = productDb[productKey];
                 } else {
                     for (var k in productDb) {
-                        if (productDb[k].title === productKey || productDb[k].name === productKey || (productDb[k].ko && productDb[k].ko.title === productKey)) {
+                        if (k === productKey ||
+                            (productDb[k].ko && productDb[k].ko.title === productKey) ||
+                            (productDb[k].title === productKey)) {
                             pData = productDb[k];
                             break;
                         }
@@ -5328,13 +5554,19 @@
                     title = pData[targetLang].title || pData[targetLang].name || title;
                     desc = pData[targetLang].desc || pData[targetLang].description || desc;
                     features = pData[targetLang].features || pData[targetLang].specs || [];
+                } else if (pData.ko) {
+                    title = pData.ko.title || pData.title || title;
+                    desc = pData.ko.desc || pData.description || desc;
+                    features = pData.ko.features || pData.features || [];
                 } else {
-                    title = pData.title || pData.titleKo || pData.name || title;
-                    desc = pData.desc || pData.description || pData.descKo || desc;
+                    title = pData.title || pData.name || title;
+                    desc = pData.description || pData.desc || desc;
                     features = pData.features || pData.specs || [];
                 }
-                imgSrc = pData.image || pData.img || pData.thumb || "";
-                videoSrc = pData.video || pData.videoSrc || "";
+
+                // [핵심 패치] imageUrl 및 videoUrl 속성 우선 바인딩
+                imgSrc = pData.imageUrl || pData.image || pData.img || pData.thumb || "";
+                videoSrc = pData.videoUrl || pData.video || pData.videoSrc || "";
             }
 
             // 3. DOM 요소 업데이트
@@ -5354,7 +5586,7 @@
                 imgEl.classList.remove('hidden');
                 if (fallbackEl) fallbackEl.classList.add('hidden');
             } else if (imgEl) {
-                imgEl.src = 'Conveyors & ADD-Ons.jpg';
+                imgEl.src = '[ Insert Data ]/SOLUTION/택배차량 배송 자동화 시스템.jpg';
                 imgEl.classList.remove('hidden');
                 if (fallbackEl) fallbackEl.classList.add('hidden');
             }
@@ -5371,7 +5603,6 @@
                 if (videoFallback) videoFallback.classList.add('hidden');
                 if (videoBadge) videoBadge.classList.remove('hidden');
                 videoEl.load();
-                videoEl.play().catch(function () { });
             } else if (videoEl) {
                 videoEl.pause();
                 videoEl.classList.add('hidden');
@@ -5385,7 +5616,12 @@
                 featEl.innerHTML = features.map(function (f) {
                     return '<li class="flex items-start gap-2 text-slate-700 text-sm sm:text-base"><i class="fa-solid fa-circle-check text-blue-600 mt-1 shrink-0"></i><span>' + f + '</span></li>';
                 }).join('');
+            } else if (featEl) {
+                featEl.innerHTML = '<li class="text-slate-500 text-sm">에이티에이기술의 최첨단 자동화 기술이 집약된 핵심 솔루션입니다.</li>';
             }
+
+            // 5. [신설] 상세페이지 내부 11대 전체 솔루션 라인업 (전체보기) 네비게이터 실시간 렌더링
+            renderDetailAllSolutionsGrid(pData ? pData.id : productKey, lang);
         };
 
         function navigate(viewId, param1, isPopState) {
