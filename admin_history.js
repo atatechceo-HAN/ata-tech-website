@@ -877,6 +877,7 @@
         var modal = document.createElement('div');
         modal.id = 'history-editor-modal';
         modal.className = 'fixed inset-0 z-[320] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300';
+        modal.className = 'fixed inset-0 z-[10050] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300';
         modal.onclick = function (e) {
             if (e.target === modal) closeHistoryEditModal();
         };

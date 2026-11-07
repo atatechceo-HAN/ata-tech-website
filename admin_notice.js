@@ -650,15 +650,27 @@
                 document.getElementById('notice-edit-pinned').checked = !!item.pinned;
                 document.getElementById('notice-edit-date').value = item.date || todayStr;
                 document.getElementById('notice-edit-author').value = item.author || "주식회사 에이티에이기술 관리자";
-                document.getElementById('notice-edit-title-ko').value = (item.title && item.title.ko) || "";
-                document.getElementById('notice-edit-summary-ko').value = (item.summary && item.summary.ko) || "";
 
-                // 본문 HTML을 텍스트 줄바꿈 형태로 보기 좋게 변환 (간이 변환)
-                var rawContent = (item.content && item.content.ko) || "";
+                // 제목 무결점 추출 (다국어 객체 또는 일반 문자열 완벽 호환)
+                var titleText = (item.title && typeof item.title === 'object') ? (item.title.ko || '') : (item.title || '');
+                document.getElementById('notice-edit-title-ko').value = titleText;
+
+                // 요약 문구 무결점 추출
+                var summaryText = (item.summary && typeof item.summary === 'object') ? (item.summary.ko || '') : (item.summary || '');
+                document.getElementById('notice-edit-summary-ko').value = summaryText;
+
+                // 본문 무결점 추출 (객체 또는 문자열 모두 안전 지원)
+                var rawContent = (item.content && typeof item.content === 'object') ? (item.content.ko || '') : (item.content || '');
+
+                // 본문 텍스트 변환: HTML 줄바꿈(<br>, </p>)을 일반 줄바꿈(\n)으로 변환하되 본문이 날아가지 않도록 안전 처리
                 var cleanContent = rawContent
                     .replace(/<br\s*[\/]?>/gi, "\n")
                     .replace(/<\/p>\s*<p[^>]*>/gi, "\n\n")
-                    .replace(/<[^>]+>/g, ""); // 태그 제거 후 텍스트만 추출하거나 원본 유지
+                    .replace(/<\/?(p|div|span|h[1-6]|ul|ol|li)[^>]*>/gi, "\n")
+                    .replace(/<[^>]+>/g, "")
+                    .replace(/\n{3,}/g, "\n\n")
+                    .trim();
+
                 document.getElementById('notice-edit-content-ko').value = cleanContent || rawContent;
             }
 
