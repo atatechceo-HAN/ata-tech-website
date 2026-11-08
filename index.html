@@ -7805,8 +7805,7 @@
         class="fixed inset-0 z-[9995] bg-slate-900/75 backdrop-blur-md hidden items-center justify-center p-2 sm:p-4 md:p-6 transition-all duration-300"
         onclick="closeIntegratedAdminHub()">
 
-        <div id="admin-hub-window" class="bg-white border border-slate-200 w-full max-w-5xl h-[92vh] max-h-[920px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative flex flex-col text-slate-800 transition-all duration-150 select-text"
-            onclick="event.stopPropagation()">
+        <div id="admin-hub-window" class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl shadow-2xl relative flex flex-col text-slate-800 transition-all duration-150 select-text" style="width: min(1120px, 95vw); height: min(880px, 92vh); min-width: 480px; min-height: 420px; max-width: 100vw; max-height: 100vh; resize: both; overflow: hidden;" onclick="event.stopPropagation()">
 
             <!-- 1. 최상단 통합 관리자 헤더 (번역기 간섭 방지 notranslate 적용) -->
             <div translate="no"
@@ -7848,8 +7847,26 @@
                         title="관리자 세션 안전 로그아웃">
                         <i class="fa-solid fa-right-from-bracket"></i> <span>로그아웃</span>
                     </button>
-                                        <button type="button" id="admin-hub-maximize-btn" onclick="toggleAdminHubMaximize()"
-                        class="notranslate text-slate-400 hover:text-white p-1.5 sm:p-2 rounded-xl hover:bg-slate-800 text-sm sm:text-base leading-none transition-colors cursor-pointer shrink-0 ml-0.5 sm:ml-1"
+                                        <!-- 창 크기 원클릭 조절 프리셋 버튼 그룹 -->
+                    <div class="hidden sm:inline-flex items-center bg-slate-800/90 rounded-xl p-0.5 border border-slate-700/80 shrink-0 ml-1">
+                        <button type="button" onclick="setAdminHubSize('normal')" id="hub-size-btn-normal"
+                            class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white hover:bg-slate-700 transition-colors flex items-center gap-1 cursor-pointer"
+                            title="기본 크기 (1120px)">
+                            <i class="fa-regular fa-window-restore text-[10px]"></i> 보통
+                        </button>
+                        <button type="button" onclick="setAdminHubSize('wide')" id="hub-size-btn-wide"
+                            class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white hover:bg-slate-700 transition-colors flex items-center gap-1 cursor-pointer"
+                            title="와이드 크기 (1500px)">
+                            <i class="fa-solid fa-arrows-left-right text-[10px]"></i> 넓게
+                        </button>
+                        <button type="button" onclick="setAdminHubSize('full')" id="hub-size-btn-full"
+                            class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white hover:bg-slate-700 transition-colors flex items-center gap-1 cursor-pointer"
+                            title="모니터 전체화면 (100%)">
+                            <i class="fa-solid fa-expand text-[10px]"></i> 전체화면
+                        </button>
+                    </div>
+                    <button type="button" id="admin-hub-maximize-btn" onclick="toggleAdminHubMaximize()"
+                        class="sm:hidden notranslate text-slate-400 hover:text-white p-1.5 sm:p-2 rounded-xl hover:bg-slate-800 text-sm sm:text-base leading-none transition-colors cursor-pointer shrink-0 ml-0.5 sm:ml-1"
                         title="창 최대화 / 원래 크기로 복원">
                         <i class="fa-solid fa-up-right-and-down-left-from-center" id="admin-hub-max-icon"></i>
                     </button>
@@ -8142,9 +8159,9 @@
             
             <!-- 우측 하단 마우스 드래그 리사이즈 핸들러 (창 크기 자유 조절) -->
             <div id="admin-hub-resize-handle"
-                class="absolute bottom-0 right-0 w-6 h-6 cursor-se-resize flex items-end justify-end p-1 text-slate-400 hover:text-blue-500 transition-colors select-none z-50 group"
-                title="마우스로 드래그하여 창 크기를 자유롭게 조절하세요">
-                <svg class="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                class="absolute bottom-0 right-0 w-8 h-8 cursor-se-resize flex items-end justify-end p-1.5 text-slate-400 hover:text-blue-500 bg-gradient-to-tl from-slate-200/80 hover:from-blue-200/90 to-transparent rounded-tl-xl transition-colors select-none z-[9999] group shadow-sm"
+                title="마우스로 모서리를 잡고 드래그하여 창 크기를 자유롭게 조절하세요">
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-blue-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <line x1="21" y1="9" x2="9" y2="21"></line>
                     <line x1="21" y1="15" x2="15" y2="21"></line>
                 </svg>
@@ -9084,59 +9101,74 @@
         // =========================================================================
         // 관리자 모드 통합 허브 창 크기 조절 및 전체화면 최대화 엔진
         // =========================================================================
-        var isAdminHubMaximized = false;
+        // =========================================================================
+        // 관리자 모드 통합 허브 창 크기 조절 (프리셋 3단계 + 드래그 리사이즈 + 전체화면)
+        // =========================================================================
+        var currentAdminHubSizeMode = 'normal';
         var prevAdminHubStyles = null;
 
-        window.toggleAdminHubMaximize = function () {
+        window.setAdminHubSize = function (mode) {
             var win = document.getElementById('admin-hub-window');
-            var icon = document.getElementById('admin-hub-max-icon');
-            if (!win) return;
+            var modal = document.getElementById('admin-integrated-hub-modal');
+            var maxIcon = document.getElementById('admin-hub-max-icon');
+            if (!win || !modal) return;
 
-            isAdminHubMaximized = !isAdminHubMaximized;
+            currentAdminHubSizeMode = mode;
 
-            if (isAdminHubMaximized) {
-                prevAdminHubStyles = {
-                    width: win.style.width,
-                    height: win.style.height,
-                    maxWidth: win.style.maxWidth,
-                    maxHeight: win.style.maxHeight
-                };
+            // 버튼 활성화 스타일 업데이트
+            var modes = ['normal', 'wide', 'full'];
+            modes.forEach(function (m) {
+                var btn = document.getElementById('hub-size-btn-' + m);
+                if (btn) {
+                    if (m === mode) {
+                        btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-600 text-white shadow-sm flex items-center gap-1 cursor-pointer';
+                    } else {
+                        btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white hover:bg-slate-700 transition-colors flex items-center gap-1 cursor-pointer';
+                    }
+                }
+            });
 
+            if (mode === 'full') {
+                // 전체화면
+                modal.classList.remove('p-2', 'sm:p-4', 'md:p-6');
+                modal.classList.add('p-0');
+                win.classList.remove('rounded-2xl', 'sm:rounded-3xl');
+                win.classList.add('rounded-none');
                 win.style.width = '100vw';
                 win.style.height = '100vh';
                 win.style.maxWidth = '100vw';
                 win.style.maxHeight = '100vh';
-                win.classList.remove('rounded-2xl', 'sm:rounded-3xl', 'max-w-5xl', 'h-[92vh]', 'max-h-[920px]');
-                win.classList.add('rounded-none', 'w-screen', 'h-screen');
-
-                var modal = document.getElementById('admin-integrated-hub-modal');
-                if (modal) modal.classList.remove('p-2', 'sm:p-4', 'md:p-6');
-
-                if (icon) {
-                    icon.className = 'fa-solid fa-down-left-and-up-right-to-center';
-                }
+                if (maxIcon) maxIcon.className = 'fa-solid fa-down-left-and-up-right-to-center';
+            } else if (mode === 'wide') {
+                // 와이드 (1500px)
+                modal.classList.remove('p-0');
+                modal.classList.add('p-2', 'sm:p-4', 'md:p-6');
+                win.classList.remove('rounded-none');
+                win.classList.add('rounded-2xl', 'sm:rounded-3xl');
+                win.style.width = 'min(1500px, 98vw)';
+                win.style.height = 'min(940px, 96vh)';
+                win.style.maxWidth = '98vw';
+                win.style.maxHeight = '96vh';
+                if (maxIcon) maxIcon.className = 'fa-solid fa-up-right-and-down-left-from-center';
             } else {
-                win.classList.remove('rounded-none', 'w-screen', 'h-screen');
-                win.classList.add('rounded-2xl', 'sm:rounded-3xl', 'max-w-5xl', 'h-[92vh]', 'max-h-[920px]');
+                // 보통 기본 크기 (1120px)
+                modal.classList.remove('p-0');
+                modal.classList.add('p-2', 'sm:p-4', 'md:p-6');
+                win.classList.remove('rounded-none');
+                win.classList.add('rounded-2xl', 'sm:rounded-3xl');
+                win.style.width = 'min(1120px, 95vw)';
+                win.style.height = 'min(880px, 92vh)';
+                win.style.maxWidth = '95vw';
+                win.style.maxHeight = '92vh';
+                if (maxIcon) maxIcon.className = 'fa-solid fa-up-right-and-down-left-from-center';
+            }
+        };
 
-                var modal = document.getElementById('admin-integrated-hub-modal');
-                if (modal) modal.classList.add('p-2', 'sm:p-4', 'md:p-6');
-
-                if (prevAdminHubStyles) {
-                    win.style.width = prevAdminHubStyles.width || '';
-                    win.style.height = prevAdminHubStyles.height || '';
-                    win.style.maxWidth = prevAdminHubStyles.maxWidth || '';
-                    win.style.maxHeight = prevAdminHubStyles.maxHeight || '';
-                } else {
-                    win.style.width = '';
-                    win.style.height = '';
-                    win.style.maxWidth = '';
-                    win.style.maxHeight = '';
-                }
-
-                if (icon) {
-                    icon.className = 'fa-solid fa-up-right-and-down-left-from-center';
-                }
+        window.toggleAdminHubMaximize = function () {
+            if (currentAdminHubSizeMode === 'full') {
+                window.setAdminHubSize('normal');
+            } else {
+                window.setAdminHubSize('full');
             }
         };
 
@@ -9151,7 +9183,7 @@
                 var startX, startY, startWidth, startHeight;
 
                 handle.addEventListener('mousedown', function (e) {
-                    if (isAdminHubMaximized) return;
+                    if (currentAdminHubSizeMode === 'full') return;
                     isResizing = true;
                     startX = e.clientX;
                     startY = e.clientY;
@@ -9159,8 +9191,8 @@
                     startHeight = win.offsetHeight;
 
                     win.style.transition = 'none';
-                    win.style.maxWidth = '98vw';
-                    win.style.maxHeight = '98vh';
+                    win.style.maxWidth = '99vw';
+                    win.style.maxHeight = '99vh';
                     document.body.style.userSelect = 'none';
                     document.body.style.cursor = 'se-resize';
 
@@ -9170,8 +9202,8 @@
 
                 document.addEventListener('mousemove', function (e) {
                     if (!isResizing) return;
-                    var newWidth = Math.max(500, Math.min(window.innerWidth * 0.98, startWidth + (e.clientX - startX)));
-                    var newHeight = Math.max(400, Math.min(window.innerHeight * 0.98, startHeight + (e.clientY - startY)));
+                    var newWidth = Math.max(500, Math.min(window.innerWidth * 0.99, startWidth + (e.clientX - startX)));
+                    var newHeight = Math.max(420, Math.min(window.innerHeight * 0.99, startHeight + (e.clientY - startY)));
 
                     win.style.width = newWidth + 'px';
                     win.style.height = newHeight + 'px';

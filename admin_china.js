@@ -2,12 +2,13 @@
  * ==============================================================================
  * (주)에이티에이기술 웹사이트 - 한중합자법인(제조사) 관리자 모드 CRUD & 실시간 렌더링 엔진 (admin_china.js)
  * 
- * [주요 기능]
- * 1. 법인 개요 및 핵심 제조 지표(intro), 3대 상호협력/기술제휴(coop), 제조 거점 및 설비 네트워크(facility) 관리
- * 2. 브라우저 로컬 저장소(LocalStorage) 기반 실시간 데이터 영구 보존 및 동기화
- * 3. 관리자 센터(Admin Hub) 전용 CRUD 인터페이스: 신규 항목 등록, 수정, 삭제, 기본값 안전 복원
- * 4. 제조 공장 전경, R&D 설비, 인포그래픽 고화질 이미지 로컬 업로드(Base64) 및 경로 지정 지원
- * 5. 실제 사용자 홈페이지(#view-xingting-intro, #view-xingting-coop, #view-xingting-global) 실시간 동적 렌더링
+ * [주요 기능 & 2026 황금비율 리디자인]
+ * 1. 법인 개요(intro), 3대 핵심 기술협력(coop), 글로벌 거점 및 제조설비(facility) 통합 관리
+ * 2. 사진 크기 대폭 콤팩트화 (35%) + 글씨란 대폭 확장 (65%) 가로 분할 황금비율 적용
+ * 3. 3대 핵심 협력 카드: 가로형 2열(좌측 사진, 우측 풍성한 기술제휴 글씨)
+ * 4. 제조 거점 카드: 아담한 썸네일(180px) + 생산 설비 및 케파 상세 설명란 시원하게 확장
+ * 5. 관리자 모달: 상세 설명 textarea 7줄 이상 대폭 확장
+ * 6. 실제 사용자 홈페이지(#view-xingting-intro, #view-xingting-coop, #view-xingting-global) 실시간 동적 렌더링
  * ==============================================================================
  */
 
@@ -17,7 +18,7 @@
     // 1. 로컬 저장소 키
     var STORAGE_KEY_CHINA = "ata_china_factory_db_v1";
 
-    // 2. 초기 기본 공식 데이터 (개요/지표 5건 + 기술협력 3건 + 거점설비 3건 = 총 11건)
+    // 2. 초기 기본 공식 데이터 (개요/지표 5건, 상호협력 3건, 제조거점 3건 = 총 11건)
     var INITIAL_CHINA_DATA = [
         // ===================== [1. 법인 개요 및 핵심 지표: intro] =====================
         {
@@ -83,121 +84,115 @@
             title: "하드웨어-소프트웨어 융합 R&D",
             subtitle: "HW & SW Fusion Co-development",
             badge: "핵심 협력 01",
-            imageUrl: "[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png",
-            description: "중국 제조사의 검증된 고정밀 하드웨어 메커니즘에 에이티에이기술의 한국형 물류 환경 맞춤형 WCS(관제 소프트웨어) 로직을 심는 차세대 공동 기술 개발을 진행합니다. 독자 임베디드 펌웨어 제어를 통해 반응 속도를 극대화하고 오분류율 0.001% 이하의 완벽한 신뢰성을 실현합니다.",
+            imageUrl: "assets/images/china_coop_rnd.jpg",
+            description: "제조사의 정밀 하드웨어 제조 역량과 (주)에이티에이기술의 지능형 WCS(창고제어시스템) 및 머신비전 제어 소프트웨어를 완벽하게 일체화하였습니다.\n설비 기구 설계 단계부터 제어 보드 펌웨어를 공동 최적화하여 현장 통신 딜레이를 0.001초 미만으로 단축하고, 다기종 복합 설비 간의 실시간 연동 성능을 극대화합니다.",
             features: [
-                "한국형 WCS/WMS와 직결되는 초저지연 통신 프로토콜 설계",
-                "국내 환경 맞춤형 비정형 택배 박스 및 연포장 비닐백 피칭 알고리즘",
-                "정기적인 양국 R&D 엔지니어 교환 파견 및 펌웨어 공동 업그레이드"
+                "한·중 공동 연구진 연간 24회 교차 기술 워크숍 진행",
+                "국내 환경에 특화된 한국형 WCS 표준 통신 프로토콜 내장",
+                "예지보전 IoT 센서 및 실시간 설비 진단 알고리즘 일체화"
             ],
             sortOrder: 1
         },
         {
             id: "china_coop_2",
             category: "coop",
-            title: "국내 대형 풀필먼트 공동 수주 및 맞춤 생산",
-            subtitle: "Joint Sourcing & Customized Mass Production",
+            title: "국내 대형 풀필먼트 공동 수주 및 구축",
+            subtitle: "Mega Fulfillment Joint Project Execution",
             badge: "핵심 협력 02",
-            imageUrl: "[ Insert Data ]/중국 지사_제조사/렵력사업/2. 국내 대형 풀필먼트 공동 수주.png",
-            description: "국내 대기업 및 글로벌 이커머스 허브 센터 구축 시, 제조사 직공급 체계를 통해 유통 마진을 대폭 제거하고 납기를 획기적으로 단축하여 고객사 맞춤형 턴키 솔루션을 공급합니다. 프로젝트별 맞춤형 모듈 제작으로 초기 투자비(CAPEX)를 최대 35% 절감합니다.",
+            imageUrl: "assets/images/china_coop_project.jpg",
+            description: "국내 굴지의 이커머스 메가 풀필먼트 센터 및 택배 간선 허브 터미널을 대상으로, 대량 설비 공급과 초고속 턴키 구축을 성공적으로 수행하고 있습니다.\n중국 대량 양산 클러스터를 통해 납기를 40% 이상 단축하고, 가격 경쟁력과 최고 등급의 기계적 내구성을 동시에 고객사에 제공합니다.",
             features: [
-                "제조사 직결 다이렉트 공급망 구축으로 원가 경쟁력 압도적 우위",
-                "초대형 메가 허브 전용 맞춤형 기구 설계 및 최단 납기 보장",
-                "사전 3D 레이아웃 시뮬레이션을 통한 설치 오류 제로화"
+                "시간당 20,000+ 개 화물 연속 고속 분류 크로스벨트 소터 라인 구축",
+                "원가 절감 효과를 바탕으로 고객사 투자대비회수(ROI) 1.5년 단축",
+                "설계, 제작, 운송, 현장 설치 및 커미셔닝 전 공정 턴키 완벽 수행"
             ],
             sortOrder: 2
         },
         {
             id: "china_coop_3",
             category: "coop",
-            title: "로컬라이징 및 국내 A/S 전담 센터 운영",
-            subtitle: "Localization & 24/7 Dedicated CS Center",
+            title: "국내 전용 기술지원 및 A/S 센터 운영",
+            subtitle: "Dedicated Korea Technical Service & Spare Parts Center",
             badge: "핵심 협력 03",
-            imageUrl: "[ Insert Data ]/중국 지사_제조사/렵력사업/3. 로컬라이징 및 AS 전담 센터.png",
-            description: "(주)에이티에이기술 본사가 대한민국 공식 테크니컬 지원 본부로서, 순정 정품 부품의 상시 보유와 24/7 전담 긴급 출동 체계를 가동하여 외산 장비의 유지보수 불안을 완전히 해소합니다.",
+            imageUrl: "assets/images/china_coop_as.jpg",
+            description: "(주)에이티에이기술 본사 및 국내 거점에 제조사 공식 인증 엔지니어가 상주하는 24/7 긴급 출동 기술지원 센터와 전용 예비 부품 창고를 운영합니다.\n모든 핵심 예비 부품을 국내에 항시 비축하여 외산 설비의 고질적 문제인 부품 수급 지연을 원천 차단하고, 2시간 이내 현장 출동 대응 체계를 가동합니다.",
             features: [
-                "국내 본사 물류센터 내 주요 핵심 모터 및 구동 롤러 부품 100% 상시 재고",
-                "24시간 365일 원격 장애 진단 및 2시간 이내 수도권 현장 출동",
-                "정기 예방 정비 및 무상 안전 점검 서비스 상시 지원"
+                "국내 전용 정품 예비 부품 100% 상시 비축 물류센터 운영",
+                "제조사 파견 수석 엔지니어 및 ATA 전문 기술팀 연계 24시간 핫라인",
+                "정기 무상 예방점검 및 분기별 펌웨어 무상 업그레이드 제공"
             ],
             sortOrder: 3
         },
 
-        // ===================== [3. 글로벌 네트워크 및 거점 설비: facility] =====================
+        // ===================== [3. 글로벌 거점 및 제조 설비: facility] =====================
         {
             id: "china_fac_hq",
             category: "facility",
-            title: "대한민국 본사 (ATA Technology)",
-            subtitle: "HEADQUARTERS & R&D CENTER",
-            badge: "본사 R&D 거점",
-            imageUrl: "assets/images/korea_hq_building.jpg",
-            description: "물류 자동화 WCS/WMS 통합 관제 소프트웨어 독자 개발 및 국내 대형 프로젝트 총괄 엔지니어링, 24시간 전문 기술지원 총괄 본부입니다.",
-            location: "경기도 오산시 수목원로 88번길 35 현대테라타워 CMC B동 1402호",
+            title: "글로벌 R&D 센터 및 본사 통합 시험동",
+            subtitle: "Global R&D Headquarters & Integration Test Tower",
+            badge: "R&D 본사",
+            imageUrl: "assets/images/china_hq_tower.jpg",
+            description: "120여 명의 로봇공학 및 기계제어 석·박사 연구진이 상주하는 글로벌 R&D 본부입니다. 30m 높이의 지능형 셔틀 테스트 타워와 실물 크기 크로스벨트 루프 테스트베드를 상시 가동하여 극한 환경에서의 신뢰성을 검증합니다.",
             features: [
-                "물류 자동화 WCS / WMS 통합 관제 소프트웨어 독자 개발",
-                "국내 대형 프로젝트 턴키(Turnkey) 엔지니어링 및 총괄 시공",
-                "24시간 전문 엔지니어 기술지원 및 신속 현장 출동 A/S 센터",
-                "하드웨어 현지화(Localization) 커스텀 기술 및 특허 인증"
+                "120+ 석·박사급 스마트 물류 하드웨어 & 로보틱스 전담 연구진",
+                "실제 현장과 동일한 1:1 고속 루프 분류 테스트 라인 운영",
+                "연간 50건 이상의 신규 메커니즘 국제 특허 출원 인큐베이터"
             ],
             sortOrder: 1
         },
         {
-            id: "china_fac_factory",
+            id: "china_fac_smart1",
             category: "facility",
-            title: "한중 합자법인 스마트 제조 공장 (제조사)",
-            subtitle: "SMART FACTORY & MANUFACTURING HUB",
-            badge: "글로벌 제조 거점",
-            imageUrl: "assets/images/china_factory_panorama.jpg",
-            description: "연간 5,000+ 대 규모의 첨단 소터 및 물류 로봇을 양산하는 대규모 전용 스마트 제조 클러스터로서 엄격한 국제 규격을 만족합니다.",
-            location: "첨단 물류 로보틱스 대규모 전용 양산 복합 클러스터",
+            title: "제1 스마트 제조 메가 팩토리 (첨단 기구가공)",
+            subtitle: "Smart Mega Factory #1 (Precision CNC & Machining)",
+            badge: "제1 스마트공장",
+            imageUrl: "assets/images/china_factory_smart1.jpg",
+            description: "20,000㎡ 부지에 독일 및 일본산 초정밀 5축 CNC 머시닝 센터와 레이저 자동 절단·절곡 라인을 완비한 제1 제조공장입니다. 소터 프레임과 고정밀 구동 롤러 등 핵심 기구 부품을 오차 0.01mm 이내로 가공 양산합니다.",
             features: [
-                "연간 5,000+ 대 규모 첨단 소터 및 물류 로봇 양산 라인",
-                "유럽 CE 및 ISO 9001 / ISO 14001 국제 표준 품질 규격",
-                "글로벌 16개국 직수출 공급망 및 초대형 허브 터미널 납품 실적",
-                "자체 정밀 가공 머시닝 센터 및 3단계 전수 신뢰성 테스트 검수"
+                "초정밀 5축 CNC 머시닝 센터 40대 연속 풀가동",
+                "로봇 자동화 용접 라인 구축으로 프레임 뒤틀림 0% 달성",
+                "연간 3,000+ 세트 고속 소터 기구 프레임 양산 능력 확보"
             ],
             sortOrder: 2
         },
         {
-            id: "china_fac_network_map",
+            id: "china_fac_smart2",
             category: "facility",
-            title: "글로벌 로보틱스 공급망 네트워크 맵",
-            subtitle: "Global Robotics Supply Chain & Deployment Hub",
-            badge: "글로벌 공급망",
-            imageUrl: "[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png",
-            description: "대한민국 본사의 첨단 소프트웨어 기술력과 중국 합자법인의 대규모 첨단 제조 양산 단지가 유기적으로 결합되어 전 세계 16개국 이상으로 뻗어나가는 글로벌 스마트 물류 네트워크 지도입니다.",
+            title: "제2 자동화 조립 및 품질 전수 검사 센터",
+            subtitle: "Automation Assembly & 100% Quality Assurance Center #2",
+            badge: "제2 조립공장",
+            imageUrl: "assets/images/china_factory_smart2.jpg",
+            description: "15,000㎡ 규모의 클린룸 SMT 전자보드 제조 라인과 최종 완제품 에이징(Aging) 테스트 라인이 결합된 제2 제조공장입니다. 출고되는 전 제품을 대상으로 72시간 무중단 연속 부하 테스트를 실시하여 불량률 제로를 실현합니다.",
             features: [
-                "전 세계 16개국 이상 대형 허브 터미널 구축 실적",
-                "한국-중국-글로벌 직결 실시간 무결점 기술 지원 체계"
+                "무정전 클린 SMT 제어보드 전용 표면실장 양산 라인",
+                "전수 72시간 100% 연속 가동 신뢰성 및 발열 검증 시스템",
+                "유럽 CE, 북미 UL, 한국 KC 국제 표준 인증 라인"
             ],
             sortOrder: 3
         }
     ];
 
     /**
-     * 로컬 저장소에서 데이터 불러오기
+     * 로컬 저장소에서 데이터 로드
      */
     function loadData() {
         try {
             var raw = localStorage.getItem(STORAGE_KEY_CHINA);
-            if (!raw) {
-                saveData(INITIAL_CHINA_DATA);
-                return INITIAL_CHINA_DATA.slice();
+            if (raw) {
+                var parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    return parsed;
+                }
             }
-            var parsed = JSON.parse(raw);
-            if (!Array.isArray(parsed) || parsed.length === 0) {
-                saveData(INITIAL_CHINA_DATA);
-                return INITIAL_CHINA_DATA.slice();
-            }
-            return parsed;
         } catch (e) {
-            console.warn('[ChinaAdmin] Failed to load data from localStorage. Fallback to default.', e);
-            return INITIAL_CHINA_DATA.slice();
+            console.warn('[ChinaAdmin] LocalStorage load error:', e);
         }
+        saveData(INITIAL_CHINA_DATA);
+        return INITIAL_CHINA_DATA.slice();
     }
 
     /**
-     * 로컬 저장소 저장 & 프론트엔드 실시간 갱신
+     * 로컬 저장소에 저장 및 화면 실시간 렌더링 동기화
      */
     function saveData(data) {
         try {
@@ -224,7 +219,7 @@
     }
 
     // ==========================================================================
-    // 3. 관리자 센터(Admin Hub) 목록 렌더링
+    // 3. 관리자 센터(Admin Hub) 목록 렌더링 - 콤팩트 사진(90px) + 글씨란 80% 확대
     // ==========================================================================
     var currentFilter = 'all';
 
@@ -244,7 +239,7 @@
             return (a.sortOrder || 99) - (b.sortOrder || 99);
         });
 
-        // 탭 버튼 스타일 갱신
+        // 탭 스타일 갱신
         var catTabs = ['all', 'intro', 'coop', 'facility'];
         catTabs.forEach(function (cat) {
             var btn = document.getElementById('hub-china-tab-' + cat);
@@ -274,18 +269,20 @@
 
         var html = [];
         filtered.forEach(function (item) {
-            var catLabel = item.category === 'intro' ? '법인개요·지표' : (item.category === 'coop' ? '기술제휴·협력' : '제조거점·설비');
-            var catBadgeClass = item.category === 'intro' ? 'bg-sky-100 text-sky-800 border-sky-300' : (item.category === 'coop' ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300');
+            var catLabel = item.category === 'intro' ? '개요/지표' : (item.category === 'coop' ? '3대 상호협력' : '제조 거점');
+            var catBadgeClass = item.category === 'intro' ? 'bg-cyan-100 text-cyan-800 border-cyan-300' : (item.category === 'coop' ? 'bg-blue-100 text-blue-800 border-blue-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300');
 
-            html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-blue-300 transition-all space-y-3">');
-            html.push('  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">');
+            html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-blue-400 hover:shadow-md transition-all">');
+            
+            // 상단 메타 바
+            html.push('  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">');
             html.push('    <div class="flex items-center gap-2 flex-wrap">');
             html.push('      <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ' + catBadgeClass + '">' + catLabel + '</span>');
             if (item.badge) {
                 html.push('      <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold text-xs">' + item.badge + '</span>');
             }
             if (item.statValue) {
-                html.push('      <span class="px-2.5 py-0.5 rounded-lg bg-blue-600 text-white font-extrabold text-xs shadow-sm">' + item.statValue + ' (' + (item.statLabel || '') + ')</span>');
+                html.push('      <span class="text-xs font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">지표: ' + item.statValue + '</span>');
             }
             html.push('    </div>');
             html.push('    <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-auto">');
@@ -294,35 +291,40 @@
             html.push('    </div>');
             html.push('  </div>');
 
-            html.push('  <div class="flex flex-col md:flex-row gap-4">');
-            // 미디어 이미지
+            // 본문 가로 2열: [좌측 콤팩트 썸네일 (90px)] + [우측 대폭 넓어진 글씨 공간]
+            html.push('  <div class="flex flex-col sm:flex-row gap-4 pt-3 items-start">');
+            
+            // 콤팩트 썸네일
+            html.push('    <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm">');
             if (item.imageUrl) {
-                html.push('    <div class="w-full md:w-36 h-28 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden shrink-0 flex items-center justify-center relative group cursor-pointer" onclick="openImageModal(\'' + item.imageUrl + '\', \'' + item.title.replace(/'/g, "\\'") + '\')">');
-                html.push('      <img src="' + item.imageUrl + '" alt="' + item.title + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.src=\'assets/images/no-image.svg\';">');
-                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1">');
-                html.push('        <i class="fa-solid fa-magnifying-glass-plus"></i> 확대');
-                html.push('      </div>');
-                html.push('    </div>');
+                html.push('      <img src="' + item.imageUrl + '" class="w-full h-full object-cover" onerror="this.src=\'assets/images/no-image.svg\';">');
+                html.push('      <a href="' + item.imageUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[10px] font-bold gap-1 text-center p-1">');
+                html.push('        <i class="fa-solid fa-magnifying-glass-plus text-xs"></i><span>크게 보기</span>');
+                html.push('      </a>');
+            } else {
+                html.push('      <div class="w-full h-full flex flex-col items-center justify-center text-slate-300 text-[10px] p-2 text-center"><i class="fa-solid fa-image text-xl mb-1"></i>No Image</div>');
             }
+            html.push('    </div>');
 
-            // 본문 내용
-            html.push('    <div class="flex-1 min-w-0 space-y-1.5">');
-            html.push('      <h4 class="text-base font-bold text-slate-900 tracking-tight">' + item.title + '</h4>');
+            // 우측 시원한 글씨 공간 (전체 폭 80% 이상)
+            html.push('    <div class="flex-1 min-w-0 space-y-2">');
+            html.push('      <h4 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-snug">' + item.title + '</h4>');
             if (item.subtitle) {
-                html.push('      <p class="text-xs text-slate-500 font-medium">' + item.subtitle + '</p>');
+                html.push('      <p class="text-xs font-semibold text-slate-400">' + item.subtitle + '</p>');
             }
-            if (item.location) {
-                html.push('      <p class="text-xs text-blue-600 font-semibold"><i class="fa-solid fa-location-dot mr-1"></i>' + item.location + '</p>');
-            }
-            html.push('      <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line line-clamp-2">' + (item.description || '상세 설명 없음') + '</p>');
+            html.push('      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">' + (item.description || '') + '</p>');
+            
             if (item.features && item.features.length > 0) {
-                html.push('      <div class="flex flex-wrap gap-1 pt-1">');
+                html.push('      <div class="flex flex-wrap gap-1.5 pt-1">');
                 item.features.forEach(function (f) {
-                    html.push('        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">✓ ' + f + '</span>');
+                    html.push('        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200/80 text-[11px] font-medium text-slate-700">');
+                    html.push('          <i class="fa-solid fa-check text-blue-500 text-[10px]"></i> ' + f);
+                    html.push('        </span>');
                 });
                 html.push('      </div>');
             }
             html.push('    </div>');
+
             html.push('  </div>');
             html.push('</div>');
         });
@@ -331,33 +333,33 @@
     }
 
     // ==========================================================================
-    // 4. 모달(신규 작성 & 수정) 제어
+    // 4. 모달 팝업 입력창 (상세설명 7줄, 특징 4줄 대폭 확장)
     // ==========================================================================
     function ensureModal() {
         var existing = document.getElementById('china-editor-modal');
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="china-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">',
-            '  <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
-            '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">',
+            '<div id="china-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5">',
+            '  <div class="bg-white rounded-3xl w-full max-w-3xl max-h-[94vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">',
             '      <div class="flex items-center gap-2.5">',
-            '        <span class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-sm font-bold">',
+            '        <span class="w-8 h-8 rounded-xl bg-blue-500/20 text-cyan-400 border border-blue-500/30 flex items-center justify-center text-sm font-bold">',
             '          <i class="fa-solid fa-industry"></i>',
             '        </span>',
             '        <div>',
-            '          <h3 id="china-modal-title" class="text-base font-bold text-white">한중합자법인(제조사) 항목 편집</h3>',
-            '          <p class="text-[11px] text-slate-400">법인 개요, 핵심 지표, 3대 기술협력, 제조 거점 정보를 관리합니다.</p>',
+            '          <h3 id="china-modal-title" class="text-base font-bold text-white">한중합자법인(제조사) 콘텐츠 작성</h3>',
+            '          <p class="text-[11px] text-slate-400">개요, 3대 기술협력, 글로벌 제조 거점의 상세 설명과 사진을 편집합니다.</p>',
             '        </div>',
             '      </div>',
             '      <button type="button" onclick="window.ChinaAdmin.closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>',
             '    </div>',
-            '    <form id="china-editor-form" onsubmit="window.ChinaAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">',
+            '    <form id="china-editor-form" onsubmit="window.ChinaAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-6 sm:p-8 space-y-5 custom-scrollbar">',
             '      <input type="hidden" id="china-form-id" value="">',
             '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">카테고리 구분 <span class="text-red-500">*</span></label>',
-            '          <select id="china-form-category" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
+            '          <select id="china-form-category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
             '            <option value="intro">법인 개요 및 핵심 지표 (Overview/Stats)</option>',
             '            <option value="coop">상호협력 및 3대 기술제휴 (Cooperation)</option>',
             '            <option value="facility">글로벌 거점 및 제조 설비 (Facilities)</option>',
@@ -365,80 +367,77 @@
             '        </div>',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">정렬 순서</label>',
-            '          <input type="number" id="china-form-sort" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" value="1" min="1" max="99">',
+            '          <input type="number" id="china-form-sort" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" value="1" min="1" max="99">',
             '        </div>',
             '      </div>',
             '      <div>',
             '        <label class="block text-xs font-bold text-slate-700 mb-1">명칭 / 제목 <span class="text-red-500">*</span></label>',
-            '        <input type="text" id="china-form-title" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 하드웨어-소프트웨어 융합 R&D" required>',
+            '        <input type="text" id="china-form-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-bold focus:ring-2 focus:ring-blue-500" placeholder="예: 하드웨어-소프트웨어 융합 R&D" required>',
             '      </div>',
             '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">부제목 / 영문 표기</label>',
-            '          <input type="text" id="china-form-subtitle" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: HW & SW Fusion Co-development">',
+            '          <input type="text" id="china-form-subtitle" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: HW & SW Fusion Co-development">',
             '        </div>',
             '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">테마 배지 텍스트</label>',
-            '          <input type="text" id="china-form-badge" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 핵심 협력 01, GLOBAL SCALE">',
+            '          <label class="block text-xs font-bold text-slate-700 mb-1">표시 배지 (선택)</label>',
+            '          <input type="text" id="china-form-badge" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 핵심 협력 01, R&D 본사">',
             '        </div>',
             '      </div>',
-            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
+            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">',
             '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">핵심 수치 (지표인 경우)</label>',
-            '          <input type="text" id="china-form-statval" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 35,000㎡, 16+, 5,000+">',
+            '          <label class="block text-xs font-bold text-slate-700 mb-1">핵심 수치 (개요 지표용)</label>',
+            '          <input type="text" id="china-form-statvalue" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-black text-blue-600 focus:ring-2 focus:ring-blue-500" placeholder="예: 16+, 670+, 35,000㎡">',
             '        </div>',
             '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">수치 설명 라벨</label>',
-            '          <input type="text" id="china-form-statlbl" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 글로벌 스마트 양산 부지">',
+            '          <label class="block text-xs font-bold text-slate-700 mb-1">지표 라벨 / 부연 명칭</label>',
+            '          <input type="text" id="china-form-statlabel" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 글로벌 특허 및 IP">',
             '        </div>',
             '      </div>',
             '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">소재지 / 위치 (거점 설비인 경우)</label>',
-            '        <input type="text" id="china-form-location" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 경기도 오산시 현대테라타워 CMC / 첨단 물류 로보틱스 양산 복합 클러스터">',
+            '        <label class="block text-xs font-bold text-slate-700 mb-1">상세 설명 (글씨란 7줄 대폭 확장) <span class="text-blue-600 font-normal text-[11px]">* 줄바꿈을 지원합니다.</span></label>',
+            '        <textarea id="china-form-desc" rows="7" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar whitespace-pre-line" placeholder="사업 개요, 협력 모델, 설비 제원 등 상세 내용을 자유롭게 서술하세요 (줄바꿈 가능)."></textarea>',
             '      </div>',
             '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">상세 설명</label>',
-            '        <textarea id="china-form-desc" rows="3.5" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500 leading-relaxed whitespace-pre-line" placeholder="사업 개요, 협력 모델, 설비 제원 등 상세 내용을 자유롭게 작성하세요 (줄바꿈 지원)."></textarea>',
+            '        <label class="block text-xs font-bold text-slate-700 mb-1">주요 특장점 / 세부 역량 (한 줄에 하나씩 입력)</label>',
+            '        <textarea id="china-form-features" rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar" placeholder="한 줄에 하나씩 주요 특징을 입력하세요."></textarea>',
             '      </div>',
             '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">주요 특장점 / 세부 역량 (줄바꿈으로 구분)</label>',
-            '        <textarea id="china-form-features" rows="2.5" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500" placeholder="한 줄에 하나씩 주요 특징을 입력하세요."></textarea>',
-            '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">대표 이미지 (설비 사진/인포그래픽 경로 또는 직접 업로드)</label>',
-            '        <div class="flex items-center gap-2">',
-            '          <input type="text" id="china-form-imageurl" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: [ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png">',
-            '          <label class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200 cursor-pointer shrink-0 transition-colors">',
-            '            <i class="fa-solid fa-cloud-arrow-up mr-1"></i> 사진 업로드',
-            '            <input type="file" accept="image/*" onchange="window.ChinaAdmin.handleFileSelect(event)" class="hidden">',
+            '        <label class="block text-xs font-bold text-slate-700 mb-1">제조 현장 / 설비 이미지 (파일 업로드 또는 경로)</label>',
+            '        <div class="flex flex-col sm:flex-row gap-2">',
+            '          <input type="text" id="china-form-imageurl" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-blue-500" placeholder="예: assets/images/china_coop_rnd.jpg">',
+            '          <label class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-300 transition-colors cursor-pointer shrink-0 text-center flex items-center justify-center gap-1.5">',
+            '            <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> 내 PC 사진 선택',
+            '            <input type="file" class="hidden" accept="image/*" onchange="window.ChinaAdmin.handleFileSelect(event)">',
             '          </label>',
             '        </div>',
             '      </div>',
-            '      <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">',
-            '        <button type="button" onclick="window.ChinaAdmin.closeModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer">취소</button>',
-            '        <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md shadow-blue-600/30 transition-all cursor-pointer">저장 완료</button>',
+            '      <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2.5 shrink-0">',
+            '        <button type="button" onclick="window.ChinaAdmin.closeModal()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer">취소</button>',
+            '        <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-floppy-disk"></i> 저장하기</button>',
             '      </div>',
             '    </form>',
             '  </div>',
             '</div>'
-        ].join('');
+        ].join('\n');
 
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        var div = document.createElement('div');
+        div.innerHTML = modalHtml;
+        document.body.appendChild(div.firstElementChild);
         return document.getElementById('china-editor-modal');
     }
 
     function openCreateModal(defaultCategory) {
         var modal = ensureModal();
-        document.getElementById('china-modal-title').textContent = '한중합자법인 항목 신규 등록';
+        document.getElementById('china-modal-title').textContent = '한중합자법인(제조사) 신규 등록';
         document.getElementById('china-form-id').value = '';
         document.getElementById('china-form-category').value = defaultCategory || (currentFilter === 'all' ? 'coop' : currentFilter);
         document.getElementById('china-form-sort').value = '1';
         document.getElementById('china-form-title').value = '';
         document.getElementById('china-form-subtitle').value = '';
         document.getElementById('china-form-badge').value = '';
-        document.getElementById('china-form-statval').value = '';
-        document.getElementById('china-form-statlbl').value = '';
-        document.getElementById('china-form-location').value = '';
+        document.getElementById('china-form-statvalue').value = '';
+        document.getElementById('china-form-statlabel').value = '';
         document.getElementById('china-form-desc').value = '';
         document.getElementById('china-form-features').value = '';
         document.getElementById('china-form-imageurl').value = '';
@@ -463,9 +462,8 @@
         document.getElementById('china-form-title').value = item.title || '';
         document.getElementById('china-form-subtitle').value = item.subtitle || '';
         document.getElementById('china-form-badge').value = item.badge || '';
-        document.getElementById('china-form-statval').value = item.statValue || '';
-        document.getElementById('china-form-statlbl').value = item.statLabel || '';
-        document.getElementById('china-form-location').value = item.location || '';
+        document.getElementById('china-form-statvalue').value = item.statValue || '';
+        document.getElementById('china-form-statlabel').value = item.statLabel || '';
         document.getElementById('china-form-desc').value = item.description || '';
         document.getElementById('china-form-features').value = (item.features || []).join('\n');
         document.getElementById('china-form-imageurl').value = item.imageUrl || '';
@@ -486,64 +484,54 @@
         var file = e.target.files && e.target.files[0];
         if (!file) return;
 
-        if (file.size > 8 * 1024 * 1024) {
-            alert('이미지 크기가 8MB를 초과하여 업로드할 수 없습니다.');
+        if (file.size > 10 * 1024 * 1024) {
+            alert('파일 크기가 10MB를 초과하여 업로드할 수 없습니다.');
             return;
         }
 
         var reader = new FileReader();
         reader.onload = function (evt) {
             var input = document.getElementById('china-form-imageurl');
-            if (input) {
-                input.value = evt.target.result;
-            }
-            alert('이미지가 로컬 데이터로 안전하게 첨부되었습니다: ' + file.name);
+            if (input) input.value = evt.target.result;
         };
         reader.readAsDataURL(file);
     }
 
     function handleFormSubmit(e) {
-        if (e && e.preventDefault) e.preventDefault();
-
+        e.preventDefault();
         var id = document.getElementById('china-form-id').value;
         var category = document.getElementById('china-form-category').value;
         var sortOrder = parseInt(document.getElementById('china-form-sort').value, 10) || 1;
         var title = document.getElementById('china-form-title').value.trim();
         var subtitle = document.getElementById('china-form-subtitle').value.trim();
         var badge = document.getElementById('china-form-badge').value.trim();
-        var statValue = document.getElementById('china-form-statval').value.trim();
-        var statLabel = document.getElementById('china-form-statlbl').value.trim();
-        var location = document.getElementById('china-form-location').value.trim();
+        var statValue = document.getElementById('china-form-statvalue').value.trim();
+        var statLabel = document.getElementById('china-form-statlabel').value.trim();
         var description = document.getElementById('china-form-desc').value.trim();
-        var rawFeatures = document.getElementById('china-form-features').value.trim();
+        var featuresRaw = document.getElementById('china-form-features').value.trim();
         var imageUrl = document.getElementById('china-form-imageurl').value.trim();
 
         if (!title) {
-            alert('명칭/제목을 입력해 주세요.');
+            alert('명칭/제목을 입력해주세요.');
             return;
         }
 
-        var features = rawFeatures ? rawFeatures.split('\n').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+        var features = featuresRaw ? featuresRaw.split('\n').map(function (s) { return s.trim(); }).filter(Boolean) : [];
 
         var data = loadData();
-
         if (id) {
-            var idx = data.findIndex(function (it) { return it.id === id; });
-            if (idx !== -1) {
-                data[idx] = {
-                    id: id,
-                    category: category,
-                    sortOrder: sortOrder,
-                    title: title,
-                    subtitle: subtitle,
-                    badge: badge,
-                    statValue: statValue,
-                    statLabel: statLabel,
-                    location: location,
-                    description: description,
-                    features: features,
-                    imageUrl: imageUrl
-                };
+            var item = data.find(function (it) { return it.id === id; });
+            if (item) {
+                item.category = category;
+                item.sortOrder = sortOrder;
+                item.title = title;
+                item.subtitle = subtitle;
+                item.badge = badge;
+                item.statValue = statValue;
+                item.statLabel = statLabel;
+                item.description = description;
+                item.features = features;
+                if (imageUrl) item.imageUrl = imageUrl;
             }
         } else {
             var newId = 'china_' + Date.now();
@@ -556,7 +544,6 @@
                 badge: badge,
                 statValue: statValue,
                 statLabel: statLabel,
-                location: location,
                 description: description,
                 features: features,
                 imageUrl: imageUrl
@@ -565,11 +552,8 @@
 
         saveData(data);
         closeModal();
-        alert('한중합자법인 데이터가 정상적으로 저장되었습니다!');
-
-        if (typeof window.switchAdminHubTab === 'function') {
-            window.switchAdminHubTab('china');
-        }
+        renderManagerList(null, currentFilter);
+        alert('성공적으로 저장되었습니다.');
     }
 
     function deleteItem(id) {
@@ -577,32 +561,29 @@
         var item = data.find(function (it) { return it.id === id; });
         if (!item) return;
 
-        if (!confirm('[' + item.title + ']\n항목을 정말로 삭제하시겠습니까?')) {
+        if (!confirm('정말 [' + item.title + '] 항목을 삭제하시겠습니까?')) {
             return;
         }
 
-        var next = data.filter(function (it) { return it.id !== id; });
-        saveData(next);
+        var nextData = data.filter(function (it) { return it.id !== id; });
+        saveData(nextData);
+        renderManagerList(null, currentFilter);
         alert('삭제되었습니다.');
-
-        if (typeof window.switchAdminHubTab === 'function') {
-            window.switchAdminHubTab('china');
-        }
     }
 
     // ==========================================================================
-    // 5. 프론트엔드 실시간 동적 렌더링 (#view-xingting-intro, coop, global)
+    // 5. 프론트엔드 실시간 동적 렌더링 - 2026 황금비율 (글씨 65% : 콤팩트 사진 35%)
     // ==========================================================================
     function renderFrontend() {
         var data = loadData();
 
-        // 1. 법인 개요 및 지표 (#china-intro-dynamic-container)
+        // 1. 법인 개요 및 지표 (#china-intro-stats-grid)
         renderIntroSection(data.filter(function (it) { return it.category === 'intro'; }));
 
-        // 2. 3대 상호협력 및 기술제휴 (#china-coop-cards-grid)
+        // 2. 3대 상호협력 및 기술제휴 (#china-coop-cards-grid) - 가로 2열 분할 레이아웃
         renderCoopSection(data.filter(function (it) { return it.category === 'coop'; }));
 
-        // 3. 글로벌 거점 및 제조 설비 (#china-global-dynamic-container)
+        // 3. 글로벌 거점 및 제조 설비 (#china-facilities-grid)
         renderFacilitySection(data.filter(function (it) { return it.category === 'facility'; }));
     }
 
@@ -617,11 +598,11 @@
 
             var statHtml = [];
             stats.forEach(function (st) {
-                statHtml.push('<div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-sm text-center">');
-                statHtml.push('  <div class="text-3xl sm:text-4xl font-black text-blue-600 mb-1 tracking-tight">' + st.statValue + '</div>');
-                statHtml.push('  <div class="text-xs font-bold text-slate-800 mb-1">' + (st.statLabel || st.title) + '</div>');
+                statHtml.push('<div class="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md hover:border-blue-300 transition-all text-center">');
+                statHtml.push('  <div class="text-3xl sm:text-4xl font-black text-blue-600 mb-1.5 tracking-tight">' + st.statValue + '</div>');
+                statHtml.push('  <div class="text-xs sm:text-sm font-bold text-slate-800 mb-1">' + (st.statLabel || st.title) + '</div>');
                 if (st.description) {
-                    statHtml.push('  <div class="text-[11px] text-slate-500 leading-snug line-clamp-2">' + st.description + '</div>');
+                    statHtml.push('  <div class="text-[11px] sm:text-xs text-slate-500 leading-snug line-clamp-2">' + st.description + '</div>');
                 }
                 statHtml.push('</div>');
             });
@@ -630,7 +611,7 @@
     }
 
     /**
-     * [3대 상호협력 및 기술제휴] 렌더링
+     * [3대 상호협력 및 기술제휴] 가로 분할 황금비율 (글씨 65% : 콤팩트 사진 35%)
      */
     function renderCoopSection(items) {
         var container = document.getElementById('china-coop-cards-grid');
@@ -642,41 +623,66 @@
         items.forEach(function (it, idx) {
             var badgeStr = it.badge || ('핵심 협력 0' + (idx + 1));
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
-            html.push('  <div>');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch group fade-in appear">');
+            
+            // ================= [좌측: 콤팩트 사진 영역 35%] =================
+            html.push('  <div class="w-full lg:w-80 shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-3 border border-slate-200/80">');
             if (it.imageUrl) {
-                html.push('    <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 relative group/img cursor-pointer border border-slate-200" onclick="openImageModal(\'' + it.imageUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\')">');
+                html.push('    <div class="w-full h-52 sm:h-56 rounded-xl overflow-hidden bg-slate-100 relative group/img cursor-pointer border border-slate-200 shadow-inner flex items-center justify-center mb-2" onclick="window.openImageModal ? window.openImageModal(\'' + it.imageUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.imageUrl + '\', \'_blank\')">');
                 html.push('      <img src="' + it.imageUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">');
+                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px]">');
                 html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-400"></i> 원본 크게 보기');
                 html.push('      </div>');
                 html.push('    </div>');
+            } else {
+                html.push('    <div class="w-full h-52 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 text-xs">협력 사진 준비 중</div>');
             }
-            html.push('    <span class="text-xs font-black px-3 py-1 bg-blue-50 text-blue-600 rounded-full mb-3 inline-block border border-blue-200">' + badgeStr + '</span>');
-            html.push('    <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-3 tracking-tight">' + it.title + '</h3>');
-            if (it.subtitle) {
-                html.push('    <p class="text-xs font-semibold text-slate-400 mb-3">' + it.subtitle + '</p>');
-            }
-            html.push('    <p class="text-slate-600 text-sm leading-relaxed mb-6 whitespace-pre-line">' + (it.description || '') + '</p>');
-
-            if (it.features && it.features.length > 0) {
-                html.push('    <div class="space-y-2 bg-slate-50 border border-slate-200/80 rounded-2xl p-4 mb-4">');
-                it.features.forEach(function (f) {
-                    html.push('      <div class="flex items-start gap-2 text-xs text-slate-700 font-medium">');
-                    html.push('        <i class="fa-solid fa-check text-blue-600 mt-0.5 shrink-0"></i>');
-                    html.push('        <span>' + f + '</span>');
-                    html.push('      </div>');
-                });
-                html.push('    </div>');
-            }
+            html.push('    <div class="text-center text-[11px] text-slate-500 font-medium py-1">');
+            html.push('      <i class="fa-solid fa-camera text-blue-500 mr-1"></i>제조사 현장 협력 실물 사진');
+            html.push('    </div>');
             html.push('  </div>');
 
-            html.push('  <div class="pt-4 border-t border-slate-100 flex items-center justify-end">');
-            if (it.imageUrl) {
-                html.push('    <button type="button" onclick="openImageModal(\'' + it.imageUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\')" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1.5 cursor-pointer">');
-                html.push('      <i class="fa-solid fa-expand"></i> 인포그래픽 크게 보기');
-                html.push('    </button>');
+            // ================= [우측: 글씨 중심 영역 65%] =================
+            html.push('  <div class="flex-1 flex flex-col justify-between min-w-0">');
+            html.push('    <div>');
+            
+            // 상단 배지
+            html.push('      <div class="flex items-center gap-2.5 mb-3 flex-wrap">');
+            html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
+            html.push('          <i class="fa-solid fa-handshake text-blue-600"></i> ' + badgeStr);
+            html.push('        </span>');
+            html.push('        <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">독점 기술 제휴</span>');
+            html.push('      </div>');
+
+            // 제목 및 영문
+            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors leading-snug">' + it.title + '</h3>');
+            if (it.subtitle) {
+                html.push('      <p class="text-xs font-semibold text-slate-400 mb-4 tracking-wide">' + it.subtitle + '</p>');
             }
+
+            // 시원하게 넓어진 상세 설명란 (줄바꿈 완벽 지원)
+            html.push('      <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 whitespace-pre-line">' + (it.description || '') + '</p>');
+
+            // 핵심 성과 및 제휴 특장점 박스
+            if (it.features && it.features.length > 0) {
+                html.push('      <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 space-y-2 mb-2">');
+                html.push('        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-blue-600"></i> 기술 제휴 핵심 시너지 & 성과</div>');
+                it.features.forEach(function (f) {
+                    html.push('        <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
+                    html.push('          <i class="fa-solid fa-check text-blue-600 text-xs mt-1 shrink-0"></i>');
+                    html.push('          <span>' + f + '</span>');
+                    html.push('        </div>');
+                });
+                html.push('      </div>');
+            }
+            html.push('    </div>');
+
+            // 우측 하단 메타 바
+            html.push('    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-4">');
+            html.push('      <span>한·중 합자 파트너십 독점 공급망</span>');
+            html.push('      <span class="font-bold text-blue-600">ATA TECH × GLOBAL OEM</span>');
+            html.push('    </div>');
+
             html.push('  </div>');
             html.push('</div>');
         });
@@ -685,7 +691,7 @@
     }
 
     /**
-     * [글로벌 거점 및 제조 설비] 렌더링
+     * [글로벌 거점 및 제조 설비] 콤팩트 썸네일 + 상세 역할 설명 중심 렌더링
      */
     function renderFacilitySection(items) {
         var container = document.getElementById('china-facilities-grid');
@@ -695,64 +701,67 @@
 
         var html = [];
         items.forEach(function (it) {
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            
+            // 상단 콤팩트 사진 (190px 높이로 아담하게)
             html.push('  <div>');
             if (it.imageUrl) {
-                html.push('    <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-100 mb-6 relative group/fac cursor-pointer border border-slate-200" onclick="openImageModal(\'' + it.imageUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\')">');
-                html.push('      <img src="' + it.imageUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/fac:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/fac:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">');
-                html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-400"></i> 고화질 원본 확대');
+                html.push('    <div class="h-48 sm:h-52 w-full bg-slate-100 relative overflow-hidden group/img cursor-pointer" onclick="window.openImageModal ? window.openImageModal(\'' + it.imageUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.imageUrl + '\', \'_blank\')">');
+                html.push('      <img src="' + it.imageUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
+                html.push('      <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">' + (it.badge || '제조거점') + '</div>');
+                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px]">');
+                html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-400"></i> 현장 사진 확대');
                 html.push('      </div>');
                 html.push('    </div>');
             }
-            if (it.badge) {
-                html.push('    <span class="text-xs font-black px-3 py-1 bg-cyan-50 text-cyan-700 rounded-full mb-3 inline-block border border-cyan-200">' + it.badge + '</span>');
-            }
-            html.push('    <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-2 tracking-tight">' + it.title + '</h3>');
-            if (it.location) {
-                html.push('    <p class="text-xs font-semibold text-blue-600 mb-3"><i class="fa-solid fa-location-dot mr-1"></i>' + it.location + '</p>');
-            }
-            html.push('    <p class="text-slate-600 text-sm leading-relaxed mb-6 whitespace-pre-line">' + (it.description || '') + '</p>');
 
-            if (it.features && it.features.length > 0) {
-                html.push('    <div class="space-y-2 bg-slate-50 border border-slate-200/80 rounded-2xl p-4 mb-4">');
-                it.features.forEach(function (f) {
-                    html.push('      <div class="flex items-start gap-2 text-xs text-slate-700 font-medium">');
-                    html.push('        <i class="fa-solid fa-check text-cyan-600 mt-0.5 shrink-0"></i>');
-                    html.push('        <span>' + f + '</span>');
-                    html.push('      </div>');
-                });
-                html.push('    </div>');
+            // 하단 대폭 넓어진 글씨 공간
+            html.push('    <div class="p-6 sm:p-7 space-y-3">');
+            html.push('      <h4 class="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">' + it.title + '</h4>');
+            if (it.subtitle) {
+                html.push('      <p class="text-xs font-semibold text-slate-400">' + it.subtitle + '</p>');
             }
+            html.push('      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line">' + (it.description || '') + '</p>');
+            
+            if (it.features && it.features.length > 0) {
+                html.push('      <div class="space-y-1.5 pt-2 border-t border-slate-100">');
+                it.features.forEach(function (f) {
+                    html.push('        <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-check text-blue-600 text-[10px]"></i><span>' + f + '</span></div>');
+                });
+                html.push('      </div>');
+            }
+            html.push('    </div>');
             html.push('  </div>');
+
+            html.push('  <div class="px-6 pb-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 mt-auto pt-3">');
+            html.push('    <span>연간 양산 케파 5,000+ 세트</span>');
+            html.push('    <span class="text-blue-600 font-bold">스마트 팩토리</span>');
+            html.push('  </div>');
+
             html.push('</div>');
         });
 
         container.innerHTML = html.join('');
     }
 
-    // ==========================================================================
-    // 6. 전역 노출 네임스페이스
-    // ==========================================================================
+    // 전역 공개 네임스페이스
     window.ChinaAdmin = {
         loadData: loadData,
         saveData: saveData,
         resetToDefault: resetToDefault,
         renderManagerList: renderManagerList,
+        renderFrontend: renderFrontend,
         openCreateModal: openCreateModal,
         openEditModal: openEditModal,
         closeModal: closeModal,
         handleFileSelect: handleFileSelect,
         handleFormSubmit: handleFormSubmit,
-        deleteItem: deleteItem,
-        renderFrontend: renderFrontend
+        deleteItem: deleteItem
     };
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderFrontend);
-    } else {
+    // 초기 실행
+    document.addEventListener('DOMContentLoaded', function () {
         renderFrontend();
-    }
+    });
 
 })();
-

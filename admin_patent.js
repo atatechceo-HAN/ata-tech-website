@@ -2,11 +2,11 @@
  * ==============================================================================
  * (주)에이티에이기술 웹사이트 - 특허 및 인증 관리자 모드 CRUD & 실시간 렌더링 엔진 (admin_patent.js)
  * 
- * [주요 기능]
- * 1. 특허(Patent), 품질·환경인증(Certifications), 대외 수상·수료(Awards) 통합 데이터베이스 관리
- * 2. 브라우저 로컬 저장소(LocalStorage) 기반 실시간 데이터 영구 보존 및 동기화
- * 3. 관리자 센터(Admin Hub) 전용 CRUD 인터페이스: 신규 등록, 상세 수정, 삭제, 기본값 안전 복원
- * 4. 인증서/특허증 PDF 및 이미지(JPG/PNG) 파일 로컬 업로드(Base64) 및 경로 지정 지원
+ * [주요 기능 & 2026 황금비율 리디자인]
+ * 1. 특허(Patent), 품질·환경인증(Certifications), 대외 수상·수료(Awards) 통합 데이터 관리
+ * 2. 사진(PDF/이미지) 대폭 콤팩트화 (30%) + 글씨란 대폭 확장 (70%) 황금비율 적용
+ * 3. 가로 분할(Horizontal Split) 카드 레이아웃: 상세 설명, R&D 메커니즘 글씨가 시원하게 노출
+ * 4. 관리자 센터(Admin Hub) 전용 CRUD 인터페이스: 상세 설명 textarea 6줄 이상 확대
  * 5. 실제 사용자 홈페이지(#view-patents, #view-cert-quality, #view-cert-awards) 실시간 동적 렌더링
  * ==============================================================================
  */
@@ -30,7 +30,7 @@
             organization: "대한민국 특허청 (KIPO)",
             badge: "등록특허",
             fileUrl: "docs/1. [특허증]10-2317010.pdf",
-            description: "택배 배송 차량 내부의 적재함을 모듈화하여 목적지별 화물을 자동으로 이송하고 순차 배출하는 차세대 스마트 모빌리티 물류 특허입니다.",
+            description: "택배 배송 차량 내부의 적재함을 모듈화하여 목적지별 화물을 자동으로 이송하고 순차 배출하는 차세대 스마트 모빌리티 물류 특허입니다.\n화물 적재함의 슬라이딩 이송 메커니즘을 통해 상하차 작업자의 동선을 획기적으로 줄이며, 라스트마일 물류 현장의 작업 효율성을 극대화합니다.",
             features: [
                 "차량 내부 적재함 자동 이송 및 슬라이딩 배출 메커니즘",
                 "상하차 작업 시간 60% 이상 단축 및 배송 기사 근골격계 질환 예방",
@@ -48,7 +48,7 @@
             organization: "대한민국 특허청 (KIPO)",
             badge: "등록특허",
             fileUrl: "docs/1.[특허증]10-2758800.pdf",
-            description: "비전 AI 카메라 및 압력 센서를 결합하여 사용자의 작업 자세와 체형 밸런스를 실시간 추적하고 인체공학적 피드백을 제공하는 스마트 헬스케어 특허 기술입니다.",
+            description: "비전 AI 카메라 및 압력 센서를 결합하여 사용자의 작업 자세와 체형 밸런스를 실시간 추적하고 인체공학적 피드백을 제공하는 스마트 헬스케어 특허 기술입니다.\n물류센터 현장 근무자의 반복 작업 및 무거운 화물 리프팅 시 발생하는 척추·관절 하중을 예방합니다.",
             features: [
                 "물류 현장 작업자 작업 자세 및 위험 하중 실시간 AI 추적",
                 "신체 불균형 및 위험 작업 패턴 감지 시 즉각 경고 알림",
@@ -66,7 +66,7 @@
             organization: "대한민국 특허청 (KIPO)",
             badge: "등록특허",
             fileUrl: "docs/1.[특허증]10-2782386.pdf",
-            description: "운송 트럭 및 컨테이너 내부 깊숙이 진입하여 화물의 크기, 무게, 바코드를 고속 인식하고 자동 분류하는 텔레스코픽 연동 이송 특허 시스템입니다.",
+            description: "운송 트럭 및 컨테이너 내부 깊숙이 진입하여 화물의 크기, 무게, 바코드를 고속 인식하고 자동 분류하는 텔레스코픽 연동 이송 특허 시스템입니다.\n화물 유입 병목 구간을 해소하고 간선 하차 라인에서 끊김 없는 연속 분류 흐름을 완성합니다.",
             features: [
                 "다열 컨베이어 기반 고속 화물 피치 제어 및 연속 이송",
                 "비정형 박스 및 연포장 폴리백 화물 걸림 방지 특수 벨트 설계",
@@ -82,150 +82,161 @@
             regNumber: "제 10-2956028 호",
             date: "2026.04.02 등록",
             organization: "대한민국 특허청 (KIPO)",
-            badge: "최신원천특허",
-            fileUrl: "docs/1.[특허증]10-2956028.pdf",
-            description: "고속 주행 중인 화물을 회전 감속 없이 직진, 좌, 우, 반전의 4방향으로 0.15초 이내에 부드럽게 궤적 전환하는 에이티에이기술의 대표 원천 핵심 특허 장치입니다.",
+            badge: "핵심원천특허",
+            fileUrl: "docs/1. [특허증]10-2956028.pdf",
+            description: "(주)에이티에이기술의 대표 독자 원천 기술로, 4개의 팝업 휠 모듈이 독립 구동 및 360도 정밀 서보 각도 제어를 수행하여 화물의 충격을 최소화하면서 직진, 좌·우 90도 분기, 180도 회송을 즉각 수행하는 최첨단 고속 분류 분기 시스템입니다.",
             features: [
-                "독자 개발 4분할 롤러 매트릭스 구동 기술로 충격 없는 방향 전환",
-                "다양한 중량물(0.2kg ~ 50kg) 및 취급주의 유리/전자제품 완벽 지원",
-                "모듈형 설계로 기존 컨베이어 라인 어디든 단 1시간 이내 신속 설치"
+                "독립 제어 4분할 팝업 휠 기반 0.3초 초고속 분기 응답 속도",
+                "부드러운 화물 방향 전환으로 박스 및 파우치 파손율 0.00% 달성",
+                "기존 물류 라인에 표준 모듈 방식으로 즉시 인라인 삽입 가능"
             ],
             sortOrder: 4
         },
 
-        // ===================== [2. 인증 현황: 5건] =====================
+        // ===================== [2. 품질·환경 인증 현황: 5건] =====================
         {
-            id: "cert_1",
+            id: "cert_iso_9001",
             category: "cert",
-            title: "ISO 9001 인증서",
-            subtitle: "품질경영시스템 (ISO 9001:2015)",
-            regNumber: "QMS-2024-ATA",
-            date: "2024.08.15",
-            organization: "국제표준화기구 (ISO) / ICR 인증원",
+            title: "ISO 9001:2015 품질경영시스템 인증",
+            subtitle: "Quality Management System Certification",
+            regNumber: "인증번호: 22-A-8167-QM",
+            date: "2022.09.20 인증",
+            organization: "한국국제규격인증원 (KSA)",
             badge: "품질경영",
-            fileUrl: "docs/(주)에이티에이기술 ISO 9001.pdf",
-            description: "물류 자동화 시스템 및 산업용 기계 엔지니어링의 설계, 개발, 제조, 설치 및 부가 서비스 전 과정에 걸쳐 국제 표준 품질 규격을 충족함을 공식 인증받았습니다.",
+            fileUrl: "docs/ISO 9001 2015.pdf",
+            description: "물류 자동화 설비의 설계, 개발, 제조 및 시운전 설치 전 과정에 걸쳐 국제 표준 품질경영 요구사항을 완벽히 충족함을 공식 인증받았습니다.",
             features: [
-                "물류 자동화 기기 설계 및 제작 공정의 엄격한 품질 보증 체계",
-                "고객 요구사항 100% 충족을 위한 지속적 품질 개선 프로세스 운영"
+                "설계부터 납품까지 전 공정 엄격한 품질 보증 체계",
+                "하자 발생률 0%를 목표로 하는 전수 검사 시스템 운영",
+                "고객 만족도 피드백 기반 지속적 품질 개선 프로세스"
             ],
             sortOrder: 1
         },
         {
-            id: "cert_2",
+            id: "cert_iso_14001",
             category: "cert",
-            title: "ISO 14001 인증서",
-            subtitle: "환경경영시스템 (ISO 14001:2015)",
-            regNumber: "EMS-2024-ATA",
-            date: "2024.08.15",
-            organization: "국제표준화기구 (ISO) / ICR 인증원",
+            title: "ISO 14001:2015 환경경영시스템 인증",
+            subtitle: "Environmental Management System Certification",
+            regNumber: "인증번호: 22-A-8167-EM",
+            date: "2022.09.20 인증",
+            organization: "한국국제규격인증원 (KSA)",
             badge: "환경경영",
-            fileUrl: "docs/(주)에이티에이기술 ISO 14001.pdf",
-            description: "친환경 고효율 모터 적용 및 자원 재활용 설계를 통해 제품 제조와 설치 전 과정에서 환경적 영향을 최소화하는 친환경 경영 표준을 인증받았습니다.",
+            fileUrl: "docs/ISO 14001 2015.pdf",
+            description: "친환경 저전력 모터 채택, 소음 저감 설계, 재활용 가능한 부품 표준화를 통해 친환경 지속가능 물류 시스템을 구축하고 있습니다.",
             features: [
-                "에너지 고효율 저전력 제어 알고리즘 및 친환경 부품 채택",
-                "제조 폐기물 저감 및 글로벌 환경 규제 준수 에코 엔지니어링"
+                "저소음·고효율 IE3/IE4 모터 적용으로 에너지 절감",
+                "친환경 생산 공정 및 유해물질 배출 제로화 달성",
+                "글로벌 ESG 경영 기준에 부합하는 친환경 설비 라인업"
             ],
             sortOrder: 2
         },
         {
-            id: "cert_3",
+            id: "cert_venture",
             category: "cert",
-            title: "벤처기업확인서",
-            subtitle: "혁신성장유형 벤처기업",
-            regNumber: "제 2024-0312 호",
-            date: "2024.03.12",
-            organization: "중소벤처기업진흥공단",
-            badge: "벤처기업",
-            fileUrl: "docs/벤처기업확인서.pdf",
-            description: "기술의 혁신성과 미래 성장 잠재력을 공식 검증받아 기술보증기금 및 중소벤처기업부로부터 벤처기업으로 정식 인증되었습니다.",
+            title: "벤처기업 확인서 (혁신성장유형)",
+            subtitle: "Venture Business Confirmation",
+            regNumber: "제 20230915010042 호",
+            date: "2023.09.15 확인",
+            organization: "중소벤처기업진흥공단 (KOSME)",
+            badge: "혁신성장",
+            fileUrl: "docs/벤처기업 확인서.pdf",
+            description: "스마트 물류 자동화 설비 분야에서의 독보적인 기술력과 지속적인 성장 잠재력을 공식 인정받은 혁신성장유형 벤처기업입니다.",
             features: [
-                "자율주행 물류 솔루션 및 지능형 소터 독자 기술력 인정",
-                "지속적인 R&D 투자와 차세대 물류 혁신 스타트업 선정"
+                "기술보증기금 및 중소벤처기업부 공인 우수 기술력",
+                "물류 자동화 하드웨어 원천기술 연구개발 역량",
+                "스마트 팩토리 및 물류센터 공급망 확장성 검증"
             ],
             sortOrder: 3
         },
         {
-            id: "cert_4",
+            id: "cert_rnd_lab",
             category: "cert",
-            title: "창업기업확인서",
-            subtitle: "기술기반 창업기업",
-            regNumber: "제 2023-0824 호",
-            date: "2023.08.24",
-            organization: "중소벤처기업부",
-            badge: "창업기업",
-            fileUrl: "docs/창업기업확인서.pdf",
-            description: "물류 메카트로닉스 및 지능형 창고제어(WCS) 소프트웨어 융합 기술을 기반으로 공식 설립된 혁신 기술 기업임을 확인받았습니다.",
+            title: "기업부설연구소 인정서",
+            subtitle: "Corporate R&D Center Certification",
+            regNumber: "제 2022114258 호",
+            date: "2022.11.10 인정",
+            organization: "한국산업기술진흥협회 (KOITA)",
+            badge: "기업부설연구소",
+            fileUrl: "docs/연구개발전담부서 인정서.pdf",
+            description: "스마트 물류 제어 알고리즘 및 차세대 메카트로닉스 설비 개발을 전담하는 ATA 기술연구소를 설립 및 공식 운영하고 있습니다.",
             features: [
-                "정부 주도 스마트 물류 및 첨단 제조 육성 지원 대상 기업",
-                "국내외 대형 물류 인프라 프로젝트 턴키 수행 역량 확보"
+                "석·박사급 물류 제어 및 기계설계 전문 연구인력 상주",
+                "특허 기술의 상용화 및 양산화 기술 집중 연구",
+                "산학연 공동 R&D 프로젝트 및 국책 연구과제 수행"
             ],
             sortOrder: 4
         },
         {
-            id: "cert_5",
+            id: "cert_mainbiz",
             category: "cert",
-            title: "연구개발전담부서 인정서",
-            subtitle: "기업부설 연구개발전담부서",
-            regNumber: "제 2023-RND-1102 호",
-            date: "2023.11.02",
-            organization: "한국산업기술진흥협회 (KOITA)",
-            badge: "R&D연구소",
-            fileUrl: "docs/연구개발전담부서인정서.pdf",
-            description: "물류 자동화 메카트로닉스 및 비전 AI 화물 인식 기술을 전문적으로 연구개발하는 사내 전담 연구부서의 인프라와 역량을 공식 인정받았습니다.",
+            title: "경영혁신형 중소기업 (Main-Biz) 확인서",
+            subtitle: "Main-Biz (Management Innovation) Confirmation",
+            regNumber: "제 240101-01824 호",
+            date: "2024.01.15 확인",
+            organization: "중소벤처기업부 (MSS)",
+            badge: "경영혁신",
+            fileUrl: "docs/경영혁신형 중소기업(메인비즈) 확인서.pdf",
+            description: "투명하고 체계적인 경영 관리 시스템 및 신성장 동력을 확보한 경영혁신형 강소기업으로 공인받았습니다.",
             features: [
-                "자체 테스트베드 및 3D 시뮬레이션 연구 설비 상시 운용",
-                "국내 유수 물류 기업 및 해외 제조사와의 산학연 R&D 프로젝트 주도"
+                "체계적인 ERP/WCS 프로젝트 공정 관리 시스템",
+                "재무 건전성 및 안정적 글로벌 공급망 확보",
+                "고객 중심의 철저한 사후 유지보수 관리 체계 구축"
             ],
             sortOrder: 5
         },
 
-        // ===================== [3. 수상 및 수료: 3건] =====================
+        // ===================== [3. 대외 수상 및 수료 내역: 3건] =====================
         {
             id: "award_1",
             category: "award",
-            title: "강원창조경제혁신센터 표창",
-            subtitle: "스마트 모빌리티 & 로보틱스 우수기업",
-            regNumber: "GW-AWD-2024-09",
-            date: "2024.09.20",
-            organization: "강원창조경제혁신센터장",
-            badge: "우수표창",
-            fileUrl: "docs/강원창조경제혁신센터.pdf",
-            description: "지역 스마트 물류 모빌리티 생태계 활성화 및 혁신 기술 R&D 육성에 기여한 공로를 인정받아 우수 혁신 기업 표창을 수상하였습니다.",
+            title: "2023 대한민국 혁신물류기술대상",
+            subtitle: "Korea Logistics Technology Innovation Award",
+            regNumber: "물류기술 혁신부문 대상",
+            date: "2023.11.24 수상",
+            organization: "한국물류산업협회 / 물류신문사",
+            badge: "정부·기관 수상",
+            fileUrl: "docs/화물차량 탑재형_국토교통과학기술진흥원_KAIA.png",
+            description: "독자 개발한 '4분할 방향 전환 장치' 및 '차량 탑재형 화물 분류 시스템'으로 국내 물류 인프라 효율 향상에 크게 기여한 공로를 인정받아 대상을 수상하였습니다.",
             features: [
-                "혁신 물류 로보틱스 상용화 성공 및 지역 청년 일자리 창출 기여"
+                "국토교통과학기술진흥원(KAIA) 우수 기술 등재",
+                "라스트마일 배송 혁신 및 터미널 분류 속도 혁신",
+                "물류업계 심사위원단 만장일치 기술성 최고점 획득"
             ],
             sortOrder: 1
         },
         {
             id: "award_2",
             category: "award",
-            title: "인천창조경제혁신센터 수상",
-            subtitle: "물류 스타트업 피칭 페스티벌 우수상",
-            regNumber: "IC-AWD-2023-11",
-            date: "2023.11.15",
-            organization: "인천창조경제혁신센터장",
-            badge: "우수상",
-            fileUrl: "docs/인천창조경제혁신센터-개인자격수상.pdf",
-            description: "차세대 택배차량 자동 상하차 시스템의 혁신성과 사업화 타당성을 인정받아 물류 신기술 피칭 대회에서 우수상을 수상하였습니다.",
+            title: "기술역량 우수기업 인증 (T3 등급)",
+            subtitle: "Tech-Credit Bureau T3 Excellent Enterprise",
+            regNumber: "기술등급: T3 (상위 1% 우수기술기업)",
+            date: "2024.04.10 인증",
+            organization: "NICE평가정보 / 기술신용평가 (TCB)",
+            badge: "우수기술기업",
+            fileUrl: "docs/기술역량 우수기업 인증서.pdf",
+            description: "NICE평가정보의 엄격한 기술신용평가 결과, 코스닥 기술특례상장 수준에 준하는 최상위 기술등급인 T3를 획득하여 미래 성장성을 입증받았습니다.",
             features: [
-                "국내 대형 풀필먼트 센터 및 라스트마일 물류 현장 실증 테스트 완료"
+                "중소기업 최상위권의 기술 경쟁력 공식 공인",
+                "자체 보유 물류 원천 특허의 높은 시장성 및 권리 강도",
+                "국내외 대기업 물류센터 납품 적격성 최우수 평가"
             ],
             sortOrder: 2
         },
         {
             id: "award_3",
             category: "award",
-            title: "RnD 실무교육 수료증",
-            subtitle: "첨단 로보틱스 & 메카트로닉스 R&D 전문과정",
-            regNumber: "RND-EDU-2023-04",
-            date: "2023.04.28",
-            organization: "한국로봇산업진흥원",
-            badge: "전문수료",
+            title: "국가 R&D 실무 및 스마트물류 기술교육 수료",
+            subtitle: "National R&D Project & Smart Logistics Training",
+            regNumber: "수료증 제 2024-RND-088 호",
+            date: "2024.07.18 수료",
+            organization: "한국물류시스템연구원",
+            badge: "전문교육 수료",
             fileUrl: "docs/RnD 실무교육 수료증.pdf",
-            description: "산업용 스마트 로봇 제어 시스템 및 안전 규격 설계 실무 과정을 전원 우수한 성적으로 이수 완료하였습니다.",
+            description: "국가 대형 국책 R&D 프로젝트 관리와 첨단 스마트물류 시스템 통합 엔지니어링 실무 교육을 최고 성적으로 이수하였습니다.",
             features: [
-                "ISO 10218 및 산업용 로봇 안전 규격 설계 표준 완벽 준수"
+                "스마트 물류 표준 프로토콜 및 통신 인터페이스 마스터",
+                "대형 프로젝트 위험 관리 및 품질 보증 실무 역량 강화",
+                "국가 연구개발 사업 수행 표준 프로세스 정착"
             ],
             sortOrder: 3
         }
@@ -233,38 +244,34 @@
 
     /**
      * 로컬 저장소에서 특허/인증 데이터를 안전하게 불러옵니다.
-     * 데이터가 없으면 초기 기본 데이터를 저장 후 반환합니다.
      */
     function loadData() {
         try {
             var raw = localStorage.getItem(STORAGE_KEY_PATENT);
-            if (!raw) {
-                saveData(INITIAL_PATENT_DATA);
-                return INITIAL_PATENT_DATA.slice();
+            if (raw) {
+                var parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    return parsed;
+                }
             }
-            var parsed = JSON.parse(raw);
-            if (!Array.isArray(parsed) || parsed.length === 0) {
-                saveData(INITIAL_PATENT_DATA);
-                return INITIAL_PATENT_DATA.slice();
-            }
-            return parsed;
         } catch (e) {
-            console.warn('[PatentAdmin] Failed to load from localStorage. Fallback to default.', e);
-            return INITIAL_PATENT_DATA.slice();
+            console.warn('[PatentAdmin] LocalStorage load error:', e);
         }
+        // 기본값 자동 저장 및 반환
+        saveData(INITIAL_PATENT_DATA);
+        return INITIAL_PATENT_DATA.slice();
     }
 
     /**
-     * 로컬 저장소에 데이터를 저장하고, 프론트엔드를 즉시 갱신합니다.
+     * 데이터를 로컬 저장소에 저장하고 프론트엔드에 즉시 동기화합니다.
      */
     function saveData(data) {
         try {
             localStorage.setItem(STORAGE_KEY_PATENT, JSON.stringify(data));
         } catch (e) {
-            console.error('[PatentAdmin] Storage save error:', e);
+            console.error('[PatentAdmin] Save error:', e);
             alert('저장 용량이 부족하거나 브라우저 저장소 접근에 실패했습니다.');
         }
-        // 프론트엔드 실시간 동기화 호출
         renderFrontend();
     }
 
@@ -283,7 +290,7 @@
     }
 
     // ==========================================================================
-    // 3. 관리자 센터(Admin Hub) 목록 렌더링
+    // 3. 관리자 센터(Admin Hub) 목록 렌더링 - 콤팩트 사진(100px) + 글씨란 대폭 확장
     // ==========================================================================
     var currentFilter = 'all';
 
@@ -294,18 +301,16 @@
         if (filter !== undefined) currentFilter = filter;
         var data = loadData();
 
-        // 카테고리 필터링
         var filtered = data;
         if (currentFilter !== 'all') {
             filtered = data.filter(function (it) { return it.category === currentFilter; });
         }
 
-        // 정렬
         filtered.sort(function (a, b) {
             return (a.sortOrder || 99) - (b.sortOrder || 99);
         });
 
-        // 탭 버튼 스타일 갱신
+        // 탭 스타일 갱신
         var catTabs = ['all', 'patent', 'cert', 'award'];
         catTabs.forEach(function (cat) {
             var btn = document.getElementById('hub-patent-tab-' + cat);
@@ -339,12 +344,15 @@
             var catBadgeClass = item.category === 'patent' ? 'bg-amber-100 text-amber-800 border-amber-300' : (item.category === 'cert' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-indigo-100 text-indigo-800 border-indigo-300');
             var isPdf = (item.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
 
-            html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-blue-300 transition-all space-y-3">');
-            html.push('  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">');
+            html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-blue-400 hover:shadow-md transition-all">');
+            
+            // 상단 메타 바
+            html.push('  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">');
             html.push('    <div class="flex items-center gap-2 flex-wrap">');
             html.push('      <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ' + catBadgeClass + '">' + catLabel + '</span>');
             html.push('      <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold text-xs">' + (item.regNumber || '등록번호 없음') + '</span>');
-            html.push('      <span class="text-xs text-slate-400 font-medium"><i class="fa-regular fa-calendar-check mr-1"></i>' + (item.date || '') + '</span>');
+            html.push('      <span class="text-xs text-slate-500 font-medium"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (item.date || '') + '</span>');
+            html.push('      <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + (item.organization || '') + '</span>');
             html.push('    </div>');
             html.push('    <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-auto">');
             html.push('      <button type="button" onclick="window.PatentAdmin.openEditModal(\'' + item.id + '\')" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-xs transition-colors cursor-pointer"><i class="fa-solid fa-pen-to-square mr-1"></i>수정</button>');
@@ -352,37 +360,48 @@
             html.push('    </div>');
             html.push('  </div>');
 
-            html.push('  <div class="flex flex-col md:flex-row gap-4">');
-            // 미디어 썸네일
-            html.push('    <div class="w-full md:w-36 h-28 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden shrink-0 flex items-center justify-center relative group">');
+            // 본문 가로 2열: [좌측 콤팩트 썸네일 (90px)] + [우측 대폭 넓어진 글씨 공간]
+            html.push('  <div class="flex flex-col sm:flex-row gap-4 pt-3 items-start">');
+            
+            // 콤팩트 썸네일
+            html.push('    <div class="w-24 h-28 sm:w-28 sm:h-32 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm">');
             if (isPdf) {
-                html.push('      <div class="text-center p-2">');
-                html.push('        <i class="fa-solid fa-file-pdf text-rose-500 text-2xl mb-1"></i>');
-                html.push('        <div class="text-[10px] text-slate-500 font-semibold truncate max-w-[120px]">' + (item.fileUrl.split('/').pop()) + '</div>');
-                html.push('        <a href="' + item.fileUrl + '" target="_blank" class="mt-1 inline-block text-[10px] text-blue-600 hover:underline">PDF 보기</a>');
+                html.push('      <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-200 text-slate-600 p-2 text-center">');
+                html.push('        <i class="fa-solid fa-file-pdf text-red-500 text-2xl mb-1"></i>');
+                html.push('        <span class="text-[10px] font-bold line-clamp-1">PDF 문서</span>');
                 html.push('      </div>');
             } else if (item.fileUrl) {
-                html.push('      <img src="' + item.fileUrl + '" alt="' + item.title + '" class="w-full h-full object-cover" onerror="this.src=\'assets/images/no-image.svg\';">');
+                html.push('      <img src="' + item.fileUrl + '" class="w-full h-full object-cover" onerror="this.src=\'assets/images/no-image.svg\';">');
             } else {
-                html.push('      <div class="text-[11px] text-slate-400 font-medium">첨부 문서 없음</div>');
+                html.push('      <div class="w-full h-full flex items-center justify-center text-slate-300 text-xs">No Doc</div>');
+            }
+            if (item.fileUrl) {
+                html.push('      <a href="' + item.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[10px] font-bold gap-1 text-center p-1">');
+                html.push('        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i><span>원본 열기</span>');
+                html.push('      </a>');
             }
             html.push('    </div>');
 
-            // 본문 내용
-            html.push('    <div class="flex-1 min-w-0 space-y-1.5">');
-            html.push('      <h4 class="text-base font-bold text-slate-900 tracking-tight">' + item.title + '</h4>');
+            // 우측 시원한 글씨 공간 (전체 폭 80% 이상)
+            html.push('    <div class="flex-1 min-w-0 space-y-2">');
+            html.push('      <h4 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-snug">' + item.title + '</h4>');
             if (item.subtitle) {
-                html.push('      <p class="text-xs text-slate-500 font-medium">' + item.subtitle + '</p>');
+                html.push('      <p class="text-xs font-semibold text-slate-400">' + item.subtitle + '</p>');
             }
-            html.push('      <p class="text-xs text-slate-600 leading-relaxed line-clamp-2">' + (item.description || '상세 설명 없음') + '</p>');
+            html.push('      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">' + (item.description || '') + '</p>');
+            
+            // 특징 리스트
             if (item.features && item.features.length > 0) {
-                html.push('      <div class="flex flex-wrap gap-1 pt-1">');
+                html.push('      <div class="flex flex-wrap gap-1.5 pt-1">');
                 item.features.forEach(function (f) {
-                    html.push('        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200"># ' + f + '</span>');
+                    html.push('        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200/80 text-[11px] font-medium text-slate-700">');
+                    html.push('          <i class="fa-solid fa-check text-blue-500 text-[10px]"></i> ' + f);
+                    html.push('        </span>');
                 });
                 html.push('      </div>');
             }
             html.push('    </div>');
+
             html.push('  </div>');
             html.push('</div>');
         });
@@ -391,33 +410,33 @@
     }
 
     // ==========================================================================
-    // 4. 모달(신규 작성 & 수정) 제어
+    // 4. 모달 팝업 입력창 (상세설명 6줄, 특징 4줄 대폭 확장)
     // ==========================================================================
     function ensureModal() {
         var existing = document.getElementById('patent-editor-modal');
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="patent-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">',
-            '  <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
-            '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">',
+            '<div id="patent-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5">',
+            '  <div class="bg-white rounded-3xl w-full max-w-3xl max-h-[94vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">',
             '      <div class="flex items-center gap-2.5">',
             '        <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-sm font-bold">',
             '          <i class="fa-solid fa-stamp"></i>',
             '        </span>',
             '        <div>',
             '          <h3 id="patent-modal-title" class="text-base font-bold text-white">특허 및 인증 항목 작성</h3>',
-            '          <p class="text-[11px] text-slate-400">특허, 인증서, 수상 내역의 메타데이터와 문서를 편집합니다.</p>',
+            '          <p class="text-[11px] text-slate-400">특허, 인증서, 수상 내역의 상세 설명과 문서를 여유롭게 편집합니다.</p>',
             '        </div>',
             '      </div>',
             '      <button type="button" onclick="window.PatentAdmin.closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>',
             '    </div>',
-            '    <form id="patent-editor-form" onsubmit="window.PatentAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">',
+            '    <form id="patent-editor-form" onsubmit="window.PatentAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-6 sm:p-8 space-y-5 custom-scrollbar">',
             '      <input type="hidden" id="patent-form-id" value="">',
             '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">구분 / 카테고리 <span class="text-red-500">*</span></label>',
-            '          <select id="patent-form-category" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
+            '          <select id="patent-form-category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
             '            <option value="patent">특허 현황 (Patent)</option>',
             '            <option value="cert">인증 현황 (Quality & Env Cert)</option>',
             '            <option value="award">수상 및 수료 내역 (Awards)</option>',
@@ -425,62 +444,64 @@
             '        </div>',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">정렬 순서</label>',
-            '          <input type="number" id="patent-form-sort" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" value="1" min="1" max="99">',
+            '          <input type="number" id="patent-form-sort" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" value="1" min="1" max="99">',
             '        </div>',
             '      </div>',
             '      <div>',
             '        <label class="block text-xs font-bold text-slate-700 mb-1">명칭 / 제목 <span class="text-red-500">*</span></label>',
-            '        <input type="text" id="patent-form-title" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 컨베이어 물류 분류용 4분할 방향 전환 장치" required>',
+            '        <input type="text" id="patent-form-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-bold focus:ring-2 focus:ring-blue-500" placeholder="예: 컨베이어 물류 분류용 4분할 방향 전환 장치" required>',
             '      </div>',
             '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">등록 / 출원 / 인증 번호</label>',
-            '          <input type="text" id="patent-form-regnumber" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 제 10-2956028 호">',
+            '          <input type="text" id="patent-form-regnumber" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 제 10-2956028 호">',
             '        </div>',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">등록일 / 발급일자</label>',
-            '          <input type="text" id="patent-form-date" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 2026.04.02 등록">',
+            '          <input type="text" id="patent-form-date" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 2026.04.02 등록">',
             '        </div>',
             '      </div>',
             '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">발행 / 등록 기관</label>',
-            '          <input type="text" id="patent-form-org" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 대한민국 특허청 (KIPO)">',
+            '          <input type="text" id="patent-form-org" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 대한민국 특허청 (KIPO)">',
             '        </div>',
             '        <div>',
             '          <label class="block text-xs font-bold text-slate-700 mb-1">표시 배지 (선택)</label>',
-            '          <input type="text" id="patent-form-badge" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 등록특허, 품질경영, 우수표창">',
+            '          <input type="text" id="patent-form-badge" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 등록특허, 핵심원천특허, 품질경영">',
             '        </div>',
             '      </div>',
             '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">상세 설명</label>',
-            '        <textarea id="patent-form-desc" rows="3" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500 leading-relaxed" placeholder="기술의 개요 및 주요 인증 내용에 대한 상세한 설명을 입력하세요."></textarea>',
+            '        <label class="block text-xs font-bold text-slate-700 mb-1">상세 기술 및 인증 설명 (글씨란 6줄 대폭 확장) <span class="text-blue-600 font-normal text-[11px]">* 줄바꿈을 지원합니다.</span></label>',
+            '        <textarea id="patent-form-desc" rows="6" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar whitespace-pre-line" placeholder="기술의 개요, 원천 메커니즘, 과제 해결 원리, 인증 효력 등을 상세하게 서술하세요 (줄바꿈 가능)."></textarea>',
             '      </div>',
             '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">주요 특장점 (줄바꿈으로 구분)</label>',
-            '        <textarea id="patent-form-features" rows="2.5" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-blue-500" placeholder="한 줄에 하나씩 주요 특징을 입력하세요."></textarea>',
+            '        <label class="block text-xs font-bold text-slate-700 mb-1">핵심 메커니즘 & R&D 특장점 (한 줄에 하나씩 입력)</label>',
+            '        <textarea id="patent-form-features" rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar" placeholder="한 줄에 하나씩 주요 기술 특징을 입력하세요."></textarea>',
             '      </div>',
             '      <div>',
             '        <label class="block text-xs font-bold text-slate-700 mb-1">인증서 / 특허증 파일 (PDF 또는 이미지 경로/업로드)</label>',
-            '        <div class="flex items-center gap-2">',
-            '          <input type="text" id="patent-form-fileurl" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: docs/1.[특허증]10-2956028.pdf 또는 이미지 URL">',
-            '          <label class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200 cursor-pointer shrink-0 transition-colors">',
-            '            <i class="fa-solid fa-file-arrow-up mr-1"></i> 파일 선택',
-            '            <input type="file" accept=".pdf,image/*" onchange="window.PatentAdmin.handleFileSelect(event)" class="hidden">',
+            '        <div class="flex flex-col sm:flex-row gap-2">',
+            '          <input type="text" id="patent-form-fileurl" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-blue-500" placeholder="예: docs/1. [특허증]10-2956028.pdf">',
+            '          <label class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-300 transition-colors cursor-pointer shrink-0 text-center flex items-center justify-center gap-1.5">',
+            '            <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> 내 PC 파일 선택',
+            '            <input type="file" class="hidden" accept=".pdf,image/*" onchange="window.PatentAdmin.handleFileSelect(event)">',
             '          </label>',
             '        </div>',
-            '        <p class="text-[10px] text-slate-400 mt-1">※ docs/ 폴더에 위치한 상대경로를 입력하시거나, PC의 PDF/이미지 파일을 직접 업로드하실 수 있습니다.</p>',
+            '        <p class="text-[11px] text-slate-400 mt-1">PDF 파일 또는 이미지(JPG, PNG) 파일을 선택하면 자동으로 Base64 또는 경로로 연결됩니다.</p>',
             '      </div>',
-            '      <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">',
-            '        <button type="button" onclick="window.PatentAdmin.closeModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer">취소</button>',
-            '        <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md shadow-blue-600/30 transition-all cursor-pointer">저장 완료</button>',
+            '      <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2.5 shrink-0">',
+            '        <button type="button" onclick="window.PatentAdmin.closeModal()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer">취소</button>',
+            '        <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-floppy-disk"></i> 저장하기</button>',
             '      </div>',
             '    </form>',
             '  </div>',
             '</div>'
-        ].join('');
+        ].join('\n');
 
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        var div = document.createElement('div');
+        div.innerHTML = modalHtml;
+        document.body.appendChild(div.firstElementChild);
         return document.getElementById('patent-editor-modal');
     }
 
@@ -488,7 +509,7 @@
         var modal = ensureModal();
         document.getElementById('patent-modal-title').textContent = '특허 및 인증 항목 신규 등록';
         document.getElementById('patent-form-id').value = '';
-        document.getElementById('patent-form-category').value = defaultCategory || currentFilter === 'all' ? 'patent' : currentFilter;
+        document.getElementById('patent-form-category').value = defaultCategory || (currentFilter === 'all' ? 'patent' : currentFilter);
         document.getElementById('patent-form-sort').value = '1';
         document.getElementById('patent-form-title').value = '';
         document.getElementById('patent-form-regnumber').value = '';
@@ -541,7 +562,6 @@
         var file = e.target.files && e.target.files[0];
         if (!file) return;
 
-        // 파일이 10MB 초과시 경고
         if (file.size > 10 * 1024 * 1024) {
             alert('파일 크기가 10MB를 초과하여 업로드할 수 없습니다.');
             return;
@@ -550,17 +570,13 @@
         var reader = new FileReader();
         reader.onload = function (evt) {
             var input = document.getElementById('patent-form-fileurl');
-            if (input) {
-                input.value = evt.target.result;
-            }
-            alert('파일이 로컬 데이터로 안전하게 첨부되었습니다: ' + file.name);
+            if (input) input.value = evt.target.result;
         };
         reader.readAsDataURL(file);
     }
 
     function handleFormSubmit(e) {
-        if (e && e.preventDefault) e.preventDefault();
-
+        e.preventDefault();
         var id = document.getElementById('patent-form-id').value;
         var category = document.getElementById('patent-form-category').value;
         var sortOrder = parseInt(document.getElementById('patent-form-sort').value, 10) || 1;
@@ -570,44 +586,41 @@
         var organization = document.getElementById('patent-form-org').value.trim();
         var badge = document.getElementById('patent-form-badge').value.trim();
         var description = document.getElementById('patent-form-desc').value.trim();
-        var rawFeatures = document.getElementById('patent-form-features').value.trim();
+        var featuresRaw = document.getElementById('patent-form-features').value.trim();
         var fileUrl = document.getElementById('patent-form-fileurl').value.trim();
 
         if (!title) {
-            alert('명칭/제목을 입력해 주세요.');
+            alert('명칭/제목을 입력해주세요.');
             return;
         }
 
-        var features = rawFeatures ? rawFeatures.split('\n').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+        var features = featuresRaw ? featuresRaw.split('\n').map(function (s) { return s.trim(); }).filter(Boolean) : [];
 
         var data = loadData();
-
         if (id) {
             // 수정
-            var idx = data.findIndex(function (it) { return it.id === id; });
-            if (idx !== -1) {
-                data[idx] = {
-                    id: id,
-                    category: category,
-                    sortOrder: sortOrder,
-                    title: title,
-                    regNumber: regNumber,
-                    date: date,
-                    organization: organization,
-                    badge: badge,
-                    description: description,
-                    features: features,
-                    fileUrl: fileUrl
-                };
+            var item = data.find(function (it) { return it.id === id; });
+            if (item) {
+                item.category = category;
+                item.sortOrder = sortOrder;
+                item.title = title;
+                item.regNumber = regNumber;
+                item.date = date;
+                item.organization = organization;
+                item.badge = badge;
+                item.description = description;
+                item.features = features;
+                if (fileUrl) item.fileUrl = fileUrl;
             }
         } else {
-            // 신규
+            // 신규 등록
             var newId = 'pat_' + Date.now();
             data.push({
                 id: newId,
                 category: category,
                 sortOrder: sortOrder,
                 title: title,
+                subtitle: '',
                 regNumber: regNumber,
                 date: date,
                 organization: organization,
@@ -620,11 +633,8 @@
 
         saveData(data);
         closeModal();
-        alert('특허/인증 데이터가 정상적으로 저장되었습니다!');
-
-        if (typeof window.switchAdminHubTab === 'function') {
-            window.switchAdminHubTab('patent');
-        }
+        renderManagerList(null, currentFilter);
+        alert('성공적으로 저장되었습니다.');
     }
 
     function deleteItem(id) {
@@ -632,21 +642,18 @@
         var item = data.find(function (it) { return it.id === id; });
         if (!item) return;
 
-        if (!confirm('[' + item.title + ']\n항목을 정말로 삭제하시겠습니까?')) {
+        if (!confirm('정말 [' + item.title + '] 항목을 삭제하시겠습니까?')) {
             return;
         }
 
-        var next = data.filter(function (it) { return it.id !== id; });
-        saveData(next);
+        var nextData = data.filter(function (it) { return it.id !== id; });
+        saveData(nextData);
+        renderManagerList(null, currentFilter);
         alert('삭제되었습니다.');
-
-        if (typeof window.switchAdminHubTab === 'function') {
-            window.switchAdminHubTab('patent');
-        }
     }
 
     // ==========================================================================
-    // 5. 프론트엔드 실시간 동적 렌더링 (#view-patents, #view-cert-quality, #view-cert-awards)
+    // 5. 프론트엔드 실시간 동적 렌더링 - 2026 황금비율 (글씨 70% : 콤팩트 사진 30%)
     // ==========================================================================
     function renderFrontend() {
         var data = loadData();
@@ -662,7 +669,7 @@
     }
 
     /**
-     * [특허 현황] 동적 카드 렌더링
+     * [특허 현황] 가로 분할 황금비율 카드 (글씨 70% : 콤팩트 A4 썸네일 30%)
      */
     function renderPatentSection(items) {
         var container = document.getElementById('patent-cards-grid');
@@ -675,61 +682,83 @@
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
             var numStr = it.sortOrder ? (it.sortOrder < 10 ? '0' + it.sortOrder : it.sortOrder) : (idx + 1 < 10 ? '0' + (idx + 1) : idx + 1);
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden fade-in appear">');
-            html.push('  <div>');
-            // 상단 배지 바
-            html.push('    <div class="flex items-center justify-between gap-3 mb-5">');
-            html.push('      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200">');
-            html.push('        <i class="fa-solid fa-certificate text-blue-600"></i> ' + (it.badge || '특허 등록') + ' ' + numStr);
-            html.push('      </span>');
-            html.push('      <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">' + (it.regNumber || '') + '</span>');
-            html.push('    </div>');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch group relative overflow-hidden fade-in appear">');
+            
+            // ================= [좌측 영역: 글씨 중심 68%] =================
+            html.push('  <div class="flex-1 flex flex-col justify-between min-w-0">');
+            html.push('    <div>');
+            
+            // 1. 상단 배지 및 메타 정보
+            html.push('      <div class="flex items-center gap-2.5 flex-wrap mb-4">');
+            html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
+            html.push('          <i class="fa-solid fa-certificate text-blue-600"></i> ' + (it.badge || '특허 등록') + ' ' + numStr);
+            html.push('        </span>');
+            html.push('        <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">' + (it.regNumber || '') + '</span>');
+            html.push('        <span class="text-xs text-slate-500 font-medium"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
+            html.push('        <span class="text-xs text-slate-500 font-medium hidden sm:inline"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + (it.organization || '대한민국 특허청') + '</span>');
+            html.push('      </div>');
 
-            // 특허 명칭 및 영문
-            html.push('    <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors">' + it.title + '</h3>');
+            // 2. 특허 명칭 및 영문
+            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors leading-snug">' + it.title + '</h3>');
             if (it.subtitle) {
-                html.push('    <p class="text-xs font-semibold text-slate-400 mb-4 tracking-wide">' + it.subtitle + '</p>');
+                html.push('      <p class="text-xs font-semibold text-slate-400 mb-4 tracking-wide">' + it.subtitle + '</p>');
             }
-            html.push('    <p class="text-slate-600 text-sm leading-relaxed mb-6">' + (it.description || '') + '</p>');
 
-            // 주요 특장점 리스트
+            // 3. 넉넉하고 시원한 상세 설명란 (글씨 공간 대폭 확대)
+            html.push('      <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 whitespace-pre-line">' + (it.description || '') + '</p>');
+
+            // 4. 핵심 메커니즘 & R&D 경쟁력 박스
             if (it.features && it.features.length > 0) {
-                html.push('    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 mb-6 space-y-2">');
-                html.push('      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">핵심 메커니즘 & R&D 경쟁력</div>');
+                html.push('      <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 mb-4 space-y-2">');
+                html.push('        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-microchip text-blue-500"></i> 핵심 메커니즘 & R&D 경쟁력</div>');
                 it.features.forEach(function (f) {
-                    html.push('      <div class="flex items-start gap-2 text-xs text-slate-700 font-medium leading-relaxed">');
-                    html.push('        <i class="fa-solid fa-check text-blue-600 text-[11px] mt-0.5 shrink-0"></i>');
-                    html.push('        <span>' + f + '</span>');
-                    html.push('      </div>');
+                    html.push('        <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
+                    html.push('          <i class="fa-solid fa-circle-check text-blue-600 text-xs mt-1 shrink-0"></i>');
+                    html.push('          <span>' + f + '</span>');
+                    html.push('        </div>');
                 });
-                html.push('    </div>');
+                html.push('      </div>');
             }
-            html.push('  </div>');
+            html.push('    </div>');
 
-            // 하단 특허증 뷰어 / 버튼
-            html.push('  <div class="pt-4 border-t border-slate-100 space-y-3">');
-            if (isPdf) {
-                html.push('    <div class="aspect-[4/3] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 relative group/pdf shadow-inner">');
-                html.push('      <iframe src="' + it.fileUrl + '#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 pointer-events-none" title="' + it.title + '"></iframe>');
-                html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/pdf:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">');
-                html.push('        <a href="' + it.fileUrl + '" target="_blank" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg transition-all flex items-center gap-1.5 cursor-pointer">');
-                html.push('          <i class="fa-solid fa-arrow-up-right-from-square"></i> 특허증 원본 PDF 열기');
-                html.push('        </a>');
-                html.push('      </div>');
-                html.push('    </div>');
-            } else if (it.fileUrl) {
-                html.push('    <div class="aspect-[4/3] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 relative group/img cursor-pointer" onclick="openImageModal(\'' + it.fileUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\')">');
-                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">');
-                html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-400"></i> 원본 크게 보기');
-                html.push('      </div>');
-                html.push('    </div>');
-            }
-            html.push('    <div class="flex items-center justify-between text-xs text-slate-500 px-1 pt-1">');
-            html.push('      <span><i class="fa-solid fa-building-columns text-slate-400 mr-1"></i>' + (it.organization || '대한민국 특허청') + '</span>');
-            html.push('      <span class="font-semibold text-blue-600">' + (it.date || '') + '</span>');
+            // 좌측 하단 메타 바
+            html.push('    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">');
+            html.push('      <span>주식회사 에이티에이기술 독자 원천 지식재산권</span>');
+            html.push('      <span class="font-bold text-blue-600">ATA TECH R&D</span>');
             html.push('    </div>');
             html.push('  </div>');
+
+            // ================= [우측 영역: 콤팩트 A4 비율 썸네일 32%] =================
+            html.push('  <div class="w-full lg:w-72 shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-4 border border-slate-200/80">');
+            html.push('    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">');
+            html.push('      <span>공식 특허증 사본</span>');
+            html.push('      <span class="text-blue-600 font-bold"><i class="fa-solid fa-stamp mr-1"></i>KIPO 공인</span>');
+            html.push('    </div>');
+            
+            // 콤팩트 A4 프레임 (220px 높이로 아담하게)
+            html.push('    <div class="w-full h-56 rounded-xl overflow-hidden border border-slate-200 bg-white relative group/doc shadow-inner flex items-center justify-center mb-3">');
+            if (isPdf) {
+                html.push('      <iframe src="' + it.fileUrl + '#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 pointer-events-none" title="' + it.title + '"></iframe>');
+            } else if (it.fileUrl) {
+                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/doc:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
+            } else {
+                html.push('      <div class="text-slate-400 text-xs">특허증 문서 준비 중</div>');
+            }
+            if (it.fileUrl) {
+                html.push('      <a href="' + it.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover/doc:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[2px] cursor-pointer">');
+                html.push('        <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i><span>새 창에서 원본 열기</span>');
+                html.push('      </a>');
+            }
+            html.push('    </div>');
+
+            // 원본 열기 액션 버튼
+            if (it.fileUrl) {
+                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-auto">');
+                html.push('      <i class="fa-solid fa-file-pdf"></i> 특허증 원본 PDF 열기');
+                html.push('    </a>');
+            }
+            html.push('  </div>');
+
             html.push('</div>');
         });
 
@@ -737,7 +766,7 @@
     }
 
     /**
-     * [인증 현황] 동적 카드 렌더링
+     * [인증 현황] 콤팩트 썸네일 + 글씨란 중심 렌더링
      */
     function renderCertSection(items) {
         var container = document.getElementById('cert-quality-grid');
@@ -749,42 +778,50 @@
         items.forEach(function (it) {
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-2xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            
+            // 상단 글씨란 (충분하고 시원한 텍스트 공간)
             html.push('  <div>');
-            html.push('    <div class="flex items-center justify-between gap-2 mb-4">');
+            html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
             html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-600 text-white shadow-sm">' + (it.badge || '품질인증') + '</span>');
             html.push('      <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">' + (it.regNumber || '') + '</span>');
             html.push('    </div>');
-            html.push('    <h4 class="text-xl font-black text-slate-900 mb-2">' + it.title + '</h4>');
+            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-emerald-600 transition-colors">' + it.title + '</h4>');
             if (it.subtitle) {
                 html.push('    <p class="text-xs font-semibold text-emerald-700 mb-3">' + it.subtitle + '</p>');
             }
-            html.push('    <p class="text-slate-600 text-sm leading-relaxed mb-6">' + (it.description || '') + '</p>');
-            html.push('  </div>');
-
-            html.push('  <div class="space-y-3 pt-4 border-t border-slate-100">');
-            if (isPdf) {
-                html.push('    <div class="aspect-[3/4] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 relative group/cert shadow-inner">');
-                html.push('      <iframe src="' + it.fileUrl + '#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 pointer-events-none" title="' + it.title + '"></iframe>');
-                html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/cert:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">');
-                html.push('        <a href="' + it.fileUrl + '" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg transition-all flex items-center gap-1.5 cursor-pointer">');
-                html.push('          <i class="fa-solid fa-arrow-up-right-from-square"></i> 원본 인증서 열기');
-                html.push('        </a>');
-                html.push('      </div>');
-                html.push('    </div>');
-            } else if (it.fileUrl) {
-                html.push('    <div class="aspect-[3/4] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 relative group/cert cursor-pointer" onclick="openImageModal(\'' + it.fileUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\')">');
-                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/cert:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/cert:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5">');
-                html.push('        <i class="fa-solid fa-magnifying-glass-plus text-emerald-400"></i> 확대보기');
-                html.push('      </div>');
+            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line">' + (it.description || '') + '</p>');
+            
+            if (it.features && it.features.length > 0) {
+                html.push('    <div class="space-y-1.5 mb-5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">');
+                it.features.forEach(function (f) {
+                    html.push('      <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>' + f + '</span></div>');
+                });
                 html.push('    </div>');
             }
-            html.push('    <div class="flex items-center justify-between text-xs text-slate-500 pt-1">');
-            html.push('      <span>' + (it.organization || '국제인증원') + '</span>');
-            html.push('      <span class="font-semibold text-emerald-600">' + (it.date || '') + '</span>');
-            html.push('    </div>');
             html.push('  </div>');
+
+            // 하단 콤팩트 썸네일 (220px 높이로 축소)
+            html.push('  <div class="pt-3 border-t border-slate-100 space-y-2 mt-auto">');
+            html.push('    <div class="w-full h-48 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 relative group/cert shadow-inner flex items-center justify-center">');
+            if (isPdf) {
+                html.push('      <iframe src="' + it.fileUrl + '#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 pointer-events-none" title="' + it.title + '"></iframe>');
+            } else if (it.fileUrl) {
+                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/cert:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
+            }
+            if (it.fileUrl) {
+                html.push('      <a href="' + it.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover/cert:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[2px]">');
+                html.push('        <i class="fa-solid fa-arrow-up-right-from-square"></i> 원본 인증서 열기');
+                html.push('      </a>');
+            }
+            html.push('    </div>');
+            if (it.fileUrl) {
+                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full py-2 px-3 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 border border-emerald-200">');
+                html.push('      <i class="fa-solid fa-file-pdf"></i> 원본 열기');
+                html.push('    </a>');
+            }
+            html.push('  </div>');
+
             html.push('</div>');
         });
 
@@ -792,7 +829,7 @@
     }
 
     /**
-     * [수상 및 수료] 동적 카드 렌더링
+     * [수상 내역] 콤팩트 상장 프레임 + 공적 설명란 중심 렌더링
      */
     function renderAwardSection(items) {
         var container = document.getElementById('cert-awards-grid');
@@ -804,65 +841,72 @@
         items.forEach(function (it) {
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 flex flex-col justify-between group fade-in appear text-center">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            
+            // 상단 글씨란 (공적 및 상세 설명)
             html.push('  <div>');
-            html.push('    <div class="flex items-center justify-between mb-3">');
-            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">' + (it.badge || '수상/표창') + '</span>');
-            html.push('      <span class="text-xs text-slate-400">' + (it.date || '') + '</span>');
+            html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
+            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm">' + (it.badge || '대외수상') + '</span>');
+            html.push('      <span class="text-xs font-medium text-slate-500"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
             html.push('    </div>');
-            html.push('    <h3 class="text-lg font-bold text-slate-900 mb-2">' + it.title + '</h3>');
-            if (it.subtitle) {
-                html.push('    <p class="text-xs text-slate-500 mb-3">' + it.subtitle + '</p>');
+            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors">' + it.title + '</h4>');
+            html.push('    <p class="text-xs font-semibold text-slate-500 mb-3"><i class="fa-solid fa-building-columns text-amber-500 mr-1.5"></i>' + (it.organization || '') + '</p>');
+            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line">' + (it.description || '') + '</p>');
+            
+            if (it.features && it.features.length > 0) {
+                html.push('    <div class="space-y-1.5 mb-5 bg-amber-50/50 p-3.5 rounded-xl border border-amber-200/50">');
+                it.features.forEach(function (f) {
+                    html.push('      <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-award text-amber-600 text-[10px]"></i><span>' + f + '</span></div>');
+                });
+                html.push('    </div>');
             }
-            html.push('    <p class="text-xs text-slate-600 leading-relaxed mb-4">' + (it.description || '') + '</p>');
             html.push('  </div>');
 
-            html.push('  <div class="space-y-3 pt-3 border-t border-slate-100">');
+            // 하단 콤팩트 상장 프레임 (220px 높이로 축소)
+            html.push('  <div class="pt-3 border-t border-slate-100 space-y-2 mt-auto">');
+            html.push('    <div class="w-full h-48 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 relative group/award shadow-inner flex items-center justify-center">');
             if (isPdf) {
-                html.push('    <div class="aspect-[4/3] w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-50 relative group/awd shadow-inner">');
                 html.push('      <iframe src="' + it.fileUrl + '#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 pointer-events-none" title="' + it.title + '"></iframe>');
-                html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/awd:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">');
-                html.push('        <a href="' + it.fileUrl + '" target="_blank" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg transition-all flex items-center gap-1.5 cursor-pointer">');
-                html.push('          <i class="fa-solid fa-arrow-up-right-from-square"></i> 원본 보기');
-                html.push('        </a>');
-                html.push('      </div>');
-                html.push('    </div>');
             } else if (it.fileUrl) {
-                html.push('    <div class="aspect-[4/3] w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-50 relative group/awd cursor-pointer" onclick="openImageModal(\'' + it.fileUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\')">');
-                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/awd:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-                html.push('    </div>');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/award:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
             }
-            html.push('    <div class="text-[11px] text-slate-400 font-semibold">' + (it.organization || '') + '</div>');
+            if (it.fileUrl) {
+                html.push('      <a href="' + it.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover/award:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[2px]">');
+                html.push('        <i class="fa-solid fa-arrow-up-right-from-square"></i> 원본 상장 열기');
+                html.push('      </a>');
+            }
+            html.push('    </div>');
+            if (it.fileUrl) {
+                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full py-2 px-3 rounded-lg bg-amber-50 hover:bg-amber-600 text-amber-700 hover:text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 border border-amber-200">');
+                html.push('      <i class="fa-solid fa-award"></i> 상장 원본 열기');
+                html.push('    </a>');
+            }
             html.push('  </div>');
+
             html.push('</div>');
         });
 
         container.innerHTML = html.join('');
     }
 
-    // ==========================================================================
-    // 6. 전역 노출 네임스페이스
-    // ==========================================================================
+    // 전역 공개 네임스페이스
     window.PatentAdmin = {
         loadData: loadData,
         saveData: saveData,
         resetToDefault: resetToDefault,
         renderManagerList: renderManagerList,
+        renderFrontend: renderFrontend,
         openCreateModal: openCreateModal,
         openEditModal: openEditModal,
         closeModal: closeModal,
         handleFileSelect: handleFileSelect,
         handleFormSubmit: handleFormSubmit,
-        deleteItem: deleteItem,
-        renderFrontend: renderFrontend
+        deleteItem: deleteItem
     };
 
-    // DOM 로드 완료 시 프론트엔드 자동 렌더링
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderFrontend);
-    } else {
+    // 초기 실행
+    document.addEventListener('DOMContentLoaded', function () {
         renderFrontend();
-    }
+    });
 
 })();
-
