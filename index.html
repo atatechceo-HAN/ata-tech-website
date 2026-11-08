@@ -218,6 +218,10 @@
     <script src="admin_product.js?v=20261107_01"></script>
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
+    <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
+    <script src="admin_patent.js"></script>
+    <!-- 한중합자법인(제조사) 관리자 모드 & 실시간 렌더링 엔진 (admin_china.js) -->
+    <script src="admin_china.js"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
@@ -2589,9 +2593,9 @@
 
 
 
-            <!-- 특허 4건 카드 그리드 -->
+            <!-- 특허 4건 카드 그리드 (admin_patent.js 동적 렌더링) -->
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <div id="patent-cards-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
                 <!-- 특허 1 -->
 
@@ -3222,9 +3226,9 @@
 
 
 
-            <!-- 품질 인증서 그리드 -->
+            <!-- 품질 인증서 그리드 (admin_patent.js 동적 렌더링) -->
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div id="cert-quality-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
 
 
 
@@ -3443,9 +3447,9 @@
 
 
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="cert-awards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                <!-- Award 1: 강원창조경제혁신센터 -->
+                <!-- Award 1: 강원창조경제혁신센터 (admin_patent.js 동적 렌더링) -->
                 <div
                     class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col text-center group">
                     <div class="flex items-center justify-between mb-3">
@@ -3744,7 +3748,7 @@
                         (주)에이티에이기술은 한중 합자법인 (제조사)와의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS)
                         제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.
                     </p>
-                    <div class="grid grid-cols-2 gap-6 border-t border-slate-200 pt-8">
+                    <div id="china-intro-stats-grid" class="grid grid-cols-2 gap-6 border-t border-slate-200 pt-8">
                         <div>
                             <div class="text-3xl font-bold text-blue-600 mb-1" data-i18n="china_intro_stat1_num">16+
                             </div>
@@ -3836,8 +3840,8 @@
                 </p>
             </div>
 
-            <!-- 3대 핵심 협력 카드 그리드 -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- 3대 핵심 협력 카드 그리드 (admin_china.js 동적 렌더링) -->
+            <div id="china-coop-cards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- 협력 1 -->
                 <div
                     class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition-shadow fade-in">
@@ -3987,8 +3991,8 @@
                 </div>
             </div>
 
-            <!-- 거점 카드 2열 그리드 (프리미엄 엔터프라이즈 B2B 디자인 고도화) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
+            <!-- 거점 카드 2열 그리드 (admin_china.js 동적 렌더링) -->
+            <div id="china-facilities-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
                 <!-- 거점 1: 한국 본사 & R&D 혁신 센터 -->
                 <div
                     class="bg-white rounded-3xl border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col fade-in">
@@ -5751,9 +5755,16 @@
                 if (typeof window.renderNoticeList === 'function') {
                     window.renderNoticeList(param1 || window.currentNoticeCategory || 'all');
                 }
-            } else if (viewId === 'patents' || viewId === 'cert-quality') {
+            } else if (viewId === 'patents' || viewId === 'cert-quality' || viewId === 'cert-awards') {
+                if (window.PatentAdmin && typeof window.PatentAdmin.renderFrontend === 'function') {
+                    window.PatentAdmin.renderFrontend();
+                }
                 if (typeof window.initAllPdfViewers === 'function') {
                     setTimeout(window.initAllPdfViewers, 100);
+                }
+            } else if (viewId.indexOf('xingting-') !== -1 || viewId.indexOf('china-') !== -1) {
+                if (window.ChinaAdmin && typeof window.ChinaAdmin.renderFrontend === 'function') {
+                    window.ChinaAdmin.renderFrontend();
                 }
             } else if (viewId === 'cert-awards') {
                 if (typeof window.initAwardPdfs === 'function') {
@@ -7864,6 +7875,14 @@
                     class="px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 shrink-0">
                     <i class="fa-solid fa-bullhorn text-cyan-600"></i> <span>4. 공지사항</span>
                 </button>
+                <button type="button" id="hub-tab-btn-patent" onclick="switchAdminHubTab('patent')"
+                    class="px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 shrink-0">
+                    <i class="fa-solid fa-stamp text-amber-500"></i> <span>5. 특허 및 인증</span>
+                </button>
+                <button type="button" id="hub-tab-btn-china" onclick="switchAdminHubTab('china')"
+                    class="px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 shrink-0">
+                    <i class="fa-solid fa-industry text-cyan-500"></i> <span>6. 한중합자법인 (제조사)</span>
+                </button>
             </div>
 
             <!-- 3. 탭별 콘텐츠 본문 영역 (스크롤) -->
@@ -7992,6 +8011,96 @@
                     </div>
                     <div id="admin-hub-notice-list" class="space-y-3">
                         <!-- 동적으로 공지사항 목록 주입 -->
+                    </div>
+                </div>
+
+                <!-- [탭 5: 특허 및 인증 관리 패널] -->
+                <div id="admin-hub-panel-patent" class="admin-hub-panel hidden space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <div>
+                            <h4 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-stamp text-amber-500"></i> 특허 및 품질·환경 인증 관리
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-0.5">등록 특허, 품질/환경 인증서, 대외 수상·수료 내역을 작성·수정·삭제합니다.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" onclick="window.PatentAdmin.openCreateModal()"
+                                class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition-all cursor-pointer">
+                                <i class="fa-solid fa-plus"></i> 새 항목 등록
+                            </button>
+                            <button type="button" onclick="window.PatentAdmin.resetToDefault()"
+                                class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                                title="초기 공식 12건의 특허/인증 기본 데이터로 복원">
+                                <i class="fa-solid fa-rotate-left text-slate-500"></i> 기본값 복원
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 카테고리 필터 바 -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1">
+                        <button type="button" id="hub-patent-tab-all" onclick="window.PatentAdmin.renderManagerList(null, 'all')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition-all cursor-pointer">
+                            전체보기 (<span id="hub-patent-count-all">0</span>)
+                        </button>
+                        <button type="button" id="hub-patent-tab-patent" onclick="window.PatentAdmin.renderManagerList(null, 'patent')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer">
+                            특허 현황 (<span id="hub-patent-count-patent">0</span>)
+                        </button>
+                        <button type="button" id="hub-patent-tab-cert" onclick="window.PatentAdmin.renderManagerList(null, 'cert')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer">
+                            인증 현황 (<span id="hub-patent-count-cert">0</span>)
+                        </button>
+                        <button type="button" id="hub-patent-tab-award" onclick="window.PatentAdmin.renderManagerList(null, 'award')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer">
+                            수상 및 수료 (<span id="hub-patent-count-award">0</span>)
+                        </button>
+                    </div>
+                    <div id="admin-hub-patent-list" class="space-y-3">
+                        <!-- 동적으로 특허/인증 목록 주입 -->
+                    </div>
+                </div>
+
+                <!-- [탭 6: 한중합자법인(제조사) 관리 패널] -->
+                <div id="admin-hub-panel-china" class="admin-hub-panel hidden space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <div>
+                            <h4 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-industry text-cyan-600"></i> 한중합자법인(제조사) 콘텐츠 관리
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-0.5">법인 개요, 핵심 지표, 3대 기술협력, 글로벌 제조 거점·설비 콘텐츠를 작성·수정·삭제합니다.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" onclick="window.ChinaAdmin.openCreateModal()"
+                                class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition-all cursor-pointer">
+                                <i class="fa-solid fa-plus"></i> 새 항목 등록
+                            </button>
+                            <button type="button" onclick="window.ChinaAdmin.resetToDefault()"
+                                class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                                title="초기 공식 한중합자법인 기본 데이터로 복원">
+                                <i class="fa-solid fa-rotate-left text-slate-500"></i> 기본값 복원
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 카테고리 필터 바 -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1">
+                        <button type="button" id="hub-china-tab-all" onclick="window.ChinaAdmin.renderManagerList(null, 'all')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm transition-all cursor-pointer">
+                            전체보기 (<span id="hub-china-count-all">0</span>)
+                        </button>
+                        <button type="button" id="hub-china-tab-intro" onclick="window.ChinaAdmin.renderManagerList(null, 'intro')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer">
+                            개요 및 핵심지표 (<span id="hub-china-count-intro">0</span>)
+                        </button>
+                        <button type="button" id="hub-china-tab-coop" onclick="window.ChinaAdmin.renderManagerList(null, 'coop')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer">
+                            3대 기술제휴·협력 (<span id="hub-china-count-coop">0</span>)
+                        </button>
+                        <button type="button" id="hub-china-tab-facility" onclick="window.ChinaAdmin.renderManagerList(null, 'facility')"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer">
+                            글로벌 거점·설비 (<span id="hub-china-count-facility">0</span>)
+                        </button>
+                    </div>
+                    <div id="admin-hub-china-list" class="space-y-3">
+                        <!-- 동적으로 한중합자법인 목록 주입 -->
                     </div>
                 </div>
 
@@ -8523,11 +8632,11 @@
             };
 
             /**
-             * 통합 관리자 센터 내 4대 탭(연혁, 제품라인업, 레퍼런스, 공지사항)을 전환합니다.
+             * 통합 관리자 센터 내 6대 탭(연혁, 제품라인업, 레퍼런스, 공지사항, 특허·인증, 한중합자법인)을 전환합니다.
              */
             window.switchAdminHubTab = function (tabKey) {
                 currentHubTab = tabKey || 'history';
-                var tabs = ['history', 'product', 'reference', 'notice'];
+                var tabs = ['history', 'product', 'reference', 'notice', 'patent', 'china'];
 
                 tabs.forEach(function (key) {
                     var btn = document.getElementById('hub-tab-btn-' + key);
@@ -8557,6 +8666,14 @@
                     renderAdminHubReferenceList();
                 } else if (currentHubTab === 'notice') {
                     renderAdminHubNoticeList();
+                } else if (currentHubTab === 'patent') {
+                    if (window.PatentAdmin && typeof window.PatentAdmin.renderManagerList === 'function') {
+                        window.PatentAdmin.renderManagerList();
+                    }
+                } else if (currentHubTab === 'china') {
+                    if (window.ChinaAdmin && typeof window.ChinaAdmin.renderManagerList === 'function') {
+                        window.ChinaAdmin.renderManagerList();
+                    }
                 }
             };
 

@@ -68,7 +68,7 @@
     // ==========================================================================
     // 3. GitHub 설정 및 토큰(PAT) 보안 관리 함수
     // ==========================================================================
-    
+
     /**
      * 저장된 GitHub 연동 설정을 조회합니다.
      */
@@ -234,7 +234,7 @@
 
         toast.innerHTML = [
             '<div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ' +
-                (isSuccess ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400') + '">',
+            (isSuccess ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400') + '">',
             '  <i class="fa-solid ' + (isSuccess ? 'fa-circle-check' : 'fa-circle-exclamation') + ' text-base"></i>',
             '</div>',
             '<div class="flex-1 text-xs">',
@@ -323,7 +323,7 @@
 
             // 2단계: 데이터 직렬화 및 Base64 인코딩
             showSyncLoading("2/3 데이터 무결성 검증 및 Base64 인코딩 중...", "연혁, 제품, 실적, 공지사항 데이터를 표준 포맷으로 변환하고 있습니다.");
-            
+
             // lastUpdated 타임스탬프 갱신
             jsonData.lastUpdated = new Date().toISOString();
             if (!jsonData.version) jsonData.version = "1.0.0";
@@ -455,7 +455,9 @@
             history: [],
             products: [],
             references: [],
-            notices: []
+            notices: [],
+            patents: [],
+            china: []
         };
 
         // 1) 연혁 데이터 수집
@@ -504,6 +506,30 @@
             }
         } catch (e) {
             console.warn("[GithubSync] 공지사항 데이터 수집 경고:", e);
+        }
+
+        // 5) 특허 및 인증 데이터 수집
+        try {
+            if (window.PatentAdmin && typeof window.PatentAdmin.loadData === 'function') {
+                siteData.patents = window.PatentAdmin.loadData();
+            } else {
+                var rawPat = localStorage.getItem('ata_patent_cert_db_v1');
+                if (rawPat) siteData.patents = JSON.parse(rawPat);
+            }
+        } catch (e) {
+            console.warn("[GithubSync] 특허/인증 데이터 수집 경고:", e);
+        }
+
+        // 6) 한중합자법인 데이터 수집
+        try {
+            if (window.ChinaAdmin && typeof window.ChinaAdmin.loadData === 'function') {
+                siteData.china = window.ChinaAdmin.loadData();
+            } else {
+                var rawCh = localStorage.getItem('ata_china_factory_db_v1');
+                if (rawCh) siteData.china = JSON.parse(rawCh);
+            }
+        } catch (e) {
+            console.warn("[GithubSync] 한중합자법인 데이터 수집 경고:", e);
         }
 
         return siteData;
@@ -591,7 +617,21 @@
                 } catch (e) { }
             }
 
-            // 5) 각 모듈 화면 즉시 재렌더링
+            // 5) 특허 및 인증 적용
+            if (Array.isArray(remoteData.patents) && remoteData.patents.length > 0) {
+                try {
+                    localStorage.setItem('ata_patent_cert_db_v1', JSON.stringify(remoteData.patents));
+                } catch (e) { }
+            }
+
+            // 6) 한중합자법인 적용
+            if (Array.isArray(remoteData.china) && remoteData.china.length > 0) {
+                try {
+                    localStorage.setItem('ata_china_factory_db_v1', JSON.stringify(remoteData.china));
+                } catch (e) { }
+            }
+
+            // 7) 각 모듈 화면 즉시 재렌더링
             refreshAllUI();
 
             return true;
@@ -620,6 +660,14 @@
         // 공지사항 렌더링
         if (typeof window.renderNoticeList === 'function') {
             window.renderNoticeList();
+        }
+        // 특허 및 인증 렌더링
+        if (window.PatentAdmin && typeof window.PatentAdmin.renderFrontend === 'function') {
+            window.PatentAdmin.renderFrontend();
+        }
+        // 한중합자법인 렌더링
+        if (window.ChinaAdmin && typeof window.ChinaAdmin.renderFrontend === 'function') {
+            window.ChinaAdmin.renderFrontend();
         }
         // 통합 관리자 허브 동기화
         if (typeof window.syncIntegratedAdminHubUI === 'function') {
@@ -837,7 +885,7 @@
         getToken: getGithubToken,
         saveToken: saveGithubToken,
         hasToken: function () { return !!getGithubToken(); },
-        
+
         // UI 모달 & 토스트
         openModal: openGithubSettingsModal,
         closeModal: closeGithubSettingsModal,
