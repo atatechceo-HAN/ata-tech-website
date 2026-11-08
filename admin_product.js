@@ -26,7 +26,7 @@
     // ==========================================================================
     var STORAGE_KEY_PRODUCTS = "ata_product_lineup_db"; // 브라우저 로컬 저장소 키
     var STORAGE_VERSION_KEY = "ata_product_lineup_version"; // 데이터 구조 버전 키
-    var CURRENT_STORAGE_VERSION = "20261107_v2"; // [동기화] 홈페이지 11대 핵심 솔루션과 100% 일원화 버전 // [동기화] 홈페이지 11대 핵심 솔루션과 100% 일원화 버전 // [긴급 패치] Unsplash 의존성 제거 및 내부 정적 fallback 적용 버전
+    var CURRENT_STORAGE_VERSION = "20261108_v1"; // [동기화] 홈페이지 11대 핵심 솔루션과 100% 일원화 버전 // [동기화] 홈페이지 11대 핵심 솔루션과 100% 일원화 버전 // [긴급 패치] Unsplash 의존성 제거 및 내부 정적 fallback 적용 버전
     var currentFilterCategory = "all"; // 현재 활성화된 카테고리 필터 ('all', 'delivery', 'transfer', 'sorting', 'warehouse', 'etc')
     var currentLightboxCardId = null; // 현재 열려있는 라이트박스 제품 ID 추적
 
