@@ -345,7 +345,7 @@
             var isPdf = (item.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
 
             html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-blue-400 hover:shadow-md transition-all">');
-            
+
             // 상단 메타 바
             html.push('  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">');
             html.push('    <div class="flex items-center gap-2 flex-wrap">');
@@ -362,7 +362,7 @@
 
             // 본문 가로 2열: [좌측 콤팩트 썸네일 (90px)] + [우측 대폭 넓어진 글씨 공간]
             html.push('  <div class="flex flex-col sm:flex-row gap-4 pt-3 items-start">');
-            
+
             // 콤팩트 썸네일
             html.push('    <div class="w-24 h-28 sm:w-28 sm:h-32 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm">');
             if (isPdf) {
@@ -389,7 +389,7 @@
                 html.push('      <p class="text-xs font-semibold text-slate-400">' + item.subtitle + '</p>');
             }
             html.push('      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">' + (item.description || '') + '</p>');
-            
+
             // 특징 리스트
             if (item.features && item.features.length > 0) {
                 html.push('      <div class="flex flex-wrap gap-1.5 pt-1">');
@@ -683,11 +683,11 @@
             var numStr = it.sortOrder ? (it.sortOrder < 10 ? '0' + it.sortOrder : it.sortOrder) : (idx + 1 < 10 ? '0' + (idx + 1) : idx + 1);
 
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch group relative overflow-hidden fade-in appear">');
-            
+
             // ================= [좌측 영역: 글씨 중심 68%] =================
             html.push('  <div class="flex-1 flex flex-col justify-between min-w-0">');
             html.push('    <div>');
-            
+
             // 1. 상단 배지 및 메타 정보
             html.push('      <div class="flex items-center gap-2.5 flex-wrap mb-4">');
             html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
@@ -734,7 +734,7 @@
             html.push('      <span>공식 특허증 사본</span>');
             html.push('      <span class="text-blue-600 font-bold"><i class="fa-solid fa-stamp mr-1"></i>KIPO 공인</span>');
             html.push('    </div>');
-            
+
             // 콤팩트 A4 프레임 (220px 높이로 아담하게)
             html.push('    <div class="w-full h-56 rounded-xl overflow-hidden border border-slate-200 bg-white relative group/doc shadow-inner flex items-center justify-center mb-3">');
             if (isPdf) {
@@ -779,7 +779,7 @@
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
 
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
-            
+
             // 상단 글씨란 (충분하고 시원한 텍스트 공간)
             html.push('  <div>');
             html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
@@ -791,7 +791,7 @@
                 html.push('    <p class="text-xs font-semibold text-emerald-700 mb-3">' + it.subtitle + '</p>');
             }
             html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line">' + (it.description || '') + '</p>');
-            
+
             if (it.features && it.features.length > 0) {
                 html.push('    <div class="space-y-1.5 mb-5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">');
                 it.features.forEach(function (f) {
@@ -842,7 +842,7 @@
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
 
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
-            
+
             // 상단 글씨란 (공적 및 상세 설명)
             html.push('  <div>');
             html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
@@ -852,7 +852,7 @@
             html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors">' + it.title + '</h4>');
             html.push('    <p class="text-xs font-semibold text-slate-500 mb-3"><i class="fa-solid fa-building-columns text-amber-500 mr-1.5"></i>' + (it.organization || '') + '</p>');
             html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line">' + (it.description || '') + '</p>');
-            
+
             if (it.features && it.features.length > 0) {
                 html.push('    <div class="space-y-1.5 mb-5 bg-amber-50/50 p-3.5 rounded-xl border border-amber-200/50">');
                 it.features.forEach(function (f) {

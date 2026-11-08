@@ -273,7 +273,7 @@
             var catBadgeClass = item.category === 'intro' ? 'bg-cyan-100 text-cyan-800 border-cyan-300' : (item.category === 'coop' ? 'bg-blue-100 text-blue-800 border-blue-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300');
 
             html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-blue-400 hover:shadow-md transition-all">');
-            
+
             // 상단 메타 바
             html.push('  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">');
             html.push('    <div class="flex items-center gap-2 flex-wrap">');
@@ -293,7 +293,7 @@
 
             // 본문 가로 2열: [좌측 콤팩트 썸네일 (90px)] + [우측 대폭 넓어진 글씨 공간]
             html.push('  <div class="flex flex-col sm:flex-row gap-4 pt-3 items-start">');
-            
+
             // 콤팩트 썸네일
             html.push('    <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm">');
             if (item.imageUrl) {
@@ -313,7 +313,7 @@
                 html.push('      <p class="text-xs font-semibold text-slate-400">' + item.subtitle + '</p>');
             }
             html.push('      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">' + (item.description || '') + '</p>');
-            
+
             if (item.features && item.features.length > 0) {
                 html.push('      <div class="flex flex-wrap gap-1.5 pt-1">');
                 item.features.forEach(function (f) {
@@ -624,7 +624,7 @@
             var badgeStr = it.badge || ('핵심 협력 0' + (idx + 1));
 
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch group fade-in appear">');
-            
+
             // ================= [좌측: 콤팩트 사진 영역 35%] =================
             html.push('  <div class="w-full lg:w-80 shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-3 border border-slate-200/80">');
             if (it.imageUrl) {
@@ -645,7 +645,7 @@
             // ================= [우측: 글씨 중심 영역 65%] =================
             html.push('  <div class="flex-1 flex flex-col justify-between min-w-0">');
             html.push('    <div>');
-            
+
             // 상단 배지
             html.push('      <div class="flex items-center gap-2.5 mb-3 flex-wrap">');
             html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
@@ -702,7 +702,7 @@
         var html = [];
         items.forEach(function (it) {
             html.push('<div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
-            
+
             // 상단 콤팩트 사진 (190px 높이로 아담하게)
             html.push('  <div>');
             if (it.imageUrl) {
@@ -722,7 +722,7 @@
                 html.push('      <p class="text-xs font-semibold text-slate-400">' + it.subtitle + '</p>');
             }
             html.push('      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line">' + (it.description || '') + '</p>');
-            
+
             if (it.features && it.features.length > 0) {
                 html.push('      <div class="space-y-1.5 pt-2 border-t border-slate-100">');
                 it.features.forEach(function (f) {
