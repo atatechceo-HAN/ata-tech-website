@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-07T05:46:55.462Z",
+  "lastUpdated": "2026-11-08T13:46:19.579Z",
   "history": [
     {
       "id": "hist_2026",
@@ -459,114 +459,2628 @@
       ]
     }
   ],
-  "references": [
-    {
-      "id": "ref_c1",
-      "category": "ecommerce",
-      "title": "국내 최대 이커머스 C사 메가 허브 터미널",
-      "imageUrl": "H00_레퍼런스_이커머스_1.jpg",
-      "fallbackUrl": "Conveyors & ADD-Ons.jpg",
-      "subBadge": "",
+  "references": {
+    "전경": {
+      "id": "전경",
+      "title": "전경",
+      "subtitle": "스마트 물류 R&D 및 대규모 제조 거점 항공 전경",
+      "badge": "MANUFACTURING & R&D CAMPUS",
+      "icon": "fa-building-columns",
+      "overview": "태양광 루프탑 친환경 발전 설비가 완비된 대규모 스마트 물류 장비 제조·조립 단지 및 R&D 실증 테스트 센터의 드론 항공 촬영 전경입니다. 원자재 정밀 가공부터 대형 소터 라인 가조립, 출고 전 사전 시운전(FAT)까지 원스톱으로 수행하는 핵심 생산 기지입니다.",
+      "tags": [
+        "스마트 팩토리",
+        "대규모 제조 거점",
+        "R&D 테스트베드",
+        "FAT 사전 시운전"
+      ],
+      "videoTemplates": [],
+      "photoTemplates": [],
+      "videoCount": 0,
+      "photoCount": 1,
+      "videos": [],
+      "photos": [
+        {
+          "id": "전경-pho-1",
+          "folder": "전경",
+          "index": 1,
+          "fileName": "전경_1.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/전경/전경_1.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/전경/전경_1.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/전경/전경_1.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/전경/전경_1.jpg",
+          "clipCode": "전경 현장포토 #01",
+          "title": "[전경 #01] 에이티에이기술 핵심 제조 거점 및 스마트 물류 R&D 단지 항공 전경",
+          "desc": "드론 상공에서 촬영한 대규모 제조·조립 공장동 및 본관 전경입니다. 지붕 전체에 구축된 태양광 발전 인프라와 대형 물류 설비 출하를 위한 광폭 도크, 통합 R&D 실증 공간이 체계적으로 배치되어 있습니다.",
+          "tags": [
+            "스마트 팩토리",
+            "대규모 제조 거점",
+            "R&D 테스트베드",
+            "FAT 사전 시운전"
+          ]
+        }
+      ]
+    },
+    "CBS": {
+      "id": "CBS",
+      "title": "CBS",
+      "subtitle": "CBS [Cross Belt Sorter] — 루프형·직선형 크로스벨트 소터 구축 현장",
+      "badge": "CROSS BELT SORTER",
+      "icon": "fa-arrows-rotate",
+      "overview": "대형 이커머스 풀필먼트 센터 및 광역 택배 허브 터미널에 구축된 크로스벨트 소터(CBS) 실제 가동 현장입니다. 다열 고속 인덕션(Induction) 자동 투입 라인과 양방향 대용량 마대·스파이럴 슈트가 유기적으로 연동되어 시간당 최대 15,000~20,000개 이상의 정형·비정형 화물을 초정밀 분류합니다.",
       "tags": [
         "Cross Belt Sorter",
-        "WCS",
-        "텔레스코픽"
+        "고속 인덕션 투입",
+        "양방향 슈트 분기",
+        "풀필먼트 허브"
       ],
-      "description": "일 200만 건 이상의 압도적인 물동량을 소화하기 위해 초고속 크로스 벨트 소터 및 자동 상하차 시스템을 구축하여 전국 익일 배송의 핵심 인프라를 완성했습니다.",
-      "field": "대형 풀필먼트 허브",
-      "sortOrder": 1
+      "videoTemplates": [],
+      "photoTemplates": [],
+      "videoCount": 27,
+      "photoCount": 33,
+      "videos": [
+        {
+          "id": "CBS-vid-1",
+          "folder": "CBS",
+          "index": 1,
+          "fileName": "CBS_1.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_1.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_1.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "clipCode": "CBS 영상 #01",
+          "title": "[CBS 영상 #01] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "크로스벨트 소터(CBS) 루프 라인 초고속 연속 분류 실가동 영상입니다. 개별 캐리어의 서보 벨트가 목표 슈트 위치에서 정밀 구동되어 화물을 오차 없이 분기합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-2",
+          "folder": "CBS",
+          "index": 2,
+          "fileName": "CBS_3.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_3.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_3.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "clipCode": "CBS 영상 #03",
+          "title": "[CBS 영상 #03] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "다열 인덕션(Induction) 자동 정렬 및 캐리어 중앙 안착 동기화 제어 구간입니다. 화물 간격을 자동 계산하여 소터 캐리어에 무정차 고속 투입합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-3",
+          "folder": "CBS",
+          "index": 3,
+          "fileName": "CBS_4.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_4.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_4.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "clipCode": "CBS 영상 #04",
+          "title": "[CBS 영상 #04] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "양방향 대용량 배출 슈트 및 마대 슈트 인터페이스 가동 장면입니다. 정형 박스부터 비정형 폴리백까지 안전하게 슬라이딩 배출됩니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-4",
+          "folder": "CBS",
+          "index": 4,
+          "fileName": "CBS_7.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_7.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_7.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_5.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_5.jpg",
+          "clipCode": "CBS 영상 #07",
+          "title": "[CBS 영상 #07] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "메인 루프 곡선 주행 및 직선 고속 분류 구간 연속 운전 테스트 영상입니다. 고속 주행 시에도 소음과 진동을 최소화한 메커니즘을 자랑합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-5",
+          "folder": "CBS",
+          "index": 5,
+          "fileName": "CBS_8.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_8.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_8.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
+          "clipCode": "CBS 영상 #08",
+          "title": "[CBS 영상 #08] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "상단 비전 바코드 스캐너(Barcode Scanner) 및 체적 측정기(DWS) 연동 고속 분류 제어 현장입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-6",
+          "folder": "CBS",
+          "index": 6,
+          "fileName": "CBS_11.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_11.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_11.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_9.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_9.jpg",
+          "clipCode": "CBS 영상 #11",
+          "title": "[CBS 영상 #11] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "풀필먼트 물류센터 실환경에서 대용량 물량을 고속으로 처리하는 크로스벨트 소터 종합 가동 장면입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-7",
+          "folder": "CBS",
+          "index": 7,
+          "fileName": "CBS_13.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_13.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_13.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "clipCode": "CBS 영상 #13",
+          "title": "[CBS 영상 #13] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "크로스벨트 소터(CBS) 루프 라인 초고속 연속 분류 실가동 영상입니다. 개별 캐리어의 서보 벨트가 목표 슈트 위치에서 정밀 구동되어 화물을 오차 없이 분기합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-8",
+          "folder": "CBS",
+          "index": 8,
+          "fileName": "CBS_14.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_14.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_14.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "clipCode": "CBS 영상 #14",
+          "title": "[CBS 영상 #14] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "다열 인덕션(Induction) 자동 정렬 및 캐리어 중앙 안착 동기화 제어 구간입니다. 화물 간격을 자동 계산하여 소터 캐리어에 무정차 고속 투입합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-9",
+          "folder": "CBS",
+          "index": 9,
+          "fileName": "CBS_18.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_18.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_18.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_16.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_16.jpg",
+          "clipCode": "CBS 영상 #18",
+          "title": "[CBS 영상 #18] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "양방향 대용량 배출 슈트 및 마대 슈트 인터페이스 가동 장면입니다. 정형 박스부터 비정형 폴리백까지 안전하게 슬라이딩 배출됩니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-10",
+          "folder": "CBS",
+          "index": 10,
+          "fileName": "CBS_21.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_21.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_21.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_19.jpg",
+          "clipCode": "CBS 영상 #21",
+          "title": "[CBS 영상 #21] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "메인 루프 곡선 주행 및 직선 고속 분류 구간 연속 운전 테스트 영상입니다. 고속 주행 시에도 소음과 진동을 최소화한 메커니즘을 자랑합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-11",
+          "folder": "CBS",
+          "index": 11,
+          "fileName": "CBS_25.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_25.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_25.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_23.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_23.jpg",
+          "clipCode": "CBS 영상 #25",
+          "title": "[CBS 영상 #25] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "상단 비전 바코드 스캐너(Barcode Scanner) 및 체적 측정기(DWS) 연동 고속 분류 제어 현장입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-12",
+          "folder": "CBS",
+          "index": 12,
+          "fileName": "CBS_27.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_27.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_27.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "clipCode": "CBS 영상 #27",
+          "title": "[CBS 영상 #27] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "풀필먼트 물류센터 실환경에서 대용량 물량을 고속으로 처리하는 크로스벨트 소터 종합 가동 장면입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-13",
+          "folder": "CBS",
+          "index": 13,
+          "fileName": "CBS_28.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_28.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_28.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "clipCode": "CBS 영상 #28",
+          "title": "[CBS 영상 #28] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "크로스벨트 소터(CBS) 루프 라인 초고속 연속 분류 실가동 영상입니다. 개별 캐리어의 서보 벨트가 목표 슈트 위치에서 정밀 구동되어 화물을 오차 없이 분기합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-14",
+          "folder": "CBS",
+          "index": 14,
+          "fileName": "CBS_29.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_29.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_29.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "clipCode": "CBS 영상 #29",
+          "title": "[CBS 영상 #29] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "다열 인덕션(Induction) 자동 정렬 및 캐리어 중앙 안착 동기화 제어 구간입니다. 화물 간격을 자동 계산하여 소터 캐리어에 무정차 고속 투입합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-15",
+          "folder": "CBS",
+          "index": 15,
+          "fileName": "CBS_30.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_30.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_30.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "clipCode": "CBS 영상 #30",
+          "title": "[CBS 영상 #30] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "양방향 대용량 배출 슈트 및 마대 슈트 인터페이스 가동 장면입니다. 정형 박스부터 비정형 폴리백까지 안전하게 슬라이딩 배출됩니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-16",
+          "folder": "CBS",
+          "index": 16,
+          "fileName": "CBS_32.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_32.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_32.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "clipCode": "CBS 영상 #32",
+          "title": "[CBS 영상 #32] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "메인 루프 곡선 주행 및 직선 고속 분류 구간 연속 운전 테스트 영상입니다. 고속 주행 시에도 소음과 진동을 최소화한 메커니즘을 자랑합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-17",
+          "folder": "CBS",
+          "index": 17,
+          "fileName": "CBS_35.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_35.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_35.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_33.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_33.jpg",
+          "clipCode": "CBS 영상 #35",
+          "title": "[CBS 영상 #35] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "상단 비전 바코드 스캐너(Barcode Scanner) 및 체적 측정기(DWS) 연동 고속 분류 제어 현장입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-18",
+          "folder": "CBS",
+          "index": 18,
+          "fileName": "CBS_44.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_44.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_44.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_42.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_42.jpg",
+          "clipCode": "CBS 영상 #44",
+          "title": "[CBS 영상 #44] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "풀필먼트 물류센터 실환경에서 대용량 물량을 고속으로 처리하는 크로스벨트 소터 종합 가동 장면입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-19",
+          "folder": "CBS",
+          "index": 19,
+          "fileName": "CBS_46.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_46.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_46.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "clipCode": "CBS 영상 #46",
+          "title": "[CBS 영상 #46] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "크로스벨트 소터(CBS) 루프 라인 초고속 연속 분류 실가동 영상입니다. 개별 캐리어의 서보 벨트가 목표 슈트 위치에서 정밀 구동되어 화물을 오차 없이 분기합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-20",
+          "folder": "CBS",
+          "index": 20,
+          "fileName": "CBS_48.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_48.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_48.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_47.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_47.jpg",
+          "clipCode": "CBS 영상 #48",
+          "title": "[CBS 영상 #48] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "다열 인덕션(Induction) 자동 정렬 및 캐리어 중앙 안착 동기화 제어 구간입니다. 화물 간격을 자동 계산하여 소터 캐리어에 무정차 고속 투입합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-21",
+          "folder": "CBS",
+          "index": 21,
+          "fileName": "CBS_50.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_50.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_50.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "clipCode": "CBS 영상 #50",
+          "title": "[CBS 영상 #50] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "양방향 대용량 배출 슈트 및 마대 슈트 인터페이스 가동 장면입니다. 정형 박스부터 비정형 폴리백까지 안전하게 슬라이딩 배출됩니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-22",
+          "folder": "CBS",
+          "index": 22,
+          "fileName": "CBS_51.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_51.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_51.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "clipCode": "CBS 영상 #51",
+          "title": "[CBS 영상 #51] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "메인 루프 곡선 주행 및 직선 고속 분류 구간 연속 운전 테스트 영상입니다. 고속 주행 시에도 소음과 진동을 최소화한 메커니즘을 자랑합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-23",
+          "folder": "CBS",
+          "index": 23,
+          "fileName": "CBS_52.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_52.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_52.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "clipCode": "CBS 영상 #52",
+          "title": "[CBS 영상 #52] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "상단 비전 바코드 스캐너(Barcode Scanner) 및 체적 측정기(DWS) 연동 고속 분류 제어 현장입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-24",
+          "folder": "CBS",
+          "index": 24,
+          "fileName": "CBS_54.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_54.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_54.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "clipCode": "CBS 영상 #54",
+          "title": "[CBS 영상 #54] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "풀필먼트 물류센터 실환경에서 대용량 물량을 고속으로 처리하는 크로스벨트 소터 종합 가동 장면입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-25",
+          "folder": "CBS",
+          "index": 25,
+          "fileName": "CBS_58.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_58.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_58.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_56.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_56.jpg",
+          "clipCode": "CBS 영상 #58",
+          "title": "[CBS 영상 #58] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "크로스벨트 소터(CBS) 루프 라인 초고속 연속 분류 실가동 영상입니다. 개별 캐리어의 서보 벨트가 목표 슈트 위치에서 정밀 구동되어 화물을 오차 없이 분기합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-26",
+          "folder": "CBS",
+          "index": 26,
+          "fileName": "CBS_59.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_59.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_59.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_57.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_57.jpg",
+          "clipCode": "CBS 영상 #59",
+          "title": "[CBS 영상 #59] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "다열 인덕션(Induction) 자동 정렬 및 캐리어 중앙 안착 동기화 제어 구간입니다. 화물 간격을 자동 계산하여 소터 캐리어에 무정차 고속 투입합니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-vid-27",
+          "folder": "CBS",
+          "index": 27,
+          "fileName": "CBS_60.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_60.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_60.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "clipCode": "CBS 영상 #60",
+          "title": "[CBS 영상 #60] CBS 현장 가동 및 고속 분류 실증",
+          "desc": "양방향 대용량 배출 슈트 및 마대 슈트 인터페이스 가동 장면입니다. 정형 박스부터 비정형 폴리백까지 안전하게 슬라이딩 배출됩니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "id": "CBS-pho-1",
+          "folder": "CBS",
+          "index": 1,
+          "fileName": "CBS_2.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_2.jpg",
+          "clipCode": "CBS 현장포토 #02",
+          "title": "[CBS 사진 #02] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "크로스벨트 소터 메인 캐리어 및 구동 벨트 어셈블리 상세 구조입니다. 마모를 최소화한 특수 벨트와 정밀 가이드 레일이 적용되었습니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-2",
+          "folder": "CBS",
+          "index": 2,
+          "fileName": "CBS_5.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_5.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_5.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_5.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_5.jpg",
+          "clipCode": "CBS 현장포토 #05",
+          "title": "[CBS 사진 #05] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 고속 투입 인덕션 라인 정렬 및 동기화 제어 섹션 전경입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-3",
+          "folder": "CBS",
+          "index": 3,
+          "fileName": "CBS_6.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
+          "clipCode": "CBS 현장포토 #06",
+          "title": "[CBS 사진 #06] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "소터 하부 메인 드라이브 모터 및 리니어 모터(LSM) 구동부 엔지니어링 디테일입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-4",
+          "folder": "CBS",
+          "index": 4,
+          "fileName": "CBS_9.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_9.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_9.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_9.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_9.jpg",
+          "clipCode": "CBS 현장포토 #09",
+          "title": "[CBS 사진 #09] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "양방향 슈트 및 자동 만배 감지 센서가 완비된 배출 라인 구조입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-5",
+          "folder": "CBS",
+          "index": 5,
+          "fileName": "CBS_10.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_10.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_10.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_10.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_10.jpg",
+          "clipCode": "CBS 현장포토 #10",
+          "title": "[CBS 사진 #10] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "중앙 집중식 WCS 관제 시스템과 연동된 통합 전기 배전·제어반 구성입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-6",
+          "folder": "CBS",
+          "index": 6,
+          "fileName": "CBS_12.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_12.jpg",
+          "clipCode": "CBS 현장포토 #12",
+          "title": "[CBS 사진 #12] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "크로스벨트 소터 메인 캐리어 및 구동 벨트 어셈블리 상세 구조입니다. 마모를 최소화한 특수 벨트와 정밀 가이드 레일이 적용되었습니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-7",
+          "folder": "CBS",
+          "index": 7,
+          "fileName": "CBS_15.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_15.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_15.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_15.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_15.jpg",
+          "clipCode": "CBS 현장포토 #15",
+          "title": "[CBS 사진 #15] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 고속 투입 인덕션 라인 정렬 및 동기화 제어 섹션 전경입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-8",
+          "folder": "CBS",
+          "index": 8,
+          "fileName": "CBS_16.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_16.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_16.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_16.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_16.jpg",
+          "clipCode": "CBS 현장포토 #16",
+          "title": "[CBS 사진 #16] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "소터 하부 메인 드라이브 모터 및 리니어 모터(LSM) 구동부 엔지니어링 디테일입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-9",
+          "folder": "CBS",
+          "index": 9,
+          "fileName": "CBS_17.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_17.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_17.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_17.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_17.jpg",
+          "clipCode": "CBS 현장포토 #17",
+          "title": "[CBS 사진 #17] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "양방향 슈트 및 자동 만배 감지 센서가 완비된 배출 라인 구조입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-10",
+          "folder": "CBS",
+          "index": 10,
+          "fileName": "CBS_19.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_19.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_19.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_19.jpg",
+          "clipCode": "CBS 현장포토 #19",
+          "title": "[CBS 사진 #19] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "중앙 집중식 WCS 관제 시스템과 연동된 통합 전기 배전·제어반 구성입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-11",
+          "folder": "CBS",
+          "index": 11,
+          "fileName": "CBS_20.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_20.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_20.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_20.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_20.jpg",
+          "clipCode": "CBS 현장포토 #20",
+          "title": "[CBS 사진 #20] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "크로스벨트 소터 메인 캐리어 및 구동 벨트 어셈블리 상세 구조입니다. 마모를 최소화한 특수 벨트와 정밀 가이드 레일이 적용되었습니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-12",
+          "folder": "CBS",
+          "index": 12,
+          "fileName": "CBS_22.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_22.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_22.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_22.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_22.jpg",
+          "clipCode": "CBS 현장포토 #22",
+          "title": "[CBS 사진 #22] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 고속 투입 인덕션 라인 정렬 및 동기화 제어 섹션 전경입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-13",
+          "folder": "CBS",
+          "index": 13,
+          "fileName": "CBS_23.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_23.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_23.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_23.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_23.jpg",
+          "clipCode": "CBS 현장포토 #23",
+          "title": "[CBS 사진 #23] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "소터 하부 메인 드라이브 모터 및 리니어 모터(LSM) 구동부 엔지니어링 디테일입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-14",
+          "folder": "CBS",
+          "index": 14,
+          "fileName": "CBS_24.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_24.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_24.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_24.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_24.jpg",
+          "clipCode": "CBS 현장포토 #24",
+          "title": "[CBS 사진 #24] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "양방향 슈트 및 자동 만배 감지 센서가 완비된 배출 라인 구조입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-15",
+          "folder": "CBS",
+          "index": 15,
+          "fileName": "CBS_26.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_26.jpg",
+          "clipCode": "CBS 현장포토 #26",
+          "title": "[CBS 사진 #26] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "중앙 집중식 WCS 관제 시스템과 연동된 통합 전기 배전·제어반 구성입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-16",
+          "folder": "CBS",
+          "index": 16,
+          "fileName": "CBS_31.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_31.jpg",
+          "clipCode": "CBS 현장포토 #31",
+          "title": "[CBS 사진 #31] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "크로스벨트 소터 메인 캐리어 및 구동 벨트 어셈블리 상세 구조입니다. 마모를 최소화한 특수 벨트와 정밀 가이드 레일이 적용되었습니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-17",
+          "folder": "CBS",
+          "index": 17,
+          "fileName": "CBS_33.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_33.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_33.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_33.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_33.jpg",
+          "clipCode": "CBS 현장포토 #33",
+          "title": "[CBS 사진 #33] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 고속 투입 인덕션 라인 정렬 및 동기화 제어 섹션 전경입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-18",
+          "folder": "CBS",
+          "index": 18,
+          "fileName": "CBS_34.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_34.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_34.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_34.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_34.jpg",
+          "clipCode": "CBS 현장포토 #34",
+          "title": "[CBS 사진 #34] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "소터 하부 메인 드라이브 모터 및 리니어 모터(LSM) 구동부 엔지니어링 디테일입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-19",
+          "folder": "CBS",
+          "index": 19,
+          "fileName": "CBS_36.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_36.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_36.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_36.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_36.jpg",
+          "clipCode": "CBS 현장포토 #36",
+          "title": "[CBS 사진 #36] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "양방향 슈트 및 자동 만배 감지 센서가 완비된 배출 라인 구조입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-20",
+          "folder": "CBS",
+          "index": 20,
+          "fileName": "CBS_37.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_37.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_37.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_37.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_37.jpg",
+          "clipCode": "CBS 현장포토 #37",
+          "title": "[CBS 사진 #37] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "중앙 집중식 WCS 관제 시스템과 연동된 통합 전기 배전·제어반 구성입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-21",
+          "folder": "CBS",
+          "index": 21,
+          "fileName": "CBS_38.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_38.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_38.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_38.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_38.jpg",
+          "clipCode": "CBS 현장포토 #38",
+          "title": "[CBS 사진 #38] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "크로스벨트 소터 메인 캐리어 및 구동 벨트 어셈블리 상세 구조입니다. 마모를 최소화한 특수 벨트와 정밀 가이드 레일이 적용되었습니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-22",
+          "folder": "CBS",
+          "index": 22,
+          "fileName": "CBS_39.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_39.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_39.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_39.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_39.jpg",
+          "clipCode": "CBS 현장포토 #39",
+          "title": "[CBS 사진 #39] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 고속 투입 인덕션 라인 정렬 및 동기화 제어 섹션 전경입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-23",
+          "folder": "CBS",
+          "index": 23,
+          "fileName": "CBS_40.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_40.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_40.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_40.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_40.jpg",
+          "clipCode": "CBS 현장포토 #40",
+          "title": "[CBS 사진 #40] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "소터 하부 메인 드라이브 모터 및 리니어 모터(LSM) 구동부 엔지니어링 디테일입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-24",
+          "folder": "CBS",
+          "index": 24,
+          "fileName": "CBS_41.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_41.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_41.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_41.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_41.jpg",
+          "clipCode": "CBS 현장포토 #41",
+          "title": "[CBS 사진 #41] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "양방향 슈트 및 자동 만배 감지 센서가 완비된 배출 라인 구조입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-25",
+          "folder": "CBS",
+          "index": 25,
+          "fileName": "CBS_42.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_42.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_42.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_42.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_42.jpg",
+          "clipCode": "CBS 현장포토 #42",
+          "title": "[CBS 사진 #42] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "중앙 집중식 WCS 관제 시스템과 연동된 통합 전기 배전·제어반 구성입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-26",
+          "folder": "CBS",
+          "index": 26,
+          "fileName": "CBS_43.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_43.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_43.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_43.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_43.jpg",
+          "clipCode": "CBS 현장포토 #43",
+          "title": "[CBS 사진 #43] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "크로스벨트 소터 메인 캐리어 및 구동 벨트 어셈블리 상세 구조입니다. 마모를 최소화한 특수 벨트와 정밀 가이드 레일이 적용되었습니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-27",
+          "folder": "CBS",
+          "index": 27,
+          "fileName": "CBS_45.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_45.jpg",
+          "clipCode": "CBS 현장포토 #45",
+          "title": "[CBS 사진 #45] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 고속 투입 인덕션 라인 정렬 및 동기화 제어 섹션 전경입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-28",
+          "folder": "CBS",
+          "index": 28,
+          "fileName": "CBS_47.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_47.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_47.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_47.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_47.jpg",
+          "clipCode": "CBS 현장포토 #47",
+          "title": "[CBS 사진 #47] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "소터 하부 메인 드라이브 모터 및 리니어 모터(LSM) 구동부 엔지니어링 디테일입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-29",
+          "folder": "CBS",
+          "index": 29,
+          "fileName": "CBS_49.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_49.jpg",
+          "clipCode": "CBS 현장포토 #49",
+          "title": "[CBS 사진 #49] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "양방향 슈트 및 자동 만배 감지 센서가 완비된 배출 라인 구조입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-30",
+          "folder": "CBS",
+          "index": 30,
+          "fileName": "CBS_53.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_53.jpg",
+          "clipCode": "CBS 현장포토 #53",
+          "title": "[CBS 사진 #53] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "중앙 집중식 WCS 관제 시스템과 연동된 통합 전기 배전·제어반 구성입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-31",
+          "folder": "CBS",
+          "index": 31,
+          "fileName": "CBS_55.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_55.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_55.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_55.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_55.jpg",
+          "clipCode": "CBS 현장포토 #55",
+          "title": "[CBS 사진 #55] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "크로스벨트 소터 메인 캐리어 및 구동 벨트 어셈블리 상세 구조입니다. 마모를 최소화한 특수 벨트와 정밀 가이드 레일이 적용되었습니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-32",
+          "folder": "CBS",
+          "index": 32,
+          "fileName": "CBS_56.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_56.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_56.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_56.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_56.jpg",
+          "clipCode": "CBS 현장포토 #56",
+          "title": "[CBS 사진 #56] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 고속 투입 인덕션 라인 정렬 및 동기화 제어 섹션 전경입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        },
+        {
+          "id": "CBS-pho-33",
+          "folder": "CBS",
+          "index": 33,
+          "fileName": "CBS_57.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_57.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_57.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_57.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_57.jpg",
+          "clipCode": "CBS 현장포토 #57",
+          "title": "[CBS 사진 #57] CBS 설비 상세 및 라인 구축 전경",
+          "desc": "소터 하부 메인 드라이브 모터 및 리니어 모터(LSM) 구동부 엔지니어링 디테일입니다.",
+          "tags": [
+            "Cross Belt Sorter",
+            "고속 인덕션 투입",
+            "양방향 슈트 분기",
+            "풀필먼트 허브"
+          ]
+        }
+      ]
     },
-    {
-      "id": "ref_c2",
-      "category": "ecommerce",
-      "title": "글로벌 종합 유통 S사 수도권 풀필먼트 센터",
-      "imageUrl": "H00_레퍼런스_이커머스_2.jpg",
-      "fallbackUrl": "assets/images/no-image.svg",
-      "subBadge": "",
+    "NC CBS": {
+      "id": "NC CBS",
+      "title": "NC CBS",
+      "subtitle": "NC CBS [Narrow Cross Belt Sorter] — 초슬림 협폭 크로스벨트 소터",
+      "badge": "NARROW CROSS BELT SORTER",
+      "icon": "fa-bolt-lightning",
+      "overview": "컴팩트한 설치 면적과 초정밀 협폭 제어를 결합한 NC CBS(Narrow Cross Belt Sorter) 가동 현장입니다. 소형 택배 화물부터 폴리백, 도서, 의류 및 중소형 박스까지 공간 효율을 극대화하여 고밀도로 정밀 분류합니다.",
       "tags": [
-        "AGV & AMR",
-        "Shuttle AS/RS"
+        "NC CBS",
+        "협폭 크로스벨트",
+        "초소형·소형 화물",
+        "공간 최적화"
       ],
-      "description": "다양한 규격의 소비재를 보관 및 피킹하기 위해 셔틀 타입의 자동 창고와 AGV 로봇을 결합하여 G2P(Goods-to-Person) 하이브리드 물류 센터를 구축했습니다.",
-      "field": "G2P 하이브리드 센터",
-      "sortOrder": 2
+      "videoTemplates": [],
+      "photoTemplates": [],
+      "videoCount": 8,
+      "photoCount": 15,
+      "videos": [
+        {
+          "id": "NC CBS-vid-1",
+          "folder": "NC CBS",
+          "index": 1,
+          "fileName": "NC CBS_2.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_2.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_2.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_1.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_1.jpg",
+          "clipCode": "NC CBS 영상 #02",
+          "title": "[NC CBS 영상 #02] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "협폭 크로스벨트 소터(NC CBS) 컴팩트 라인 고속 연속 분류 영상입니다. 좁은 공간에서도 최대의 처리 효율을 발휘합니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-vid-3",
+          "folder": "NC CBS",
+          "index": 3,
+          "fileName": "NC CBS_6.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_6.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_6.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_5.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_5.jpg",
+          "clipCode": "NC CBS 영상 #06",
+          "title": "[NC CBS 영상 #06] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "NC CBS 인덕션 투입 및 고밀도 연속 배출 슈트 연동 제어 현장 영상입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-vid-4",
+          "folder": "NC CBS",
+          "index": 4,
+          "fileName": "NC CBS_12.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_12.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_12.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_10.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_10.jpg",
+          "clipCode": "NC CBS 영상 #12",
+          "title": "[NC CBS 영상 #12] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "협폭 크로스벨트 소터(NC CBS) 컴팩트 라인 고속 연속 분류 영상입니다. 좁은 공간에서도 최대의 처리 효율을 발휘합니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-vid-5",
+          "folder": "NC CBS",
+          "index": 5,
+          "fileName": "NC CBS_14.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_14.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_14.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "clipCode": "NC CBS 영상 #14",
+          "title": "[NC CBS 영상 #14] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "소형 화물 및 의류 폴리백의 미끄러짐 없는 초정밀 벨트 분기 실가동 장면입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-vid-6",
+          "folder": "NC CBS",
+          "index": 6,
+          "fileName": "NC CBS_15.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_15.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_15.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "clipCode": "NC CBS 영상 #15",
+          "title": "[NC CBS 영상 #15] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "NC CBS 인덕션 투입 및 고밀도 연속 배출 슈트 연동 제어 현장 영상입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-vid-7",
+          "folder": "NC CBS",
+          "index": 7,
+          "fileName": "NC CBS_18.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_18.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_18.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_16.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_16.jpg",
+          "clipCode": "NC CBS 영상 #18",
+          "title": "[NC CBS 영상 #18] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "협폭 크로스벨트 소터(NC CBS) 컴팩트 라인 고속 연속 분류 영상입니다. 좁은 공간에서도 최대의 처리 효율을 발휘합니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-vid-8",
+          "folder": "NC CBS",
+          "index": 8,
+          "fileName": "NC CBS_21.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_21.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_21.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_19.jpg",
+          "clipCode": "NC CBS 영상 #21",
+          "title": "[NC CBS 영상 #21] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "소형 화물 및 의류 폴리백의 미끄러짐 없는 초정밀 벨트 분기 실가동 장면입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-vid-9",
+          "folder": "NC CBS",
+          "index": 9,
+          "fileName": "NC CBS_22.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_22.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_22.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_20.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_20.jpg",
+          "clipCode": "NC CBS 영상 #22",
+          "title": "[NC CBS 영상 #22] NC CBS 현장 가동 및 고속 분류 실증",
+          "desc": "NC CBS 인덕션 투입 및 고밀도 연속 배출 슈트 연동 제어 현장 영상입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "id": "NC CBS-pho-1",
+          "folder": "NC CBS",
+          "index": 1,
+          "fileName": "NC CBS_1.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_1.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_1.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_1.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_1.jpg",
+          "clipCode": "NC CBS 현장포토 #01",
+          "title": "[NC CBS 사진 #01] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "NC CBS 협폭 캐리어 구조 및 고밀도 슈트 배치 상세 포토입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-3",
+          "folder": "NC CBS",
+          "index": 3,
+          "fileName": "NC CBS_5.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_5.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_5.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_5.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_5.jpg",
+          "clipCode": "NC CBS 현장포토 #05",
+          "title": "[NC CBS 사진 #05] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "센서 및 케이블링이 일체형으로 정밀 빌트인된 협폭 소터 레일 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-4",
+          "folder": "NC CBS",
+          "index": 4,
+          "fileName": "NC CBS_7.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_7.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_7.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_7.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_7.jpg",
+          "clipCode": "NC CBS 현장포토 #07",
+          "title": "[NC CBS 사진 #07] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "NC CBS 협폭 캐리어 구조 및 고밀도 슈트 배치 상세 포토입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-5",
+          "folder": "NC CBS",
+          "index": 5,
+          "fileName": "NC CBS_8.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_8.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_8.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_8.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_8.jpg",
+          "clipCode": "NC CBS 현장포토 #08",
+          "title": "[NC CBS 사진 #08] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "공간 절약형 프레임 설계와 모듈러 확장 브라켓 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-6",
+          "folder": "NC CBS",
+          "index": 6,
+          "fileName": "NC CBS_9.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_9.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_9.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_9.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_9.jpg",
+          "clipCode": "NC CBS 현장포토 #09",
+          "title": "[NC CBS 사진 #09] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "센서 및 케이블링이 일체형으로 정밀 빌트인된 협폭 소터 레일 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-7",
+          "folder": "NC CBS",
+          "index": 7,
+          "fileName": "NC CBS_10.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_10.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_10.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_10.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_10.jpg",
+          "clipCode": "NC CBS 현장포토 #10",
+          "title": "[NC CBS 사진 #10] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "NC CBS 협폭 캐리어 구조 및 고밀도 슈트 배치 상세 포토입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-8",
+          "folder": "NC CBS",
+          "index": 8,
+          "fileName": "NC CBS_11.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_11.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_11.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_11.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_11.jpg",
+          "clipCode": "NC CBS 현장포토 #11",
+          "title": "[NC CBS 사진 #11] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "공간 절약형 프레임 설계와 모듈러 확장 브라켓 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-9",
+          "folder": "NC CBS",
+          "index": 9,
+          "fileName": "NC CBS_13.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_13.jpg",
+          "clipCode": "NC CBS 현장포토 #13",
+          "title": "[NC CBS 사진 #13] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "센서 및 케이블링이 일체형으로 정밀 빌트인된 협폭 소터 레일 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-10",
+          "folder": "NC CBS",
+          "index": 10,
+          "fileName": "NC CBS_16.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_16.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_16.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_16.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_16.jpg",
+          "clipCode": "NC CBS 현장포토 #16",
+          "title": "[NC CBS 사진 #16] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "NC CBS 협폭 캐리어 구조 및 고밀도 슈트 배치 상세 포토입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-11",
+          "folder": "NC CBS",
+          "index": 11,
+          "fileName": "NC CBS_17.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_17.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_17.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_17.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_17.jpg",
+          "clipCode": "NC CBS 현장포토 #17",
+          "title": "[NC CBS 사진 #17] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "공간 절약형 프레임 설계와 모듈러 확장 브라켓 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-12",
+          "folder": "NC CBS",
+          "index": 12,
+          "fileName": "NC CBS_19.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_19.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_19.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_19.jpg",
+          "clipCode": "NC CBS 현장포토 #19",
+          "title": "[NC CBS 사진 #19] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "센서 및 케이블링이 일체형으로 정밀 빌트인된 협폭 소터 레일 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-13",
+          "folder": "NC CBS",
+          "index": 13,
+          "fileName": "NC CBS_20.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_20.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_20.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_20.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_20.jpg",
+          "clipCode": "NC CBS 현장포토 #20",
+          "title": "[NC CBS 사진 #20] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "NC CBS 협폭 캐리어 구조 및 고밀도 슈트 배치 상세 포토입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-14",
+          "folder": "NC CBS",
+          "index": 14,
+          "fileName": "NC CBS_23.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_23.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_23.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_23.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_23.jpg",
+          "clipCode": "NC CBS 현장포토 #23",
+          "title": "[NC CBS 사진 #23] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "공간 절약형 프레임 설계와 모듈러 확장 브라켓 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-15",
+          "folder": "NC CBS",
+          "index": 15,
+          "fileName": "NC CBS_24.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_24.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_24.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_24.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_24.jpg",
+          "clipCode": "NC CBS 현장포토 #24",
+          "title": "[NC CBS 사진 #24] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "센서 및 케이블링이 일체형으로 정밀 빌트인된 협폭 소터 레일 구조입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        },
+        {
+          "id": "NC CBS-pho-16",
+          "folder": "NC CBS",
+          "index": 16,
+          "fileName": "NC CBS_25.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_25.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_25.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_25.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NC CBS/NC CBS_25.jpg",
+          "clipCode": "NC CBS 현장포토 #25",
+          "title": "[NC CBS 사진 #25] NC CBS 설비 상세 및 라인 구축 전경",
+          "desc": "NC CBS 협폭 캐리어 구조 및 고밀도 슈트 배치 상세 포토입니다.",
+          "tags": [
+            "NC CBS",
+            "협폭 크로스벨트",
+            "초소형·소형 화물",
+            "공간 최적화"
+          ]
+        }
+      ]
     },
-    {
-      "id": "ref_c3",
-      "category": "food",
-      "title": "F&B 전문기업 F사 냉동 자동화 창고",
-      "imageUrl": "H00_레퍼런스_콜드체인_1.jpg",
-      "fallbackUrl": "assets/images/no-image.svg",
-      "subBadge": "영하 20℃ 냉동창고",
+    "NBS": {
+      "id": "NBS",
+      "title": "NBS",
+      "subtitle": "NBS [Narrow Belt Sorter] — 고속 팝업 휠 협폭 벨트 소터",
+      "badge": "NARROW BELT SORTER",
+      "icon": "fa-grip-lines",
+      "overview": "고속 팝업 휠 다방향 분기 메커니즘을 적용한 NBS(Narrow Belt Sorter) 라인입니다. 다양한 중량 및 크기의 화물을 무정차 상태에서 부드럽게 30도/45도/90도로 안전하게 연속 분기합니다.",
       "tags": [
-        "저온형 AS/RS",
-        "콜드체인 특화 WCS"
+        "Narrow Belt Sorter",
+        "팝업 휠 분기",
+        "연속 고속 분류",
+        "박스/파우치 화물"
       ],
-      "description": "극한의 저온 환경에서도 안정적으로 구동되는 특수 윤활 및 히팅 기술이 적용된 AS/RS 스태커 크레인을 구축하여 작업자의 위험 노출을 최소화했습니다.",
-      "field": "스마트 저온 물류",
-      "sortOrder": 3
+      "videoTemplates": [],
+      "photoTemplates": [],
+      "videoCount": 8,
+      "photoCount": 13,
+      "videos": [
+        {
+          "id": "NBS-vid-1",
+          "folder": "NBS",
+          "index": 1,
+          "fileName": "NBS_1.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_1.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_1.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "clipCode": "NBS 영상 #01",
+          "title": "[NBS 영상 #01] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "협폭 벨트 소터(NBS) 팝업 휠 30도/45도 고속 분기 가동 영상입니다. 주행 중인 화물을 감속 없이 부드럽게 전환합니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-vid-2",
+          "folder": "NBS",
+          "index": 2,
+          "fileName": "NBS_3.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_3.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_3.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "clipCode": "NBS 영상 #03",
+          "title": "[NBS 영상 #03] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "NBS 연속 투입 라인에서의 다품종 박스 화물 고속 방향 전환 실증 장면입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-vid-3",
+          "folder": "NBS",
+          "index": 3,
+          "fileName": "NBS_6.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_6.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_6.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_4.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_4.jpg",
+          "clipCode": "NBS 영상 #06",
+          "title": "[NBS 영상 #06] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "안정적인 벨트 구동과 서보 조향 팝업 휠의 정밀한 동기화 제어 현장입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-vid-4",
+          "folder": "NBS",
+          "index": 4,
+          "fileName": "NBS_7.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_7.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_7.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_5.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_5.jpg",
+          "clipCode": "NBS 영상 #07",
+          "title": "[NBS 영상 #07] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "협폭 벨트 소터(NBS) 팝업 휠 30도/45도 고속 분기 가동 영상입니다. 주행 중인 화물을 감속 없이 부드럽게 전환합니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-vid-5",
+          "folder": "NBS",
+          "index": 5,
+          "fileName": "NBS_8.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_8.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_8.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_9.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_9.jpg",
+          "clipCode": "NBS 영상 #08",
+          "title": "[NBS 영상 #08] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "NBS 연속 투입 라인에서의 다품종 박스 화물 고속 방향 전환 실증 장면입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-vid-6",
+          "folder": "NBS",
+          "index": 6,
+          "fileName": "NBS_13.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_13.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_13.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_11.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_11.jpg",
+          "clipCode": "NBS 영상 #13",
+          "title": "[NBS 영상 #13] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "안정적인 벨트 구동과 서보 조향 팝업 휠의 정밀한 동기화 제어 현장입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-vid-7",
+          "folder": "NBS",
+          "index": 7,
+          "fileName": "NBS_17.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_17.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_17.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_15.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_15.jpg",
+          "clipCode": "NBS 영상 #17",
+          "title": "[NBS 영상 #17] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "협폭 벨트 소터(NBS) 팝업 휠 30도/45도 고속 분기 가동 영상입니다. 주행 중인 화물을 감속 없이 부드럽게 전환합니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-vid-8",
+          "folder": "NBS",
+          "index": 8,
+          "fileName": "NBS_21.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_21.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_21.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_19.jpg",
+          "clipCode": "NBS 영상 #21",
+          "title": "[NBS 영상 #21] NBS 현장 가동 및 고속 분류 실증",
+          "desc": "NBS 연속 투입 라인에서의 다품종 박스 화물 고속 방향 전환 실증 장면입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "id": "NBS-pho-1",
+          "folder": "NBS",
+          "index": 1,
+          "fileName": "NBS_2.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_2.jpg",
+          "clipCode": "NBS 현장포토 #02",
+          "title": "[NBS 사진 #02] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "NBS 팝업 휠 메커니즘 및 롤러 구동부 확대 상세 사진입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-2",
+          "folder": "NBS",
+          "index": 2,
+          "fileName": "NBS_4.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_4.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_4.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_4.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_4.jpg",
+          "clipCode": "NBS 현장포토 #04",
+          "title": "[NBS 사진 #04] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 협폭 벨트와 분기 슈트 간 무간극 연결 인터페이스 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-3",
+          "folder": "NBS",
+          "index": 3,
+          "fileName": "NBS_5.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_5.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_5.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_5.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_5.jpg",
+          "clipCode": "NBS 현장포토 #05",
+          "title": "[NBS 사진 #05] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "유지보수가 용이한 모듈형 탈부착 휠 카트리지 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-4",
+          "folder": "NBS",
+          "index": 4,
+          "fileName": "NBS_9.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_9.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_9.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_9.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_9.jpg",
+          "clipCode": "NBS 현장포토 #09",
+          "title": "[NBS 사진 #09] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "NBS 팝업 휠 메커니즘 및 롤러 구동부 확대 상세 사진입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-5",
+          "folder": "NBS",
+          "index": 5,
+          "fileName": "NBS_10.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_10.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_10.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_10.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_10.jpg",
+          "clipCode": "NBS 현장포토 #10",
+          "title": "[NBS 사진 #10] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 협폭 벨트와 분기 슈트 간 무간극 연결 인터페이스 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-6",
+          "folder": "NBS",
+          "index": 6,
+          "fileName": "NBS_11.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_11.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_11.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_11.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_11.jpg",
+          "clipCode": "NBS 현장포토 #11",
+          "title": "[NBS 사진 #11] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "유지보수가 용이한 모듈형 탈부착 휠 카트리지 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-7",
+          "folder": "NBS",
+          "index": 7,
+          "fileName": "NBS_12.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_12.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_12.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_12.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_12.jpg",
+          "clipCode": "NBS 현장포토 #12",
+          "title": "[NBS 사진 #12] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "NBS 팝업 휠 메커니즘 및 롤러 구동부 확대 상세 사진입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-8",
+          "folder": "NBS",
+          "index": 8,
+          "fileName": "NBS_14.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_14.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_14.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_14.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_14.jpg",
+          "clipCode": "NBS 현장포토 #14",
+          "title": "[NBS 사진 #14] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 협폭 벨트와 분기 슈트 간 무간극 연결 인터페이스 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-9",
+          "folder": "NBS",
+          "index": 9,
+          "fileName": "NBS_15.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_15.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_15.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_15.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_15.jpg",
+          "clipCode": "NBS 현장포토 #15",
+          "title": "[NBS 사진 #15] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "유지보수가 용이한 모듈형 탈부착 휠 카트리지 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-10",
+          "folder": "NBS",
+          "index": 10,
+          "fileName": "NBS_16.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_16.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_16.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_16.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_16.jpg",
+          "clipCode": "NBS 현장포토 #16",
+          "title": "[NBS 사진 #16] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "NBS 팝업 휠 메커니즘 및 롤러 구동부 확대 상세 사진입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-11",
+          "folder": "NBS",
+          "index": 11,
+          "fileName": "NBS_18.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_18.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_18.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_18.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_18.jpg",
+          "clipCode": "NBS 현장포토 #18",
+          "title": "[NBS 사진 #18] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "다열 협폭 벨트와 분기 슈트 간 무간극 연결 인터페이스 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-12",
+          "folder": "NBS",
+          "index": 12,
+          "fileName": "NBS_19.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_19.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_19.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_19.jpg",
+          "clipCode": "NBS 현장포토 #19",
+          "title": "[NBS 사진 #19] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "유지보수가 용이한 모듈형 탈부착 휠 카트리지 구조입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        },
+        {
+          "id": "NBS-pho-13",
+          "folder": "NBS",
+          "index": 13,
+          "fileName": "NBS_20.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_20.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_20.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_20.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/NBS/NBS_20.jpg",
+          "clipCode": "NBS 현장포토 #20",
+          "title": "[NBS 사진 #20] NBS 설비 상세 및 라인 구축 전경",
+          "desc": "NBS 팝업 휠 메커니즘 및 롤러 구동부 확대 상세 사진입니다.",
+          "tags": [
+            "Narrow Belt Sorter",
+            "팝업 휠 분기",
+            "연속 고속 분류",
+            "박스/파우치 화물"
+          ]
+        }
+      ]
     },
-    {
-      "id": "ref_c4",
-      "category": "food",
-      "title": "대형 마트 M사 신선 물류 허브",
-      "imageUrl": "H00_레퍼런스_콜드체인_2.jpg",
-      "fallbackUrl": "assets/images/no-image.svg",
-      "subBadge": "신선식품 당일배송",
+    "Wheel Sorter": {
+      "id": "Wheel Sorter",
+      "title": "Wheel Sorter",
+      "subtitle": "Wheel Sorter — 4분할 독립 구동 팝업 휠 고속 방향전환 및 스마트 분류 시스템",
+      "badge": "WHEEL SORTER",
+      "icon": "fa-dharmachakra",
+      "overview": "에이티에이기술의 특허 기술(특허 제10-2956028호 등)이 적용된 4분할 방향 전환장치 및 휠소터 시스템 가동 현장입니다. 독립 구동 롤러와 서보 조향 각도 제어를 통해 화물의 충격 없이 초고속 양방향/다방향 분기 및 인덕션 합류를 완벽하게 구현합니다.",
+      "tags": [
+        "Wheel Sorter",
+        "4분할 방향 전환",
+        "특허 제10-2956028호",
+        "고속 팝업 휠"
+      ],
+      "videoTemplates": [],
+      "photoTemplates": [],
+      "videoCount": 11,
+      "photoCount": 13,
+      "videos": [
+        {
+          "id": "Wheel Sorter-vid-1",
+          "folder": "Wheel Sorter",
+          "index": 1,
+          "fileName": "Wheel Sorter_3.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_3.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_3.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_1.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_1.jpg",
+          "clipCode": "Wheel Sorter 영상 #03",
+          "title": "[Wheel Sorter 영상 #03] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "4분할 독립 구동 팝업 휠 방향전환장치(특허 제10-2956028호) 초고속 양방향 분기 실가동 영상입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-2",
+          "folder": "Wheel Sorter",
+          "index": 2,
+          "fileName": "Wheel Sorter_6.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_6.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_6.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_4.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_4.jpg",
+          "clipCode": "Wheel Sorter 영상 #06",
+          "title": "[Wheel Sorter 영상 #06] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "화물 크기와 무게에 따라 조향 각도를 실시간 가변 제어하는 지능형 휠소터 분류 장면입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-3",
+          "folder": "Wheel Sorter",
+          "index": 3,
+          "fileName": "Wheel Sorter_8.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_8.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_8.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_7.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_7.jpg",
+          "clipCode": "Wheel Sorter 영상 #08",
+          "title": "[Wheel Sorter 영상 #08] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "고속 간격 제어 컨베이어와 휠소터가 연동된 스마트 허브 인덕션 라인 가동 영상입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-4",
+          "folder": "Wheel Sorter",
+          "index": 4,
+          "fileName": "Wheel Sorter_10.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_10.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_10.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_9.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_9.jpg",
+          "clipCode": "Wheel Sorter 영상 #10",
+          "title": "[Wheel Sorter 영상 #10] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "4분할 독립 구동 팝업 휠 방향전환장치(특허 제10-2956028호) 초고속 양방향 분기 실가동 영상입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-5",
+          "folder": "Wheel Sorter",
+          "index": 5,
+          "fileName": "Wheel Sorter_12.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_12.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_12.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_11.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_11.jpg",
+          "clipCode": "Wheel Sorter 영상 #12",
+          "title": "[Wheel Sorter 영상 #12] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "화물 크기와 무게에 따라 조향 각도를 실시간 가변 제어하는 지능형 휠소터 분류 장면입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-6",
+          "folder": "Wheel Sorter",
+          "index": 6,
+          "fileName": "Wheel Sorter_14.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_14.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_14.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_13.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_13.jpg",
+          "clipCode": "Wheel Sorter 영상 #14",
+          "title": "[Wheel Sorter 영상 #14] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "고속 간격 제어 컨베이어와 휠소터가 연동된 스마트 허브 인덕션 라인 가동 영상입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-7",
+          "folder": "Wheel Sorter",
+          "index": 7,
+          "fileName": "Wheel Sorter_16.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_16.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_16.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_15.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_15.jpg",
+          "clipCode": "Wheel Sorter 영상 #16",
+          "title": "[Wheel Sorter 영상 #16] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "4분할 독립 구동 팝업 휠 방향전환장치(특허 제10-2956028호) 초고속 양방향 분기 실가동 영상입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-8",
+          "folder": "Wheel Sorter",
+          "index": 8,
+          "fileName": "Wheel Sorter_18.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_18.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_18.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_17.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_17.jpg",
+          "clipCode": "Wheel Sorter 영상 #18",
+          "title": "[Wheel Sorter 영상 #18] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "화물 크기와 무게에 따라 조향 각도를 실시간 가변 제어하는 지능형 휠소터 분류 장면입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-9",
+          "folder": "Wheel Sorter",
+          "index": 9,
+          "fileName": "Wheel Sorter_20.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_20.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_20.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_19.jpg",
+          "clipCode": "Wheel Sorter 영상 #20",
+          "title": "[Wheel Sorter 영상 #20] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "고속 간격 제어 컨베이어와 휠소터가 연동된 스마트 허브 인덕션 라인 가동 영상입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-10",
+          "folder": "Wheel Sorter",
+          "index": 10,
+          "fileName": "Wheel Sorter_22.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_22.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_22.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_21.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_21.jpg",
+          "clipCode": "Wheel Sorter 영상 #22",
+          "title": "[Wheel Sorter 영상 #22] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "4분할 독립 구동 팝업 휠 방향전환장치(특허 제10-2956028호) 초고속 양방향 분기 실가동 영상입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-vid-11",
+          "folder": "Wheel Sorter",
+          "index": 11,
+          "fileName": "Wheel Sorter_24.mp4",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_24.mp4",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_24.mp4",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_23.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_23.jpg",
+          "clipCode": "Wheel Sorter 영상 #24",
+          "title": "[Wheel Sorter 영상 #24] Wheel Sorter 현장 가동 및 고속 분류 실증",
+          "desc": "화물 크기와 무게에 따라 조향 각도를 실시간 가변 제어하는 지능형 휠소터 분류 장면입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        }
+      ],
+      "photos": [
+        {
+          "id": "Wheel Sorter-pho-1",
+          "folder": "Wheel Sorter",
+          "index": 1,
+          "fileName": "Wheel Sorter_1.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_1.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_1.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_1.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_1.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #01",
+          "title": "[Wheel Sorter 사진 #01] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "4분할 팝업 휠 내부 모터 및 독립 조향 링크 기구 정밀 클로즈업 사진입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-2",
+          "folder": "Wheel Sorter",
+          "index": 2,
+          "fileName": "Wheel Sorter_2.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_2.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_2.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_2.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_2.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #02",
+          "title": "[Wheel Sorter 사진 #02] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "특허 기술이 적용된 휠 모듈 프레임 및 내구성 검증 테스트베드 전경입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-3",
+          "folder": "Wheel Sorter",
+          "index": 3,
+          "fileName": "Wheel Sorter_4.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_4.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_4.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_4.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_4.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #04",
+          "title": "[Wheel Sorter 사진 #04] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "다양한 규격의 박스와 파우치를 완벽하게 이송하는 휠소터 상부 표면 구조입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-4",
+          "folder": "Wheel Sorter",
+          "index": 4,
+          "fileName": "Wheel Sorter_5.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_5.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_5.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_5.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_5.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #05",
+          "title": "[Wheel Sorter 사진 #05] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "4분할 팝업 휠 내부 모터 및 독립 조향 링크 기구 정밀 클로즈업 사진입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-5",
+          "folder": "Wheel Sorter",
+          "index": 5,
+          "fileName": "Wheel Sorter_7.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_7.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_7.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_7.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_7.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #07",
+          "title": "[Wheel Sorter 사진 #07] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "특허 기술이 적용된 휠 모듈 프레임 및 내구성 검증 테스트베드 전경입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-6",
+          "folder": "Wheel Sorter",
+          "index": 6,
+          "fileName": "Wheel Sorter_9.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_9.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_9.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_9.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_9.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #09",
+          "title": "[Wheel Sorter 사진 #09] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "다양한 규격의 박스와 파우치를 완벽하게 이송하는 휠소터 상부 표면 구조입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-7",
+          "folder": "Wheel Sorter",
+          "index": 7,
+          "fileName": "Wheel Sorter_11.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_11.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_11.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_11.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_11.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #11",
+          "title": "[Wheel Sorter 사진 #11] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "4분할 팝업 휠 내부 모터 및 독립 조향 링크 기구 정밀 클로즈업 사진입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-8",
+          "folder": "Wheel Sorter",
+          "index": 8,
+          "fileName": "Wheel Sorter_13.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_13.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_13.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_13.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_13.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #13",
+          "title": "[Wheel Sorter 사진 #13] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "특허 기술이 적용된 휠 모듈 프레임 및 내구성 검증 테스트베드 전경입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-9",
+          "folder": "Wheel Sorter",
+          "index": 9,
+          "fileName": "Wheel Sorter_15.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_15.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_15.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_15.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_15.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #15",
+          "title": "[Wheel Sorter 사진 #15] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "다양한 규격의 박스와 파우치를 완벽하게 이송하는 휠소터 상부 표면 구조입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-10",
+          "folder": "Wheel Sorter",
+          "index": 10,
+          "fileName": "Wheel Sorter_17.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_17.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_17.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_17.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_17.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #17",
+          "title": "[Wheel Sorter 사진 #17] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "4분할 팝업 휠 내부 모터 및 독립 조향 링크 기구 정밀 클로즈업 사진입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-11",
+          "folder": "Wheel Sorter",
+          "index": 11,
+          "fileName": "Wheel Sorter_19.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_19.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_19.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_19.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_19.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #19",
+          "title": "[Wheel Sorter 사진 #19] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "특허 기술이 적용된 휠 모듈 프레임 및 내구성 검증 테스트베드 전경입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-12",
+          "folder": "Wheel Sorter",
+          "index": 12,
+          "fileName": "Wheel Sorter_21.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_21.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_21.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_21.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_21.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #21",
+          "title": "[Wheel Sorter 사진 #21] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "다양한 규격의 박스와 파우치를 완벽하게 이송하는 휠소터 상부 표면 구조입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        },
+        {
+          "id": "Wheel Sorter-pho-13",
+          "folder": "Wheel Sorter",
+          "index": 13,
+          "fileName": "Wheel Sorter_23.jpg",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_23.jpg",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_23.jpg",
+          "thumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_23.jpg",
+          "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/Wheel Sorter/Wheel Sorter_23.jpg",
+          "clipCode": "Wheel Sorter 현장포토 #23",
+          "title": "[Wheel Sorter 사진 #23] Wheel Sorter 설비 상세 및 라인 구축 전경",
+          "desc": "4분할 팝업 휠 내부 모터 및 독립 조향 링크 기구 정밀 클로즈업 사진입니다.",
+          "tags": [
+            "Wheel Sorter",
+            "4분할 방향 전환",
+            "특허 제10-2956028호",
+            "고속 팝업 휠"
+          ]
+        }
+      ]
+    },
+    "틸트트레이소터": {
+      "id": "틸트트레이소터",
+      "title": "틸트트레이소터",
+      "subtitle": "틸트트레이소터 [Tilt Tray Sorter] — 대용량 순환형 틸트트레이 분류 시스템",
+      "badge": "TILT TRAY SORTER",
+      "icon": "fa-clone",
+      "overview": "트랙을 따라 연속 순환하는 독립 트레이(Tray)가 목적지 슈트 상단에서 정밀하게 양방향 틸팅(기울임)되어 화물을 중력 슬라이딩 방식으로 안전하게 배출하는 순환형 자동 분류 시스템입니다. 의류, 폴리백, 서적, 소형 박스는 물론 신선 물류까지 폭넓은 카고 스펙트럼을 자랑합니다.",
       "tags": [
         "Tilt Tray Sorter",
-        "위생 스테인리스 컨베이어"
+        "양방향 정밀 틸팅",
+        "순환형 루프 설계",
+        "의류/소형화물/신선물류"
       ],
-      "description": "신선도가 생명인 농축수산물을 산지에서 매장 및 고객에게 빠르게 배송하기 위해 초고속 Tilt Tray Sorter 기반의 분류 라인을 설계했습니다.",
-      "field": "신선 유통 분류",
-      "sortOrder": 4
-    },
-    {
-      "id": "ref_c5",
-      "category": "manu",
-      "title": "글로벌 자동차 H사 공장 조립 라인",
-      "imageUrl": "H00_레퍼런스_제조_1.jpg",
-      "fallbackUrl": "assets/images/no-image.svg",
-      "subBadge": "완성차 조립 라인",
-      "tags": [
-        "Heavy Duty 컨베이어",
-        "AGV 이송 시스템"
+      "videoTemplates": [],
+      "photoTemplates": [],
+      "videoCount": 1,
+      "photoCount": 1,
+      "videos": [
+        {
+          "id": "틸트트레이소터-vid-1",
+          "folder": "틸트트레이소터",
+          "index": 1,
+          "fileName": "Tilt Tray Sorter.mp4",
+          "src": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4",
+          "fallbackSrc": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.mp4",
+          "thumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+          "fallbackThumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+          "clipCode": "틸트트레이소터 영상 #01",
+          "title": "[틸트트레이소터 영상 #01] 틸트트레이소터 현장 가동 및 고속 분류 실증",
+          "desc": "틸트트레이소터 실제 가동 현장 동영상 #01 입니다.",
+          "tags": [
+            "Tilt Tray Sorter",
+            "양방향 정밀 틸팅",
+            "순환형 루프 설계",
+            "의류/소형화물/신선물류"
+          ]
+        }
       ],
-      "description": "중량물인 자동차 부품(엔진, 섀시 등)을 라인 간 오차 없이 이송하는 Heavy Duty 컨베이어 및 AGV 이송 시스템을 구축했습니다.",
-      "field": "완성차 부품 이송",
-      "sortOrder": 5
-    },
-    {
-      "id": "ref_c6",
-      "category": "manu",
-      "title": "배터리 제조 L사 셀 생산 라인",
-      "imageUrl": "H00_레퍼런스_제조_2.jpg",
-      "fallbackUrl": "assets/images/no-image.svg",
-      "subBadge": "2차전지 배터리",
-      "tags": [
-        "클린룸 로봇 팔레타이징",
-        "정밀 롤러 컨베이어"
-      ],
-      "description": "분진 발생을 원천 차단하는 클린룸 특화 로봇 팔레타이징 시스템 및 고정밀 셀 이송 롤러 컨베이어를 성공적으로 설계 및 시공했습니다.",
-      "field": "클린룸 2차전지 라인",
-      "sortOrder": 6
-    },
-    {
-      "id": "ref_c7",
-      "category": "manu",
-      "title": "국내 1위 타이어 K사 물류센터",
-      "imageUrl": "H00_레퍼런스_제조_3.jpg",
-      "fallbackUrl": "assets/images/no-image.svg",
-      "subBadge": "타이어 및 부품",
-      "tags": [
-        "비전 바코드 인식",
-        "비정형 특화 소터 라인"
-      ],
-      "description": "비정형화된 대형 고무 타이어 화물을 바코드 비전 인식과 결합하여 목적지별로 자동 분류하는 특화 소터 라인을 구축했습니다.",
-      "field": "비정형 대형물류 자동화",
-      "sortOrder": 7
+      "photos": [
+        {
+          "id": "틸트트레이소터-pho-1",
+          "folder": "틸트트레이소터",
+          "index": 1,
+          "fileName": "Tilt Tray Sorter.png",
+          "src": "[ Insert Data ]/[ Movie & Photo ]/틸트트레이소터/Tilt Tray Sorter.png",
+          "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/틸트트레이소터/Tilt Tray Sorter.png",
+          "thumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+          "fallbackThumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+          "clipCode": "틸트트레이소터 현장포토 #01",
+          "title": "[틸트트레이소터 사진 #01] 틸트트레이소터 설비 상세 및 라인 구축 전경",
+          "desc": "틸트트레이소터 고해상도 현장 설비 상세 포토 #01 입니다.",
+          "tags": [
+            "Tilt Tray Sorter",
+            "양방향 정밀 틸팅",
+            "순환형 루프 설계",
+            "의류/소형화물/신선물류"
+          ]
+        }
+      ]
     }
-  ],
+  },
   "notices": [
     {
       "id": "notice-001",
@@ -1270,6 +3784,363 @@
         "cn": "\n<p class=\"mb-4 text-base leading-relaxed\">尊敬的客户与合作伙伴，您好！这里是 <strong class=\"text-slate-900 font-bold\">株式会社 ATA Technology</strong>。</p>\n                <p class=\"mb-4 text-base leading-relaxed\">我司智能配送车辆核心技术 <strong class=\"text-blue-600 font-bold\">“厢式货车装载物自动分拣及输送装置”</strong> 获韩国特许厅正式授权注册，专利号：<strong class=\"text-slate-900 font-bold\">第 10-2317010 号</strong>。</p>\n\n                <div class=\"p-5 rounded-2xl bg-blue-50/80 border border-blue-200 text-slate-800 my-6 shadow-xl space-y-3\">\n                    <div class=\"text-xs font-mono text-amber-300 font-bold\">专利登记号：第 10-2317010 号</div>\n                    <div class=\"text-sm text-slate-700\"><strong class=\"text-slate-900 font-bold\">专利名称：</strong> 厢式货车装载物自动分拣及输送装置</div>\n                    <div class=\"text-xs text-slate-400\">申请日期：2020.10.30 | 授权日期：2021.10.19 | 专利权人：株式会社 ATA Technology</div>\n                </div>\n\n                <div class=\"p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3\">\n                    <span class=\"text-sm text-slate-700\"><i class=\"fa-solid fa-file-pdf text-red-400 mr-2\"></i>官方专利证书文件（PDF）</span>\n                    <a href=\"docs/1. [특허증]10-2317010.pdf\" target=\"_blank\" class=\"px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors\">\n                        查看证书\n                    </a>\n                </div>\n            ",
         "ja": "\n<p class=\"mb-4 text-base leading-relaxed\">いつもお世話になっております。<strong class=\"text-slate-900 font-bold\">株式会社ATAテクノロジー</strong>です。</p>\n                <p class=\"mb-4 text-base leading-relaxed\">当社のラストワンマイル配送自動化の中核特許である<strong class=\"text-blue-600 font-bold\">「配送バン積載物の自動仕分けおよび移送装置」</strong>（<strong class=\"text-slate-900 font-bold\">特許 第10-2317010号</strong>）をご案内いたします。</p>\n\n                <div class=\"p-5 rounded-2xl bg-blue-50/80 border border-blue-200 text-slate-800 my-6 shadow-xl space-y-3\">\n                    <div class=\"text-xs font-mono text-amber-300 font-bold\">特許登録番号：第10-2317010号</div>\n                    <div class=\"text-sm text-slate-700\"><strong class=\"text-slate-900 font-bold\">発明の名称：</strong> 配送バン積載物の自動仕分けおよび移送装置</div>\n                    <div class=\"text-xs text-slate-400\">出願日：2020.10.30 | 登録日：2021.10.19 | 特許権者：株式会社ATAテクノロジー</div>\n                </div>\n\n                <div class=\"p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3\">\n                    <span class=\"text-sm text-slate-700\"><i class=\"fa-solid fa-file-pdf text-red-400 mr-2\"></i>特許証 原本確認（PDF）</span>\n                    <a href=\"docs/1. [특허증]10-2317010.pdf\" target=\"_blank\" class=\"px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors\">\n                        PDFを開く\n                    </a>\n                </div>\n            "
       }
+    }
+  ],
+  "patents": [
+    {
+      "id": "pat_1",
+      "category": "patent",
+      "title": "차세대 택배차량 배송 자동화 시스템",
+      "subtitle": "Smart Delivery Vehicle Automation System",
+      "regNumber": "제 10-2317010 호",
+      "date": "2021.10.15 등록",
+      "organization": "대한민국 특허청 (KIPO)",
+      "badge": "등록특허",
+      "fileUrl": "docs/1. [특허증]10-2317010.pdf",
+      "description": "택배 배송 차량 내부의 적재함을 모듈화하여 목적지별 화물을 자동으로 이송하고 순차 배출하는 차세대 스마트 모빌리티 물류 특허입니다.",
+      "features": [
+        "차량 내부 적재함 자동 이송 및 슬라이딩 배출 메커니즘",
+        "상하차 작업 시간 60% 이상 단축 및 배송 기사 근골격계 질환 예방",
+        "다양한 규격의 배송 차량(1톤/2.5톤/탑차) 맞춤형 커스텀 장착 지원"
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "pat_2",
+      "category": "patent",
+      "title": "인공지능 기반 스마트 체형 교정 및 유지 시스템",
+      "subtitle": "AI-based Body Posture Correction & Health System",
+      "regNumber": "제 10-2758800 호",
+      "date": "2025.01.10 등록",
+      "organization": "대한민국 특허청 (KIPO)",
+      "badge": "등록특허",
+      "fileUrl": "docs/1.[특허증]10-2758800.pdf",
+      "description": "비전 AI 카메라 및 압력 센서를 결합하여 사용자의 작업 자세와 체형 밸런스를 실시간 추적하고 인체공학적 피드백을 제공하는 스마트 헬스케어 특허 기술입니다.",
+      "features": [
+        "물류 현장 작업자 작업 자세 및 위험 하중 실시간 AI 추적",
+        "신체 불균형 및 위험 작업 패턴 감지 시 즉각 경고 알림",
+        "작업 안전성 및 작업장 보건 관리 솔루션과 통합 연동"
+      ],
+      "sortOrder": 2
+    },
+    {
+      "id": "pat_3",
+      "category": "patent",
+      "title": "운송 차량 적재물 분류 및 이송 시스템",
+      "subtitle": "Vehicle Cargo Sorting & Conveyance System",
+      "regNumber": "제 10-2782386 호",
+      "date": "2025.03.05 등록",
+      "organization": "대한민국 특허청 (KIPO)",
+      "badge": "등록특허",
+      "fileUrl": "docs/1.[특허증]10-2782386.pdf",
+      "description": "운송 트럭 및 컨테이너 내부 깊숙이 진입하여 화물의 크기, 무게, 바코드를 고속 인식하고 자동 분류하는 텔레스코픽 연동 이송 특허 시스템입니다.",
+      "features": [
+        "다열 컨베이어 기반 고속 화물 피치 제어 및 연속 이송",
+        "비정형 박스 및 연포장 폴리백 화물 걸림 방지 특수 벨트 설계",
+        "간선 하차 라인 병목 현상 완전 해소 및 시간당 4,000+ 개 연속 처리"
+      ],
+      "sortOrder": 3
+    },
+    {
+      "id": "pat_4",
+      "category": "patent",
+      "title": "컨베이어 물류 분류용 4분할 방향 전환 장치",
+      "subtitle": "4-Directional Transfer & Sorting Switch Device",
+      "regNumber": "제 10-2956028 호",
+      "date": "2026.04.02 등록",
+      "organization": "대한민국 특허청 (KIPO)",
+      "badge": "최신원천특허",
+      "fileUrl": "docs/1.[특허증]10-2956028.pdf",
+      "description": "고속 주행 중인 화물을 회전 감속 없이 직진, 좌, 우, 반전의 4방향으로 0.15초 이내에 부드럽게 궤적 전환하는 에이티에이기술의 대표 원천 핵심 특허 장치입니다.",
+      "features": [
+        "독자 개발 4분할 롤러 매트릭스 구동 기술로 충격 없는 방향 전환",
+        "다양한 중량물(0.2kg ~ 50kg) 및 취급주의 유리/전자제품 완벽 지원",
+        "모듈형 설계로 기존 컨베이어 라인 어디든 단 1시간 이내 신속 설치"
+      ],
+      "sortOrder": 4
+    },
+    {
+      "id": "cert_1",
+      "category": "cert",
+      "title": "ISO 9001 인증서",
+      "subtitle": "품질경영시스템 (ISO 9001:2015)",
+      "regNumber": "QMS-2024-ATA",
+      "date": "2024.08.15",
+      "organization": "국제표준화기구 (ISO) / ICR 인증원",
+      "badge": "품질경영",
+      "fileUrl": "docs/(주)에이티에이기술 ISO 9001.pdf",
+      "description": "물류 자동화 시스템 및 산업용 기계 엔지니어링의 설계, 개발, 제조, 설치 및 부가 서비스 전 과정에 걸쳐 국제 표준 품질 규격을 충족함을 공식 인증받았습니다.",
+      "features": [
+        "물류 자동화 기기 설계 및 제작 공정의 엄격한 품질 보증 체계",
+        "고객 요구사항 100% 충족을 위한 지속적 품질 개선 프로세스 운영"
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "cert_2",
+      "category": "cert",
+      "title": "ISO 14001 인증서",
+      "subtitle": "환경경영시스템 (ISO 14001:2015)",
+      "regNumber": "EMS-2024-ATA",
+      "date": "2024.08.15",
+      "organization": "국제표준화기구 (ISO) / ICR 인증원",
+      "badge": "환경경영",
+      "fileUrl": "docs/(주)에이티에이기술 ISO 14001.pdf",
+      "description": "친환경 고효율 모터 적용 및 자원 재활용 설계를 통해 제품 제조와 설치 전 과정에서 환경적 영향을 최소화하는 친환경 경영 표준을 인증받았습니다.",
+      "features": [
+        "에너지 고효율 저전력 제어 알고리즘 및 친환경 부품 채택",
+        "제조 폐기물 저감 및 글로벌 환경 규제 준수 에코 엔지니어링"
+      ],
+      "sortOrder": 2
+    },
+    {
+      "id": "cert_3",
+      "category": "cert",
+      "title": "벤처기업확인서",
+      "subtitle": "혁신성장유형 벤처기업",
+      "regNumber": "제 2024-0312 호",
+      "date": "2024.03.12",
+      "organization": "중소벤처기업진흥공단",
+      "badge": "벤처기업",
+      "fileUrl": "docs/벤처기업확인서.pdf",
+      "description": "기술의 혁신성과 미래 성장 잠재력을 공식 검증받아 기술보증기금 및 중소벤처기업부로부터 벤처기업으로 정식 인증되었습니다.",
+      "features": [
+        "자율주행 물류 솔루션 및 지능형 소터 독자 기술력 인정",
+        "지속적인 R&D 투자와 차세대 물류 혁신 스타트업 선정"
+      ],
+      "sortOrder": 3
+    },
+    {
+      "id": "cert_4",
+      "category": "cert",
+      "title": "창업기업확인서",
+      "subtitle": "기술기반 창업기업",
+      "regNumber": "제 2023-0824 호",
+      "date": "2023.08.24",
+      "organization": "중소벤처기업부",
+      "badge": "창업기업",
+      "fileUrl": "docs/창업기업확인서.pdf",
+      "description": "물류 메카트로닉스 및 지능형 창고제어(WCS) 소프트웨어 융합 기술을 기반으로 공식 설립된 혁신 기술 기업임을 확인받았습니다.",
+      "features": [
+        "정부 주도 스마트 물류 및 첨단 제조 육성 지원 대상 기업",
+        "국내외 대형 물류 인프라 프로젝트 턴키 수행 역량 확보"
+      ],
+      "sortOrder": 4
+    },
+    {
+      "id": "cert_5",
+      "category": "cert",
+      "title": "연구개발전담부서 인정서",
+      "subtitle": "기업부설 연구개발전담부서",
+      "regNumber": "제 2023-RND-1102 호",
+      "date": "2023.11.02",
+      "organization": "한국산업기술진흥협회 (KOITA)",
+      "badge": "R&D연구소",
+      "fileUrl": "docs/연구개발전담부서인정서.pdf",
+      "description": "물류 자동화 메카트로닉스 및 비전 AI 화물 인식 기술을 전문적으로 연구개발하는 사내 전담 연구부서의 인프라와 역량을 공식 인정받았습니다.",
+      "features": [
+        "자체 테스트베드 및 3D 시뮬레이션 연구 설비 상시 운용",
+        "국내 유수 물류 기업 및 해외 제조사와의 산학연 R&D 프로젝트 주도"
+      ],
+      "sortOrder": 5
+    },
+    {
+      "id": "award_1",
+      "category": "award",
+      "title": "강원창조경제혁신센터 표창",
+      "subtitle": "스마트 모빌리티 & 로보틱스 우수기업",
+      "regNumber": "GW-AWD-2024-09",
+      "date": "2024.09.20",
+      "organization": "강원창조경제혁신센터장",
+      "badge": "우수표창",
+      "fileUrl": "docs/강원창조경제혁신센터.pdf",
+      "description": "지역 스마트 물류 모빌리티 생태계 활성화 및 혁신 기술 R&D 육성에 기여한 공로를 인정받아 우수 혁신 기업 표창을 수상하였습니다.",
+      "features": [
+        "혁신 물류 로보틱스 상용화 성공 및 지역 청년 일자리 창출 기여"
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "award_2",
+      "category": "award",
+      "title": "인천창조경제혁신센터 수상",
+      "subtitle": "물류 스타트업 피칭 페스티벌 우수상",
+      "regNumber": "IC-AWD-2023-11",
+      "date": "2023.11.15",
+      "organization": "인천창조경제혁신센터장",
+      "badge": "우수상",
+      "fileUrl": "docs/인천창조경제혁신센터-개인자격수상.pdf",
+      "description": "차세대 택배차량 자동 상하차 시스템의 혁신성과 사업화 타당성을 인정받아 물류 신기술 피칭 대회에서 우수상을 수상하였습니다.",
+      "features": [
+        "국내 대형 풀필먼트 센터 및 라스트마일 물류 현장 실증 테스트 완료"
+      ],
+      "sortOrder": 2
+    },
+    {
+      "id": "award_3",
+      "category": "award",
+      "title": "RnD 실무교육 수료증",
+      "subtitle": "첨단 로보틱스 & 메카트로닉스 R&D 전문과정",
+      "regNumber": "RND-EDU-2023-04",
+      "date": "2023.04.28",
+      "organization": "한국로봇산업진흥원",
+      "badge": "전문수료",
+      "fileUrl": "docs/RnD 실무교육 수료증.pdf",
+      "description": "산업용 스마트 로봇 제어 시스템 및 안전 규격 설계 실무 과정을 전원 우수한 성적으로 이수 완료하였습니다.",
+      "features": [
+        "ISO 10218 및 산업용 로봇 안전 규격 설계 표준 완벽 준수"
+      ],
+      "sortOrder": 3
+    }
+  ],
+  "china": [
+    {
+      "id": "china_intro_overview",
+      "category": "intro",
+      "title": "글로벌 물류 로보틱스 선도기업, 한중 합자법인 (제조사)",
+      "subtitle": "GLOBAL PARTNERSHIP & MANUFACTURING BASE",
+      "badge": "법인 개요",
+      "imageUrl": "assets/images/china_factory_panorama.jpg",
+      "description": "한중 합자법인 (제조사)는 전 세계 최고 수준의 자율주행 물류 로봇(AGV/AMR) 및 지능형 셔틀 시스템을 전문적으로 연구·양산하는 글로벌 혁신 기술 제조 거점입니다.\n\n(주)에이티에이기술은 한중 합자법인 (제조사)와의 긴밀한 독점적 전략 파트너십을 통해, 중국의 압도적인 대량 양산 하드웨어 제조 경쟁력과 한국의 정밀한 소프트웨어(WCS) 제어 알고리즘을 융합하여 세계 최고 수준의 가성비와 무결점 성능을 자랑하는 스마트 물류 솔루션을 공급하고 있습니다.",
+      "features": [
+        "대규모 자동화 양산 복합 클러스터 구축",
+        "국제 CE 및 ISO 9001/14001 품질 보증",
+        "한국형 WCS 관제 알고리즘 최적화 펌웨어 탑재"
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "china_stat_patent",
+      "category": "intro",
+      "title": "보유 핵심 특허",
+      "badge": "핵심 지표",
+      "statValue": "16+",
+      "statLabel": "글로벌 특허 및 IP",
+      "description": "자율주행 물류 로보틱스, 초고속 4분할 방향전환 소터, 지능형 셔틀 관련 한·중 핵심 지식재산권",
+      "sortOrder": 2
+    },
+    {
+      "id": "china_stat_delivery",
+      "category": "intro",
+      "title": "글로벌 공급 실적",
+      "badge": "핵심 지표",
+      "statValue": "670+",
+      "statLabel": "글로벌 프로젝트 구축",
+      "description": "아시아, 유럽, 북미 등 글로벌 16개국 대형 물류 풀필먼트 및 허브 터미널 성공 납품",
+      "sortOrder": 3
+    },
+    {
+      "id": "china_stat_area",
+      "category": "intro",
+      "title": "첨단 제조 양산 단지",
+      "badge": "핵심 지표",
+      "statValue": "35,000㎡",
+      "statLabel": "전용 제조 클러스터",
+      "description": "정밀 CNC 머시닝 센터, SMT 라인, 3단계 전수 신뢰성 테스트 타워를 구비한 첨단 제조 기지",
+      "sortOrder": 4
+    },
+    {
+      "id": "china_stat_capacity",
+      "category": "intro",
+      "title": "연간 생산 케파",
+      "badge": "핵심 지표",
+      "statValue": "5,000+",
+      "statLabel": "세트/년 최대 양산능력",
+      "description": "Narrow Belt Sorter, Cross Belt Sorter, 4분할 방향전환 롤러 매트릭스 대량 생산 체계",
+      "sortOrder": 5
+    },
+    {
+      "id": "china_coop_1",
+      "category": "coop",
+      "title": "하드웨어-소프트웨어 융합 R&D",
+      "subtitle": "HW & SW Fusion Co-development",
+      "badge": "핵심 협력 01",
+      "imageUrl": "[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png",
+      "description": "중국 제조사의 검증된 고정밀 하드웨어 메커니즘에 에이티에이기술의 한국형 물류 환경 맞춤형 WCS(관제 소프트웨어) 로직을 심는 차세대 공동 기술 개발을 진행합니다. 독자 임베디드 펌웨어 제어를 통해 반응 속도를 극대화하고 오분류율 0.001% 이하의 완벽한 신뢰성을 실현합니다.",
+      "features": [
+        "한국형 WCS/WMS와 직결되는 초저지연 통신 프로토콜 설계",
+        "국내 환경 맞춤형 비정형 택배 박스 및 연포장 비닐백 피칭 알고리즘",
+        "정기적인 양국 R&D 엔지니어 교환 파견 및 펌웨어 공동 업그레이드"
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "china_coop_2",
+      "category": "coop",
+      "title": "국내 대형 풀필먼트 공동 수주 및 맞춤 생산",
+      "subtitle": "Joint Sourcing & Customized Mass Production",
+      "badge": "핵심 협력 02",
+      "imageUrl": "[ Insert Data ]/중국 지사_제조사/렵력사업/2. 국내 대형 풀필먼트 공동 수주.png",
+      "description": "국내 대기업 및 글로벌 이커머스 허브 센터 구축 시, 제조사 직공급 체계를 통해 유통 마진을 대폭 제거하고 납기를 획기적으로 단축하여 고객사 맞춤형 턴키 솔루션을 공급합니다. 프로젝트별 맞춤형 모듈 제작으로 초기 투자비(CAPEX)를 최대 35% 절감합니다.",
+      "features": [
+        "제조사 직결 다이렉트 공급망 구축으로 원가 경쟁력 압도적 우위",
+        "초대형 메가 허브 전용 맞춤형 기구 설계 및 최단 납기 보장",
+        "사전 3D 레이아웃 시뮬레이션을 통한 설치 오류 제로화"
+      ],
+      "sortOrder": 2
+    },
+    {
+      "id": "china_coop_3",
+      "category": "coop",
+      "title": "로컬라이징 및 국내 A/S 전담 센터 운영",
+      "subtitle": "Localization & 24/7 Dedicated CS Center",
+      "badge": "핵심 협력 03",
+      "imageUrl": "[ Insert Data ]/중국 지사_제조사/렵력사업/3. 로컬라이징 및 AS 전담 센터.png",
+      "description": "(주)에이티에이기술 본사가 대한민국 공식 테크니컬 지원 본부로서, 순정 정품 부품의 상시 보유와 24/7 전담 긴급 출동 체계를 가동하여 외산 장비의 유지보수 불안을 완전히 해소합니다.",
+      "features": [
+        "국내 본사 물류센터 내 주요 핵심 모터 및 구동 롤러 부품 100% 상시 재고",
+        "24시간 365일 원격 장애 진단 및 2시간 이내 수도권 현장 출동",
+        "정기 예방 정비 및 무상 안전 점검 서비스 상시 지원"
+      ],
+      "sortOrder": 3
+    },
+    {
+      "id": "china_fac_hq",
+      "category": "facility",
+      "title": "대한민국 본사 (ATA Technology)",
+      "subtitle": "HEADQUARTERS & R&D CENTER",
+      "badge": "본사 R&D 거점",
+      "imageUrl": "assets/images/korea_hq_building.jpg",
+      "description": "물류 자동화 WCS/WMS 통합 관제 소프트웨어 독자 개발 및 국내 대형 프로젝트 총괄 엔지니어링, 24시간 전문 기술지원 총괄 본부입니다.",
+      "location": "경기도 오산시 수목원로 88번길 35 현대테라타워 CMC B동 1402호",
+      "features": [
+        "물류 자동화 WCS / WMS 통합 관제 소프트웨어 독자 개발",
+        "국내 대형 프로젝트 턴키(Turnkey) 엔지니어링 및 총괄 시공",
+        "24시간 전문 엔지니어 기술지원 및 신속 현장 출동 A/S 센터",
+        "하드웨어 현지화(Localization) 커스텀 기술 및 특허 인증"
+      ],
+      "sortOrder": 1
+    },
+    {
+      "id": "china_fac_factory",
+      "category": "facility",
+      "title": "한중 합자법인 스마트 제조 공장 (제조사)",
+      "subtitle": "SMART FACTORY & MANUFACTURING HUB",
+      "badge": "글로벌 제조 거점",
+      "imageUrl": "assets/images/china_factory_panorama.jpg",
+      "description": "연간 5,000+ 대 규모의 첨단 소터 및 물류 로봇을 양산하는 대규모 전용 스마트 제조 클러스터로서 엄격한 국제 규격을 만족합니다.",
+      "location": "첨단 물류 로보틱스 대규모 전용 양산 복합 클러스터",
+      "features": [
+        "연간 5,000+ 대 규모 첨단 소터 및 물류 로봇 양산 라인",
+        "유럽 CE 및 ISO 9001 / ISO 14001 국제 표준 품질 규격",
+        "글로벌 16개국 직수출 공급망 및 초대형 허브 터미널 납품 실적",
+        "자체 정밀 가공 머시닝 센터 및 3단계 전수 신뢰성 테스트 검수"
+      ],
+      "sortOrder": 2
+    },
+    {
+      "id": "china_fac_network_map",
+      "category": "facility",
+      "title": "글로벌 로보틱스 공급망 네트워크 맵",
+      "subtitle": "Global Robotics Supply Chain & Deployment Hub",
+      "badge": "글로벌 공급망",
+      "imageUrl": "[ Insert Data ]/중국 지사_제조사/글로벌 네트워크/글로벌 네트워크.png",
+      "description": "대한민국 본사의 첨단 소프트웨어 기술력과 중국 합자법인의 대규모 첨단 제조 양산 단지가 유기적으로 결합되어 전 세계 16개국 이상으로 뻗어나가는 글로벌 스마트 물류 네트워크 지도입니다.",
+      "features": [
+        "전 세계 16개국 이상 대형 허브 터미널 구축 실적",
+        "한국-중국-글로벌 직결 실시간 무결점 기술 지원 체계"
+      ],
+      "sortOrder": 3
     }
   ]
 }
