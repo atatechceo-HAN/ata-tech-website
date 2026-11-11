@@ -681,7 +681,7 @@
     }
 
     /**
-     * [3대 상호협력 및 기술제휴] 가로 분할 황금비율 (글씨 65% : 콤팩트 사진 35%)
+     * [3대 상호협력 및 기술제휴] 상하 수직형 클린 카드 (가로 100% 풀 와이드 텍스트 + 빈 공간 완전 제거)
      */
     function renderCoopSection(items) {
         var container = document.getElementById('china-coop-cards-grid');
@@ -689,71 +689,67 @@
 
         items.sort(function (a, b) { return (a.sortOrder || 99) - (b.sortOrder || 99); });
 
+        var curLang = window.currentLanguage || 'ko';
+        var isEn = curLang === 'en';
+
         var html = [];
         items.forEach(function (it, idx) {
-            var badgeStr = it.badge || ('핵심 협력 0' + (idx + 1));
+            var numStr = it.sortOrder ? (it.sortOrder < 10 ? '0' + it.sortOrder : it.sortOrder) : (idx + 1 < 10 ? '0' + (idx + 1) : idx + 1);
+            var badgeStr = isEn ? 'Core Coop ' + numStr : (it.badge || ('핵심 협력 ' + numStr));
+            var displayTitle = (isEn && it.subtitle) ? it.subtitle : it.title;
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
 
-            // ================= [좌측: 콤팩트 사진 영역 35%] =================
-            html.push('  <div class="w-full lg:w-80 shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-3 border border-slate-200/80">');
+            html.push('  <div>');
+
+            // 1. 상단 인포그래픽 썸네일 (16:9 비율로 안정감 있게 꽉 채움)
             if (it.imageUrl) {
-                html.push('    <div class="w-full h-52 sm:h-56 rounded-xl overflow-hidden bg-slate-100 relative group/img cursor-pointer border border-slate-200 shadow-inner flex items-center justify-center mb-2" onclick="window.openImageModal ? window.openImageModal(\'' + it.imageUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.imageUrl + '\', \'_blank\')">');
+                html.push('    <div class="w-full aspect-video rounded-2xl overflow-hidden bg-slate-100 relative group/img cursor-pointer border border-slate-200 shadow-inner flex items-center justify-center mb-5" onclick="window.openImageModal ? window.openImageModal(\'' + it.imageUrl + '\', \'' + it.title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.imageUrl + '\', \'_blank\')">');
                 html.push('      <img src="' + it.imageUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-                html.push('      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px]">');
+                html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px]">');
                 html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-400"></i> 원본 크게 보기');
                 html.push('      </div>');
                 html.push('    </div>');
-            } else {
-                html.push('    <div class="w-full h-52 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 text-xs">협력 사진 준비 중</div>');
             }
-            html.push('    <div class="text-center text-[11px] text-slate-500 font-medium py-1">');
-            html.push('      <i class="fa-solid fa-camera text-blue-500 mr-1"></i>제조사 현장 협력 실물 사진');
+
+            // 2. 상단 배지 바
+            html.push('    <div class="flex items-center gap-2 mb-3 flex-wrap">');
+            html.push('      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
+            html.push('        <i class="fa-solid fa-handshake text-blue-600"></i> ' + badgeStr);
+            html.push('      </span>');
+            html.push('      <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">독점 기술 제휴</span>');
             html.push('    </div>');
-            html.push('  </div>');
 
-            // ================= [우측: 글씨 중심 영역 65%] =================
-            html.push('  <div class="flex-1 flex flex-col justify-between min-w-0">');
-            html.push('    <div>');
-
-            // 상단 배지
-            html.push('      <div class="flex items-center gap-2.5 mb-3 flex-wrap">');
-            html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
-            html.push('          <i class="fa-solid fa-handshake text-blue-600"></i> ' + badgeStr);
-            html.push('        </span>');
-            html.push('        <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">독점 기술 제휴</span>');
-            html.push('      </div>');
-
-            // 제목 및 영문
-            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors leading-snug">' + it.title + '</h3>');
-            if (it.subtitle) {
-                html.push('      <p class="text-xs font-semibold text-slate-400 mb-4 tracking-wide">' + it.subtitle + '</p>');
+            // 3. 협력사업 명칭 (가로 100% 온전히 사용 - 절대 글씨가 쪼개지지 않음)
+            html.push('    <h3 class="text-lg sm:text-xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors leading-snug break-keep">' + displayTitle + '</h3>');
+            if (it.subtitle && !isEn) {
+                html.push('    <p class="text-xs font-semibold text-slate-400 mb-3 tracking-wide break-keep">' + it.subtitle + '</p>');
             }
 
-            // 시원하게 넓어진 상세 설명란 (줄바꿈 완벽 지원)
-            html.push('      <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 whitespace-pre-line">' + (it.description || '') + '</p>');
+            // 4. 상세 설명란 (가로 100% 전체 사용으로 넉넉하고 편안한 읽기)
+            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5 whitespace-pre-line break-keep">' + (it.description || '') + '</p>');
 
-            // 핵심 성과 및 제휴 특장점 박스
+            // 5. 핵심 성과 및 제휴 시너지 박스 (하단 빈 공간을 꽉 채워 균형 완성)
             if (it.features && it.features.length > 0) {
-                html.push('      <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 space-y-2 mb-2">');
-                html.push('        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-blue-600"></i> 기술 제휴 핵심 시너지 & 성과</div>');
+                html.push('    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 space-y-2 mb-4">');
+                html.push('      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-blue-600"></i> 핵심 시너지 & 협력 성과</div>');
                 it.features.forEach(function (f) {
-                    html.push('        <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
-                    html.push('          <i class="fa-solid fa-check text-blue-600 text-xs mt-1 shrink-0"></i>');
-                    html.push('          <span>' + f + '</span>');
-                    html.push('        </div>');
+                    html.push('      <div class="flex items-start gap-2 text-xs text-slate-700 font-medium leading-relaxed">');
+                    html.push('        <i class="fa-solid fa-check text-blue-600 text-xs mt-0.5 shrink-0"></i>');
+                    html.push('        <span class="break-keep">' + f + '</span>');
+                    html.push('      </div>');
                 });
-                html.push('      </div>');
+                html.push('    </div>');
             }
-            html.push('    </div>');
-
-            // 우측 하단 메타 바
-            html.push('    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-4">');
-            html.push('      <span>한·중 합자 파트너십 독점 공급망</span>');
-            html.push('      <span class="font-bold text-blue-600">ATA TECH × GLOBAL OEM</span>');
-            html.push('    </div>');
 
             html.push('  </div>');
+
+            // 6. 하단 메타 바
+            html.push('  <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-auto">');
+            html.push('    <span>한·중 합자 파트너십 독점 공급망</span>');
+            html.push('    <span class="font-bold text-blue-600">ATA TECH × GLOBAL OEM</span>');
+            html.push('  </div>');
+
             html.push('</div>');
         });
 
@@ -829,6 +825,11 @@
         handleFormSubmit: handleFormSubmit,
         deleteItem: deleteItem
     };
+
+    // 언어 변경 리스너 연동 (다국어 실시간 동기화)
+    window.addEventListener('languageChanged', function () {
+        renderFrontend();
+    });
 
     // 초기 실행
     document.addEventListener('DOMContentLoaded', function () {
