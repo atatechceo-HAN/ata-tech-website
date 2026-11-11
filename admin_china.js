@@ -295,7 +295,7 @@
             html.push('  <div class="flex flex-col sm:flex-row gap-4 pt-3 items-start">');
 
             // 콤팩트 썸네일
-            html.push('    <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm">');
+            html.push('    <div class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm self-start mt-0.5">');
             if (item.imageUrl) {
                 html.push('      <img src="' + item.imageUrl + '" class="w-full h-full object-cover" onerror="this.src=\'assets/images/no-image.svg\';">');
                 html.push('      <a href="' + item.imageUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[10px] font-bold gap-1 text-center p-1">');
@@ -340,82 +340,135 @@
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="china-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5">',
-            '  <div class="bg-white rounded-3xl w-full max-w-3xl max-h-[94vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            '<div id="china-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6">',
+            '  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[95vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            
+            // 모달 헤더
             '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">',
-            '      <div class="flex items-center gap-2.5">',
-            '        <span class="w-8 h-8 rounded-xl bg-blue-500/20 text-cyan-400 border border-blue-500/30 flex items-center justify-center text-sm font-bold">',
+            '      <div class="flex items-center gap-3">',
+            '        <span class="w-9 h-9 rounded-xl bg-blue-500/20 text-cyan-400 border border-blue-500/30 flex items-center justify-center text-base font-bold shadow-inner">',
             '          <i class="fa-solid fa-industry"></i>',
             '        </span>',
             '        <div>',
-            '          <h3 id="china-modal-title" class="text-base font-bold text-white">한중합자법인(제조사) 콘텐츠 작성</h3>',
-            '          <p class="text-[11px] text-slate-400">개요, 3대 기술협력, 글로벌 제조 거점의 상세 설명과 사진을 편집합니다.</p>',
+            '          <h3 id="china-modal-title" class="text-base sm:text-lg font-bold text-white tracking-wide">한중합자법인(제조사) 콘텐츠 수정 및 작성</h3>',
+            '          <p class="text-xs text-slate-400">광활한 글자 입력창에서 상세 내용과 기술 협력 성과를 여유롭게 편집하세요.</p>',
             '        </div>',
             '      </div>',
-            '      <button type="button" onclick="window.ChinaAdmin.closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>',
+            '      <button type="button" onclick="window.ChinaAdmin.closeModal()" class="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 text-xl transition-colors cursor-pointer"><i class="fa-solid fa-xmark"></i></button>',
             '    </div>',
-            '    <form id="china-editor-form" onsubmit="window.ChinaAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-6 sm:p-8 space-y-5 custom-scrollbar">',
+
+            // 모달 본문 폼: [좌측 65% 초대형 글자칸] + [우측 35% 콤팩트 사진/설정 패널]
+            '    <form id="china-editor-form" onsubmit="window.ChinaAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-5 sm:p-7 custom-scrollbar">',
             '      <input type="hidden" id="china-form-id" value="">',
-            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">카테고리 구분 <span class="text-red-500">*</span></label>',
-            '          <select id="china-form-category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
-            '            <option value="intro">법인 개요 및 핵심 지표 (Overview/Stats)</option>',
-            '            <option value="coop">상호협력 및 3대 기술제휴 (Cooperation)</option>',
-            '            <option value="facility">글로벌 거점 및 제조 설비 (Facilities)</option>',
-            '          </select>',
+            
+            '      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">',
+            
+            // ========================================================
+            // [좌측 65% 영역 (lg:col-span-8): 초대형 글자 입력 전용 공간]
+            // ========================================================
+            '        <div class="lg:col-span-8 space-y-4">',
+            
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">',
+            '              <i class="fa-solid fa-heading text-blue-600"></i> 명칭 / 제목 <span class="text-red-500">*</span>',
+            '            </label>',
+            '            <input type="text" id="china-form-title" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm sm:text-base font-bold focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 shadow-sm" placeholder="예: 하드웨어-소프트웨어 융합 R&D" required>',
+            '          </div>',
+
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">',
+            '              <i class="fa-solid fa-language text-slate-400"></i> 부제목 / 영문 공식 표기',
+            '            </label>',
+            '            <input type="text" id="china-form-subtitle" class="w-full px-4 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-blue-500 text-slate-700" placeholder="예: HW & SW Fusion Co-development">',
+            '          </div>',
+
+            '          <div>',
+            '            <div class="flex items-center justify-between mb-1.5">',
+            '              <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">',
+            '                <i class="fa-solid fa-align-left text-blue-600"></i> 상세 설명 (글자칸 대폭 확장: 10줄)',
+            '              </label>',
+            '              <span class="text-[11px] text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">줄바꿈(Enter) 지원</span>',
+            '            </div>',
+            '            <textarea id="china-form-desc" rows="10" class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm sm:text-base font-normal focus:ring-2 focus:ring-blue-500 focus:border-blue-500 leading-relaxed text-slate-800 custom-scrollbar shadow-inner whitespace-pre-line" placeholder="사업 개요, 독점 기술 협력 모델, 제조 설비 제원, 기대효과 등 상세 내용을 길고 자유롭게 작성하세요. 줄바꿈을 지원합니다."></textarea>',
+            '          </div>',
+
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">',
+            '              <i class="fa-solid fa-list-check text-blue-600"></i> 주요 특장점 / 세부 역량 (한 줄에 하나씩 입력)',
+            '            </label>',
+            '            <textarea id="china-form-features" rows="4" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar text-slate-700" placeholder="한 줄에 하나씩 핵심 성과 및 기술 특징을 입력하세요."></textarea>',
+            '          </div>',
+
             '        </div>',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">정렬 순서</label>',
-            '          <input type="number" id="china-form-sort" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" value="1" min="1" max="99">',
+
+            // ========================================================
+            // [우측 35% 영역 (lg:col-span-4): 콤팩트 사진 및 속성 패널]
+            // ========================================================
+            '        <div class="lg:col-span-4 space-y-4 bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm">',
+            
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1">카테고리 구분 <span class="text-red-500">*</span></label>',
+            '            <select id="china-form-category" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
+            '              <option value="intro">법인 개요 및 핵심 지표 (Overview/Stats)</option>',
+            '              <option value="coop">상호협력 및 3대 기술제휴 (Cooperation)</option>',
+            '              <option value="facility">글로벌 거점 및 제조 설비 (Facilities)</option>',
+            '            </select>',
+            '          </div>',
+
+            '          <div class="grid grid-cols-2 gap-3">',
+            '            <div>',
+            '              <label class="block text-xs font-bold text-slate-700 mb-1">정렬 순서</label>',
+            '              <input type="number" id="china-form-sort" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" value="1" min="1" max="99">',
+            '            </div>',
+            '            <div>',
+            '              <label class="block text-xs font-bold text-slate-700 mb-1">표시 배지</label>',
+            '              <input type="text" id="china-form-badge" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" placeholder="예: 핵심 협력 01">',
+            '            </div>',
+            '          </div>',
+
+            '          <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-2">',
+            '            <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-chart-simple text-blue-500"></i> 개요 핵심 지표 (선택)</div>',
+            '            <div class="grid grid-cols-2 gap-2">',
+            '              <div>',
+            '                <label class="block text-[10px] font-semibold text-slate-600 mb-0.5">수치값</label>',
+            '                <input type="text" id="china-form-statvalue" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-black text-blue-600 focus:ring-2 focus:ring-blue-500" placeholder="16+, 670+">',
+            '              </div>',
+            '              <div>',
+            '                <label class="block text-[10px] font-semibold text-slate-600 mb-0.5">지표 라벨</label>',
+            '                <input type="text" id="china-form-statlabel" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 focus:ring-2 focus:ring-blue-500" placeholder="글로벌 특허">',
+            '              </div>',
+            '            </div>',
+            '          </div>',
+
+            // 콤팩트 사진 업로드 및 미니 미리보기
+            '          <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-2.5">',
+            '            <div class="text-[11px] font-bold text-slate-700 flex items-center justify-between">',
+            '              <span class="flex items-center gap-1.5"><i class="fa-solid fa-image text-cyan-600"></i> 사진 콤팩트 미리보기</span>',
+            '              <span class="text-[10px] text-slate-400">아담한 썸네일</span>',
+            '            </div>',
+            '            <div id="china-modal-preview-box" class="w-full h-28 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden relative flex items-center justify-center shadow-inner">',
+            '              <img id="china-modal-preview-img" src="" class="w-full h-full object-cover hidden" alt="미리보기">',
+            '              <span id="china-modal-preview-placeholder" class="text-xs text-slate-400 flex flex-col items-center gap-1"><i class="fa-solid fa-camera text-slate-300 text-lg"></i>사진 선택 시 표시됨</span>',
+            '            </div>',
+            '            <div>',
+            '              <input type="text" id="china-form-imageurl" oninput="window.ChinaAdmin.updatePreview(this.value)" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-[11px] font-mono focus:ring-2 focus:ring-blue-500 mb-2" placeholder="사진 경로 또는 URL">',
+            '              <label class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-600 text-xs font-bold border border-slate-300 hover:border-blue-400 transition-colors cursor-pointer text-center flex items-center justify-center gap-1.5 shadow-sm">',
+            '                <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> 내 PC 사진 파일 변경',
+            '                <input type="file" class="hidden" accept="image/*" onchange="window.ChinaAdmin.handleFileSelect(event)">',
+            '              </label>',
+            '            </div>',
+            '          </div>',
+
             '        </div>',
+
             '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">명칭 / 제목 <span class="text-red-500">*</span></label>',
-            '        <input type="text" id="china-form-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-bold focus:ring-2 focus:ring-blue-500" placeholder="예: 하드웨어-소프트웨어 융합 R&D" required>',
+
+            // 하단 버튼 바
+            '      <div class="pt-5 mt-6 border-t border-slate-200 flex items-center justify-end gap-3 shrink-0">',
+            '        <button type="button" onclick="window.ChinaAdmin.closeModal()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold transition-colors cursor-pointer">취소</button>',
+            '        <button type="submit" class="px-7 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white text-xs sm:text-sm font-bold shadow-lg transition-all cursor-pointer flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> 저장 완료</button>',
             '      </div>',
-            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">부제목 / 영문 표기</label>',
-            '          <input type="text" id="china-form-subtitle" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: HW & SW Fusion Co-development">',
-            '        </div>',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">표시 배지 (선택)</label>',
-            '          <input type="text" id="china-form-badge" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 핵심 협력 01, R&D 본사">',
-            '        </div>',
-            '      </div>',
-            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">핵심 수치 (개요 지표용)</label>',
-            '          <input type="text" id="china-form-statvalue" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-black text-blue-600 focus:ring-2 focus:ring-blue-500" placeholder="예: 16+, 670+, 35,000㎡">',
-            '        </div>',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">지표 라벨 / 부연 명칭</label>',
-            '          <input type="text" id="china-form-statlabel" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 글로벌 특허 및 IP">',
-            '        </div>',
-            '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">상세 설명 (글씨란 7줄 대폭 확장) <span class="text-blue-600 font-normal text-[11px]">* 줄바꿈을 지원합니다.</span></label>',
-            '        <textarea id="china-form-desc" rows="7" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar whitespace-pre-line" placeholder="사업 개요, 협력 모델, 설비 제원 등 상세 내용을 자유롭게 서술하세요 (줄바꿈 가능)."></textarea>',
-            '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">주요 특장점 / 세부 역량 (한 줄에 하나씩 입력)</label>',
-            '        <textarea id="china-form-features" rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar" placeholder="한 줄에 하나씩 주요 특징을 입력하세요."></textarea>',
-            '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">제조 현장 / 설비 이미지 (파일 업로드 또는 경로)</label>',
-            '        <div class="flex flex-col sm:flex-row gap-2">',
-            '          <input type="text" id="china-form-imageurl" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-blue-500" placeholder="예: assets/images/china_coop_rnd.jpg">',
-            '          <label class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-300 transition-colors cursor-pointer shrink-0 text-center flex items-center justify-center gap-1.5">',
-            '            <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> 내 PC 사진 선택',
-            '            <input type="file" class="hidden" accept="image/*" onchange="window.ChinaAdmin.handleFileSelect(event)">',
-            '          </label>',
-            '        </div>',
-            '      </div>',
-            '      <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2.5 shrink-0">',
-            '        <button type="button" onclick="window.ChinaAdmin.closeModal()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer">취소</button>',
-            '        <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-floppy-disk"></i> 저장하기</button>',
-            '      </div>',
+
             '    </form>',
             '  </div>',
             '</div>'
@@ -467,6 +520,7 @@
         document.getElementById('china-form-desc').value = item.description || '';
         document.getElementById('china-form-features').value = (item.features || []).join('\n');
         document.getElementById('china-form-imageurl').value = item.imageUrl || '';
+        updatePreview(item.imageUrl || '');
 
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -477,6 +531,21 @@
         if (modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+        }
+    }
+
+    function updatePreview(url) {
+        var img = document.getElementById('china-modal-preview-img');
+        var placeholder = document.getElementById('china-modal-preview-placeholder');
+        if (!img || !placeholder) return;
+        if (url) {
+            img.src = url;
+            img.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+        } else {
+            img.src = '';
+            img.classList.add('hidden');
+            placeholder.classList.remove('hidden');
         }
     }
 
@@ -493,6 +562,7 @@
         reader.onload = function (evt) {
             var input = document.getElementById('china-form-imageurl');
             if (input) input.value = evt.target.result;
+            updatePreview(evt.target.result);
         };
         reader.readAsDataURL(file);
     }
@@ -755,6 +825,7 @@
         openEditModal: openEditModal,
         closeModal: closeModal,
         handleFileSelect: handleFileSelect,
+        updatePreview: updatePreview,
         handleFormSubmit: handleFormSubmit,
         deleteItem: deleteItem
     };

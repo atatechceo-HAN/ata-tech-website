@@ -364,7 +364,7 @@
             html.push('  <div class="flex flex-col sm:flex-row gap-4 pt-3 items-start">');
 
             // 콤팩트 썸네일
-            html.push('    <div class="w-24 h-28 sm:w-28 sm:h-32 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm">');
+            html.push('    <div class="w-16 h-20 sm:w-20 sm:h-24 shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 relative group/thumb shadow-sm">');
             if (isPdf) {
                 html.push('      <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-200 text-slate-600 p-2 text-center">');
                 html.push('        <i class="fa-solid fa-file-pdf text-red-500 text-2xl mb-1"></i>');
@@ -417,83 +417,130 @@
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="patent-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-5">',
-            '  <div class="bg-white rounded-3xl w-full max-w-3xl max-h-[94vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            '<div id="patent-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6">',
+            '  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[95vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            
+            // 헤더
             '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">',
-            '      <div class="flex items-center gap-2.5">',
-            '        <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-sm font-bold">',
+            '      <div class="flex items-center gap-3">',
+            '        <span class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-base font-bold shadow-inner">',
             '          <i class="fa-solid fa-stamp"></i>',
             '        </span>',
             '        <div>',
-            '          <h3 id="patent-modal-title" class="text-base font-bold text-white">특허 및 인증 항목 작성</h3>',
-            '          <p class="text-[11px] text-slate-400">특허, 인증서, 수상 내역의 상세 설명과 문서를 여유롭게 편집합니다.</p>',
+            '          <h3 id="patent-modal-title" class="text-base sm:text-lg font-bold text-white tracking-wide">특허 및 인증 항목 수정 및 작성</h3>',
+            '          <p class="text-xs text-slate-400">광활한 글자 입력창에서 특허 개요와 핵심 R&D 메커니즘을 여유롭게 편집하세요.</p>',
             '        </div>',
             '      </div>',
-            '      <button type="button" onclick="window.PatentAdmin.closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>',
+            '      <button type="button" onclick="window.PatentAdmin.closeModal()" class="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 text-xl transition-colors cursor-pointer"><i class="fa-solid fa-xmark"></i></button>',
             '    </div>',
-            '    <form id="patent-editor-form" onsubmit="window.PatentAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-6 sm:p-8 space-y-5 custom-scrollbar">',
+
+            // 본문 폼: [좌측 65% 초대형 글자칸] + [우측 35% 콤팩트 문서/설정 패널]
+            '    <form id="patent-editor-form" onsubmit="window.PatentAdmin.handleFormSubmit(event)" class="flex-1 overflow-y-auto p-5 sm:p-7 custom-scrollbar">',
             '      <input type="hidden" id="patent-form-id" value="">',
-            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">구분 / 카테고리 <span class="text-red-500">*</span></label>',
-            '          <select id="patent-form-category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
-            '            <option value="patent">특허 현황 (Patent)</option>',
-            '            <option value="cert">인증 현황 (Quality & Env Cert)</option>',
-            '            <option value="award">수상 및 수료 내역 (Awards)</option>',
-            '          </select>',
+            
+            '      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">',
+            
+            // ========================================================
+            // [좌측 65% 영역 (lg:col-span-8): 초대형 글자 입력 전용 공간]
+            // ========================================================
+            '        <div class="lg:col-span-8 space-y-4">',
+            
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">',
+            '              <i class="fa-solid fa-heading text-blue-600"></i> 명칭 / 제목 <span class="text-red-500">*</span>',
+            '            </label>',
+            '            <input type="text" id="patent-form-title" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm sm:text-base font-bold focus:ring-2 focus:ring-blue-500 text-slate-900 shadow-sm" placeholder="예: 컨베이어 물류 분류용 4분할 방향 전환 장치" required>',
+            '          </div>',
+
+            '          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">',
+            '            <div>',
+            '              <label class="block text-xs font-bold text-slate-700 mb-1">등록 / 출원 / 인증 번호</label>',
+            '              <input type="text" id="patent-form-regnumber" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 text-slate-800" placeholder="예: 제 10-2956028 호">',
+            '            </div>',
+            '            <div>',
+            '              <label class="block text-xs font-bold text-slate-700 mb-1">등록일 / 발급일자</label>',
+            '              <input type="text" id="patent-form-date" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 text-slate-800" placeholder="예: 2026.04.02 등록">',
+            '            </div>',
+            '          </div>',
+
+            '          <div>',
+            '            <div class="flex items-center justify-between mb-1.5">',
+            '              <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">',
+            '                <i class="fa-solid fa-align-left text-blue-600"></i> 상세 설명 (글자칸 대폭 확장: 10줄)',
+            '              </label>',
+            '              <span class="text-[11px] text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">줄바꿈(Enter) 지원</span>',
+            '            </div>',
+            '            <textarea id="patent-form-desc" rows="10" class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm sm:text-base font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed text-slate-800 custom-scrollbar shadow-inner whitespace-pre-line" placeholder="기술의 개요, 원천 메커니즘, 과제 해결 원리, 인증 효력 등을 길고 자유롭게 서술하세요. 줄바꿈을 지원합니다."></textarea>',
+            '          </div>',
+
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">',
+            '              <i class="fa-solid fa-list-check text-blue-600"></i> 핵심 메커니즘 & R&D 특장점 (한 줄에 하나씩 입력)',
+            '            </label>',
+            '            <textarea id="patent-form-features" rows="4" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar text-slate-700" placeholder="한 줄에 하나씩 주요 기술 특징을 입력하세요."></textarea>',
+            '          </div>',
+
             '        </div>',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">정렬 순서</label>',
-            '          <input type="number" id="patent-form-sort" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" value="1" min="1" max="99">',
+
+            // ========================================================
+            // [우측 35% 영역 (lg:col-span-4): 콤팩트 문서 & 속성 패널]
+            // ========================================================
+            '        <div class="lg:col-span-4 space-y-4 bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm">',
+            
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1">구분 / 카테고리 <span class="text-red-500">*</span></label>',
+            '            <select id="patent-form-category" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" required>',
+            '              <option value="patent">특허 현황 (Patent)</option>',
+            '              <option value="cert">인증 현황 (Quality & Env Cert)</option>',
+            '              <option value="award">수상 및 수료 내역 (Awards)</option>',
+            '            </select>',
+            '          </div>',
+
+            '          <div class="grid grid-cols-2 gap-3">',
+            '            <div>',
+            '              <label class="block text-xs font-bold text-slate-700 mb-1">정렬 순서</label>',
+            '              <input type="number" id="patent-form-sort" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" value="1" min="1" max="99">',
+            '            </div>',
+            '            <div>',
+            '              <label class="block text-xs font-bold text-slate-700 mb-1">표시 배지</label>',
+            '              <input type="text" id="patent-form-badge" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" placeholder="예: 핵심원천특허">',
+            '            </div>',
+            '          </div>',
+
+            '          <div>',
+            '            <label class="block text-xs font-bold text-slate-700 mb-1">발행 / 등록 기관</label>',
+            '            <input type="text" id="patent-form-org" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-blue-500 bg-white" placeholder="예: 대한민국 특허청 (KIPO)">',
+            '          </div>',
+
+            // 콤팩트 문서/특허증 업로드 및 미니 미리보기
+            '          <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-2.5">',
+            '            <div class="text-[11px] font-bold text-slate-700 flex items-center justify-between">',
+            '              <span class="flex items-center gap-1.5"><i class="fa-solid fa-file-pdf text-red-500"></i> 특허증/인증서 문서</span>',
+            '              <span class="text-[10px] text-slate-400">PDF/이미지</span>',
+            '            </div>',
+            '            <div class="w-full h-28 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden relative flex flex-col items-center justify-center shadow-inner text-center p-2">',
+            '              <i class="fa-solid fa-file-circle-check text-slate-300 text-2xl mb-1"></i>',
+            '              <span class="text-[11px] font-bold text-slate-600 line-clamp-1" id="patent-modal-file-status">문서 경로 입력 또는 파일 선택</span>',
+            '            </div>',
+            '            <div>',
+            '              <input type="text" id="patent-form-fileurl" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-[11px] font-mono focus:ring-2 focus:ring-blue-500 mb-2" placeholder="파일 경로 또는 Base64">',
+            '              <label class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-600 text-xs font-bold border border-slate-300 hover:border-blue-400 transition-colors cursor-pointer text-center flex items-center justify-center gap-1.5 shadow-sm">',
+            '                <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> 내 PC 파일 변경',
+            '                <input type="file" class="hidden" accept=".pdf,image/*" onchange="window.PatentAdmin.handleFileSelect(event)">',
+            '              </label>',
+            '            </div>',
+            '          </div>',
+
             '        </div>',
+
             '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">명칭 / 제목 <span class="text-red-500">*</span></label>',
-            '        <input type="text" id="patent-form-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-bold focus:ring-2 focus:ring-blue-500" placeholder="예: 컨베이어 물류 분류용 4분할 방향 전환 장치" required>',
+
+            // 하단 버튼 바
+            '      <div class="pt-5 mt-6 border-t border-slate-200 flex items-center justify-end gap-3 shrink-0">',
+            '        <button type="button" onclick="window.PatentAdmin.closeModal()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold transition-colors cursor-pointer">취소</button>',
+            '        <button type="submit" class="px-7 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white text-xs sm:text-sm font-bold shadow-lg transition-all cursor-pointer flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> 저장 완료</button>',
             '      </div>',
-            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">등록 / 출원 / 인증 번호</label>',
-            '          <input type="text" id="patent-form-regnumber" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 제 10-2956028 호">',
-            '        </div>',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">등록일 / 발급일자</label>',
-            '          <input type="text" id="patent-form-date" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 2026.04.02 등록">',
-            '        </div>',
-            '      </div>',
-            '      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">발행 / 등록 기관</label>',
-            '          <input type="text" id="patent-form-org" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 대한민국 특허청 (KIPO)">',
-            '        </div>',
-            '        <div>',
-            '          <label class="block text-xs font-bold text-slate-700 mb-1">표시 배지 (선택)</label>',
-            '          <input type="text" id="patent-form-badge" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-blue-500" placeholder="예: 등록특허, 핵심원천특허, 품질경영">',
-            '        </div>',
-            '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">상세 기술 및 인증 설명 (글씨란 6줄 대폭 확장) <span class="text-blue-600 font-normal text-[11px]">* 줄바꿈을 지원합니다.</span></label>',
-            '        <textarea id="patent-form-desc" rows="6" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar whitespace-pre-line" placeholder="기술의 개요, 원천 메커니즘, 과제 해결 원리, 인증 효력 등을 상세하게 서술하세요 (줄바꿈 가능)."></textarea>',
-            '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">핵심 메커니즘 & R&D 특장점 (한 줄에 하나씩 입력)</label>',
-            '        <textarea id="patent-form-features" rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-normal focus:ring-2 focus:ring-blue-500 leading-relaxed custom-scrollbar" placeholder="한 줄에 하나씩 주요 기술 특징을 입력하세요."></textarea>',
-            '      </div>',
-            '      <div>',
-            '        <label class="block text-xs font-bold text-slate-700 mb-1">인증서 / 특허증 파일 (PDF 또는 이미지 경로/업로드)</label>',
-            '        <div class="flex flex-col sm:flex-row gap-2">',
-            '          <input type="text" id="patent-form-fileurl" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-blue-500" placeholder="예: docs/1. [특허증]10-2956028.pdf">',
-            '          <label class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-300 transition-colors cursor-pointer shrink-0 text-center flex items-center justify-center gap-1.5">',
-            '            <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> 내 PC 파일 선택',
-            '            <input type="file" class="hidden" accept=".pdf,image/*" onchange="window.PatentAdmin.handleFileSelect(event)">',
-            '          </label>',
-            '        </div>',
-            '        <p class="text-[11px] text-slate-400 mt-1">PDF 파일 또는 이미지(JPG, PNG) 파일을 선택하면 자동으로 Base64 또는 경로로 연결됩니다.</p>',
-            '      </div>',
-            '      <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2.5 shrink-0">',
-            '        <button type="button" onclick="window.PatentAdmin.closeModal()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer">취소</button>',
-            '        <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-floppy-disk"></i> 저장하기</button>',
-            '      </div>',
+
             '    </form>',
             '  </div>',
             '</div>'
