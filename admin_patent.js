@@ -729,78 +729,79 @@
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
             var numStr = it.sortOrder ? (it.sortOrder < 10 ? '0' + it.sortOrder : it.sortOrder) : (idx + 1 < 10 ? '0' + (idx + 1) : idx + 1);
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch group relative overflow-hidden fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col md:flex-row gap-6 md:gap-8 items-start justify-between group relative overflow-hidden fade-in appear">');
+            
+            // ================= [좌측 영역: 시원한 글씨 중심란 72%] =================
+            html.push('  <div class="flex-1 min-w-0 space-y-4">');
+            
+            // 1. 상단 배지 및 메타 정보 (한 줄로 시원하게 배치)
+            html.push('    <div class="flex items-center gap-2.5 flex-wrap">');
+            html.push('      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
+            html.push('        <i class="fa-solid fa-certificate text-blue-600"></i> ' + (it.badge || '등록특허') + ' ' + numStr);
+            html.push('      </span>');
+            html.push('      <span class="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">' + (it.regNumber || '') + '</span>');
+            html.push('      <span class="text-xs text-slate-500 font-medium"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
+            html.push('      <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + (it.organization || '대한민국 특허청') + '</span>');
+            html.push('    </div>');
 
-            // ================= [좌측 영역: 글씨 중심 68%] =================
-            html.push('  <div class="flex-1 flex flex-col justify-between min-w-0">');
+            // 2. 특허 명칭 및 영문 부제 (절대 줄바꿈 쪼개짐 없이 크고 시원하게!)
             html.push('    <div>');
-
-            // 1. 상단 배지 및 메타 정보
-            html.push('      <div class="flex items-center gap-2.5 flex-wrap mb-4">');
-            html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
-            html.push('          <i class="fa-solid fa-certificate text-blue-600"></i> ' + (it.badge || '특허 등록') + ' ' + numStr);
-            html.push('        </span>');
-            html.push('        <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">' + (it.regNumber || '') + '</span>');
-            html.push('        <span class="text-xs text-slate-500 font-medium"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
-            html.push('        <span class="text-xs text-slate-500 font-medium hidden sm:inline"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + (it.organization || '대한민국 특허청') + '</span>');
-            html.push('      </div>');
-
-            // 2. 특허 명칭 및 영문
-            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors leading-snug">' + it.title + '</h3>');
+            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors leading-snug whitespace-normal break-keep">' + it.title + '</h3>');
             if (it.subtitle) {
-                html.push('      <p class="text-xs font-semibold text-slate-400 mb-4 tracking-wide">' + it.subtitle + '</p>');
+                html.push('      <p class="text-xs sm:text-sm font-semibold text-slate-400 mt-1 tracking-wide">' + it.subtitle + '</p>');
             }
+            html.push('    </div>');
 
-            // 3. 넉넉하고 시원한 상세 설명란 (글씨 공간 대폭 확대)
-            html.push('      <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 whitespace-pre-line">' + (it.description || '') + '</p>');
+            // 3. 상세 설명란 (넉넉하고 편안한 글씨 공간)
+            html.push('    <p class="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line break-keep">' + (it.description || '') + '</p>');
 
             // 4. 핵심 메커니즘 & R&D 경쟁력 박스
             if (it.features && it.features.length > 0) {
-                html.push('      <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 mb-4 space-y-2">');
-                html.push('        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-microchip text-blue-500"></i> 핵심 메커니즘 & R&D 경쟁력</div>');
+                html.push('    <div class="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2">');
+                html.push('      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-microchip text-blue-600"></i> 핵심 메커니즘 & 원천 기술력</div>');
                 it.features.forEach(function (f) {
-                    html.push('        <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
-                    html.push('          <i class="fa-solid fa-circle-check text-blue-600 text-xs mt-1 shrink-0"></i>');
-                    html.push('          <span>' + f + '</span>');
-                    html.push('        </div>');
+                    html.push('      <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
+                    html.push('        <i class="fa-solid fa-circle-check text-blue-600 text-xs mt-1 shrink-0"></i>');
+                    html.push('        <span class="break-keep">' + f + '</span>');
+                    html.push('      </div>');
                 });
-                html.push('      </div>');
+                html.push('    </div>');
             }
-            html.push('    </div>');
 
-            // 좌측 하단 메타 바
-            html.push('    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">');
+            // 하단 메타 바
+            html.push('    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">');
             html.push('      <span>주식회사 에이티에이기술 독자 원천 지식재산권</span>');
             html.push('      <span class="font-bold text-blue-600">ATA TECH R&D</span>');
             html.push('    </div>');
+
             html.push('  </div>');
 
-            // ================= [우측 영역: 콤팩트 A4 비율 썸네일 32%] =================
-            html.push('  <div class="w-full lg:w-72 shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-4 border border-slate-200/80">');
-            html.push('    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">');
+            // ================= [우측 영역: A4 세로 비율 핏 썸네일 (검은 여백 제로) 28%] =================
+            html.push('  <div class="w-full md:w-56 shrink-0 flex flex-col items-center bg-slate-50 rounded-2xl p-3.5 border border-slate-200/90 self-stretch justify-between">');
+            html.push('    <div class="w-full flex items-center justify-between text-[11px] font-bold text-slate-500 mb-2 px-1">');
             html.push('      <span>공식 특허증 사본</span>');
-            html.push('      <span class="text-blue-600 font-bold"><i class="fa-solid fa-stamp mr-1"></i>KIPO 공인</span>');
+            html.push('      <span class="text-blue-600"><i class="fa-solid fa-stamp mr-1"></i>KIPO 공인</span>');
             html.push('    </div>');
-
-            // 콤팩트 A4 프레임 (220px 높이로 아담하게)
-            html.push('    <div class="w-full h-56 rounded-xl overflow-hidden border border-slate-200 bg-white relative group/doc shadow-inner flex items-center justify-center mb-3">');
+            
+            // A4 완벽 비율 프레임 (가로 180px, 세로 250px - 양옆 검은 여백 원천 차단!)
+            html.push('    <div class="w-44 h-60 rounded-xl overflow-hidden border border-slate-200 bg-white relative group/doc shadow-sm flex items-center justify-center mb-3">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#toolbar=0&navpanes=0&scrollbar=0&view=Fit" class="w-full h-full border-0 pointer-events-none" title="' + it.title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=FitH&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-0 pointer-events-none bg-white" title="' + it.title + '"></iframe>');
             } else if (it.fileUrl) {
                 html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/doc:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
             } else {
-                html.push('      <div class="text-slate-400 text-xs">특허증 문서 준비 중</div>');
+                html.push('      <div class="text-slate-400 text-xs">특허증 준비 중</div>');
             }
             if (it.fileUrl) {
                 html.push('      <a href="' + it.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover/doc:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[2px] cursor-pointer">');
-                html.push('        <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i><span>새 창에서 원본 열기</span>');
+                html.push('        <i class="fa-solid fa-arrow-up-right-from-square text-base"></i><span>새 창에서 원본 열기</span>');
                 html.push('      </a>');
             }
             html.push('    </div>');
 
-            // 원본 열기 액션 버튼
+            // 원본 PDF 열기 버튼
             if (it.fileUrl) {
-                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-auto">');
+                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-auto">');
                 html.push('      <i class="fa-solid fa-file-pdf"></i> 특허증 원본 PDF 열기');
                 html.push('    </a>');
             }
@@ -812,9 +813,6 @@
         container.innerHTML = html.join('');
     }
 
-    /**
-     * [인증 현황] 콤팩트 썸네일 + 글씨란 중심 렌더링
-     */
     function renderCertSection(items) {
         var container = document.getElementById('cert-quality-grid');
         if (!container) return;
