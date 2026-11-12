@@ -3136,6 +3136,14 @@ function setLanguage(lang, byUserSelection) {
         window.ReferenceAdmin.render(window.currentReferenceCategory || 'all');
     }
 
+    // 6-4. 특허/인증 및 한중합자법인 4개국어 실시간 동적 렌더링 동기화
+    if (window.PatentAdmin && typeof window.PatentAdmin.renderFrontend === 'function') {
+        try { window.PatentAdmin.renderFrontend(); } catch (e) { console.warn('[i18n] PatentAdmin renderFrontend error:', e); }
+    }
+    if (window.ChinaAdmin && typeof window.ChinaAdmin.renderFrontend === 'function') {
+        try { window.ChinaAdmin.renderFrontend(); } catch (e) { console.warn('[i18n] ChinaAdmin renderFrontend error:', e); }
+    }
+
     // 7. UI 버튼 및 체크마크 업데이트
     updateLangUI(lang);
 
