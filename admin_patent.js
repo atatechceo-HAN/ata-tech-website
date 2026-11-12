@@ -1055,12 +1055,12 @@
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-500 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch group fade-in appear">');
             
             // ================= [좌측: 특허증 문서 정밀 뷰어 (Grid 4~5열 고정: 약 380~420px)] =================
-            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-3.5 sm:p-4 border border-slate-200/90 shadow-inner">');
-            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer h-[520px] sm:h-[560px] lg:h-[580px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
+            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer aspect-[1/1.414] max-h-[560px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
                 html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg w-full h-full border-0 bg-white" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain p-1.5">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain p-1">');
             }
             html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
             html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-300 text-base"></i> 클릭 시 고화질 원본 크게 보기');
@@ -1147,12 +1147,12 @@
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-emerald-500 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch group fade-in appear">');
             
             // ================= [좌측: 인증서 정밀 뷰어 (Grid 4~5열)] =================
-            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-3.5 sm:p-4 border border-slate-200/90 shadow-inner">');
-            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer h-[520px] sm:h-[560px] lg:h-[580px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
+            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer aspect-[1/1.414] max-h-[560px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
                 html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg w-full h-full border-0 bg-white" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain p-1.5">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain p-1">');
             }
             html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
             html.push('        <i class="fa-solid fa-magnifying-glass-plus text-emerald-300 text-base"></i> 클릭 시 고화질 원본 크게 보기');
@@ -1234,12 +1234,12 @@
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-amber-500 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch group fade-in appear">');
             
             // ================= [좌측: 상장 정밀 뷰어 (Grid 4~5열)] =================
-            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-3.5 sm:p-4 border border-slate-200/90 shadow-inner">');
-            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer h-[520px] sm:h-[560px] lg:h-[580px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
+            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer aspect-[1/1.414] max-h-[560px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
                 html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg w-full h-full border-0 bg-white" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain p-1.5">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain p-1">');
             }
             html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
             html.push('        <i class="fa-solid fa-magnifying-glass-plus text-amber-300 text-base"></i> 클릭 시 고화질 원본 크게 보기');
