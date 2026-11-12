@@ -278,7 +278,7 @@
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
     <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
-    <script src="admin_patent.js"></script>
+    <script src="admin_patent.js?v=20261112_02"></script>
     <!-- 한중합자법인(제조사) 관리자 모드 & 실시간 렌더링 엔진 (admin_china.js) -->
     <script src="admin_china.js"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
@@ -5812,16 +5812,15 @@
         };
 
         function openImageModal(imgSrc, title) {
-
             const modal = document.getElementById('image-view-modal');
-
             const modalImg = document.getElementById('image-view-modal-img');
-
+            const modalPdf = document.getElementById('image-view-modal-pdf');
             const modalTitle = document.getElementById('image-view-modal-title');
 
-            const curLang = window.currentLanguage || (function () {
-                try { return localStorage.getItem('ata_language') || 'ko'; } catch (e) { return 'ko'; }
-            })();
+            if (!modal) return;
+
+            const isPdf = (imgSrc || '').toLowerCase().indexOf('.pdf') !== -1;
+            const curLang = window.currentLanguage || 'ko';
             const dict = (window.i18nData && (window.i18nData[curLang] || window.i18nData.ko)) || {};
 
             let resolvedTitle = title;
@@ -5829,59 +5828,53 @@
                 resolvedTitle = dict[title];
                 if (modalTitle) modalTitle.setAttribute('data-i18n', title);
             } else if (modalTitle) {
-                if (!title) {
-                    modalTitle.setAttribute('data-i18n', 'image_modal_title');
-                    resolvedTitle = dict['image_modal_title'] || '고화질 상세 인포그래픽';
-                } else {
-                    modalTitle.removeAttribute('data-i18n');
+                modalTitle.removeAttribute('data-i18n');
+            }
+
+            if (modalTitle) modalTitle.innerHTML = resolvedTitle || (isPdf ? '고화질 특허/인증 원본 문서' : '고화질 상세 인포그래픽');
+
+            if (isPdf) {
+                // PDF 문서인 경우: 고화질 iframe 활성화
+                if (modalImg) modalImg.classList.add('hidden');
+                if (modalPdf) {
+                    modalPdf.classList.remove('hidden');
+                    modalPdf.src = imgSrc + (imgSrc.indexOf('#') === -1 ? '#view=Fit' : '');
+                }
+            } else {
+                // 일반 이미지인 경우: img 태그 활성화
+                if (modalPdf) {
+                    modalPdf.classList.add('hidden');
+                    modalPdf.src = '';
+                }
+                if (modalImg) {
+                    modalImg.classList.remove('hidden');
+                    delete modalImg.dataset.triedAltPath;
+                    const resolvedSrc = (typeof referenceFallbackMap !== 'undefined' && referenceFallbackMap[imgSrc]) ? referenceFallbackMap[imgSrc] : imgSrc;
+                    modalImg.onerror = function () {
+                        this.onerror = null;
+                        this.src = 'assets/images/no-image.svg';
+                    };
+                    modalImg.src = resolvedSrc;
                 }
             }
 
-            if (modalTitle) modalTitle.innerHTML = resolvedTitle || '고화질 상세 인포그래픽';
-
-            if (modalImg) {
-
-                delete modalImg.dataset.triedAltPath;
-
-                const resolvedSrc = referenceFallbackMap[imgSrc] || imgSrc;
-
-                modalImg.onerror = function () {
-                    this.onerror = null;
-                    handleAssetImgError(this, referenceFallbackMap[imgSrc] || 'Conveyors & ADD-Ons.jpg');
-                };
-
-                modalImg.src = resolvedSrc;
-
-            }
-
-            if (modal) {
-
-                modal.classList.remove('hidden');
-
-                modal.classList.add('flex');
-
-            }
-
+            modal.style.display = 'flex';
+            modal.style.zIndex = '100010';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             syncBodyScrollLock();
-
         }
 
-
-
         function closeImageModal() {
-
             const modal = document.getElementById('image-view-modal');
-
+            const modalPdf = document.getElementById('image-view-modal-pdf');
+            if (modalPdf) modalPdf.src = '';
             if (modal) {
-
+                modal.style.display = 'none';
                 modal.classList.add('hidden');
-
                 modal.classList.remove('flex');
-
             }
-
             syncBodyScrollLock();
-
         }
 
         // ==========================================
@@ -6323,7 +6316,7 @@
             onclick="event.stopPropagation()">
 
             <div
-                class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50 text-slate-900">
+                class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900 text-white">
 
                 <div class="flex items-center gap-3">
 
@@ -6429,6 +6422,7 @@
                 <img id="image-view-modal-img" src="" alt="확대 이미지"
                     onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
                     class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-lg">
+                <iframe id="image-view-modal-pdf" src="" class="hidden w-full h-[78vh] rounded-xl shadow-inner bg-white border-0" title="고화질 특허 및 인증 문서 뷰어"></iframe>
 
             </div>
 
@@ -8269,6 +8263,75 @@
         };
 
         // 마우스 드래그 리사이즈 바인딩
+                // [Fix 1] 관리자 모드 통합 창 드래그 이동(Drag & Move) 핸들러
+        (function initAdminHubDragMove() {
+            function bindDragMove() {
+                var modal = document.getElementById('admin-integrated-hub-modal');
+                var win = document.getElementById('admin-hub-window');
+                if (!modal || !win) return;
+
+                // 최상단 다크 헤더를 드래그 바로 지정
+                var header = win.querySelector('.notranslate.bg-slate-900') || win.firstElementChild;
+                if (!header) return;
+
+                header.style.cursor = 'move';
+                header.setAttribute('title', '마우스로 드래그하여 창을 자유롭게 이동할 수 있습니다.');
+
+                var isDragging = false;
+                var startX, startY, startLeft, startTop;
+
+                header.addEventListener('mousedown', function (e) {
+                    // 버튼, 입력창, 링크 클릭 시에는 드래그 방지
+                    if (e.target.closest('button, input, a, select, textarea')) return;
+                    if (currentAdminHubSizeMode === 'full') return;
+
+                    isDragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+
+                    var rect = win.getBoundingClientRect();
+                    startLeft = rect.left;
+                    startTop = rect.top;
+
+                    // fixed 좌표계로 전환하여 부드러운 이동 지원
+                    modal.classList.remove('items-center', 'justify-center');
+                    win.style.position = 'fixed';
+                    win.style.left = startLeft + 'px';
+                    win.style.top = startTop + 'px';
+                    win.style.margin = '0';
+                    win.style.transition = 'none';
+
+                    document.body.style.userSelect = 'none';
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', function (e) {
+                    if (!isDragging) return;
+                    var dx = e.clientX - startX;
+                    var dy = e.clientY - startY;
+
+                    var newLeft = Math.max(10, Math.min(window.innerWidth - win.offsetWidth - 10, startLeft + dx));
+                    var newTop = Math.max(10, Math.min(window.innerHeight - 60, startTop + dy));
+
+                    win.style.left = newLeft + 'px';
+                    win.style.top = newTop + 'px';
+                });
+
+                document.addEventListener('mouseup', function () {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    win.style.transition = '';
+                    document.body.style.userSelect = '';
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', bindDragMove);
+            } else {
+                bindDragMove();
+            }
+        })();
+
         (function initAdminHubResize() {
             function bindResize() {
                 var handle = document.getElementById('admin-hub-resize-handle');

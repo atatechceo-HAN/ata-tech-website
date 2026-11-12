@@ -261,6 +261,10 @@
      */
     function i18nItem(id, field, fallback) {
         var l = getLang();
+        // [Fix 4] 한국어('ko') 모드에서는 사용자가 관리자 모드에서 수정한 최신 데이터(fallback)를 1순위로 즉각 반영!
+        if (l === 'ko') {
+            return (fallback !== undefined && fallback !== null && fallback !== '') ? fallback : '';
+        }
         var itemMap = CHINA_I18N.items[id];
         if (itemMap && itemMap[field] && itemMap[field][l]) {
             return itemMap[field][l];
@@ -955,7 +959,7 @@
             var features = i18nItem(it.id, 'features', it.features || []);
             var badgeText = i18nItem(it.id, 'badge', (i18nUI('badge_coop_prefix') + ' ' + numStr));
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear overflow-hidden">');
 
             html.push('  <div>');
 
@@ -978,13 +982,13 @@
             html.push('    </div>');
 
             // 3. 협력사업 명칭 (가로 100% 온전히 사용 - 절대 글씨가 쪼개지지 않음)
-            html.push('    <h3 class="text-lg sm:text-xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors leading-snug break-keep" data-i18n="' + it.id + '_title">' + title + '</h3>');
+            html.push('    <h3 class="text-lg sm:text-xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-blue-600 transition-colors leading-snug break-words [overflow-wrap:anywhere]" data-i18n="' + it.id + '_title">' + title + '</h3>');
             if (subtitle && !isEn) {
-                html.push('    <p class="text-xs font-semibold text-slate-400 mb-3 tracking-wide break-keep" data-i18n="' + it.id + '_subtitle">' + subtitle + '</p>');
+                html.push('    <p class="text-xs font-semibold text-slate-400 mb-3 tracking-wide break-words [overflow-wrap:anywhere]" data-i18n="' + it.id + '_subtitle">' + subtitle + '</p>');
             }
 
             // 4. 상세 설명란 (가로 100% 전체 사용으로 넉넉하고 편안한 읽기)
-            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5 whitespace-pre-line break-keep" data-i18n="' + it.id + '_desc">' + description + '</p>');
+            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5 whitespace-pre-line break-words [overflow-wrap:anywhere]" data-i18n="' + it.id + '_desc">' + description + '</p>');
 
             // 5. 핵심 성과 및 제휴 시너지 박스 (하단 빈 공간을 꽉 채워 균형 완성)
             if (features && features.length > 0) {
@@ -993,7 +997,7 @@
                 features.forEach(function (f, fIdx) {
                     html.push('      <div class="flex items-start gap-2 text-xs text-slate-700 font-medium leading-relaxed">');
                     html.push('        <i class="fa-solid fa-check text-blue-600 text-xs mt-0.5 shrink-0"></i>');
-                    html.push('        <span class="break-keep" data-i18n="' + it.id + '_feat_' + (fIdx + 1) + '">' + f + '</span>');
+                    html.push('        <span class="break-words [overflow-wrap:anywhere]" data-i18n="' + it.id + '_feat_' + (fIdx + 1) + '">' + f + '</span>');
                     html.push('      </div>');
                 });
                 html.push('    </div>');
@@ -1051,16 +1055,16 @@
 
             // 2. 하단 글씨 공간
             html.push('  <div class="p-6 sm:p-7 space-y-3">');
-            html.push('    <h4 class="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug break-keep">' + title + '</h4>');
+            html.push('    <h4 class="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug break-words [overflow-wrap:anywhere]">' + title + '</h4>');
             if (subtitle && !isEn) {
-                html.push('    <p class="text-xs font-semibold text-slate-400 break-keep">' + subtitle + '</p>');
+                html.push('    <p class="text-xs font-semibold text-slate-400 break-words [overflow-wrap:anywhere]">' + subtitle + '</p>');
             }
-            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line break-keep">' + description + '</p>');
+            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line break-words [overflow-wrap:anywhere]">' + description + '</p>');
 
             if (features && features.length > 0) {
                 html.push('    <div class="space-y-1.5 pt-2 border-t border-slate-100">');
                 features.forEach(function (f) {
-                    html.push('        <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-check text-blue-600 text-[10px]"></i><span class="break-keep">' + f + '</span></div>');
+                    html.push('        <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-check text-blue-600 text-[10px]"></i><span class="break-words [overflow-wrap:anywhere]">' + f + '</span></div>');
                 });
                 html.push('    </div>');
             }

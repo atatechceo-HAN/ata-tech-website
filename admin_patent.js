@@ -320,6 +320,10 @@
      */
     function i18nItem(id, field, fallback) {
         var l = getLang();
+        // [Fix 4] 한국어('ko') 모드에서는 사용자가 관리자 모드에서 수정한 최신 데이터(fallback)를 1순위로 즉각 반영!
+        if (l === 'ko') {
+            return (fallback !== undefined && fallback !== null && fallback !== '') ? fallback : '';
+        }
         var itemMap = PATENT_I18N.items[id];
         if (itemMap && itemMap[field] && itemMap[field][l]) {
             return itemMap[field][l];
@@ -851,6 +855,10 @@
         document.getElementById('patent-form-features').value = '';
         document.getElementById('patent-form-fileurl').value = '';
 
+        modal.style.display = 'flex';
+        modal.style.zIndex = '100050';
+        modal.style.display = 'flex';
+        modal.style.zIndex = '100050';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
     }
@@ -889,6 +897,7 @@
     function closeModal() {
         var modal = document.getElementById('patent-editor-modal');
         if (modal) {
+            modal.style.display = 'none';
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
@@ -1013,8 +1022,10 @@
         renderAwardSection(data.filter(function (it) { return it.category === 'award'; }));
     }
 
-    /**
-     * [특허 현황] 완벽한 황금비율 (좌측: 360px x 480px 정밀 뷰어 | 우측: 넉넉한 65% 상세 설명)
+        /**
+     * [특허 현황] 완벽한 황금비율 (좌측: 4/12 정밀 문서 뷰어 | 우측: 8/12 넉넉한 65% 상세 설명)
+     * - CSS Grid(grid-cols-1 lg:grid-cols-12)를 적용하여 Flexbox 비율 붕괴 및 글씨 쪼개짐 원천 차단
+     * - A4 규격(1:1.414) 맞춤 및 FitH 파라미터로 상단 검은색 레터박스 완전 제거
      */
     function renderPatentSection(items) {
         var container = document.getElementById('patent-cards-grid');
@@ -1041,18 +1052,18 @@
                 ? i18nUI('org_kipo')
                 : (it.organization || i18nUI('org_kipo'));
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-500 transition-all duration-300 flex flex-col md:flex-row gap-8 items-stretch group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-500 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch group fade-in appear">');
             
-            // ================= [좌측: 특허증 문서 정밀 뷰어 (360px 고정 x 480px)] =================
-            html.push('  <div class="shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-4 border border-slate-200/90 shadow-inner" style="flex: 0 0 360px; width: 360px; max-width: 100%;">');
-            html.push('    <div class="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center p-3 relative group/doc cursor-pointer" style="width: 100%; height: 480px; min-height: 480px;" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
+            // ================= [좌측: 특허증 문서 정밀 뷰어 (Grid 4~5열 고정: 약 380~420px)] =================
+            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-3.5 sm:p-4 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer h-[460px] sm:h-[500px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg" style="width: 100%; height: 100%; border: none; background: #ffffff;" title="' + title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=FitH&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg w-full h-full border-0 bg-white" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02]" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain">');
             }
             html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
-            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-300 text-base"></i> 클릭 시 고화질 크게 보기');
+            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-300 text-base"></i> 클릭 시 고화질 원본 크게 보기');
             html.push('      </div>');
             html.push('    </div>');
             html.push('    <div class="pt-3 mt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 px-1">');
@@ -1061,8 +1072,8 @@
             html.push('    </div>');
             html.push('  </div>');
 
-            // ================= [우측: 상세 설명 및 3대 메커니즘 (가로 65% 유동 확보)] =================
-            html.push('  <div class="flex flex-col justify-between py-1" style="flex: 1 1 auto; min-width: 0;">');
+            // ================= [우측: 상세 설명 및 3대 메커니즘 (Grid 7~8열: 넉넉한 65% 공간 확보)] =================
+            html.push('  <div class="lg:col-span-7 xl:col-span-8 flex flex-col justify-between py-1 min-w-0">');
             html.push('    <div>');
             
             // 메타 바 (배지, 등록번호, 등록일자, 기관)
@@ -1116,7 +1127,7 @@
     }
 
     /**
-     * [인증 현황] 완벽한 황금비율 (좌측: 360px x 480px 정밀 뷰어 | 우측: 넉넉한 65% 상세 설명)
+     * [인증 현황] 완벽한 황금비율 (좌측: 4/12 정밀 인증서 뷰어 | 우측: 8/12 넉넉한 65% 상세 설명)
      */
     function renderCertSection(items) {
         var container = document.getElementById('cert-quality-grid');
@@ -1133,18 +1144,18 @@
             var description = i18nItem(it.id, 'description', it.description || '');
             var features = i18nItem(it.id, 'features', it.features || []);
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-emerald-500 transition-all duration-300 flex flex-col md:flex-row gap-8 items-stretch group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-emerald-500 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch group fade-in appear">');
             
-            // ================= [좌측: 인증서 정밀 뷰어 (360px 고정 x 480px)] =================
-            html.push('  <div class="shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-4 border border-slate-200/90 shadow-inner" style="flex: 0 0 360px; width: 360px; max-width: 100%;">');
-            html.push('    <div class="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center p-3 relative group/doc cursor-pointer" style="width: 100%; height: 480px; min-height: 480px;" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
+            // ================= [좌측: 인증서 정밀 뷰어 (Grid 4~5열)] =================
+            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-3.5 sm:p-4 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer h-[460px] sm:h-[500px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg" style="width: 100%; height: 100%; border: none; background: #ffffff;" title="' + title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=FitH&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg w-full h-full border-0 bg-white" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02]" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain">');
             }
             html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
-            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-emerald-300 text-base"></i> 클릭 시 고화질 크게 보기');
+            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-emerald-300 text-base"></i> 클릭 시 고화질 원본 크게 보기');
             html.push('      </div>');
             html.push('    </div>');
             html.push('    <div class="pt-3 mt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 px-1">');
@@ -1153,8 +1164,8 @@
             html.push('    </div>');
             html.push('  </div>');
 
-            // ================= [우측: 상세 설명 및 인증 범위] =================
-            html.push('  <div class="flex flex-col justify-between py-1" style="flex: 1 1 auto; min-width: 0;">');
+            // ================= [우측: 상세 설명 및 인증 범위 (Grid 7~8열)] =================
+            html.push('  <div class="lg:col-span-7 xl:col-span-8 flex flex-col justify-between py-1 min-w-0">');
             html.push('    <div>');
             
             // 메타 바
@@ -1203,7 +1214,7 @@
     }
 
     /**
-     * [수상 및 수료 내역] 완벽한 황금비율 (좌측: 360px x 480px 정밀 뷰어 | 우측: 넉넉한 65% 상세 설명)
+     * [수상 및 수료 내역] 완벽한 황금비율 (좌측: 4/12 정밀 상장 뷰어 | 우측: 8/12 넉넉한 65% 상세 설명)
      */
     function renderAwardSection(items) {
         var container = document.getElementById('cert-awards-grid');
@@ -1220,18 +1231,18 @@
             var description = i18nItem(it.id, 'description', it.description || '');
             var features = i18nItem(it.id, 'features', it.features || []);
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-amber-500 transition-all duration-300 flex flex-col md:flex-row gap-8 items-stretch group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-amber-500 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch group fade-in appear">');
             
-            // ================= [좌측: 상장 정밀 뷰어 (360px 고정 x 480px)] =================
-            html.push('  <div class="shrink-0 flex flex-col justify-between bg-slate-50 rounded-2xl p-4 border border-slate-200/90 shadow-inner" style="flex: 0 0 360px; width: 360px; max-width: 100%;">');
-            html.push('    <div class="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center p-3 relative group/doc cursor-pointer" style="width: 100%; height: 480px; min-height: 480px;" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
+            // ================= [좌측: 상장 정밀 뷰어 (Grid 4~5열)] =================
+            html.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-3.5 sm:p-4 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden flex items-center justify-center relative group/doc cursor-pointer h-[460px] sm:h-[500px]" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg" style="width: 100%; height: 100%; border: none; background: #ffffff;" title="' + title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=FitH&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none rounded-lg w-full h-full border-0 bg-white" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02]" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02] max-w-full max-h-full w-auto h-auto object-contain">');
             }
             html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
-            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-amber-300 text-base"></i> 클릭 시 고화질 크게 보기');
+            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-amber-300 text-base"></i> 클릭 시 고화질 원본 크게 보기');
             html.push('      </div>');
             html.push('    </div>');
             html.push('    <div class="pt-3 mt-3 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 px-1">');
@@ -1240,8 +1251,8 @@
             html.push('    </div>');
             html.push('  </div>');
 
-            // ================= [우측: 상세 공적 및 수상 설명] =================
-            html.push('  <div class="flex flex-col justify-between py-1" style="flex: 1 1 auto; min-width: 0;">');
+            // ================= [우측: 상세 공적 및 수상 설명 (Grid 7~8열)] =================
+            html.push('  <div class="lg:col-span-7 xl:col-span-8 flex flex-col justify-between py-1 min-w-0">');
             html.push('    <div>');
             
             // 메타 바
