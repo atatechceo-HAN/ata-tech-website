@@ -2653,7 +2653,7 @@
 
 
             <!-- 특허 4건 카드 그리드 (admin_patent.js 동적 렌더링) -->
-            <div id="patent-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div id="patent-cards-grid" class="grid grid-cols-1 gap-10 mb-16">
                 <!-- admin_patent.js 동적 렌더링 영역 -->
             </div>
 
@@ -2705,207 +2705,11 @@
 
 
             <!-- 품질 인증서 그리드 (admin_patent.js 동적 렌더링) -->
-
-            <div id="cert-quality-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-
-
-
-                <!-- 인증서 1 (ISO 9001) -->
-
-                <div
-                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition flex flex-col">
-
-                    <div class="flex items-center gap-2 mb-4">
-
-                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
-                            data-i18n="cert_1_badge">품질경영시스템</span>
-
-                        <span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">ISO
-
-                            9001:2015</span>
-
-                    </div>
-
-                    <h4 class="text-xl font-bold text-slate-900 mb-2" data-i18n="cert_1_title">ISO 9001 인증서</h4>
-
-                    <p class="text-sm text-slate-600 mb-4 flex-grow" data-i18n="cert_1_desc">국제 표준화 기구(ISO)에서 제정한
-                        품질경영시스템에 관한 국제 규격을 획득하여 품질 보증
-
-                        및 고객 신뢰 체계를 공인받았습니다.
-
-                    </p>
-
-                    <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
-                        style="height: 320px;">
-
-                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 9001.pdf" src="about:blank" loading="lazy"
-                            class="w-full h-full border-0 pdf-lazy-frame" title="ISO 9001 품질경영시스템 인증서"></iframe>
-
-                    </div>
-
-                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition"
-                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
-
-                </div>
-
-
-
-                <!-- 인증서 2 (ISO 14001) -->
-
-                <div
-                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition flex flex-col">
-
-                    <div class="flex items-center gap-2 mb-4">
-
-                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-teal-600/90 text-white"
-                            data-i18n="cert_2_badge">환경경영시스템</span>
-
-                        <span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">ISO
-
-                            14001:2015</span>
-
-                    </div>
-
-                    <h4 class="text-xl font-bold text-slate-900 mb-2" data-i18n="cert_2_title">ISO 14001 인증서</h4>
-
-                    <p class="text-sm text-slate-600 mb-4 flex-grow" data-i18n="cert_2_desc">국제 표준화 기구(ISO)에서 제정한
-                        환경경영시스템에 관한 국제 규격을 획득하여 친환경 경영
-
-                        및 지속가능한 환경 관리 체계를 공인받았습니다.
-
-                    </p>
-
-                    <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
-                        style="height: 320px;">
-
-                        <iframe data-pdf-src="docs/(주)에이티에이기술 ISO 14001.pdf" src="about:blank" loading="lazy"
-                            class="w-full h-full border-0 pdf-lazy-frame" title="ISO 14001 환경경영시스템 인증서"></iframe>
-
-                    </div>
-
-                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition"
-                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
-
-                </div>
-
-
-
-                <!-- 인증서 3 (벤처기업확인서) -->
-
-                <div
-                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition flex flex-col">
-
-                    <div class="flex items-center gap-2 mb-4">
-
-                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
-                            data-i18n="cert_3_badge_1">벤처기업 인증</span><span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"
-                            data-i18n="cert_3_badge_2">벤처기업확인서</span>
-
-                    </div>
-
-                    <h4 class="text-xl font-bold text-slate-900 mb-2" data-i18n="cert_3_title">벤처기업확인서</h4>
-
-                    <p class="text-sm text-slate-600 mb-4 flex-grow" data-i18n="cert_3_desc">혁신적인 기술력과 성장 가능성을 인정받아
-                        벤처기업으로 확인되었습니다.</p>
-
-                    <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
-                        style="height: 320px;">
-
-                        <iframe data-pdf-src="docs/벤처기업확인서.pdf" src="about:blank" loading="lazy"
-                            class="w-full h-full border-0 pdf-lazy-frame" title="벤처기업확인서"></iframe>
-
-                    </div>
-
-                    <a href="docs/벤처기업확인서.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition"
-                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
-
-                </div>
-
-
-
-                <!-- 인증서 4 (창업기업확인서) -->
-
-                <div
-                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition flex flex-col">
-
-                    <div class="flex items-center gap-2 mb-4">
-
-                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
-                            data-i18n="cert_4_badge_1">정부 공인 창업기업</span><span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"
-                            data-i18n="cert_4_badge_2">중소벤처기업부</span>
-
-                    </div>
-
-                    <h4 class="text-xl font-bold text-slate-900 mb-2" data-i18n="cert_4_title">창업기업확인서</h4>
-
-                    <p class="text-sm text-slate-600 mb-4 flex-grow" data-i18n="cert_4_desc">우수한 기술력과 아이디어를 바탕으로 창업기업으로
-                        확인되었습니다.</p>
-
-                    <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
-                        style="height: 320px;">
-
-                        <iframe data-pdf-src="docs/창업기업확인서.pdf" src="about:blank" loading="lazy"
-                            class="w-full h-full border-0 pdf-lazy-frame" title="창업기업확인서"></iframe>
-
-                    </div>
-
-                    <a href="docs/창업기업확인서.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition"
-                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
-
-                </div>
-
-
-
-                <!-- 인증서 5 (연구개발전담부서 인정서) -->
-
-                <div
-                    class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition flex flex-col md:col-span-2 md:w-[calc(50%-1rem)] md:mx-auto w-full">
-
-                    <div class="flex items-center gap-2 mb-4">
-
-                        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-600/90 text-white"
-                            data-i18n="cert_5_badge_1">기업부설 연구전담부서</span><span
-                            class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200"
-                            data-i18n="cert_5_badge_2">한국산업기술진흥협회 (KOITA)</span>
-
-                    </div>
-
-                    <h4 class="text-xl font-bold text-slate-900 mb-2" data-i18n="cert_5_title">연구개발전담부서 인정서</h4>
-
-                    <p class="text-sm text-slate-600 mb-4 flex-grow" data-i18n="cert_5_desc">지속적인 R&D 투자를 통해 독자적인 기술 개발을
-                        수행하는 연구개발전담부서를 운영하고
-
-                        있습니다.</p>
-
-                    <div class="w-full bg-slate-100 rounded-xl overflow-hidden mb-4 border border-slate-200"
-                        style="height: 320px;">
-
-                        <iframe data-pdf-src="docs/연구개발전담부서인정서.pdf" src="about:blank" loading="lazy"
-                            class="w-full h-full border-0 pdf-lazy-frame" title="연구개발전담부서인정서"></iframe>
-
-                    </div>
-
-                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank"
-                        class="w-full inline-flex justify-center items-center gap-2 px-4 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition"
-                        data-i18n="cert_btn_view"><i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 원본 보기</a>
-
-                </div>
-
+            <div id="cert-quality-grid" class="grid grid-cols-1 gap-10 mb-16">
+                <!-- admin_patent.js 동적 렌더링 영역 -->
             </div>
-
         </div>
-
     </div>
-
-
 
     <!-- 수상 내역 페이지 -->
 
@@ -2925,7 +2729,7 @@
 
 
 
-            <div id="cert-awards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div id="cert-awards-grid" class="grid grid-cols-1 gap-10 mb-16">
                 <!-- admin_patent.js 동적 렌더링 영역 -->
             </div>
         </div>
