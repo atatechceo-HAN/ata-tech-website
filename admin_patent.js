@@ -15,6 +15,319 @@
 
     var STORAGE_KEY_PATENT = "ata_patent_cert_db_v1";
 
+    // ==========================================================================
+    // 특허 및 인증 전용 4개국어(ko, en, zh, ja) 완벽 번역 사전
+    // ==========================================================================
+    var PATENT_I18N = {
+        ui: {
+            patent_badge: { ko: "등록특허", en: "Registered Patent", zh: "授权专利", ja: "登録特許" },
+            patent_core_badge: { ko: "핵심원천특허", en: "Core Original Patent", zh: "核心原创专利", ja: "中核独自特許" },
+            cert_badge: { ko: "품질·환경인증", en: "Quality Cert", zh: "质量与环境认证", ja: "品質・環境認証" },
+            award_badge: { ko: "대외수상·수료", en: "Award & Honors", zh: "获奖荣誉与结业", ja: "受賞・修了歴" },
+            mechanism_title: { ko: "핵심 메커니즘 & 원천 기술 경쟁력", en: "Core Mechanism & R&D Competitiveness", zh: "核心技术机制与独家研发优势", ja: "中核メカニズム＆独自技術競争力" },
+            cert_features_title: { ko: "주요 인증 범위 & 품질 표준", en: "Certification Scope & Quality Standards", zh: "主要认证范围与质量管理标准", ja: "主要認証範囲＆品質管理基準" },
+            award_features_title: { ko: "주요 공적 성과 & 기술 평가", en: "Key Achievements & Technical Evaluation", zh: "主要成果与技术评估", ja: "主要功績＆技術評価" },
+            patent_copy_label: { ko: "대한민국 특허청 공인 사본", en: "Official KIPO Registered Copy", zh: "韩国特许厅官方公认证本", ja: "韓国特許庁公認謄本" },
+            patent_exclusive_label: { ko: "특허법 제66조 독점 배타권 보유", en: "Exclusive Patent Rights (Article 66)", zh: "依据专利法第66条享有独家排他权", ja: "特許法第66条に基づく独占排他権保有" },
+            org_kipo: { ko: "대한민국 특허청 (KIPO)", en: "KIPO (Korean Intellectual Property Office)", zh: "韩国特许厅 (KIPO)", ja: "韓国特許庁 (KIPO)" },
+            reg_date: { ko: "등록일자", en: "Reg. Date", zh: "授权日期", ja: "登録日" },
+            cert_no: { ko: "인증번호", en: "Cert No.", zh: "认证编号", ja: "認証番号" }
+        },
+        items: {
+            // [1. 특허 4건]
+            pat_1: {
+                title: { ko: "차세대 택배차량 배송 자동화 시스템", en: "Next-Gen Delivery Vehicle Automation System", zh: "下一代厢式货车配送自动化系统", ja: "次世代配送バン配達自動化システム" },
+                subtitle: { ko: "Smart Delivery Vehicle Automation System", en: "Smart Delivery Vehicle Automation System", zh: "智能厢式货车自动化配送系统", ja: "スマート配送車両自動化システム" },
+                description: {
+                    ko: "택배 배송 차량 내부의 적재함을 모듈화하여 목적지별 화물을 자동으로 이송하고 순차 배출하는 차세대 스마트 모빌리티 물류 특허입니다.\n화물 적재함의 슬라이딩 이송 메커니즘을 통해 상하차 작업자의 동선을 획기적으로 줄이며, 라스트마일 물류 현장의 작업 효율성을 극대화합니다.",
+                    en: "A next-generation smart logistics mobility patent that modularizes the cargo compartment inside delivery vans to automatically convey and sequentially discharge cargo by destination.\nThe sliding conveyance mechanism drastically reduces worker movement and maximizes loading/unloading efficiency.",
+                    zh: "通过对配送货车内部货厢进行模块化设计，实现按目的地自动移送并顺次排出货物的下一代智慧物流专利。\n滑动输送机构大幅缩短作业人员动线，全面提升末端配送装卸效率。",
+                    ja: "配送バン内部の荷台をモジュール化し、配送先ごとの荷物を自動搬送して順次排出する次世代スマートモビリティ物流特許です。\nスライド搬送機構により作業者の動線を劇的に削減し、荷役作業の効率を最大化します。"
+                },
+                features: {
+                    ko: [
+                        "차량 내부 적재함 자동 이송 및 슬라이딩 배출 메커니즘",
+                        "상하차 작업 시간 60% 이상 단축 및 배송 기사 근골격계 질환 예방",
+                        "다양한 규격의 배송 차량(1톤/2.5톤/탑차) 맞춤형 커스텀 장착 지원"
+                    ],
+                    en: [
+                        "Automated in-vehicle cargo conveyance & sliding discharge mechanism",
+                        "Reduces loading/unloading time by over 60% and prevents musculoskeletal injury",
+                        "Supports custom installation for various vehicle specifications (1T / 2.5T / Box trucks)"
+                    ],
+                    zh: [
+                        "车厢内部装载物自动移送与滑动式分拣排出机械机构",
+                        "缩减60%以上装卸工时，有效预防作业人员肌肉骨骼疾病",
+                        "支持多种规格配送车辆（1吨/2.5吨/厢式货车）定制化安装"
+                    ],
+                    ja: [
+                        "車両内部荷台の自動搬送およびスライド排出メカニズム",
+                        "積み降ろし時間を60%以上短縮し作業者の身体的負荷を予防",
+                        "多様な配送車両（1t/2.5t/バン）に合わせたカスタム搭載対応"
+                    ]
+                }
+            },
+            pat_2: {
+                title: { ko: "인공지능 기반 스마트 체형 교정 및 유지 시스템", en: "AI-based Smart Body Posture Correction & Health System", zh: "基于人工智能的智能体型矫正与维持系统", ja: "人工知能基盤スマート体型矯正および維持システム" },
+                subtitle: { ko: "AI-based Body Posture Correction & Health System", en: "AI-based Body Posture Correction & Health System", zh: "人工智能工作姿势追踪与健康系统", ja: "AI作業姿勢追跡・健康管理システム" },
+                description: {
+                    ko: "비전 AI 카메라 및 압력 센서를 결합하여 사용자의 작업 자세와 체형 밸런스를 실시간 추적하고 인체공학적 피드백을 제공하는 스마트 헬스케어 특허 기술입니다.\n물류센터 현장 근무자의 반복 작업 및 무거운 화물 리프팅 시 발생하는 척추·관절 하중을 예방합니다.",
+                    en: "A smart healthcare patent technology combining vision AI cameras and pressure sensors to track worker posture and body balance in real time, delivering ergonomic feedback.\nPrevents spinal and joint strain during repetitive heavy lifting in logistics centers.",
+                    zh: "结合视觉AI摄像头与压力传感器，实时追踪作业人员工作姿势与体态平衡，并提供人体工学反馈的智慧健康专利。\n有效预防物流中心重复搬运重物时造成的脊椎与关节劳损。",
+                    ja: "ビジョンAIカメラと圧力センサーを融合し、作業姿勢と体型バランスをリアルタイム追跡して人間工学的フィードバックを提供するスマートヘルスケア特許です。\n物流現場の重量物運搬における脊椎・関節の負荷を防止します。"
+                },
+                features: {
+                    ko: [
+                        "물류 현장 작업자 작업 자세 및 위험 하중 실시간 AI 추적",
+                        "신체 불균형 및 위험 작업 패턴 감지 시 즉각 경고 알림",
+                        "작업 안전성 및 작업장 보건 관리 솔루션과 통합 연동"
+                    ],
+                    en: [
+                        "Real-time AI tracking of worker posture and dangerous load points",
+                        "Instant alert notification upon detecting body imbalance or hazardous motion",
+                        "Seamless integration with workplace safety and occupational health systems"
+                    ],
+                    zh: [
+                        "物流现场作业人员工作姿势与危险负荷实时AI智能追踪",
+                        "监测到身体失衡或危险操作动作时即时发出警报提示",
+                        "与作业安全管理系统及职业健康保障方案无缝协同"
+                    ],
+                    ja: [
+                        "現場作業者の作業姿勢および危険荷重のリアルタイムAI追跡",
+                        "身体バランスの崩れや危険動作検知時の即時警告通知",
+                        "作業安全性および労働安全衛生管理システムとの統合連動"
+                    ]
+                }
+            },
+            pat_3: {
+                title: { ko: "운송 차량 적재물 분류 및 이송 시스템", en: "Vehicle Cargo Sorting & Conveyance System", zh: "运输车辆装载物分拣及输送系统", ja: "運送車両積載物仕分けおよび移送システム" },
+                subtitle: { ko: "Vehicle Cargo Sorting & Conveyance System", en: "Vehicle Cargo Sorting & Conveyance System", zh: "干线集装箱高速伸缩输送分拣系统", ja: "幹線トラック伸縮式仕分け搬送システム" },
+                description: {
+                    ko: "운송 트럭 및 컨테이너 내부 깊숙이 진입하여 화물의 크기, 무게, 바코드를 고속 인식하고 자동 분류하는 텔레스코픽 연동 이송 특허 시스템입니다.\n화물 유입 병목 구간을 해소하고 간선 하차 라인에서 끊김 없는 연속 분류 흐름을 완성합니다.",
+                    en: "A patented telescopic conveyance system that penetrates deep into transport trucks and containers to recognize dimensions, weight, and barcodes for automated high-speed sortation.\nEliminates bottle-necks in line-haul unloading lines.",
+                    zh: "深入货车及集装箱内部，高速识别货物尺寸、重量与条形码并实现自动分拣的伸缩联动专利系统。\n彻底消除干线卸货瓶颈，实现不间断连续分拣作业。",
+                    ja: "トラックやコンテナ深部まで進入し、荷物のサイズ・重量・バーコードを高速認識して自動仕分けを行う伸縮連動搬送特許システムです。\n荷下ろし工程のボトルネックを解消し、連続仕分けフローを実現します。"
+                },
+                features: {
+                    ko: [
+                        "다열 컨베이어 기반 고속 화물 피치 제어 및 연속 이송",
+                        "비정형 박스 및 연포장 폴리백 화물 걸림 방지 특수 벨트 설계",
+                        "간선 하차 라인 병목 현상 완전 해소 및 시간당 4,000+ 개 연속 처리"
+                    ],
+                    en: [
+                        "Multi-row conveyor based high-speed cargo pitch control & continuous conveyance",
+                        "Special anti-jam belt design for irregular boxes and polybag packages",
+                        "Completely resolves unloading bottlenecks with continuous capacity of 4,000+ PPH"
+                    ],
+                    zh: [
+                        "基于多列输送机的高速货物间距精准控制与连续平稳输送",
+                        "针对异形纸箱及软质快递袋防卡阻专用皮带结构设计",
+                        "全面破解干线卸货堵塞，实现每小时4,000件以上持续高效吞吐"
+                    ],
+                    ja: [
+                        "多列コンベヤ基盤の高速荷物ピッチ制御および連続搬送",
+                        "異形ボックスや袋物の詰まりを防止する特殊ベルト設計",
+                        "荷下ろしラインの滞留を完全解消し毎時4,000個以上を連続処理"
+                    ]
+                }
+            },
+            pat_4: {
+                title: { ko: "컨베이어 물류 분류용 4분할 방향 전환 장치", en: "4-Way Diverting Apparatus for Conveyor Logistics Sortation", zh: "输送机物流分拣用四分割变向转向装置", ja: "コンベヤ物流仕分け用4分割方向転換装置" },
+                subtitle: { ko: "4-Directional Transfer & Sorting Switch Device", en: "4-Directional Transfer & Sorting Switch Device", zh: "四分割独立驱动全方位转向分拣核心设备", ja: "4分割独立駆動ポップアップホイール方向転換装置" },
+                description: {
+                    ko: "(주)에이티에이기술의 대표 독자 원천 기술로, 4개의 팝업 휠 모듈이 독립 구동 및 360도 정밀 서보 각도 제어를 수행하여 화물의 충격을 최소화하면서 직진, 좌·우 90도 분기, 180도 회송을 즉각 수행하는 최첨단 고속 분류 분기 시스템입니다.",
+                    en: "ATA Technology's flagship proprietary technology: 4 independent pop-up wheel modules with 360-degree precision servo angle control, executing straight-through, 90-degree lateral diverts, and 180-degree return with zero package shock.",
+                    zh: "(株)ATA技术的标志性原创核心技术，4组独立驱动升降轮模块搭载360度精密伺服角度控制，以零冲击实现直行、左右90度高速分流及180度回送。",
+                    ja: "株式会社ATA技術の代表的な独自中核技術であり、4組のポップアップホイールモジュールが独立駆動と360度精密サーボ制御を行い、衝撃なく直進・左右90度分岐・180度反転を瞬時に実行します。"
+                },
+                features: {
+                    ko: [
+                        "독립 제어 4분할 팝업 휠 기반 0.3초 초고속 분기 응답 속도",
+                        "부드러운 화물 방향 전환으로 박스 및 파우치 파손율 0.00% 달성",
+                        "기존 물류 라인에 표준 모듈 방식으로 즉시 인라인 삽입 가능"
+                    ],
+                    en: [
+                        "0.3-second ultra-fast divert response based on independently controlled 4-way pop-up wheels",
+                        "Achieves 0.00% damage rate for boxes and flexible polybags via gentle directional switching",
+                        "Immediate in-line modular plug-in integration into existing conveyor sortation lines"
+                    ],
+                    zh: [
+                        "基于独立控制四分割升降轮的0.3秒超高速分拣响应",
+                        "平滑温和的转向机制使包装箱及袋装件破损率达0.00%",
+                        "标准模块化结构，可即插即用嵌入现有输送分拣流水线"
+                    ],
+                    ja: [
+                        "独立制御4分割ポップアップホイールによる0.3秒の超高速分岐応答",
+                        "滑らかな方向転換により荷物破損率0.00%を達成",
+                        "既存の物流ラインに標準モジュールとして即時インライン挿入可能"
+                    ]
+                }
+            },
+
+            // [2. 품질인증 5건]
+            cert_iso_9001: {
+                title: { ko: "ISO 9001:2015 품질경영시스템 인증", en: "ISO 9001:2015 Quality Management System", zh: "ISO 9001:2015 质量管理体系认证", ja: "ISO 9001:2015 品質マネジメントシステム認証" },
+                description: {
+                    ko: "물류 자동화 설비 기구 설계, 제어 소프트웨어 개발 및 현장 설치·시운전 전 공정에 대한 국제 품질 표준 적합성을 공인받았습니다.",
+                    en: "Certified for compliance with international quality standards across all processes: automated logistics machinery design, control software development, installation, and commissioning.",
+                    zh: "在物流自动化设备机构设计、控制软件开发及现场安装调试全流程中获得国际质量管理体系标准化权威认证。",
+                    ja: "物流自動化設備の機構設計、制御ソフトウェア開発、据付・試運転の全工程において国際品質規格適合認証を取得。"
+                },
+                features: {
+                    ko: ["국제 표준 규격 준수", "체계적 품질 보증 체계", "고객 만족도 극대화"],
+                    en: ["International Standard Compliance", "Systematic QA Framework", "Maximized Customer Satisfaction"],
+                    zh: ["严格遵循国际标准规范", "完备的系统化品质保证流程", "全面提升客户信赖与满意度"],
+                    ja: ["国際標準規格の徹底遵守", "体系的な品質保証システムの確立", "顧客満足度の最大化"]
+                }
+            },
+            cert_iso_14001: {
+                title: { ko: "ISO 14001:2015 환경경영시스템 인증", en: "ISO 14001:2015 Environmental Management System", zh: "ISO 14001:2015 环境管理体系认证", ja: "ISO 14001:2015 環境マネジメントシステム認証" },
+                description: {
+                    ko: "친환경 고효율 스마트 물류 장비 개발과 제조 과정에서의 탄소 배출 저감, 지속 가능한 친환경 생산 가이드라인을 준수합니다.",
+                    en: "Adheres to sustainable eco-friendly manufacturing guidelines and low-carbon operation for high-efficiency smart logistics machinery.",
+                    zh: "在环保高效智能物流装备研发制造过程中严格践行节能减排与可持续绿色生产标准。",
+                    ja: "環境配慮型高効率スマート物流機器の開発・製造過程における省エネ・低炭素化と持続可能な生産基準を遵守。"
+                },
+                features: {
+                    ko: ["친환경 스마트 설계", "에너지 소비 절감 솔루션", "지속 가능한 제조 공정"],
+                    en: ["Eco-friendly Smart Engineering", "Low Energy Consumption Solution", "Sustainable Manufacturing Process"],
+                    zh: ["绿色环保智能化工程设计", "低功耗节能降耗解决方案", "可持续发展的标准化制造工艺"],
+                    ja: ["環境配慮型スマート設計", "エネルギー消費削減ソリューション", "持続可能な製造プロセス"]
+                }
+            },
+            cert_venture: {
+                title: { ko: "혁신성장유형 벤처기업확인서", en: "Venture Enterprise Certification (Innovative Growth)", zh: "创新成长型风险企业认证", ja: "ベンチャー企業確認書（革新成長型）" },
+                description: {
+                    ko: "기술보증기금 및 벤처기업협회로부터 독자적인 물류 메카트로닉스 원천 기술력과 글로벌 시장 성장 잠재력을 공식 공인받았습니다.",
+                    en: "Officially certified by KIBO and KOVA for proprietary logistics mechatronics technology and global growth potential.",
+                    zh: "凭借独家物流机电一体化核心技术与全球市场成长潜力，获得韩国技术保证基金及风险企业协会官方认证。",
+                    ja: "技術保証基金およびベンチャー企業協会より、独自の物流メカトロニクス技術力と成長可能性を公式認定。"
+                },
+                features: {
+                    ko: ["원천 기술 우수성 공인", "R&D 투자 집중 기업", "글로벌 시장 성장 역량"],
+                    en: ["Verified Original Technology", "R&D Intensive Enterprise", "Global Market Growth Capability"],
+                    zh: ["原创核心技术卓越性认证", "聚焦研发创新的高精尖企业", "强劲的全球化市场拓展能力"],
+                    ja: ["中核独自技術の優秀性認定", "R&D集中投資企業", "グローバル展開への高い成長力"]
+                }
+            },
+            cert_rnd: {
+                title: { ko: "기업부설연구소(R&D 센터) 인정서", en: "Corporate R&D Center Accreditation", zh: "企业附属研究所（研发中心）认证", ja: "企業付設研究所（R&Dセンター）認定書" },
+                description: {
+                    ko: "과학기술정보통신부 산하 한국산업기술진흥협회(KOITA)로부터 독립된 물류 자동화 전문 기술연구소 정식 인가를 획득하였습니다.",
+                    en: "Accredited by KOITA under MSIT as an independent specialized logistics automation technology research center.",
+                    zh: "获得韩国科技信息通信部下属产业技术振兴协会（KOITA）官方批准成立的独立物流自动化专业技术研究所认证。",
+                    ja: "科学技術情報通信部傘下のKOITAより独立した物流自動化専門技術研究所としての正式認可を取得。"
+                },
+                features: {
+                    ko: ["전담 R&D 석박사 연구진", "독자적 제어 알고리즘 개발", "산학연 협력 네트워크"],
+                    en: ["Dedicated Masters & PhD Researchers", "Proprietary Algorithm Development", "Industry-Academia Network"],
+                    zh: ["高精尖硕博专业研发团队", "自主开发智能控制核心算法", "深度产学研协同创新网络"],
+                    ja: ["専門R&D研究チーム配備", "独自制御アルゴリズムの開発", "産学官連携研究ネットワーク"]
+                }
+            },
+            cert_innobiz: {
+                title: { ko: "기술혁신형 중소기업(Inno-Biz) 확인서", en: "Inno-Biz Technology Innovation Certification", zh: "技术创新型中小企业 (Inno-Biz) 认证", ja: "技術革新中小企業（Inno-Biz）認証" },
+                description: {
+                    ko: "중소벤처기업부로부터 기술 경쟁력, R&D 투자 비율, 상용화 성공 실적을 종합 평가받아 기술혁신 선도 기업으로 공식 지정되었습니다.",
+                    en: "Designated as an innovative leading enterprise by MSS based on technology competitiveness, R&D ratio, and commercialization achievements.",
+                    zh: "经韩国中小风险企业部在技术竞争力、研发投入比及产业化业绩综合评估，正式评定为技术创新领军企业。",
+                    ja: "中小ベンチャー企業部より技術競争力・研究開発比率・実用化実績が総合評価され、技術革新企業に指定。"
+                },
+                features: {
+                    ko: ["정부 공인 기술혁신 기업", "상용화 성공 실적 검증", "신뢰성 높은 B2B 파트너"],
+                    en: ["Government Verified Tech Leader", "Proven Commercial Deployments", "Trusted B2B Engineering Partner"],
+                    zh: ["政府权威背书技术创新企业", "经实战检验的大规模商用落地", "极具信赖度的全球B2B战略伙伴"],
+                    ja: ["政府公認の技術革新企業", "商用化実績の厳格な検証", "信頼性の高いB2Bパートナー"]
+                }
+            },
+
+            // [3. 수상 내역 3건]
+            award_1: {
+                title: { ko: "강원창조경제혁신센터 표창장", en: "Gangwon Center for Creative Economy Commendation", zh: "江原创新创业经济中心表彰", ja: "江原創造経済革新センター表彰" },
+                organization: { ko: "강원창조경제혁신센터", en: "Gangwon Center for Creative Economy", zh: "江原创新创业经济中心", ja: "江原創造経済革新センター" },
+                description: {
+                    ko: "지역 청년 창업 활성화와 첨단 스마트 물류 솔루션 연구개발에 기여한 공로를 인정받아 센터장 표창을 수상하였습니다.",
+                    en: "Awarded Center Director Commendation for contributions to regional startup incubation and innovative smart logistics technology R&D.",
+                    zh: "表彰在扶持区域青年创业创新及推动尖端智慧物流设备研发方面的突出贡献。",
+                    ja: "地域スタートアップ振興と先端スマート物流ソリューションの研究開発功績が評価され、センター長表彰を受賞。"
+                },
+                features: {
+                    ko: ["물류 자동화 R&D 성과 인정", "지역 기술 창업 생태계 활성화 기여", "기술 실증 우수 모델 선정"],
+                    en: ["Logistics Automation R&D Recognition", "Regional Tech Startup Support", "Selected as Model Tech Project"],
+                    zh: ["物流自动化研发突破性成果认可", "积极促进区域创新技术生态建设", "入选技术实证示范标杆优秀项目"],
+                    ja: ["物流自動化R&Dの成果認知", "地域技術起業エコシステムへの貢献", "技術実証優秀モデルに選定"]
+                }
+            },
+            award_2: {
+                title: { ko: "신용보증기금 Start-up NEST 12기 선정", en: "KODIT Start-up NEST 12th Cohort Selection", zh: "信用保证基金 Start-up NEST 12期入选", ja: "信用保証基金 Start-up NEST 第12期選定" },
+                organization: { ko: "신용보증기금 (KODIT)", en: "Korea Credit Guarantee Fund (KODIT)", zh: "韩国信用保证基金 (KODIT)", ja: "韓国信用保証基金 (KODIT)" },
+                description: {
+                    ko: "신용보증기금의 유망 스타트업 육성 플랫폼 'Start-up NEST' 12기 혁신 기업으로 최종 선정되어 금융 및 액셀러레이팅 지원을 받았습니다.",
+                    en: "Selected as an innovative enterprise for KODIT's Startup NEST 12th cohort, receiving financial guarantee and growth acceleration support.",
+                    zh: "作为高成长潜力企业最终入选韩国信用保证基金旗下的Start-up NEST第12期，获得专项金融与孵化加速扶持。",
+                    ja: "信用保証基金の有望スタートアップ育成プログラム「Start-up NEST」第12期に選定され、金融・成長支援を獲得。"
+                },
+                features: {
+                    ko: ["유망 하이테크 스타트업 선정", "신용보증기금 금융 지원 보증", "성장 가속화 액셀러레이팅"],
+                    en: ["Selected Promising Hi-Tech Startup", "Financial Guarantee by KODIT", "Accelerated Growth Program"],
+                    zh: ["入选极具潜力的硬科技创新企业", "获得信用保证基金政策性金融背书", "全方位商业化成长加速赋能"],
+                    ja: ["有望ハイテク企業としての選定", "信用保証基金による金融支援保証", "成長加速アクセラレーション獲得"]
+                }
+            },
+            award_3: {
+                title: { ko: "국가연구개발사업 과제기획 전문실무 수료", en: "National R&D Project Planning Practical Course Completion", zh: "国家级研发项目策划实务研修结业", ja: "国家研究開発事業課題企画専門実務修了" },
+                organization: { ko: "한국기술개발협회 (KOTERA)", en: "Korea Tech Development Association (KOTERA)", zh: "韩国技术开发协会 (KOTERA)", ja: "韓国技術開発協会 (KOTERA)" },
+                description: {
+                    ko: "정부 R&D 과제 기획, 특허 전략 수립, 사업화 기술 로드맵 작성을 위한 전문 실무 교육 과정을 성공적으로 수료하였습니다.",
+                    en: "Successfully completed intensive practical training on national R&D project planning, patent IP strategy, and technology commercialization.",
+                    zh: "顺利结业关于政府级研发课题规划、知识产权专利布局及商业化技术路线图制定的高阶实务培训课程。",
+                    ja: "国家R&Dプロジェクト企画、特許戦略立案、事業化ロードマップ策定に関する専門実務課程を修了。"
+                },
+                features: {
+                    ko: ["체계적 국가 R&D 기획 역량", "특허 전략 및 IP 로드맵 수립", "대형 국책 과제 수행 역량 확보"],
+                    en: ["Systematic National R&D Planning", "Patent Strategy & IP Roadmapping", "Proven Capacity for Major Grants"],
+                    zh: ["系统化国家级研发项目规划能力", "战略级专利布局与IP路线图构建", "具备承接重大国策课题的技术实力"],
+                    ja: ["体系的な国家R&D企画能力の獲得", "特許戦略およびIPロードマップ策定", "大型国家プロジェクト遂行能力の確保"]
+                }
+            }
+        }
+    };
+
+    /**
+     * 현재 언어 코드(ko, en, zh, ja)를 안전하게 반환
+     */
+    function getLang() {
+        var l = (window.currentLanguage || 'ko').toLowerCase();
+        if (l === 'cn' || l === 'zh' || l === 'zh-cn') return 'zh';
+        if (l === 'ja' || l === 'jp') return 'ja';
+        if (l === 'en') return 'en';
+        return 'ko';
+    }
+
+    /**
+     * UI 다국어 텍스트 조회
+     */
+    function i18nUI(key) {
+        var l = getLang();
+        if (PATENT_I18N.ui[key] && PATENT_I18N.ui[key][l]) {
+            return PATENT_I18N.ui[key][l];
+        }
+        return (PATENT_I18N.ui[key] && PATENT_I18N.ui[key].ko) ? PATENT_I18N.ui[key].ko : '';
+    }
+
+    /**
+     * 아이템별 필드 다국어 조회
+     */
+    function i18nItem(id, field, fallback) {
+        var l = getLang();
+        var itemMap = PATENT_I18N.items[id];
+        if (itemMap && itemMap[field] && itemMap[field][l]) {
+            return itemMap[field][l];
+        }
+        return fallback;
+    }
+
+
     var INITIAL_PATENT_DATA = [
         // ===================== [1. 특허 현황: 4건] =====================
         {
@@ -678,6 +991,9 @@
     // ==========================================================================
     // 프론트엔드 실시간 동적 렌더링 - 2026 완성형 (가로 100% 풀 와이드 텍스트)
     // ==========================================================================
+    // ==========================================================================
+    // 4. 프론트엔드 홈페이지 실시간 동적 렌더링 엔진 (다국어 & 클린 이미지 뷰어)
+    // ==========================================================================
     function renderFrontend() {
         var data = loadData();
 
@@ -692,7 +1008,10 @@
     }
 
     /**
-     * [특허 현황] 상하 수직형 클린 카드 (가로폭 100% 풀 와이드 텍스트 + 검은 여백 없는 A4 특허증)
+     * [특허 현황] 상하 수직형 클린 카드
+     * - '원본 다운로드 / 열기' 버튼 완전 제거
+     * - object-contain 및 유동적 컨테이너로 특허증 전체가 한눈에 보이도록 구현
+     * - 4개국어(ko, en, zh, ja) 완벽 지원
      */
     function renderPatentSection(items) {
         var container = document.getElementById('patent-cards-grid');
@@ -700,51 +1019,63 @@
 
         items.sort(function (a, b) { return (a.sortOrder || 99) - (b.sortOrder || 99); });
 
-        var curLang = window.currentLanguage || 'ko';
-        var isEn = curLang === 'en';
+        var lang = getLang();
+        var isKo = lang === 'ko';
 
         var html = [];
         items.forEach(function (it, idx) {
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
             var numStr = it.sortOrder ? (it.sortOrder < 10 ? '0' + it.sortOrder : it.sortOrder) : (idx + 1 < 10 ? '0' + (idx + 1) : idx + 1);
-            var displayTitle = (isEn && it.subtitle) ? it.subtitle : it.title;
-            var displayBadge = isEn ? 'Registered Patent ' + numStr : (it.badge || '등록특허') + ' ' + numStr;
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden fade-in appear">');
+            // 다국어 텍스트 조회
+            var title = i18nItem(it.id, 'title', it.title);
+            var subtitle = i18nItem(it.id, 'subtitle', it.subtitle || '');
+            var description = i18nItem(it.id, 'description', it.description || '');
+            var features = i18nItem(it.id, 'features', it.features || []);
+
+            var badgeText = (it.sortOrder === 4 || it.badge === '핵심원천특허') 
+                ? i18nUI('patent_core_badge') + ' ' + numStr 
+                : i18nUI('patent_badge') + ' ' + numStr;
+
+            var orgText = (it.organization && it.organization.indexOf('KIPO') !== -1)
+                ? i18nUI('org_kipo')
+                : (it.organization || i18nUI('org_kipo'));
+
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
             
-            // 상단 텍스트 영역 (가로 100% 온전히 사용)
+            // 1. 상단 텍스트 영역 (가로 너비 100% 온전히 사용 - 글씨 세로 쪼개짐 원천 방지)
             html.push('  <div class="space-y-4">');
             
-            // 메타 바
+            // 메타 바 (배지, 등록번호, 등록일자, 기관)
             html.push('    <div class="flex items-center justify-between gap-2 flex-wrap pb-3 border-b border-slate-100">');
             html.push('      <div class="flex items-center gap-2 flex-wrap">');
             html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
-            html.push('          <i class="fa-solid fa-certificate text-blue-600"></i> ' + displayBadge);
+            html.push('          <i class="fa-solid fa-certificate text-blue-600"></i> ' + badgeText);
             html.push('        </span>');
             html.push('        <span class="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">' + (it.regNumber || '') + '</span>');
             html.push('      </div>');
             html.push('      <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">');
             html.push('        <span><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
-            html.push('        <span class="hidden sm:inline"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + (it.organization || '대한민국 특허청') + '</span>');
+            html.push('        <span class="hidden sm:inline"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + orgText + '</span>');
             html.push('      </div>');
             html.push('    </div>');
 
-            // 특허 명칭 (가로 전체 사용 - 절대 쪼개지지 않음!)
+            // 특허 발명의 명칭
             html.push('    <div>');
-            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors leading-snug break-keep">' + displayTitle + '</h3>');
-            if (it.subtitle && !isEn) {
-                html.push('      <p class="text-xs sm:text-sm font-semibold text-slate-400 mt-1 tracking-wide">' + it.subtitle + '</p>');
+            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors leading-snug break-keep">' + title + '</h3>');
+            if (subtitle && subtitle !== title) {
+                html.push('      <p class="text-xs sm:text-sm font-semibold text-slate-400 mt-1 tracking-wide break-keep">' + subtitle + '</p>');
             }
             html.push('    </div>');
 
-            // 상세 기술 설명란 (가로 전체를 쓰므로 넉넉하고 시원함)
-            html.push('    <p class="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line break-keep">' + (it.description || '') + '</p>');
+            // 상세 기술 해설란 (줄바꿈 완벽 지원)
+            html.push('    <p class="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line break-keep">' + description + '</p>');
 
-            // 핵심 메커니즘 박스 (3개 체크리스트)
-            if (it.features && it.features.length > 0) {
+            // 핵심 메커니즘 박스 (3대 체크리스트)
+            if (features && features.length > 0) {
                 html.push('    <div class="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2.5">');
-                html.push('      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-microchip text-blue-600"></i> 핵심 메커니즘 & 원천 기술 경쟁력</div>');
-                it.features.forEach(function (f) {
+                html.push('      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-microchip text-blue-600"></i> ' + i18nUI('mechanism_title') + '</div>');
+                features.forEach(function (f) {
                     html.push('      <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
                     html.push('        <i class="fa-solid fa-circle-check text-blue-600 text-xs mt-1 shrink-0"></i>');
                     html.push('        <span class="break-keep">' + f + '</span>');
@@ -755,38 +1086,21 @@
 
             html.push('  </div>');
 
-            // 하단 특허증 A4 클린 뷰어 및 액션 바
-            html.push('  <div class="pt-6 mt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">');
-            
-            // 콤팩트 A4 비율 썸네일 (너비 140px, 높이 190px - 양옆 시커먼 여백 완전 제거!)
-            html.push('    <div class="flex items-center gap-4">');
-            html.push('      <div class="w-32 h-44 shrink-0 rounded-xl overflow-hidden border border-slate-200 bg-white relative group/doc shadow-sm flex items-center justify-center">');
+            // 2. 하단 특허증 전체 노출 컨테이너 (다운로드 버튼 완전 제거, object-contain 적용으로 한눈에 전체 노출)
+            html.push('  <div class="pt-5 mt-5 border-t border-slate-100 flex flex-col items-center">');
+            html.push('    <div class="w-full p-2.5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-inner flex items-center justify-center">');
             if (isPdf) {
-                html.push('        <iframe src="' + it.fileUrl + '#view=FitH&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-0 pointer-events-none bg-white" title="' + it.title + '"></iframe>');
+                // PDF iframe: A4 세로 문서 전체가 보이는 안정적 높이와 #view=Fit
+                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-[360px] sm:h-[420px] border-0 bg-white rounded-xl shadow-sm" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('        <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/doc:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
+                // 이미지 태그: object-contain으로 원본 비율 유지, 잘림 100% 방지
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-[400px] w-auto h-auto object-contain rounded-xl shadow-sm transition-transform duration-300 hover:scale-[1.01]">');
             }
-            if (it.fileUrl) {
-                html.push('        <a href="' + it.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover/doc:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-bold gap-1 backdrop-blur-[1px] cursor-pointer">');
-                html.push('          <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i><span>새 창 열기</span>');
-                html.push('        </a>');
-            }
-            html.push('      </div>');
-            
-            html.push('      <div class="space-y-1">');
-            html.push('        <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-stamp text-blue-600"></i> 대한민국 특허청 공인 사본</div>');
-            html.push('        <div class="text-[11px] text-slate-500">특허법 제66조에 의거 독점 배타권 보유</div>');
-            html.push('        <div class="text-[11px] text-blue-600 font-semibold">(주)에이티에이기술 독자 특허권</div>');
-            html.push('      </div>');
             html.push('    </div>');
-
-            // 우측 원본 PDF 열기 버튼
-            if (it.fileUrl) {
-                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0">');
-                html.push('      <i class="fa-solid fa-file-pdf"></i> 특허증 원본 PDF 열기');
-                html.push('    </a>');
-            }
-
+            html.push('    <div class="w-full flex items-center justify-between text-xs text-slate-500 mt-3 px-1">');
+            html.push('      <span class="font-semibold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-stamp text-blue-600"></i> ' + i18nUI('patent_copy_label') + '</span>');
+            html.push('      <span class="text-blue-600 font-bold">' + i18nUI('patent_exclusive_label') + '</span>');
+            html.push('    </div>');
             html.push('  </div>');
 
             html.push('</div>');
@@ -797,6 +1111,9 @@
 
     /**
      * [인증 현황]
+     * - '원본 열기 / 다운로드' 버튼 완전 제거
+     * - object-contain 및 유동적 컨테이너로 인증서 전체가 한눈에 보이도록 구현
+     * - 4개국어(ko, en, zh, ja) 완벽 지원
      */
     function renderCertSection(items) {
         var container = document.getElementById('cert-quality-grid');
@@ -804,50 +1121,49 @@
 
         items.sort(function (a, b) { return (a.sortOrder || 99) - (b.sortOrder || 99); });
 
+        var lang = getLang();
+
         var html = [];
         items.forEach(function (it) {
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
+
+            var title = i18nItem(it.id, 'title', it.title);
+            var subtitle = i18nItem(it.id, 'subtitle', it.subtitle || '');
+            var description = i18nItem(it.id, 'description', it.description || '');
+            var features = i18nItem(it.id, 'features', it.features || []);
 
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
             
             html.push('  <div>');
             html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
-            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-600 text-white shadow-sm">' + (it.badge || '품질인증') + '</span>');
+            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-600 text-white shadow-sm">' + i18nUI('cert_badge') + '</span>');
             html.push('      <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">' + (it.regNumber || '') + '</span>');
             html.push('    </div>');
-            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-emerald-600 transition-colors break-keep">' + it.title + '</h4>');
-            if (it.subtitle) {
-                html.push('    <p class="text-xs font-semibold text-emerald-700 mb-3">' + it.subtitle + '</p>');
+            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-emerald-600 transition-colors break-keep">' + title + '</h4>');
+            if (subtitle && subtitle !== title) {
+                html.push('    <p class="text-xs font-semibold text-emerald-700 mb-3 break-keep">' + subtitle + '</p>');
             }
-            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line break-keep">' + (it.description || '') + '</p>');
+            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line break-keep">' + description + '</p>');
             
-            if (it.features && it.features.length > 0) {
+            if (features && features.length > 0) {
                 html.push('    <div class="space-y-1.5 mb-5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">');
-                it.features.forEach(function (f) {
+                html.push('      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-check-double text-emerald-600"></i> ' + i18nUI('cert_features_title') + '</div>');
+                features.forEach(function (f) {
                     html.push('      <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span class="break-keep">' + f + '</span></div>');
                 });
                 html.push('    </div>');
             }
             html.push('  </div>');
 
-            html.push('  <div class="pt-3 border-t border-slate-100 space-y-2 mt-auto">');
-            html.push('    <div class="w-full h-48 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 relative group/cert shadow-inner flex items-center justify-center">');
+            // 인증서 전체 뷰어 (다운로드 버튼 제거, object-contain 적용)
+            html.push('  <div class="pt-4 border-t border-slate-100 mt-auto">');
+            html.push('    <div class="w-full p-2.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-inner flex items-center justify-center">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#view=FitH&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-0 pointer-events-none bg-white" title="' + it.title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-[320px] sm:h-[360px] border-0 bg-white rounded-xl shadow-sm" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/cert:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-            }
-            if (it.fileUrl) {
-                html.push('      <a href="' + it.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover/cert:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[2px]">');
-                html.push('        <i class="fa-solid fa-arrow-up-right-from-square"></i> 원본 인증서 열기');
-                html.push('      </a>');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-[340px] w-auto h-auto object-contain rounded-xl shadow-sm transition-transform duration-300 hover:scale-[1.01]">');
             }
             html.push('    </div>');
-            if (it.fileUrl) {
-                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full py-2 px-3 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 border border-emerald-200">');
-                html.push('      <i class="fa-solid fa-file-pdf"></i> 원본 열기');
-                html.push('    </a>');
-            }
             html.push('  </div>');
 
             html.push('</div>');
@@ -857,7 +1173,10 @@
     }
 
     /**
-     * [수상 내역]
+     * [수상 및 수료 내역]
+     * - '상장 원본 열기 / 다운로드' 버튼 완전 제거
+     * - object-contain 및 유동적 컨테이너로 상장 전체가 한눈에 보이도록 구현
+     * - 4개국어(ko, en, zh, ja) 완벽 지원
      */
     function renderAwardSection(items) {
         var container = document.getElementById('cert-awards-grid');
@@ -865,48 +1184,47 @@
 
         items.sort(function (a, b) { return (a.sortOrder || 99) - (b.sortOrder || 99); });
 
+        var lang = getLang();
+
         var html = [];
         items.forEach(function (it) {
             var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
+
+            var title = i18nItem(it.id, 'title', it.title);
+            var organization = i18nItem(it.id, 'organization', it.organization || '');
+            var description = i18nItem(it.id, 'description', it.description || '');
+            var features = i18nItem(it.id, 'features', it.features || []);
 
             html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
             
             html.push('  <div>');
             html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
-            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm">' + (it.badge || '대외수상') + '</span>');
+            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm">' + i18nUI('award_badge') + '</span>');
             html.push('      <span class="text-xs font-medium text-slate-500"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
             html.push('    </div>');
-            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors break-keep">' + it.title + '</h4>');
-            html.push('    <p class="text-xs font-semibold text-slate-500 mb-3"><i class="fa-solid fa-building-columns text-amber-500 mr-1.5"></i>' + (it.organization || '') + '</p>');
-            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line break-keep">' + (it.description || '') + '</p>');
+            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors break-keep">' + title + '</h4>');
+            html.push('    <p class="text-xs font-semibold text-slate-500 mb-3"><i class="fa-solid fa-building-columns text-amber-500 mr-1.5"></i>' + organization + '</p>');
+            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line break-keep">' + description + '</p>');
             
-            if (it.features && it.features.length > 0) {
+            if (features && features.length > 0) {
                 html.push('    <div class="space-y-1.5 mb-5 bg-amber-50/50 p-3.5 rounded-xl border border-amber-200/50">');
-                it.features.forEach(function (f) {
+                html.push('      <div class="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-award text-amber-600"></i> ' + i18nUI('award_features_title') + '</div>');
+                features.forEach(function (f) {
                     html.push('      <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-award text-amber-600 text-[10px]"></i><span class="break-keep">' + f + '</span></div>');
                 });
                 html.push('    </div>');
             }
             html.push('  </div>');
 
-            html.push('  <div class="pt-3 border-t border-slate-100 space-y-2 mt-auto">');
-            html.push('    <div class="w-full h-48 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 relative group/award shadow-inner flex items-center justify-center">');
+            // 상장 전체 뷰어 (다운로드 버튼 제거, object-contain 적용)
+            html.push('  <div class="pt-4 border-t border-slate-100 mt-auto">');
+            html.push('    <div class="w-full p-2.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-inner flex items-center justify-center">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#view=FitH&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-0 pointer-events-none bg-white" title="' + it.title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-[320px] sm:h-[360px] border-0 bg-white rounded-xl shadow-sm" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + it.title + '" class="w-full h-full object-cover group-hover/award:scale-105 transition-transform duration-500" onerror="this.src=\'assets/images/no-image.svg\';">');
-            }
-            if (it.fileUrl) {
-                html.push('      <a href="' + it.fileUrl + '" target="_blank" class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover/award:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[2px]">');
-                html.push('        <i class="fa-solid fa-arrow-up-right-from-square"></i> 원본 상장 열기');
-                html.push('      </a>');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-[340px] w-auto h-auto object-contain rounded-xl shadow-sm transition-transform duration-300 hover:scale-[1.01]">');
             }
             html.push('    </div>');
-            if (it.fileUrl) {
-                html.push('    <a href="' + it.fileUrl + '" target="_blank" class="w-full py-2 px-3 rounded-lg bg-amber-50 hover:bg-amber-600 text-amber-700 hover:text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 border border-amber-200">');
-                html.push('      <i class="fa-solid fa-award"></i> 상장 원본 열기');
-                html.push('    </a>');
-            }
             html.push('  </div>');
 
             html.push('</div>');
