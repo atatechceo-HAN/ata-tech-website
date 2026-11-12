@@ -994,6 +994,9 @@
     // ==========================================================================
     // 4. 프론트엔드 홈페이지 실시간 동적 렌더링 엔진 (다국어 & 클린 이미지 뷰어)
     // ==========================================================================
+    // ==========================================================================
+    // 4. 프론트엔드 홈페이지 실시간 동적 렌더링 엔진 (좌측 대형 사진 : 우측 상세 설명)
+    // ==========================================================================
     function renderFrontend() {
         var data = loadData();
 
@@ -1008,19 +1011,13 @@
     }
 
     /**
-     * [특허 현황] 상하 수직형 클린 카드
-     * - '원본 다운로드 / 열기' 버튼 완전 제거
-     * - object-contain 및 유동적 컨테이너로 특허증 전체가 한눈에 보이도록 구현
-     * - 4개국어(ko, en, zh, ja) 완벽 지원
+     * [특허 현황] 좌측 대형 특허증(420~460px) : 우측 상세 설명 및 3대 메커니즘
      */
     function renderPatentSection(items) {
         var container = document.getElementById('patent-cards-grid');
         if (!container) return;
 
         items.sort(function (a, b) { return (a.sortOrder || 99) - (b.sortOrder || 99); });
-
-        var lang = getLang();
-        var isKo = lang === 'ko';
 
         var html = [];
         items.forEach(function (it, idx) {
@@ -1041,68 +1038,74 @@
                 ? i18nUI('org_kipo')
                 : (it.organization || i18nUI('org_kipo'));
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 lg:p-9 shadow-md hover:shadow-2xl hover:border-blue-500 transition-all duration-300 flex flex-col lg:flex-row gap-8 lg:gap-10 items-stretch group fade-in appear">');
             
-            // 1. 상단 텍스트 영역 (가로 너비 100% 온전히 사용 - 글씨 세로 쪼개짐 원천 방지)
-            html.push('  <div class="space-y-4">');
-            
-            // 메타 바 (배지, 등록번호, 등록일자, 기관)
-            html.push('    <div class="flex items-center justify-between gap-2 flex-wrap pb-3 border-b border-slate-100">');
-            html.push('      <div class="flex items-center gap-2 flex-wrap">');
-            html.push('        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
-            html.push('          <i class="fa-solid fa-certificate text-blue-600"></i> ' + badgeText);
-            html.push('        </span>');
-            html.push('        <span class="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">' + (it.regNumber || '') + '</span>');
-            html.push('      </div>');
-            html.push('      <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">');
-            html.push('        <span><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
-            html.push('        <span class="hidden sm:inline"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + orgText + '</span>');
-            html.push('      </div>');
-            html.push('    </div>');
-
-            // 특허 발명의 명칭
-            html.push('    <div>');
-            html.push('      <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors leading-snug break-keep">' + title + '</h3>');
-            if (subtitle && subtitle !== title) {
-                html.push('      <p class="text-xs sm:text-sm font-semibold text-slate-400 mt-1 tracking-wide break-keep">' + subtitle + '</p>');
-            }
-            html.push('    </div>');
-
-            // 상세 기술 해설란 (줄바꿈 완벽 지원)
-            html.push('    <p class="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line break-keep">' + description + '</p>');
-
-            // 핵심 메커니즘 박스 (3대 체크리스트)
-            if (features && features.length > 0) {
-                html.push('    <div class="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2.5">');
-                html.push('      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-microchip text-blue-600"></i> ' + i18nUI('mechanism_title') + '</div>');
-                features.forEach(function (f) {
-                    html.push('      <div class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
-                    html.push('        <i class="fa-solid fa-circle-check text-blue-600 text-xs mt-1 shrink-0"></i>');
-                    html.push('        <span class="break-keep">' + f + '</span>');
-                    html.push('      </div>');
-                });
-                html.push('    </div>');
-            }
-
-            html.push('  </div>');
-
-            // 2. 하단 특허증 전체 노출 컨테이너 (다운로드 버튼 완전 제거, object-contain 적용으로 한눈에 전체 노출)
-            html.push('  <div class="pt-5 mt-5 border-t border-slate-100 flex flex-col items-center">');
-            html.push('    <div class="w-full p-2.5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-inner flex items-center justify-center">');
+            // ================= [좌측: 특허증 대형 클린 뷰어 (잘 보이게 대폭 확대)] =================
+            html.push('  <div class="w-full lg:w-[420px] xl:w-[460px] shrink-0 flex flex-col justify-between bg-slate-50/90 rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full h-[460px] sm:h-[500px] lg:h-full min-h-[460px] rounded-xl bg-white border border-slate-200/90 shadow-sm overflow-hidden flex items-center justify-center p-3 relative group/doc cursor-pointer" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
-                // PDF iframe: A4 세로 문서 전체가 보이는 안정적 높이와 #view=Fit
-                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-[360px] sm:h-[420px] border-0 bg-white rounded-xl shadow-sm" title="' + title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-0 bg-white rounded-lg pointer-events-none" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                // 이미지 태그: object-contain으로 원본 비율 유지, 잘림 100% 방지
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-[400px] w-auto h-auto object-contain rounded-xl shadow-sm transition-transform duration-300 hover:scale-[1.01]">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02]">');
             }
+            html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
+            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-cyan-300 text-base"></i> 클릭 시 고화질 크게 보기');
+            html.push('      </div>');
             html.push('    </div>');
-            html.push('    <div class="w-full flex items-center justify-between text-xs text-slate-500 mt-3 px-1">');
-            html.push('      <span class="font-semibold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-stamp text-blue-600"></i> ' + i18nUI('patent_copy_label') + '</span>');
+            html.push('    <div class="pt-3.5 mt-3.5 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 px-1">');
+            html.push('      <span class="font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-stamp text-blue-600"></i> ' + i18nUI('patent_copy_label') + '</span>');
             html.push('      <span class="text-blue-600 font-bold">' + i18nUI('patent_exclusive_label') + '</span>');
             html.push('    </div>');
             html.push('  </div>');
 
+            // ================= [우측: 상세 설명 및 3대 메커니즘] =================
+            html.push('  <div class="flex-1 min-w-0 flex flex-col justify-between py-1">');
+            html.push('    <div>');
+            
+            // 메타 바 (배지, 등록번호, 등록일자, 기관)
+            html.push('      <div class="flex items-center justify-between gap-2 flex-wrap pb-3.5 mb-4 border-b border-slate-100">');
+            html.push('        <div class="flex items-center gap-2 flex-wrap">');
+            html.push('          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">');
+            html.push('            <i class="fa-solid fa-certificate text-blue-600"></i> ' + badgeText);
+            html.push('          </span>');
+            html.push('          <span class="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">' + (it.regNumber || '') + '</span>');
+            html.push('        </div>');
+            html.push('        <div class="flex items-center gap-2.5 text-xs text-slate-500 font-medium">');
+            html.push('          <span><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
+            html.push('          <span class="hidden sm:inline"><i class="fa-solid fa-building-columns mr-1 text-slate-400"></i>' + orgText + '</span>');
+            html.push('        </div>');
+            html.push('      </div>');
+
+            // 발명의 명칭
+            html.push('      <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors leading-snug break-keep mb-2">' + title + '</h3>');
+            if (subtitle && subtitle !== title) {
+                html.push('      <p class="text-sm font-semibold text-slate-400 mb-5 tracking-wide break-keep">' + subtitle + '</p>');
+            }
+
+            // 상세 기술 해설 (가로 너비 시원하게 사용)
+            html.push('      <p class="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line break-keep mb-6">' + description + '</p>');
+
+            // 핵심 메커니즘 박스 (3대 체크리스트)
+            if (features && features.length > 0) {
+                html.push('      <div class="bg-slate-50 border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-3 mb-4">');
+                html.push('        <div class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-microchip text-blue-600"></i> ' + i18nUI('mechanism_title') + '</div>');
+                features.forEach(function (f) {
+                    html.push('        <div class="flex items-start gap-3 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
+                    html.push('          <i class="fa-solid fa-circle-check text-blue-600 text-sm mt-0.5 shrink-0"></i>');
+                    html.push('          <span class="break-keep">' + f + '</span>');
+                    html.push('        </div>');
+                });
+                html.push('      </div>');
+            }
+            html.push('    </div>');
+
+            // 우측 하단 메타 바
+            html.push('    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 mt-4">');
+            html.push('      <span>대한민국 특허청 정식 등록 공고</span>');
+            html.push('      <span class="font-bold text-blue-600">ATA TECH R&D CENTER</span>');
+            html.push('    </div>');
+
+            html.push('  </div>');
             html.push('</div>');
         });
 
@@ -1110,18 +1113,13 @@
     }
 
     /**
-     * [인증 현황]
-     * - '원본 열기 / 다운로드' 버튼 완전 제거
-     * - object-contain 및 유동적 컨테이너로 인증서 전체가 한눈에 보이도록 구현
-     * - 4개국어(ko, en, zh, ja) 완벽 지원
+     * [인증 현황] 좌측 대형 인증서(420~460px) : 우측 상세 설명 및 품질 표준
      */
     function renderCertSection(items) {
         var container = document.getElementById('cert-quality-grid');
         if (!container) return;
 
         items.sort(function (a, b) { return (a.sortOrder || 99) - (b.sortOrder || 99); });
-
-        var lang = getLang();
 
         var html = [];
         items.forEach(function (it) {
@@ -1132,40 +1130,69 @@
             var description = i18nItem(it.id, 'description', it.description || '');
             var features = i18nItem(it.id, 'features', it.features || []);
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 lg:p-9 shadow-md hover:shadow-2xl hover:border-emerald-500 transition-all duration-300 flex flex-col lg:flex-row gap-8 lg:gap-10 items-stretch group fade-in appear">');
             
-            html.push('  <div>');
-            html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
-            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-600 text-white shadow-sm">' + i18nUI('cert_badge') + '</span>');
-            html.push('      <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">' + (it.regNumber || '') + '</span>');
-            html.push('    </div>');
-            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-emerald-600 transition-colors break-keep">' + title + '</h4>');
-            if (subtitle && subtitle !== title) {
-                html.push('    <p class="text-xs font-semibold text-emerald-700 mb-3 break-keep">' + subtitle + '</p>');
-            }
-            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line break-keep">' + description + '</p>');
-            
-            if (features && features.length > 0) {
-                html.push('    <div class="space-y-1.5 mb-5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70">');
-                html.push('      <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-check-double text-emerald-600"></i> ' + i18nUI('cert_features_title') + '</div>');
-                features.forEach(function (f) {
-                    html.push('      <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span class="break-keep">' + f + '</span></div>');
-                });
-                html.push('    </div>');
-            }
-            html.push('  </div>');
-
-            // 인증서 전체 뷰어 (다운로드 버튼 제거, object-contain 적용)
-            html.push('  <div class="pt-4 border-t border-slate-100 mt-auto">');
-            html.push('    <div class="w-full p-2.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-inner flex items-center justify-center">');
+            // ================= [좌측: 인증서 대형 클린 뷰어 (잘 보이게 대폭 확대)] =================
+            html.push('  <div class="w-full lg:w-[420px] xl:w-[460px] shrink-0 flex flex-col justify-between bg-slate-50/90 rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full h-[460px] sm:h-[500px] lg:h-full min-h-[460px] rounded-xl bg-white border border-slate-200/90 shadow-sm overflow-hidden flex items-center justify-center p-3 relative group/doc cursor-pointer" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-[320px] sm:h-[360px] border-0 bg-white rounded-xl shadow-sm" title="' + title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-0 bg-white rounded-lg pointer-events-none" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-[340px] w-auto h-auto object-contain rounded-xl shadow-sm transition-transform duration-300 hover:scale-[1.01]">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02]">');
             }
+            html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
+            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-emerald-300 text-base"></i> 클릭 시 고화질 크게 보기');
+            html.push('      </div>');
+            html.push('    </div>');
+            html.push('    <div class="pt-3.5 mt-3.5 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 px-1">');
+            html.push('      <span class="font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-award text-emerald-600"></i> 공식 공인 인증서</span>');
+            html.push('      <span class="text-emerald-600 font-bold">국제 표준 적합성 승인</span>');
             html.push('    </div>');
             html.push('  </div>');
 
+            // ================= [우측: 상세 설명 및 인증 범위] =================
+            html.push('  <div class="flex-1 min-w-0 flex flex-col justify-between py-1">');
+            html.push('    <div>');
+            
+            // 메타 바
+            html.push('      <div class="flex items-center justify-between gap-2 flex-wrap pb-3.5 mb-4 border-b border-slate-100">');
+            html.push('        <div class="flex items-center gap-2">');
+            html.push('          <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-600 text-white shadow-sm">' + i18nUI('cert_badge') + '</span>');
+            html.push('          <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200">' + (it.regNumber || '') + '</span>');
+            html.push('        </div>');
+            html.push('        <span class="text-xs text-slate-500 font-medium"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
+            html.push('      </div>');
+
+            // 인증 명칭
+            html.push('      <h4 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2 leading-snug group-hover:text-emerald-600 transition-colors break-keep">' + title + '</h4>');
+            if (subtitle && subtitle !== title) {
+                html.push('      <p class="text-sm font-semibold text-emerald-700 mb-5 break-keep">' + subtitle + '</p>');
+            }
+
+            // 상세 설명
+            html.push('      <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 whitespace-pre-line break-keep">' + description + '</p>');
+            
+            // 인증 범위 체크리스트
+            if (features && features.length > 0) {
+                html.push('      <div class="space-y-3 mb-4 bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200/80">');
+                html.push('        <div class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-check-double text-emerald-600"></i> ' + i18nUI('cert_features_title') + '</div>');
+                features.forEach(function (f) {
+                    html.push('        <div class="flex items-start gap-3 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
+                    html.push('          <i class="fa-solid fa-check text-emerald-600 text-sm mt-0.5 shrink-0"></i>');
+                    html.push('          <span class="break-keep">' + f + '</span>');
+                    html.push('        </div>');
+                });
+                html.push('      </div>');
+            }
+            html.push('    </div>');
+
+            // 하단 메타 바
+            html.push('    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 mt-4">');
+            html.push('      <span>품질·환경 표준 시스템</span>');
+            html.push('      <span class="font-bold text-emerald-600">CERTIFIED EXCELLENCE</span>');
+            html.push('    </div>');
+
+            html.push('  </div>');
             html.push('</div>');
         });
 
@@ -1173,18 +1200,13 @@
     }
 
     /**
-     * [수상 및 수료 내역]
-     * - '상장 원본 열기 / 다운로드' 버튼 완전 제거
-     * - object-contain 및 유동적 컨테이너로 상장 전체가 한눈에 보이도록 구현
-     * - 4개국어(ko, en, zh, ja) 완벽 지원
+     * [수상 및 수료 내역] 좌측 대형 상장(420~460px) : 우측 상세 공적 및 수상 설명
      */
     function renderAwardSection(items) {
         var container = document.getElementById('cert-awards-grid');
         if (!container) return;
 
         items.sort(function (a, b) { return (a.sortOrder || 99) - (b.sortOrder || 99); });
-
-        var lang = getLang();
 
         var html = [];
         items.forEach(function (it) {
@@ -1195,38 +1217,64 @@
             var description = i18nItem(it.id, 'description', it.description || '');
             var features = i18nItem(it.id, 'features', it.features || []);
 
-            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:shadow-2xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between group fade-in appear">');
+            html.push('<div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 lg:p-9 shadow-md hover:shadow-2xl hover:border-amber-500 transition-all duration-300 flex flex-col lg:flex-row gap-8 lg:gap-10 items-stretch group fade-in appear">');
             
-            html.push('  <div>');
-            html.push('    <div class="flex items-center justify-between gap-2 mb-3">');
-            html.push('      <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm">' + i18nUI('award_badge') + '</span>');
-            html.push('      <span class="text-xs font-medium text-slate-500"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
-            html.push('    </div>');
-            html.push('    <h4 class="text-lg sm:text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors break-keep">' + title + '</h4>');
-            html.push('    <p class="text-xs font-semibold text-slate-500 mb-3"><i class="fa-solid fa-building-columns text-amber-500 mr-1.5"></i>' + organization + '</p>');
-            html.push('    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 whitespace-pre-line break-keep">' + description + '</p>');
-            
-            if (features && features.length > 0) {
-                html.push('    <div class="space-y-1.5 mb-5 bg-amber-50/50 p-3.5 rounded-xl border border-amber-200/50">');
-                html.push('      <div class="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1 flex items-center gap-1.5"><i class="fa-solid fa-award text-amber-600"></i> ' + i18nUI('award_features_title') + '</div>');
-                features.forEach(function (f) {
-                    html.push('      <div class="flex items-center gap-2 text-xs text-slate-700"><i class="fa-solid fa-award text-amber-600 text-[10px]"></i><span class="break-keep">' + f + '</span></div>');
-                });
-                html.push('    </div>');
-            }
-            html.push('  </div>');
-
-            // 상장 전체 뷰어 (다운로드 버튼 제거, object-contain 적용)
-            html.push('  <div class="pt-4 border-t border-slate-100 mt-auto">');
-            html.push('    <div class="w-full p-2.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-inner flex items-center justify-center">');
+            // ================= [좌측: 상장 대형 클린 뷰어 (잘 보이게 대폭 확대)] =================
+            html.push('  <div class="w-full lg:w-[420px] xl:w-[460px] shrink-0 flex flex-col justify-between bg-slate-50/90 rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-inner">');
+            html.push('    <div class="w-full h-[460px] sm:h-[500px] lg:h-full min-h-[460px] rounded-xl bg-white border border-slate-200/90 shadow-sm overflow-hidden flex items-center justify-center p-3 relative group/doc cursor-pointer" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + title.replace(/'/g, "\\'") + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
             if (isPdf) {
-                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-[320px] sm:h-[360px] border-0 bg-white rounded-xl shadow-sm" title="' + title + '"></iframe>');
+                html.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-0 bg-white rounded-lg pointer-events-none" title="' + title + '"></iframe>');
             } else if (it.fileUrl) {
-                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-[340px] w-auto h-auto object-contain rounded-xl shadow-sm transition-transform duration-300 hover:scale-[1.01]">');
+                html.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-xs transition-transform duration-300 group-hover/doc:scale-[1.02]">');
             }
+            html.push('      <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/doc:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1.5 backdrop-blur-[1px] rounded-xl">');
+            html.push('        <i class="fa-solid fa-magnifying-glass-plus text-amber-300 text-base"></i> 클릭 시 고화질 크게 보기');
+            html.push('      </div>');
+            html.push('    </div>');
+            html.push('    <div class="pt-3.5 mt-3.5 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 px-1">');
+            html.push('      <span class="font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-trophy text-amber-500"></i> 공인 표창 및 수료증</span>');
+            html.push('      <span class="text-amber-600 font-bold">대외 기술력 인정</span>');
             html.push('    </div>');
             html.push('  </div>');
 
+            // ================= [우측: 상세 공적 및 수상 설명] =================
+            html.push('  <div class="flex-1 min-w-0 flex flex-col justify-between py-1">');
+            html.push('    <div>');
+            
+            // 메타 바
+            html.push('      <div class="flex items-center justify-between gap-2 mb-4 pb-3.5 border-b border-slate-100">');
+            html.push('        <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500 text-white shadow-sm">' + i18nUI('award_badge') + '</span>');
+            html.push('        <span class="text-xs font-medium text-slate-500"><i class="fa-regular fa-calendar-check mr-1 text-slate-400"></i>' + (it.date || '') + '</span>');
+            html.push('      </div>');
+
+            // 수상 명칭 및 주관 기관
+            html.push('      <h4 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors break-keep">' + title + '</h4>');
+            html.push('      <p class="text-sm font-semibold text-slate-500 mb-5"><i class="fa-solid fa-building-columns text-amber-500 mr-2"></i>' + organization + '</p>');
+
+            // 공적 설명
+            html.push('      <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 whitespace-pre-line break-keep">' + description + '</p>');
+            
+            // 주요 성과 체크리스트
+            if (features && features.length > 0) {
+                html.push('      <div class="space-y-3 mb-4 bg-amber-50/50 p-5 sm:p-6 rounded-2xl border border-amber-200/60">');
+                html.push('        <div class="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-award text-amber-600"></i> ' + i18nUI('award_features_title') + '</div>');
+                features.forEach(function (f) {
+                    html.push('        <div class="flex items-start gap-3 text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">');
+                    html.push('          <i class="fa-solid fa-award text-amber-600 text-sm mt-0.5 shrink-0"></i>');
+                    html.push('          <span class="break-keep">' + f + '</span>');
+                    html.push('        </div>');
+                });
+                html.push('      </div>');
+            }
+            html.push('    </div>');
+
+            // 하단 메타 바
+            html.push('    <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 mt-4">');
+            html.push('      <span>정부 및 공공기관 공인 실적</span>');
+            html.push('      <span class="font-bold text-amber-600">OFFICIAL COMMENDATION</span>');
+            html.push('    </div>');
+
+            html.push('  </div>');
             html.push('</div>');
         });
 
