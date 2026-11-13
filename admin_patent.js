@@ -716,7 +716,7 @@
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="patent-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6">',
+            '<div id="patent-editor-modal" class="fixed inset-0 z-[99999] ata-admin-modal-overlay bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6" onclick="if(event.target===this) window.PatentAdmin.closeModal()">',
             '  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[95vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
             
             '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">',
@@ -856,11 +856,11 @@
         document.getElementById('patent-form-fileurl').value = '';
 
         modal.style.display = 'flex';
-        modal.style.zIndex = '100050';
-        modal.style.display = 'flex';
-        modal.style.zIndex = '100050';
+        modal.style.zIndex = '99999';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = 'hidden';
     }
 
     function openEditModal(id) {
@@ -890,8 +890,12 @@
             statusEl.textContent = item.fileUrl ? item.fileUrl.split('/').pop() : '문서 없음';
         }
 
+        modal.style.display = 'flex';
+        modal.style.zIndex = '99999';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
@@ -901,6 +905,8 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = '';
     }
 
     function handleFileSelect(e) {
@@ -978,6 +984,7 @@
 
         saveData(data);
         closeModal();
+        renderFrontend();
         renderManagerList(null, currentFilter);
         alert('성공적으로 저장되었습니다.');
     }

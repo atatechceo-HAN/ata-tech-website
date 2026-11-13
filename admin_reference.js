@@ -4121,7 +4121,10 @@ var REFERENCE_GALLERY_DB = {
 
         var modal = document.createElement("div");
         modal.id = "ref-media-edit-modal";
-        modal.className = "fixed inset-0 z-[10060] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 select-none";
+        modal.className = "fixed inset-0 z-[99999] ata-admin-modal-overlay bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 select-none";
+        modal.onclick = function (e) {
+            if (e.target === modal) window.ReferenceAdmin.closeEditModal();
+        };
         modal.innerHTML = [
             '<div class="bg-white rounded-3xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[92vh] text-slate-800" onclick="event.stopPropagation()">',
             '  <!-- 모달 헤더 -->',
@@ -4241,8 +4244,12 @@ var REFERENCE_GALLERY_DB = {
             document.getElementById("ref-form-title").value = "";
             document.getElementById("ref-form-desc").value = "";
             document.getElementById("ref-form-tags").value = "";
+            modal.style.display = "flex";
+            modal.style.zIndex = "99999";
             modal.classList.remove("hidden");
             modal.classList.add("flex");
+            if (typeof window.syncAdminBodyScrollLock === "function") window.syncAdminBodyScrollLock();
+            else document.body.style.overflow = "hidden";
         },
         openEditModal: function (id) {
             var modal = ensureEditModalExists();
@@ -4275,15 +4282,22 @@ var REFERENCE_GALLERY_DB = {
             document.getElementById("ref-form-title").value = targetItem.title || "";
             document.getElementById("ref-form-desc").value = targetItem.desc || "";
             document.getElementById("ref-form-tags").value = (targetItem.tags || []).join(", ");
+            modal.style.display = "flex";
+            modal.style.zIndex = "99999";
             modal.classList.remove("hidden");
             modal.classList.add("flex");
+            if (typeof window.syncAdminBodyScrollLock === "function") window.syncAdminBodyScrollLock();
+            else document.body.style.overflow = "hidden";
         },
         closeEditModal: function () {
             var modal = document.getElementById("ref-media-edit-modal");
             if (modal) {
+                modal.style.display = "none";
                 modal.classList.add("hidden");
                 modal.classList.remove("flex");
             }
+            if (typeof window.syncAdminBodyScrollLock === "function") window.syncAdminBodyScrollLock();
+            else document.body.style.overflow = "";
         },
         handleFormSubmit: function (e) {
             if (e && e.preventDefault) e.preventDefault();
@@ -4339,6 +4353,9 @@ var REFERENCE_GALLERY_DB = {
             saveCustomReferenceData();
             this.closeEditModal();
             renderReferenceGallery(folder);
+            if (typeof window.renderAdminHubReferenceList === "function") {
+                window.renderAdminHubReferenceList();
+            }
             alert("레퍼런스 항목이 성공적으로 저장되었습니다!");
         },
         deleteCard: function (id) {

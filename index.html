@@ -267,20 +267,19 @@
     <!-- 4개국어 다국어 스위칭 엔진 & 솔루션 상세 다국어 엔진 (i18n.js) -->
     <script src="i18n.js"></script>
     <!-- 회사 연혁 연도별 관리자 모드 및 카드 렌더링 엔진 (admin_history.js) -->
-    <script src="admin_history.js"></script>
+    <script src="admin_history.js?v=20261113_03"></script>
     <!-- 공지사항 관리자 인증 및 작성·수정·삭제 엔진 (admin_notice.js) -->
-    <script src="admin_notice.js"></script>
-    <script src="admin_notice.js?v=20261107_01"></script>
+    <script src="admin_notice.js?v=20261113_03"></script>
     <!-- 주요 구축 실적(Reference) 관리자 인증 및 작성·수정·삭제 엔진 (admin_reference.js) -->
-    <script src="admin_reference.js?v=20261107_02"></script>
+    <script src="admin_reference.js?v=20261113_03"></script>
     <!-- 스마트 물류 핵심 장비 '제품 라인업' 관리자 인증 및 작성·수정·삭제 엔진 (admin_product.js) -->
-    <script src="admin_product.js?v=20261107_01"></script>
+    <script src="admin_product.js?v=20261113_03"></script>
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
     <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
-    <script src="admin_patent.js?v=20261113_02"></script>
+    <script src="admin_patent.js?v=20261113_03"></script>
     <!-- 한중합자법인(제조사) 관리자 모드 & 실시간 렌더링 엔진 (admin_china.js) -->
-    <script src="admin_china.js"></script>
+    <script src="admin_china.js?v=20261113_03"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
@@ -1145,6 +1144,18 @@
                 width: 100%;
                 height: calc(92vh - 115px);
             }
+        }
+
+        /* [공통] 관리자 수정·등록 모달 최상위 z-index 및 정중앙 고정 레이아웃 */
+        .ata-admin-modal-overlay {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 99999 !important;
+        }
+        .ata-admin-modal-overlay:not(.hidden) {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
     </style>
 
@@ -7499,8 +7510,7 @@
     <!-- 3. 공지사항 작성 및 수정 모달 (NOTICE-EDITOR-MODAL) -->
     <!-- ========================================== -->
     <div id="notice-editor-modal"
-        class="fixed inset-0 z-[380] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 transition-all duration-300"
-        class="fixed inset-0 z-[10050] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 transition-all duration-300"
+        class="fixed inset-0 z-[99999] ata-admin-modal-overlay bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 transition-all duration-300"
         onclick="closeNoticeEditor()">
 
         <div class="bg-white border border-slate-200 w-full max-w-3xl max-h-[92vh] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative flex flex-col text-slate-800"
@@ -7765,6 +7775,29 @@
             var currentHubTab = 'history';
 
             /**
+             * 열려 있는 관리자 모달(통합 허브 및 개별 에디터) 여부를 확인해 배경 body 스크롤을 안전하게 잠금/해제합니다.
+             */
+            window.syncAdminBodyScrollLock = function () {
+                var modalIds = [
+                    'admin-integrated-hub-modal',
+                    'history-editor-modal',
+                    'product-admin-edit-modal',
+                    'ref-media-edit-modal',
+                    'notice-editor-modal',
+                    'patent-editor-modal',
+                    'china-editor-modal',
+                    'admin-auth-modal',
+                    'admin-password-modal'
+                ];
+                var hasOpenModal = modalIds.some(function (id) {
+                    var el = document.getElementById(id);
+                    if (!el) return false;
+                    return !el.classList.contains('hidden') && el.style.display !== 'none';
+                });
+                document.body.style.overflow = hasOpenModal ? 'hidden' : '';
+            };
+
+            /**
              * 메인 화면의 [통합 관리자 센터] 모달을 엽니다.
              * 관리자로 로그인되어 있지 않으면 로그인 모달을 먼저 안내하고, 성공 시 허브를 엽니다.
              */
@@ -7789,7 +7822,7 @@
 
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
-                document.body.style.overflow = 'hidden';
+                window.syncAdminBodyScrollLock();
 
                 window.switchAdminHubTab(tabName || currentHubTab || 'history');
             };
@@ -7803,7 +7836,7 @@
                     modal.classList.add('hidden');
                     modal.classList.remove('flex');
                 }
-                document.body.style.overflow = '';
+                window.syncAdminBodyScrollLock();
             };
 
             /**

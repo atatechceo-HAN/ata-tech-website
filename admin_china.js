@@ -596,7 +596,7 @@
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="china-editor-modal" class="fixed inset-0 z-[99999] bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6">',
+            '<div id="china-editor-modal" class="fixed inset-0 z-[99999] ata-admin-modal-overlay bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6" onclick="if(event.target===this) window.ChinaAdmin.closeModal()">',
             '  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[95vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
             
             // 모달 헤더
@@ -750,9 +750,14 @@
         document.getElementById('china-form-desc').value = '';
         document.getElementById('china-form-features').value = '';
         document.getElementById('china-form-imageurl').value = '';
+        updatePreview('');
 
+        modal.style.display = 'flex';
+        modal.style.zIndex = '99999';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = 'hidden';
     }
 
     function openEditModal(id) {
@@ -778,16 +783,23 @@
         document.getElementById('china-form-imageurl').value = item.imageUrl || '';
         updatePreview(item.imageUrl || '');
 
+        modal.style.display = 'flex';
+        modal.style.zIndex = '99999';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
         var modal = document.getElementById('china-editor-modal');
         if (modal) {
+            modal.style.display = 'none';
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = '';
     }
 
     function updatePreview(url) {

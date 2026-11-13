@@ -510,9 +510,12 @@
         ]);
 
         // 모달 표시
+        modal.style.display = 'flex';
+        modal.style.zIndex = '99999';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = 'hidden';
     }
 
     /**
@@ -521,10 +524,12 @@
     function closeHistoryEditModal() {
         var modal = document.getElementById('history-editor-modal');
         if (modal) {
+            modal.style.display = 'none';
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-            document.body.style.overflow = '';
         }
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = '';
     }
 
     /**
@@ -652,6 +657,10 @@
         saveHistoryList(list);
         closeHistoryEditModal();
         renderHistoryCards();
+        var hubModal = document.getElementById('admin-integrated-hub-modal');
+        if (hubModal && !hubModal.classList.contains('hidden') && typeof window.switchAdminHubTab === 'function') {
+            window.switchAdminHubTab('history');
+        }
 
         // GitHub 원격 저장소 동기화 연동
         if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
@@ -876,8 +885,7 @@
 
         var modal = document.createElement('div');
         modal.id = 'history-editor-modal';
-        modal.className = 'fixed inset-0 z-[320] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300';
-        modal.className = 'fixed inset-0 z-[10050] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300';
+        modal.className = 'fixed inset-0 z-[99999] ata-admin-modal-overlay bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300';
         modal.onclick = function (e) {
             if (e.target === modal) closeHistoryEditModal();
         };

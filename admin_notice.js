@@ -698,8 +698,12 @@
         }
 
         if (modal) {
+            modal.style.display = 'flex';
+            modal.style.zIndex = '99999';
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+            else document.body.style.overflow = 'hidden';
         }
     };
 
@@ -709,10 +713,13 @@
     window.closeNoticeEditor = function () {
         var modal = document.getElementById('notice-editor-modal');
         if (modal) {
+            modal.style.display = 'none';
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
         currentEditingNoticeId = null;
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = '';
     };
 
     /**
@@ -795,19 +802,24 @@
             alert("새 공지사항이 성공적으로 등록되었습니다." + syncMsg);
         }
 
+        var savedNoticeId = currentEditingNoticeId;
         window.closeNoticeEditor();
 
-        // 공지 목록 갱신 및 상세 모달 열려있으면 동기화
+        // 공지 목록 갱신 및 상세 모달·통합 허브 즉시 동기화
         if (typeof window.renderNoticeList === 'function') {
             window.renderNoticeList();
         }
-        if (currentEditingNoticeId && typeof window.openNoticeDetail === 'function') {
-            window.openNoticeDetail(currentEditingNoticeId);
+        var hubModalNotice = document.getElementById('admin-integrated-hub-modal');
+        if (hubModalNotice && !hubModalNotice.classList.contains('hidden') && typeof window.switchAdminHubTab === 'function') {
+            window.switchAdminHubTab('notice');
+        }
+        if (savedNoticeId && typeof window.openNoticeDetail === 'function') {
+            window.openNoticeDetail(savedNoticeId);
         }
 
         // GitHub 원격 저장소 동기화 연동
         if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
-            if (confirm((currentEditingNoticeId ? "공지사항이 수정되었습니다!" : "새 공지사항이 등록되었습니다!") + "\n\nGitHub 원격 저장소(main 브랜치)에도 지금 즉시 자동 반영(Push)하시겠습니까?")) {
+            if (confirm((savedNoticeId ? "공지사항이 수정되었습니다!" : "새 공지사항이 등록되었습니다!") + "\n\nGitHub 원격 저장소(main 브랜치)에도 지금 즉시 자동 반영(Push)하시겠습니까?")) {
                 window.GithubSync.syncAllToRemote(titleKo + " 공지사항 갱신");
             }
         }

@@ -1069,7 +1069,7 @@
 
         var modal = document.createElement('div');
         modal.id = 'product-admin-edit-modal';
-        modal.className = 'fixed inset-0 z-[10001] bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4';
+        modal.className = 'fixed inset-0 z-[99999] ata-admin-modal-overlay bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4';
         modal.onclick = function (e) {
             if (e.target === modal) {
                 closeProductEditModal();
@@ -1410,8 +1410,12 @@
             document.getElementById('product-edit-sort').value = getProductsList().length + 1;
         }
 
+        modal.style.display = 'flex';
+        modal.style.zIndex = '99999';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = 'hidden';
     }
 
     /**
@@ -1420,9 +1424,12 @@
     function closeProductEditModal() {
         var modal = document.getElementById('product-admin-edit-modal');
         if (modal) {
+            modal.style.display = 'none';
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
+        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+        else document.body.style.overflow = '';
     }
 
     /**
@@ -1491,6 +1498,10 @@
         saveProductsList(list);
         closeProductEditModal();
         renderProductCards(currentFilterCategory);
+        var hubProdList = document.getElementById('admin-hub-product-list');
+        if (hubProdList) {
+            renderProductManagerList(hubProdList, currentFilterCategory);
+        }
 
         // GitHub 원격 저장소 동기화 연동
         if (window.GithubSync && typeof window.GithubSync.hasToken === 'function' && window.GithubSync.hasToken()) {
