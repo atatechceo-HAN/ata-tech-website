@@ -269,7 +269,7 @@
     <!-- 회사 연혁 연도별 관리자 모드 및 카드 렌더링 엔진 (admin_history.js) -->
     <script src="admin_history.js?v=20261113_03"></script>
     <!-- 공지사항 관리자 인증 및 작성·수정·삭제 엔진 (admin_notice.js) -->
-    <script src="admin_notice.js?v=20261113_04"></script>
+    <script src="admin_notice.js?v=20261113_05"></script>
     <!-- 주요 구축 실적(Reference) 관리자 인증 및 작성·수정·삭제 엔진 (admin_reference.js) -->
     <script src="admin_reference.js?v=20261113_03"></script>
     <!-- 스마트 물류 핵심 장비 '제품 라인업' 관리자 인증 및 작성·수정·삭제 엔진 (admin_product.js) -->
@@ -8104,27 +8104,38 @@
 
                 var notices = (window.NoticeStore && typeof window.NoticeStore.getAllNotices === 'function')
                     ? window.NoticeStore.getAllNotices()
-                    : [];
+                    : (Array.isArray(window.noticeBoardDB) ? window.noticeBoardDB : []);
 
                 if (!Array.isArray(notices) || notices.length === 0) {
                     container.innerHTML = '<div class="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 text-xs">등록된 공지사항이 없습니다. [새 공지사항 작성]을 눌러보세요.</div>';
                     return;
                 }
 
+                var catNameMap = {
+                    notice: '공지사항',
+                    patent: '특허',
+                    cert: '인증',
+                    award: '수상 & 실적',
+                    tech: '기술 & 솔루션',
+                    press: '보도자료 & 행사'
+                };
+
                 var html = [];
                 html.push('<div class="space-y-2.5">');
                 notices.forEach(function (n) {
-                    var title = (n.title && n.title.ko) ? n.title.ko : (n.title || '제목 없음');
-                    var safeTitle = title.replace(/"/g, '&quot;');
+                    var title = (n.title && typeof n.title === 'object') ? (n.title.ko || n.title.en || '제목 없음') : (n.title || '제목 없음');
+                    var safeTitle = String(title).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+                    var catText = (n.categoryLabel && n.categoryLabel.ko) ? n.categoryLabel.ko : (catNameMap[n.category] || n.category || '공지');
+                    var dateText = n.date || (n.createdAt ? String(n.createdAt).slice(0, 10) : '');
                     html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-blue-300 transition-all">');
-                    html.push('  <div class="flex items-start sm:items-center gap-2.5">');
+                    html.push('  <div class="flex items-start sm:items-center gap-2.5 min-w-0">');
                     if (n.pinned || n.isPinned) {
                         html.push('    <span class="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-bold shrink-0"><i class="fa-solid fa-thumbtack mr-0.5"></i> 고정</span>');
                     }
-                    html.push('    <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold shrink-0">' + (n.category || '공지') + '</span>');
-                    html.push('    <div class="cursor-pointer" onclick="window.openNoticeDetail(\'' + n.id + '\')">');
-                    html.push('      <h5 class="text-xs sm:text-sm font-bold text-slate-900 hover:text-blue-600 transition-colors">' + title + '</h5>');
-                    html.push('      <span class="text-[10px] text-slate-400">' + (n.date || (n.createdAt ? n.createdAt.slice(0, 10) : '')) + ' · 조회수 ' + (n.views || 0) + '</span>');
+                    html.push('    <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold shrink-0">' + catText + '</span>');
+                    html.push('    <div class="cursor-pointer min-w-0" onclick="window.openNoticeDetail(\'' + n.id + '\')">');
+                    html.push('      <h5 class="text-xs sm:text-sm font-bold text-slate-900 hover:text-blue-600 transition-colors truncate">' + title + '</h5>');
+                    html.push('      <span class="text-[10px] text-slate-400">' + dateText + ' · 조회수 ' + (n.views || 0) + '</span>');
                     html.push('    </div>');
                     html.push('  </div>');
                     html.push('  <div class="flex items-center gap-1.5 self-end sm:self-auto shrink-0">');

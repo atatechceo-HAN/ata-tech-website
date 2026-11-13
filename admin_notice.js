@@ -340,7 +340,7 @@
         updateNotice: function (id, data) {
             if (!window.noticeBoardDB) return null;
 
-            var target = window.noticeBoardDB.find(n => n.id === id);
+            var target = window.noticeBoardDB.find(function (n) { return String(n.id) === String(id); });
             if (!target) return null;
 
             var categoryLabels = {
@@ -405,12 +405,30 @@
         deleteNotice: function (id) {
             if (!window.noticeBoardDB) return false;
             var initialLength = window.noticeBoardDB.length;
-            window.noticeBoardDB = window.noticeBoardDB.filter(n => n.id !== id);
+            window.noticeBoardDB = window.noticeBoardDB.filter(function (n) { return String(n.id) !== String(id); });
             var isDeleted = window.noticeBoardDB.length < initialLength;
             if (isDeleted) {
                 this.save();
             }
             return isDeleted;
+        },
+
+        /**
+         * 전체 공지사항 목록을 반환합니다. (통합 관리자 센터 '4. 공지사항' 연동용)
+         */
+        getAllNotices: function () {
+            if (!window.noticeBoardDB || !Array.isArray(window.noticeBoardDB) || window.noticeBoardDB.length === 0) {
+                if (typeof this.init === 'function') this.init();
+            }
+            if (!window.noticeBoardDB || !Array.isArray(window.noticeBoardDB)) return [];
+            return window.noticeBoardDB.slice().sort(function (a, b) {
+                var pinA = !!(a.pinned || a.isPinned);
+                var pinB = !!(b.pinned || b.isPinned);
+                if (pinA !== pinB) return pinA ? -1 : 1;
+                var dateA = a.date || a.createdAt || '';
+                var dateB = b.date || b.createdAt || '';
+                return String(dateB).localeCompare(String(dateA));
+            });
         },
 
         /**
