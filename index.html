@@ -277,7 +277,8 @@
     <script src="admin_product.js?v=20261107_01"></script>
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
-    <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js?v=20261113_01"admin_patent.js?v=20261113_01"></script>
+    <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
+    <script src="admin_patent.js?v=20261113_01"></script>
     <!-- 한중합자법인(제조사) 관리자 모드 & 실시간 렌더링 엔진 (admin_china.js) -->
     <script src="admin_china.js"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
@@ -2651,8 +2652,15 @@
 
 
 
-            <!-- 특허 4건 카드 그리드 (admin_patent.js?v=20261113_01"patent-cards-grid" class="grid grid-cols-1 gap-10 mb-16">
-                <!-- admin_patent.js?v=20261113_01"p-6 md:p-8 rounded-2xl bg-white border border-slate-200 text-center max-w-4xl mx-auto shadow-sm">
+            <!-- 특허 4건 카드 그리드 (admin_patent.js 동적 렌더링) -->
+            <div id="patent-cards-grid" class="grid grid-cols-1 gap-10 mb-16">
+                <!-- admin_patent.js 동적 렌더링 영역 -->
+            </div>
+
+            <!-- 하단 지식재산권 보호 공고 및 기술 신뢰성 배너 -->
+
+            <div
+                class="p-6 md:p-8 rounded-2xl bg-white border border-slate-200 text-center max-w-4xl mx-auto shadow-sm">
 
                 <div class="inline-flex items-center gap-2 text-amber-600 font-bold text-sm md:text-base mb-2">
 
@@ -2696,8 +2704,16 @@
 
 
 
-            <!-- 품질 인증서 그리드 (admin_patent.js?v=20261113_01"cert-quality-grid" class="grid grid-cols-1 gap-10 mb-16">
-                <!-- admin_patent.js?v=20261113_01"view-cert-awards" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
+            <!-- 품질 인증서 그리드 (admin_patent.js 동적 렌더링) -->
+            <div id="cert-quality-grid" class="grid grid-cols-1 gap-10 mb-16">
+                <!-- admin_patent.js 동적 렌더링 영역 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 수상 내역 페이지 -->
+
+    <div id="view-cert-awards" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
 
         <div class="max-w-7xl mx-auto px-6">
 
@@ -2714,7 +2730,15 @@
 
 
             <div id="cert-awards-grid" class="grid grid-cols-1 gap-10 mb-16">
-                <!-- admin_patent.js?v=20261113_01"view-product-lineup" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
+                <!-- admin_patent.js 동적 렌더링 영역 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 스마트 물류 핵심 장비 '제품 라인업' 뷰 (PRODUCT LINEUP) -->
+    <!-- ========================================== -->
+    <div id="view-product-lineup" class="view-hidden subpage bg-[#F8FAFC] text-slate-800">
         <div class="max-w-7xl mx-auto px-6">
             <!-- 상단 헤더 영역 -->
             <div class="text-center max-w-3xl mx-auto mb-12 fade-in">
