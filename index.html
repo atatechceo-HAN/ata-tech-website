@@ -269,7 +269,7 @@
     <!-- 회사 연혁 연도별 관리자 모드 및 카드 렌더링 엔진 (admin_history.js) -->
     <script src="admin_history.js?v=20261113_03"></script>
     <!-- 공지사항 관리자 인증 및 작성·수정·삭제 엔진 (admin_notice.js) -->
-    <script src="admin_notice.js?v=20261113_03"></script>
+    <script src="admin_notice.js?v=20261113_04"></script>
     <!-- 주요 구축 실적(Reference) 관리자 인증 및 작성·수정·삭제 엔진 (admin_reference.js) -->
     <script src="admin_reference.js?v=20261113_03"></script>
     <!-- 스마트 물류 핵심 장비 '제품 라인업' 관리자 인증 및 작성·수정·삭제 엔진 (admin_product.js) -->
@@ -277,9 +277,9 @@
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
     <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
-    <script src="admin_patent.js?v=20261113_03"></script>
+    <script src="admin_patent.js?v=20261113_04"></script>
     <!-- 한중합자법인(제조사) 관리자 모드 & 실시간 렌더링 엔진 (admin_china.js) -->
-    <script src="admin_china.js?v=20261113_03"></script>
+    <script src="admin_china.js?v=20261113_04"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
@@ -1150,12 +1150,29 @@
         .ata-admin-modal-overlay {
             position: fixed !important;
             inset: 0 !important;
-            z-index: 99999 !important;
+            z-index: 99998 !important;
+            background-color: rgba(15, 23, 42, 0.72) !important;
+            backdrop-filter: blur(6px) !important;
         }
         .ata-admin-modal-overlay:not(.hidden) {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
+        }
+        .ata-admin-modal-panel {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 99999 !important;
+            width: min(1024px, 94vw) !important;
+            max-height: 90vh !important;
+            background-color: #ffffff !important;
+            border-radius: 1.5rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45) !important;
         }
     </style>
 
@@ -8101,13 +8118,13 @@
                     var safeTitle = title.replace(/"/g, '&quot;');
                     html.push('<div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-blue-300 transition-all">');
                     html.push('  <div class="flex items-start sm:items-center gap-2.5">');
-                    if (n.isPinned) {
+                    if (n.pinned || n.isPinned) {
                         html.push('    <span class="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-bold shrink-0"><i class="fa-solid fa-thumbtack mr-0.5"></i> 고정</span>');
                     }
                     html.push('    <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold shrink-0">' + (n.category || '공지') + '</span>');
                     html.push('    <div class="cursor-pointer" onclick="window.openNoticeDetail(\'' + n.id + '\')">');
                     html.push('      <h5 class="text-xs sm:text-sm font-bold text-slate-900 hover:text-blue-600 transition-colors">' + title + '</h5>');
-                    html.push('      <span class="text-[10px] text-slate-400">' + (n.createdAt ? n.createdAt.slice(0, 10) : '') + ' · 조회수 ' + (n.views || 0) + '</span>');
+                    html.push('      <span class="text-[10px] text-slate-400">' + (n.date || (n.createdAt ? n.createdAt.slice(0, 10) : '')) + ' · 조회수 ' + (n.views || 0) + '</span>');
                     html.push('    </div>');
                     html.push('  </div>');
                     html.push('  <div class="flex items-center gap-1.5 self-end sm:self-auto shrink-0">');

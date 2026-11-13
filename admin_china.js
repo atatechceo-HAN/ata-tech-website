@@ -596,8 +596,8 @@
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="china-editor-modal" class="fixed inset-0 z-[99999] ata-admin-modal-overlay bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6" onclick="if(event.target===this) window.ChinaAdmin.closeModal()">',
-            '  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[95vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            '<div id="china-editor-modal" class="fixed inset-0 z-[99998] ata-admin-modal-overlay bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6" onclick="if(event.target===this) window.ChinaAdmin.closeModal()">',
+            '  <div class="ata-admin-modal-panel bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800" onclick="event.stopPropagation()">',
             
             // 모달 헤더
             '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">',
@@ -761,34 +761,46 @@
     }
 
     function openEditModal(id) {
-        var modal = ensureModal();
-        var data = loadData();
-        var item = data.find(function (it) { return it.id === id; });
-        if (!item) {
-            alert('항목을 찾을 수 없습니다.');
-            return;
+        try {
+            var modal = ensureModal();
+            var data = loadData();
+            var item = data.find(function (it) { return String(it.id) === String(id); });
+            if (!item) {
+                alert('수정할 한중합자법인 항목(ID: ' + id + ')을 찾을 수 없습니다.');
+                return;
+            }
+
+            var setVal = function (elId, val) {
+                var el = document.getElementById(elId);
+                if (el) el.value = (val !== undefined && val !== null) ? val : '';
+            };
+
+            var titleEl = document.getElementById('china-modal-title');
+            if (titleEl) titleEl.textContent = '한중합자법인 항목 수정 (' + (item.title || '') + ')';
+
+            setVal('china-form-id', item.id);
+            setVal('china-form-category', item.category || 'coop');
+            setVal('china-form-sort', item.sortOrder || '1');
+            setVal('china-form-title', item.title || '');
+            setVal('china-form-subtitle', item.subtitle || '');
+            setVal('china-form-badge', item.badge || '');
+            setVal('china-form-statvalue', item.statValue || '');
+            setVal('china-form-statlabel', item.statLabel || '');
+            setVal('china-form-desc', item.description || '');
+            setVal('china-form-features', Array.isArray(item.features) ? item.features.join('\n') : (item.features || ''));
+            setVal('china-form-imageurl', item.imageUrl || '');
+            updatePreview(item.imageUrl || '');
+
+            modal.style.display = 'flex';
+            modal.style.zIndex = '99998';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+            else document.body.style.overflow = 'hidden';
+        } catch (err) {
+            console.error('[ChinaAdmin] openEditModal error:', err);
+            alert('한중합자법인 수정 창을 여는 중 오류가 발생했습니다: ' + (err && err.message ? err.message : err));
         }
-
-        document.getElementById('china-modal-title').textContent = '한중합자법인 항목 수정 (' + item.title + ')';
-        document.getElementById('china-form-id').value = item.id;
-        document.getElementById('china-form-category').value = item.category || 'coop';
-        document.getElementById('china-form-sort').value = item.sortOrder || '1';
-        document.getElementById('china-form-title').value = item.title || '';
-        document.getElementById('china-form-subtitle').value = item.subtitle || '';
-        document.getElementById('china-form-badge').value = item.badge || '';
-        document.getElementById('china-form-statvalue').value = item.statValue || '';
-        document.getElementById('china-form-statlabel').value = item.statLabel || '';
-        document.getElementById('china-form-desc').value = item.description || '';
-        document.getElementById('china-form-features').value = (item.features || []).join('\n');
-        document.getElementById('china-form-imageurl').value = item.imageUrl || '';
-        updatePreview(item.imageUrl || '');
-
-        modal.style.display = 'flex';
-        modal.style.zIndex = '99999';
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
-        else document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {

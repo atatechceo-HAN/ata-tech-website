@@ -417,8 +417,11 @@
          * 특정 ID의 공지사항 1건을 조회합니다.
          */
         getNoticeById: function (id) {
-            if (!window.noticeBoardDB) return null;
-            return window.noticeBoardDB.find(n => n.id === id) || null;
+            if (!window.noticeBoardDB || !Array.isArray(window.noticeBoardDB) || window.noticeBoardDB.length === 0) {
+                if (typeof this.init === 'function') this.init();
+            }
+            if (!window.noticeBoardDB || !Array.isArray(window.noticeBoardDB)) return null;
+            return window.noticeBoardDB.find(function (n) { return String(n.id) === String(id); }) || null;
         },
 
         /**
@@ -624,43 +627,62 @@
      * @param {string|null} noticeId - 수정 시 공지 ID 전달, 신규 작성 시 null 또는 비움
      */
     window.openNoticeEditor = function (noticeId) {
-        if (!window.AdminAuth.isLoggedIn()) {
-            alert("관리자 로그인이 필요한 기능입니다.");
-            window.openAdminLoginModal();
-            return;
-        }
+        try {
+            if (!window.AdminAuth || !window.AdminAuth.isLoggedIn()) {
+                alert("관리자 로그인이 필요한 기능입니다.");
+                if (typeof window.openAdminLoginModal === 'function') window.openAdminLoginModal();
+                return;
+            }
 
-        currentEditingNoticeId = noticeId || null;
-        var modal = document.getElementById('notice-editor-modal');
-        var modalTitle = document.getElementById('notice-editor-modal-title');
-        var form = document.getElementById('notice-editor-form');
+            currentEditingNoticeId = (noticeId !== undefined && noticeId !== null && noticeId !== '') ? String(noticeId) : null;
+            var modal = document.getElementById('notice-editor-modal');
+            var modalTitle = document.getElementById('notice-editor-modal-title');
+            var form = document.getElementById('notice-editor-form');
 
-        if (form) form.reset();
+            if (form) form.reset();
 
-        var todayStr = new Date().toISOString().split('T')[0];
-        var dateInput = document.getElementById('notice-edit-date');
-        if (dateInput) dateInput.value = todayStr;
+            var todayStr = new Date().toISOString().split('T')[0];
+            var elCategory = document.getElementById('notice-edit-category');
+            var elPinned = document.getElementById('notice-edit-pinned');
+            var elDate = document.getElementById('notice-edit-date');
+            var elAuthor = document.getElementById('notice-edit-author');
+            var elTitle = document.getElementById('notice-edit-title-ko');
+            var elSummary = document.getElementById('notice-edit-summary-ko');
+            var elContent = document.getElementById('notice-edit-content-ko');
 
-        if (noticeId) {
-            // 수정 모드: 기존 데이터 로드
-            if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-400 mr-2"></i>공지사항 수정하기';
-            var item = window.NoticeStore.getNoticeById(noticeId);
-            if (item) {
-                document.getElementById('notice-edit-category').value = item.category || 'notice';
-                document.getElementById('notice-edit-pinned').checked = !!item.pinned;
-                document.getElementById('notice-edit-date').value = item.date || todayStr;
-                document.getElementById('notice-edit-author').value = item.author || "주식회사 에이티에이기술 관리자";
+            if (elDate) elDate.value = todayStr;
+
+            if (currentEditingNoticeId) {
+                // 수정 모드: 기존 데이터 로드
+                if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-400 mr-2"></i>공지사항 수정하기';
+                var item = window.NoticeStore.getNoticeById(currentEditingNoticeId);
+                if (!item) {
+                    alert("선택한 공지사항 데이터(ID: " + currentEditingNoticeId + ")를 찾을 수 없습니다.");
+                    return;
+                }
+
+                if (elCategory) elCategory.value = item.category || 'notice';
+                if (elPinned) elPinned.checked = !!(item.pinned || item.isPinned);
+                if (elDate) elDate.value = item.date || (item.createdAt ? String(item.createdAt).slice(0, 10) : todayStr);
+                if (elAuthor) elAuthor.value = item.author || "주식회사 에이티에이기술 관리자";
 
                 // 제목 무결점 추출 (다국어 객체 또는 일반 문자열 완벽 호환)
-                var titleText = (item.title && typeof item.title === 'object') ? (item.title.ko || '') : (item.title || '');
-                document.getElementById('notice-edit-title-ko').value = titleText;
+                var titleText = (item.title && typeof item.title === 'object')
+                    ? (item.title.ko || item.title.en || item.title.cn || item.title.ja || '')
+                    : (item.title || '');
+                if (elTitle) elTitle.value = titleText;
 
                 // 요약 문구 무결점 추출
-                var summaryText = (item.summary && typeof item.summary === 'object') ? (item.summary.ko || '') : (item.summary || '');
-                document.getElementById('notice-edit-summary-ko').value = summaryText;
+                var summaryText = (item.summary && typeof item.summary === 'object')
+                    ? (item.summary.ko || item.summary.en || item.summary.cn || item.summary.ja || '')
+                    : (item.summary || '');
+                if (elSummary) elSummary.value = summaryText;
 
-                // 본문 무결점 추출 (객체 또는 문자열 모두 안전 지원)
-                var rawContent = (item.content && typeof item.content === 'object') ? (item.content.ko || '') : (item.content || '');
+                // 본문 무결점 추출 (객체/문자열 및 content/body/description 필드 완벽 호환)
+                var rawSource = item.content || item.body || item.description || '';
+                var rawContent = (rawSource && typeof rawSource === 'object')
+                    ? (rawSource.ko || rawSource.en || rawSource.cn || rawSource.ja || '')
+                    : String(rawSource || '');
 
                 // 본문 텍스트 변환: HTML 줄바꿈(<br>, </p>)을 일반 줄바꿈(\n)으로 변환하되 본문이 날아가지 않도록 안전 처리
                 var cleanContent = rawContent
@@ -671,8 +693,7 @@
                     .replace(/\n{3,}/g, "\n\n")
                     .trim();
 
-                document.getElementById('notice-edit-content-ko').value = cleanContent || rawContent;
-            }
+                if (elContent) elContent.value = cleanContent || rawContent;
 
             // 회사 연혁 동시 등록 체크박스 상태 (기존 연혁 연동 여부 확인)
             var syncHistoryCheckbox = document.getElementById('notice-edit-sync-history');
@@ -697,13 +718,17 @@
             }
         }
 
-        if (modal) {
-            modal.style.display = 'flex';
-            modal.style.zIndex = '99999';
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
-            else document.body.style.overflow = 'hidden';
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.style.zIndex = '99999';
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+                else document.body.style.overflow = 'hidden';
+            }
+        } catch (err) {
+            console.error('[NoticeAdmin] openNoticeEditor error:', err);
+            alert('공지사항 수정 창을 여는 중 오류가 발생했습니다: ' + (err && err.message ? err.message : err));
         }
     };
 

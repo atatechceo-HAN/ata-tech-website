@@ -716,8 +716,8 @@
         if (existing) return existing;
 
         var modalHtml = [
-            '<div id="patent-editor-modal" class="fixed inset-0 z-[99999] ata-admin-modal-overlay bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6" onclick="if(event.target===this) window.PatentAdmin.closeModal()">',
-            '  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[95vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800 animate-in fade-in zoom-in-95 duration-200">',
+            '<div id="patent-editor-modal" class="fixed inset-0 z-[99998] ata-admin-modal-overlay bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 md:p-6" onclick="if(event.target===this) window.PatentAdmin.closeModal()">',
+            '  <div class="ata-admin-modal-panel bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800" onclick="event.stopPropagation()">',
             
             '    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 shrink-0">',
             '      <div class="flex items-center gap-3">',
@@ -864,38 +864,50 @@
     }
 
     function openEditModal(id) {
-        var modal = ensureModal();
-        var data = loadData();
-        var item = data.find(function (it) { return it.id === id; });
-        if (!item) {
-            alert('항목을 찾을 수 없습니다.');
-            return;
+        try {
+            var modal = ensureModal();
+            var data = loadData();
+            var item = data.find(function (it) { return String(it.id) === String(id); });
+            if (!item) {
+                alert('수정할 특허/인증 항목(ID: ' + id + ')을 찾을 수 없습니다.');
+                return;
+            }
+
+            var setVal = function (elId, val) {
+                var el = document.getElementById(elId);
+                if (el) el.value = (val !== undefined && val !== null) ? val : '';
+            };
+
+            var titleEl = document.getElementById('patent-modal-title');
+            if (titleEl) titleEl.textContent = '특허 및 인증 항목 수정 (' + (item.title || '') + ')';
+
+            setVal('patent-form-id', item.id);
+            setVal('patent-form-category', item.category || 'patent');
+            setVal('patent-form-sort', item.sortOrder || '1');
+            setVal('patent-form-title', item.title || '');
+            setVal('patent-form-regnumber', item.regNumber || '');
+            setVal('patent-form-date', item.date || '');
+            setVal('patent-form-org', item.organization || '');
+            setVal('patent-form-badge', item.badge || '');
+            setVal('patent-form-desc', item.description || '');
+            setVal('patent-form-features', Array.isArray(item.features) ? item.features.join('\n') : (item.features || ''));
+            setVal('patent-form-fileurl', item.fileUrl || '');
+
+            var statusEl = document.getElementById('patent-modal-file-status');
+            if (statusEl) {
+                statusEl.textContent = item.fileUrl ? String(item.fileUrl).split('/').pop() : '문서 없음';
+            }
+
+            modal.style.display = 'flex';
+            modal.style.zIndex = '99998';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
+            else document.body.style.overflow = 'hidden';
+        } catch (err) {
+            console.error('[PatentAdmin] openEditModal error:', err);
+            alert('특허·인증 수정 창을 여는 중 오류가 발생했습니다: ' + (err && err.message ? err.message : err));
         }
-
-        document.getElementById('patent-modal-title').textContent = '특허 및 인증 항목 수정 (' + item.title + ')';
-        document.getElementById('patent-form-id').value = item.id;
-        document.getElementById('patent-form-category').value = item.category || 'patent';
-        document.getElementById('patent-form-sort').value = item.sortOrder || '1';
-        document.getElementById('patent-form-title').value = item.title || '';
-        document.getElementById('patent-form-regnumber').value = item.regNumber || '';
-        document.getElementById('patent-form-date').value = item.date || '';
-        document.getElementById('patent-form-org').value = item.organization || '';
-        document.getElementById('patent-form-badge').value = item.badge || '';
-        document.getElementById('patent-form-desc').value = item.description || '';
-        document.getElementById('patent-form-features').value = (item.features || []).join('\n');
-        document.getElementById('patent-form-fileurl').value = item.fileUrl || '';
-
-        var statusEl = document.getElementById('patent-modal-file-status');
-        if (statusEl) {
-            statusEl.textContent = item.fileUrl ? item.fileUrl.split('/').pop() : '문서 없음';
-        }
-
-        modal.style.display = 'flex';
-        modal.style.zIndex = '99999';
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        if (typeof window.syncAdminBodyScrollLock === 'function') window.syncAdminBodyScrollLock();
-        else document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
