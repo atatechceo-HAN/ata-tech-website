@@ -278,7 +278,7 @@
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
     <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
-    <script src="admin_patent.js?v=20261113_01"></script>
+    <script src="admin_patent.js?v=20261113_02"></script>
     <!-- 한중합자법인(제조사) 관리자 모드 & 실시간 렌더링 엔진 (admin_china.js) -->
     <script src="admin_china.js"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
@@ -1075,6 +1075,76 @@
         .desktop-header-util-btn {
             white-space: nowrap !important;
             word-break: keep-all !important;
+        }
+
+        /* [공통] 특허·인증·수상 카드 미디어 & 고화질 확대 모달 반응형 스타일 */
+        .ata-doc-media-box {
+            width: 100%;
+            aspect-ratio: 1 / 1.414;
+            max-height: 560px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            background-color: #ffffff;
+        }
+        .ata-doc-media-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .group\/doc:hover .ata-doc-media-img {
+            transform: scale(1.02);
+        }
+        .ata-doc-media-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            background: #ffffff;
+            display: block;
+        }
+        .ata-doc-modal-box {
+            width: auto;
+            min-width: min(760px, 90vw);
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+        .ata-doc-modal-media-img {
+            max-width: calc(90vw - 32px);
+            max-height: calc(90vh - 120px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .ata-doc-modal-media-pdf {
+            width: min(86vw, 1280px);
+            height: calc(90vh - 120px);
+            border: none;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+        @media (max-width: 640px) {
+            .ata-doc-media-box {
+                max-height: 460px;
+            }
+            .ata-doc-modal-box {
+                width: 95vw !important;
+                min-width: 0 !important;
+                max-width: 95vw !important;
+                max-height: 92vh !important;
+            }
+            .ata-doc-modal-media-img {
+                max-width: calc(95vw - 20px);
+                max-height: calc(92vh - 115px);
+            }
+            .ata-doc-modal-media-pdf {
+                width: 100%;
+                height: calc(92vh - 115px);
+            }
         }
     </style>
 
@@ -6390,54 +6460,37 @@
     <!-- 고화질 이미지 팝업 모달 -->
 
     <div id="image-view-modal"
-        class="fixed inset-0 z-[310] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 transition-all duration-300"
+        class="fixed inset-0 z-[310] bg-slate-900/75 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 transition-all duration-300"
         onclick="closeImageModal()">
 
-        <div class="bg-white border border-slate-200 w-full max-w-5xl max-h-[92vh] rounded-2xl overflow-hidden shadow-2xl relative flex flex-col text-slate-800"
+        <div class="ata-doc-modal-box bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xl relative flex flex-col text-slate-800"
             onclick="event.stopPropagation()">
 
-            <div
-                class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50 text-slate-900">
-
-                <div class="flex items-center gap-3">
-
-                    <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
-
-                    <h3 id="image-view-modal-title" class="text-base sm:text-lg font-bold text-white truncate"
+            <div class="flex items-center justify-between px-4 sm:px-6 py-3.5 border-b border-slate-800 bg-slate-900 text-white shrink-0">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse shrink-0"></span>
+                    <h3 id="image-view-modal-title" class="text-sm sm:text-lg font-bold text-white truncate"
                         data-i18n="image_modal_title">고화질 상세 인포그래픽</h3>
-
                 </div>
-
                 <button onclick="closeImageModal()"
-                    class="text-slate-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-800 text-xl leading-none">
-
+                    class="text-slate-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-800 text-xl leading-none shrink-0 cursor-pointer">
                     <i class="fa-solid fa-xmark"></i>
-
                 </button>
-
             </div>
 
             <div class="flex-1 overflow-auto bg-slate-950 p-2 sm:p-4 flex items-center justify-center custom-scrollbar">
-
                 <img id="image-view-modal-img" src="" alt="확대 이미지"
                     onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
-                    class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-lg">
-                <iframe id="image-view-modal-pdf" src="" class="hidden w-full h-[78vh] rounded-xl shadow-inner bg-white border-0" title="고화질 특허 및 인증 문서 뷰어"></iframe>
-
+                    class="ata-doc-modal-media-img shadow-lg">
+                <iframe id="image-view-modal-pdf" src="" class="hidden ata-doc-modal-media-pdf shadow-inner" title="고화질 특허 및 인증 문서 뷰어"></iframe>
             </div>
 
-            <div
-                class="px-6 py-3 bg-slate-50 text-slate-900 border-t border-slate-200 flex items-center justify-between text-xs text-slate-400">
-
-                <span data-i18n="image_modal_tip">클릭 및 드래그로 고화질 인포그래픽을 원본 해상도로 확인하실 수 있습니다.</span>
-
+            <div class="px-4 sm:px-6 py-3 bg-slate-50 text-slate-600 border-t border-slate-200 flex items-center justify-between text-xs shrink-0 gap-2">
+                <span class="truncate" data-i18n="image_modal_tip">클릭 및 드래그로 고화질 인포그래픽을 원본 해상도로 확인하실 수 있습니다.</span>
                 <button onclick="closeImageModal()"
-                    class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-1.5 rounded-lg transition-colors font-medium">
-
+                    class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-1.5 rounded-lg transition-colors font-medium shrink-0 cursor-pointer">
                     <span data-i18n="btn_close">닫기</span>
-
                 </button>
-
             </div>
 
         </div>
