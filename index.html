@@ -1153,6 +1153,7 @@
             z-index: 99998 !important;
             background-color: rgba(15, 23, 42, 0.72) !important;
             backdrop-filter: blur(6px) !important;
+            overscroll-behavior: contain;
         }
         .ata-admin-modal-overlay:not(.hidden) {
             display: flex !important;
@@ -1173,6 +1174,58 @@
             flex-direction: column !important;
             overflow: hidden !important;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45) !important;
+            overscroll-behavior: contain;
+        }
+        .ata-modal-close-btn {
+            min-width: 44px !important;
+            min-height: 44px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        @media (max-width: 640px) {
+            #admin-hub-window {
+                min-width: 0 !important;
+                width: 96vw !important;
+                height: 92dvh !important;
+                max-height: 92dvh !important;
+                resize: none !important;
+            }
+            .ata-admin-modal-panel {
+                width: 95vw !important;
+                max-height: 92dvh !important;
+            }
+            #admin-integrated-hub-modal .custom-scrollbar {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        @media (max-width: 480px) {
+            #patent-cards-grid > div,
+            #cert-quality-grid > div,
+            #cert-awards-grid > div {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) !important;
+                padding: 1rem !important;
+                gap: 1rem !important;
+            }
+            #patent-cards-grid *,
+            #cert-quality-grid *,
+            #cert-awards-grid * {
+                overflow-wrap: anywhere;
+            }
+            .ata-doc-media-box {
+                max-height: 400px !important;
+            }
+            .ata-doc-modal-box {
+                width: 95vw !important;
+                max-width: 95vw !important;
+                max-height: 92dvh !important;
+            }
+            .ata-doc-modal-media-img {
+                max-width: calc(95vw - 16px) !important;
+                max-height: calc(92dvh - 120px) !important;
+                object-fit: contain !important;
+            }
         }
     </style>
 
@@ -3886,43 +3939,47 @@
 
 
 
-        // 모달 및 모바일 메뉴 열림 상태에 따른 body 스크롤 잠금 및 AI 챗봇 터치 간섭 방지 동기화
+        // 모달 및 모바일 메뉴 열림 상태에 따른 html/body 터치 스크롤 잠금 및 AI 챗봇 터치 간섭 방지 동기화
         function syncBodyScrollLock() {
-
-            const videoModal = document.getElementById('solution-video-modal');
-            const imgModal = document.getElementById('image-view-modal');
-            const consultModal = document.getElementById('consultation-modal');
-            const noticeModal = document.getElementById('notice-detail-modal');
-            const adminLoginModal = document.getElementById('admin-login-modal');
+            const modalIds = [
+                'solution-video-modal',
+                'image-view-modal',
+                'consultation-modal',
+                'notice-detail-modal',
+                'admin-login-modal',
+                'admin-integrated-hub-modal',
+                'history-editor-modal',
+                'product-admin-edit-modal',
+                'ref-media-edit-modal',
+                'notice-editor-modal',
+                'patent-editor-modal',
+                'china-editor-modal',
+                'admin-auth-modal',
+                'admin-password-modal'
+            ];
             const chatWidget = document.getElementById('ai-chat-widget');
-
-            const isVideoModalOpen = videoModal && !videoModal.classList.contains('hidden');
-            const isImgModalOpen = imgModal && !imgModal.classList.contains('hidden');
-            const isConsultModalOpen = consultModal && !consultModal.classList.contains('hidden');
-            const isNoticeModalOpen = noticeModal && !noticeModal.classList.contains('hidden');
-            const isAdminModalOpen = adminLoginModal && !adminLoginModal.classList.contains('hidden');
-
-            const isAnyModalOpen = isVideoModalOpen || isImgModalOpen || isConsultModalOpen || isNoticeModalOpen || isAdminModalOpen;
+            const isAnyModalOpen = modalIds.some(function (id) {
+                const el = document.getElementById(id);
+                if (!el) return false;
+                return !el.classList.contains('hidden') && el.style.display !== 'none';
+            });
 
             if (isMobileMenuOpen || isAnyModalOpen) {
-
+                document.documentElement.style.overflow = 'hidden';
                 document.body.style.overflow = 'hidden';
                 // 팝업 모달 또는 모바일 메뉴가 활성화되었을 때 AI 챗봇 버튼이 터치 영역을 침범하지 않도록 조치
                 if (chatWidget && isAnyModalOpen) {
                     chatWidget.style.pointerEvents = 'none';
                     chatWidget.style.opacity = '0.2';
                 }
-
             } else {
-
-                document.body.style.overflow = 'auto';
+                document.documentElement.style.overflow = '';
+                document.body.style.overflow = '';
                 if (chatWidget) {
                     chatWidget.style.pointerEvents = 'auto';
                     chatWidget.style.opacity = '1';
                 }
-
             }
-
         }
 
 
@@ -6500,8 +6557,8 @@
                     <h3 id="image-view-modal-title" class="text-sm sm:text-lg font-bold text-white truncate"
                         data-i18n="image_modal_title">고화질 상세 인포그래픽</h3>
                 </div>
-                <button onclick="closeImageModal()"
-                    class="text-slate-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-800 text-xl leading-none shrink-0 cursor-pointer">
+                <button type="button" onclick="closeImageModal()" aria-label="닫기"
+                    class="ata-modal-close-btn text-slate-300 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-800 text-xl leading-none shrink-0 cursor-pointer">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -7795,6 +7852,10 @@
              * 열려 있는 관리자 모달(통합 허브 및 개별 에디터) 여부를 확인해 배경 body 스크롤을 안전하게 잠금/해제합니다.
              */
             window.syncAdminBodyScrollLock = function () {
+                if (typeof syncBodyScrollLock === 'function') {
+                    syncBodyScrollLock();
+                    return;
+                }
                 var modalIds = [
                     'admin-integrated-hub-modal',
                     'history-editor-modal',
@@ -7804,13 +7865,15 @@
                     'patent-editor-modal',
                     'china-editor-modal',
                     'admin-auth-modal',
-                    'admin-password-modal'
+                    'admin-password-modal',
+                    'image-view-modal'
                 ];
                 var hasOpenModal = modalIds.some(function (id) {
                     var el = document.getElementById(id);
                     if (!el) return false;
                     return !el.classList.contains('hidden') && el.style.display !== 'none';
                 });
+                document.documentElement.style.overflow = hasOpenModal ? 'hidden' : '';
                 document.body.style.overflow = hasOpenModal ? 'hidden' : '';
             };
 
