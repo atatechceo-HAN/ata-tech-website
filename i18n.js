@@ -3729,7 +3729,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>공식 특허증 원본 서류 (PDF)</span>
                     </div>
-                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 특허증 PDF 바로보기
                     </a>
                 </div>
@@ -3751,7 +3751,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Patent Certificate (PDF)</span>
-                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -3768,7 +3768,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>官方专利证书文件（PDF）</span>
-                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -3785,7 +3785,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>特許証 原本確認（PDF）</span>
-                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2956028.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -3995,7 +3995,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>공식 특허증 원본 서류 (PDF)</span>
                     </div>
-                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 특허증 PDF 바로보기
                     </a>
                 </div>
@@ -4012,7 +4012,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Patent Certificate (PDF)</span>
-                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -4029,7 +4029,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>官方专利证书文件（PDF）</span>
-                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -4046,7 +4046,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>特許証 原本確認（PDF）</span>
-                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2782386.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -4103,7 +4103,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>공식 특허증 원본 서류 (PDF)</span>
                     </div>
-                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 특허증 PDF 바로보기
                     </a>
                 </div>
@@ -4120,7 +4120,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Patent Certificate (PDF)</span>
-                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -4137,7 +4137,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>官方专利证书文件（PDF）</span>
-                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -4154,7 +4154,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>特許証 原本確認（PDF）</span>
-                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1.[특허증]10-2758800.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -4211,7 +4211,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>ISO 9001 인증서 원본 (PDF)</span>
                     </div>
-                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 인증서 PDF 확인
                     </a>
                 </div>
@@ -4227,7 +4227,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official ISO 9001 Certificate (PDF)</span>
-                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -4238,7 +4238,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>ISO 9001 证书原件（PDF）</span>
-                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -4249,7 +4249,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>ISO 9001 認証書（PDF）</span>
-                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/(주)에이티에이기술 ISO 9001.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -4591,7 +4591,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>ISO 14001 인증서 원본 (PDF)</span>
                     </div>
-                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 인증서 PDF 확인
                     </a>
                 </div>
@@ -4602,7 +4602,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official ISO 14001 Certificate (PDF)</span>
-                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -4613,7 +4613,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>ISO 14001 证书原件（PDF）</span>
-                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -4624,7 +4624,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>ISO 14001 認証書（PDF）</span>
-                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/(주)에이티에이기술 ISO 14001.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -4672,7 +4672,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>R&D 실무교육 수료증 원본 (PDF)</span>
                     </div>
-                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 수료증 PDF 확인
                     </a>
                 </div>
@@ -4683,7 +4683,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Completion Certificate (PDF)</span>
-                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -4694,7 +4694,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>结业证书文件（PDF）</span>
-                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -4705,7 +4705,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>修了証 原本（PDF）</span>
-                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/RnD 실무교육 수료증.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -4868,7 +4868,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>벤처기업확인서 원본 (PDF)</span>
                     </div>
-                    <a href="docs/벤처기업확인서.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/벤처기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 확인서 PDF 확인
                     </a>
                 </div>
@@ -4879,7 +4879,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Venture Enterprise Certificate (PDF)</span>
-                    <a href="docs/벤처기업확인서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/벤처기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -4890,7 +4890,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>风险企业确认书（PDF）</span>
-                    <a href="docs/벤처기업확인서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/벤처기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -4901,7 +4901,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>ベンチャー企業確認書（PDF）</span>
-                    <a href="docs/벤처기업확인서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/벤처기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -4950,7 +4950,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>수상 상장 원본 (PDF)</span>
                     </div>
-                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 상장 PDF 확인
                     </a>
                 </div>
@@ -4961,7 +4961,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Award Certificate (PDF)</span>
-                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -4972,7 +4972,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>获奖证书文件（PDF）</span>
-                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -4983,7 +4983,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>賞状 原本確認（PDF）</span>
-                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/인천창조경제혁신센터-개인자격수상.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -5033,7 +5033,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>연구개발전담부서 인정서 원본 (PDF)</span>
                     </div>
-                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 인정서 PDF 확인
                     </a>
                 </div>
@@ -5044,7 +5044,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official R&D Department Certificate (PDF)</span>
-                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -5055,7 +5055,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>研发专职部门认定书（PDF）</span>
-                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -5066,7 +5066,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>研究開発専任部門認定書（PDF）</span>
-                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/연구개발전담부서인정서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -5115,7 +5115,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>창업기업확인서 원본 (PDF)</span>
                     </div>
-                    <a href="docs/창업기업확인서.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/창업기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 확인서 PDF 확인
                     </a>
                 </div>
@@ -5126,7 +5126,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Startup Certificate (PDF)</span>
-                    <a href="docs/창업기업확인서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/창업기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -5137,7 +5137,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>创业企业确认书（PDF）</span>
-                    <a href="docs/창업기업확인서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/창업기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -5148,7 +5148,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>創業企業確認書（PDF）</span>
-                    <a href="docs/창업기업확인서.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/창업기업확인서.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -5197,7 +5197,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>수상 상장 원본 (PDF)</span>
                     </div>
-                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 상장 PDF 확인
                     </a>
                 </div>
@@ -5208,7 +5208,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Award Certificate (PDF)</span>
-                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -5219,7 +5219,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>获奖证书文件（PDF）</span>
-                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -5230,7 +5230,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3 my-4">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>賞状 原本確認（PDF）</span>
-                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/강원창조경제혁신센터.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>
@@ -5287,7 +5287,7 @@ var noticeBoardDB = window.noticeBoardDB = [
                         <i class="fa-solid fa-file-pdf text-red-400 text-lg"></i>
                         <span>공식 특허증 원본 서류 (PDF)</span>
                     </div>
-                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
+                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-lg cursor-pointer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> 특허증 PDF 바로보기
                     </a>
                 </div>
@@ -5304,7 +5304,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>Official Patent Certificate (PDF)</span>
-                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         View Certificate
                     </a>
                 </div>
@@ -5321,7 +5321,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>官方专利证书文件（PDF）</span>
-                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         查看证书
                     </a>
                 </div>
@@ -5338,7 +5338,7 @@ var noticeBoardDB = window.noticeBoardDB = [
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-between gap-3">
                     <span class="text-sm text-slate-700"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>特許証 原本確認（PDF）</span>
-                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
+                    <a href="docs/1. [특허증]10-2317010.pdf" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors">
                         PDFを開く
                     </a>
                 </div>

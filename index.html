@@ -265,7 +265,7 @@
     <link rel="stylesheet" href="dist/output.css">
 
     <!-- 4개국어 다국어 스위칭 엔진 & 솔루션 상세 다국어 엔진 (i18n.js) -->
-    <script src="i18n.js"></script>
+    <script src="i18n.js?v=20261114_01"></script>
     <!-- 회사 연혁 연도별 관리자 모드 및 카드 렌더링 엔진 (admin_history.js) -->
     <script src="admin_history.js?v=20261113_03"></script>
     <!-- 공지사항 관리자 인증 및 작성·수정·삭제 엔진 (admin_notice.js) -->
@@ -277,7 +277,7 @@
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
     <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
-    <script src="admin_patent.js?v=20261113_04"></script>
+    <script src="admin_patent.js?v=20261114_01"></script>
     <!-- 한중합자법인(제조사) 관리자 모드 & 실시간 렌더링 엔진 (admin_china.js) -->
     <script src="admin_china.js?v=20261113_04"></script>
     <!-- 상장/수료증 고화질 렌더링 엔진 (PDF.js) -->
@@ -5966,11 +5966,91 @@
             'H00_레퍼런스_제조_3.jpg': 'Conveyors & ADD-Ons.jpg'
         };
 
+        /**
+         * PDF 모달 내 멀티페이지 Canvas 렌더링 도우미
+         * - 모바일 브라우저에서 <iframe> 직접 로드 시 강제 다운로드가 발생하는 현상을 원천 방지
+         */
+        async function renderPdfPagesInModal(pdfUrl, container) {
+            if (!container) return;
+            const cleanUrl = (pdfUrl || '').split('#')[0];
+            container.innerHTML = '<div class="flex flex-col items-center justify-center py-12 text-slate-300 text-sm gap-3"><i class="fa-solid fa-spinner fa-spin text-2xl text-blue-400"></i><span>PDF 문서를 고화질로 불러오는 중입니다...</span></div>';
+
+            if (!window.pdfjsLib) {
+                container.innerHTML = `
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 sm:p-8 text-center max-w-md mx-auto my-8">
+                        <i class="fa-regular fa-file-pdf text-4xl text-blue-400 mb-3"></i>
+                        <p class="text-white font-semibold mb-2">브라우저 내장 PDF 뷰어를 준비할 수 없습니다.</p>
+                        <p class="text-slate-400 text-xs mb-5">아래 버튼을 눌러 새 창에서 문서를 확인해 주세요.</p>
+                        <a href="${cleanUrl}" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors">
+                            <i class="fa-solid fa-up-right-from-square"></i> 새 창에서 PDF 열기
+                        </a>
+                    </div>`;
+                return;
+            }
+
+            try {
+                if (!window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                }
+                const loadingTask = window.pdfjsLib.getDocument(cleanUrl);
+                const pdf = await loadingTask.promise;
+                container.innerHTML = '';
+
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const targetWidth = Math.min(container.clientWidth || window.innerWidth - 32, 860);
+
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const baseViewport = page.getViewport({ scale: 1 });
+                    const cssScale = Math.max(targetWidth / baseViewport.width, 1);
+                    const renderViewport = page.getViewport({ scale: cssScale * dpr });
+
+                    const pageWrap = document.createElement('div');
+                    pageWrap.className = 'w-full bg-white rounded-xl shadow-2xl overflow-hidden';
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = renderViewport.width;
+                    canvas.height = renderViewport.height;
+                    canvas.style.width = '100%';
+                    canvas.style.height = 'auto';
+                    canvas.style.display = 'block';
+
+                    const ctx = canvas.getContext('2d');
+                    await page.render({ canvasContext: ctx, viewport: renderViewport }).promise;
+                    pageWrap.appendChild(canvas);
+
+                    if (pdf.numPages > 1) {
+                        const pageLabel = document.createElement('div');
+                        pageLabel.className = 'text-center text-[11px] text-slate-500 bg-slate-100 py-1 border-t border-slate-200 font-medium';
+                        pageLabel.textContent = pageNum + ' / ' + pdf.numPages + ' 페이지';
+                        pageWrap.appendChild(pageLabel);
+                    }
+
+                    container.appendChild(pageWrap);
+                }
+            } catch (err) {
+                console.warn('모달 PDF.js 렌더링 실패:', err);
+                container.innerHTML = `
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 sm:p-8 text-center max-w-md mx-auto my-8">
+                        <i class="fa-regular fa-file-pdf text-4xl text-blue-400 mb-3"></i>
+                        <p class="text-white font-semibold mb-2">인앱 미리보기를 불러오지 못했습니다.</p>
+                        <p class="text-slate-400 text-xs mb-5">새 창에서 원본 PDF 문서를 안전하게 여실 수 있습니다.</p>
+                        <a href="${cleanUrl}" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors">
+                            <i class="fa-solid fa-up-right-from-square"></i> 새 창에서 PDF 열기
+                        </a>
+                    </div>`;
+            }
+        }
+
         function openImageModal(imgSrc, title) {
             const modal = document.getElementById('image-view-modal');
+            const modalBody = document.getElementById('image-view-modal-body');
             const modalImg = document.getElementById('image-view-modal-img');
-            const modalPdf = document.getElementById('image-view-modal-pdf');
+            const modalPdfPages = document.getElementById('image-view-modal-pdf-pages');
             const modalTitle = document.getElementById('image-view-modal-title');
+            const externalLink = document.getElementById('image-view-modal-external-link');
 
             if (!modal) return;
 
@@ -5989,17 +6069,36 @@
             if (modalTitle) modalTitle.innerHTML = resolvedTitle || (isPdf ? '고화질 특허/인증 원본 문서' : '고화질 상세 인포그래픽');
 
             if (isPdf) {
-                // PDF 문서인 경우: 고화질 iframe 활성화
+                // PDF 문서인 경우: 모바일 강제 다운로드 방지를 위해 PDF.js 멀티페이지 Canvas 렌더링 사용
+                const cleanPdfUrl = (imgSrc || '').split('#')[0];
                 if (modalImg) modalImg.classList.add('hidden');
-                if (modalPdf) {
-                    modalPdf.classList.remove('hidden');
-                    modalPdf.src = imgSrc + (imgSrc.indexOf('#') === -1 ? '#view=Fit' : '');
+                if (modalBody) {
+                    modalBody.classList.remove('items-center');
+                    modalBody.classList.add('items-start');
+                }
+                if (externalLink) {
+                    externalLink.href = cleanPdfUrl;
+                    externalLink.setAttribute('target', '_blank');
+                    externalLink.setAttribute('rel', 'noopener noreferrer');
+                    externalLink.classList.remove('hidden');
+                }
+                if (modalPdfPages) {
+                    modalPdfPages.classList.remove('hidden');
+                    renderPdfPagesInModal(cleanPdfUrl, modalPdfPages);
                 }
             } else {
                 // 일반 이미지인 경우: img 태그 활성화
-                if (modalPdf) {
-                    modalPdf.classList.add('hidden');
-                    modalPdf.src = '';
+                if (modalBody) {
+                    modalBody.classList.remove('items-start');
+                    modalBody.classList.add('items-center');
+                }
+                if (externalLink) {
+                    externalLink.href = '#';
+                    externalLink.classList.add('hidden');
+                }
+                if (modalPdfPages) {
+                    modalPdfPages.classList.add('hidden');
+                    modalPdfPages.innerHTML = '';
                 }
                 if (modalImg) {
                     modalImg.classList.remove('hidden');
@@ -6022,8 +6121,16 @@
 
         function closeImageModal() {
             const modal = document.getElementById('image-view-modal');
-            const modalPdf = document.getElementById('image-view-modal-pdf');
-            if (modalPdf) modalPdf.src = '';
+            const modalPdfPages = document.getElementById('image-view-modal-pdf-pages');
+            const externalLink = document.getElementById('image-view-modal-external-link');
+            if (modalPdfPages) {
+                modalPdfPages.innerHTML = '';
+                modalPdfPages.classList.add('hidden');
+            }
+            if (externalLink) {
+                externalLink.href = '#';
+                externalLink.classList.add('hidden');
+            }
             if (modal) {
                 modal.style.display = 'none';
                 modal.classList.add('hidden');
@@ -6031,6 +6138,23 @@
             }
             syncBodyScrollLock();
         }
+
+        // 공지사항 상세 모달 내 PDF 링크 클릭 시 모바일 강제 다운로드 대신 인앱 PDF 미리보기 모달로 연결
+        document.addEventListener('DOMContentLoaded', function () {
+            const noticeBody = document.getElementById('notice-modal-body');
+            if (noticeBody) {
+                noticeBody.addEventListener('click', function (e) {
+                    const link = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+                    if (!link) return;
+                    const href = link.getAttribute('href') || '';
+                    if (href.toLowerCase().indexOf('.pdf') !== -1) {
+                        e.preventDefault();
+                        const linkTitle = (link.textContent || '').trim() || '첨부 PDF 문서 미리보기';
+                        openImageModal(href, linkTitle);
+                    }
+                });
+            }
+        });
 
         // ==========================================
         // 수상내역 상장/수료증 PDF.js 고화질 Canvas 렌더링 엔진
@@ -6563,19 +6687,27 @@
                 </button>
             </div>
 
-            <div class="flex-1 overflow-auto bg-slate-950 p-2 sm:p-4 flex items-center justify-center custom-scrollbar">
+            <div id="image-view-modal-body" class="flex-1 overflow-auto bg-slate-950 p-2 sm:p-4 flex items-center justify-center custom-scrollbar">
                 <img id="image-view-modal-img" src="" alt="확대 이미지"
                     onerror="handleAssetImgError(this, 'assets/images/no-image.svg')"
                     class="ata-doc-modal-media-img shadow-lg">
-                <iframe id="image-view-modal-pdf" src="" class="hidden ata-doc-modal-media-pdf shadow-inner" title="고화질 특허 및 인증 문서 뷰어"></iframe>
+                <!-- 모바일 강제 다운로드 방지를 위해 iframe 대신 PDF.js Canvas 페이지 컨테이너 사용 -->
+                <div id="image-view-modal-pdf-pages" class="hidden w-full max-w-4xl mx-auto flex flex-col items-center gap-3 sm:gap-4 py-1"></div>
             </div>
 
             <div class="px-4 sm:px-6 py-3 bg-slate-50 text-slate-600 border-t border-slate-200 flex items-center justify-between text-xs shrink-0 gap-2">
                 <span class="truncate" data-i18n="image_modal_tip">클릭 및 드래그로 고화질 인포그래픽을 원본 해상도로 확인하실 수 있습니다.</span>
-                <button onclick="closeImageModal()"
-                    class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-1.5 rounded-lg transition-colors font-medium shrink-0 cursor-pointer">
-                    <span data-i18n="btn_close">닫기</span>
-                </button>
+                <div class="flex items-center gap-2 shrink-0">
+                    <a id="image-view-modal-external-link" href="#" target="_blank" rel="noopener noreferrer"
+                        class="hidden inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-3.5 py-1.5 rounded-lg transition-colors font-medium min-h-[36px]">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                        <span>새 창에서 열기</span>
+                    </a>
+                    <button onclick="closeImageModal()"
+                        class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-1.5 rounded-lg transition-colors font-medium shrink-0 cursor-pointer min-h-[36px]">
+                        <span data-i18n="btn_close">닫기</span>
+                    </button>
+                </div>
             </div>
 
         </div>
@@ -7776,10 +7908,10 @@
                                 if (dataUrl && dataUrl.length > 100) {
                                     openImageModal(dataUrl, title || '공식 인증 문서');
                                 } else {
-                                    window.open(cleanPdfUrl, '_blank');
+                                    window.open(cleanPdfUrl, '_blank', 'noopener,noreferrer');
                                 }
                             } catch (e) {
-                                window.open(cleanPdfUrl, '_blank');
+                                window.open(cleanPdfUrl, '_blank', 'noopener,noreferrer');
                             }
                         });
 
@@ -7797,7 +7929,7 @@
                         console.warn('PDF.js 렌더링 실패, 안전 안내 카드로 전환:', cleanPdfUrl, err);
                         // PDF.js 실패 시 안전 안내 및 원본 열람 카드 폴백
                         container.innerHTML = [
-                            '<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white border border-slate-200 rounded-xl shadow-inner cursor-pointer" onclick="window.open(\'' + cleanPdfUrl + '\', \'_blank\')">',
+                            '<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white border border-slate-200 rounded-xl shadow-inner cursor-pointer" onclick="window.open(\'' + cleanPdfUrl + '\', \'_blank\', \'noopener,noreferrer\')">',
                             '    <div class="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3 border border-blue-100 shadow-sm">',
                             '        <i class="fa-solid fa-file-pdf text-3xl text-red-500"></i>',
                             '    </div>',
@@ -7809,8 +7941,18 @@
                         ].join('');
                     });
                 } else {
-                    // PDF.js 없을 시 표준 iframe 적용
-                    container.innerHTML = '<iframe src="' + cleanPdfUrl + '" class="w-full h-full border-0 rounded-xl" title="' + (title || '공식 문서') + '"></iframe>';
+                    // PDF.js 없을 시에도 모바일 강제 다운로드를 유발하는 iframe 대신 새 창 열기 안전 카드 적용
+                    container.innerHTML = [
+                        '<a href="' + cleanPdfUrl + '" target="_blank" rel="noopener noreferrer" class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white border border-slate-200 rounded-xl shadow-inner hover:bg-slate-50 transition-colors">',
+                        '    <div class="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3 border border-blue-100 shadow-sm">',
+                        '        <i class="fa-solid fa-file-pdf text-3xl text-red-500"></i>',
+                        '    </div>',
+                        '    <h5 class="text-sm font-bold text-slate-800 mb-1">' + (title || '공식 인증 문서') + '</h5>',
+                        '    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold mt-2">',
+                        '        <i class="fa-solid fa-arrow-up-right-from-square"></i> 새 창에서 문서 보기',
+                        '    </span>',
+                        '</a>'
+                    ].join('');
                 }
             }
 

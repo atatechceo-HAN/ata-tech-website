@@ -1039,22 +1039,29 @@
 
         // 3. 수상 내역 (#cert-awards-grid 또는 #view-cert-awards 내부)
         renderAwardSection(data.filter(function (it) { return it.category === 'award'; }));
+
+        // 4. 동적으로 생성된 PDF 썸네일(.pdf-lazy-frame)을 모바일 강제 다운로드 없이 Canvas로 렌더링
+        if (typeof window.initAllPdfViewers === 'function') {
+            window.initAllPdfViewers();
+        }
     }
 
         /**
      * [공통] 특허·인증·수상 좌측 미디어(사진/PDF) 뷰어 카드 HTML 빌더
      * - 모든 카드에 여백 없이 꽉 찬 이미지(object-fit: cover) 및 공통 CSS 클래스(.ata-doc-media-*) 일괄 적용
      * - 모바일/데스크톱 반응형 Grid 비율 최적화
+     * - PDF 문서는 <iframe> 직접 로드를 피하고 .pdf-lazy-frame(PDF.js Canvas)으로 렌더링하여 모바일 강제 다운로드 방지
      */
     function buildDocViewerHtml(it, title, hoverAccentClass, footerLeftHtml, footerRightHtml) {
         var isPdf = (it.fileUrl || '').toLowerCase().indexOf('.pdf') !== -1;
         var safeTitle = (title || '').replace(/'/g, "\\'");
+        var safeUrl = (it.fileUrl || '').replace(/'/g, "\\'");
         var out = [];
 
         out.push('  <div class="lg:col-span-5 xl:col-span-4 flex flex-col justify-between bg-slate-50 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-inner">');
-        out.push('    <div class="ata-doc-media-box border border-slate-200 shadow-sm flex items-center justify-center group/doc cursor-pointer" onclick="window.openImageModal ? window.openImageModal(\'' + it.fileUrl + '\', \'' + safeTitle + '\') : window.open(\'' + it.fileUrl + '\', \'_blank\')">');
+        out.push('    <div class="ata-doc-media-box border border-slate-200 shadow-sm flex items-center justify-center group/doc cursor-pointer" onclick="window.openImageModal ? window.openImageModal(\'' + safeUrl + '\', \'' + safeTitle + '\') : window.open(\'' + safeUrl + '\', \'_blank\', \'noopener,noreferrer\')">');
         if (isPdf) {
-            out.push('      <iframe src="' + it.fileUrl + '#view=Fit&toolbar=0&navpanes=0&scrollbar=0" class="pointer-events-none ata-doc-media-iframe" title="' + title + '"></iframe>');
+            out.push('      <div class="pdf-lazy-frame w-full h-full pointer-events-none" data-pdf-src="' + it.fileUrl + '" title="' + title + '"></div>');
         } else if (it.fileUrl) {
             out.push('      <img src="' + it.fileUrl + '" alt="' + title + '" class="ata-doc-media-img">');
         }
