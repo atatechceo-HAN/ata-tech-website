@@ -824,10 +824,23 @@
                 html += '    </div>';
             }
 
+            // [SEO 매핑] 각 제품 카드 ID별 전용 정적 상세 페이지 링크
+            var seoDetailUrlMap = {
+                'prod_delivery_1': 'products/vehicle-cargo-sorter.html',
+                'prod_delivery_2': 'products/telescopic-conveyor.html',
+                'prod_transfer_1': 'products/telescopic-conveyor.html',
+                'prod_sorting_1': 'products/cbs-wheel-sorter.html',
+                'prod_sorting_2': 'products/cbs-wheel-sorter.html',
+                'prod_sorting_3': 'products/nbs-sorter.html',
+                'prod_sorting_4': 'products/cbs-wheel-sorter.html'
+            };
+            var seoDetailUrl = seoDetailUrlMap[card.id] || '';
+            var richAltText = safeTitle + ' - 주식회사 에이티에이기술 물류 자동화 설비 (ATA TECH Logistics Automation)';
+
             // 2. 고화질 이미지 프레임 (클릭 시 전체화면 확대 팝업 실행)
             // [원천 차단] onerror 발생 시 this.onerror=null 및 removeAttribute('onerror')로 무한 재귀 루프를 물리적으로 차단
             html += '    <div class="aspect-[16/10] bg-slate-950 relative overflow-hidden cursor-pointer" onclick="window.ProductLineupAdmin.openLightbox(\'' + card.id + '\')">';
-            html += '      <img src="' + card.imageUrl + '" onerror="this.onerror=null; this.removeAttribute(\'onerror\'); this.src=\'' + fallbackUrl + '\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" alt="' + safeTitle + '">';
+            html += '      <img src="' + card.imageUrl + '" onerror="this.onerror=null; this.removeAttribute(\'onerror\'); this.src=\'' + fallbackUrl + '\';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" alt="' + richAltText + '">';
             html += '      <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent opacity-80 group-hover:opacity-50 transition-opacity"></div>';
 
             // 좌측 상단 카테고리 배지
@@ -841,7 +854,7 @@
             html += '      </span>';
             html += '    </div>';
 
-            // 3. 카드 하단: 설비 명칭 및 설명
+            // 3. 카드 하단: 설비 명칭 및 설명 + SEO 전용 상세 페이지 링크
             html += '    <div class="p-5 cursor-pointer" onclick="window.ProductLineupAdmin.openLightbox(\'' + card.id + '\')">';
             html += '      <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug mb-1.5">';
             html += '        ' + displayTitle;
@@ -850,6 +863,13 @@
                 html += '      <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">';
                 html += '        ' + displayDesc;
                 html += '      </p>';
+            }
+            if (seoDetailUrl) {
+                html += '      <div class="mt-3 pt-3 border-t border-slate-100 flex justify-end">';
+                html += '        <a href="' + seoDetailUrl + '" onclick="event.stopPropagation();" class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline">';
+                html += '          <span>제품 사양·기술 상세 보기</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>';
+                html += '        </a>';
+                html += '      </div>';
             }
             html += '    </div>';
 

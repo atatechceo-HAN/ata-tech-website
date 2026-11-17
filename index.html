@@ -273,7 +273,7 @@
     <!-- 주요 구축 실적(Reference) 관리자 인증 및 작성·수정·삭제 엔진 (admin_reference.js) -->
     <script src="admin_reference.js?v=20261114_01"></script>
     <!-- 스마트 물류 핵심 장비 '제품 라인업' 관리자 인증 및 작성·수정·삭제 엔진 (admin_product.js) -->
-    <script src="admin_product.js?v=20261113_03"></script>
+    <script src="admin_product.js?v=20261117_01"></script>
     <!-- GitHub 원격 저장소 자동 커밋·푸시 및 data.json 영구 동기화 엔진 (github_sync.js) -->
     <script src="github_sync.js"></script>
     <!-- 특허 및 인증 관리자 모드 & 실시간 렌더링 엔진 (admin_patent.js) -->
@@ -1373,20 +1373,36 @@
                                 data-i18n="nav_solution_all">전체 솔루션 보기</span></a>
 
                         <!-- [SEO 서브페이지 연계 1] 4분할 독립 구동 팝업 휠 방향전환장치 전문관 -->
-                        <a href="/popup-wheel-diverter"
+                        <a href="products/4-split-converter.html"
                             class="block px-6 py-3 hover:bg-sky-50 hover:text-sky-700 border-b border-slate-100 font-bold text-sky-600 bg-sky-50/40 transition-colors flex items-center justify-between">
-                            <span><i class="fa-solid fa-cube text-sky-600 mr-2 text-xs"></i> 4분할 방향전환장치 (전문관)</span>
+                            <span><i class="fa-solid fa-cube text-sky-600 mr-2 text-xs"></i> 4분할 방향전환장치 (사양·특허)</span>
                             <span
                                 class="text-[10px] px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 font-semibold">특허</span>
                         </a>
 
                         <!-- [SEO 서브페이지 연계 2] 운송 차량 탑재형 화물 분류 시스템 전문관 -->
-                        <a href="/vehicle-mounted-sorting-system"
+                        <a href="products/vehicle-cargo-sorter.html"
                             class="block px-6 py-3 hover:bg-emerald-50 hover:text-emerald-700 border-b border-slate-100 font-bold text-emerald-600 bg-emerald-50/40 transition-colors flex items-center justify-between">
-                            <span><i class="fa-solid fa-truck-fast text-emerald-600 mr-2 text-xs"></i> 차량 탑재형 화물분류
-                                (전문관)</span>
+                            <span><i class="fa-solid fa-truck-fast text-emerald-600 mr-2 text-xs"></i> 차량 탑재형 화물분류 (사양·KAIA)</span>
                             <span
                                 class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold">KAIA</span>
+                        </a>
+
+                        <!-- [SEO 서브페이지 연계 3~5] 주력 소터 & 컨베이어 상세 사양 페이지 -->
+                        <a href="products/nbs-sorter.html"
+                            class="block px-6 py-2.5 hover:bg-indigo-50 hover:text-indigo-700 border-b border-slate-100 font-semibold text-indigo-600 bg-indigo-50/30 transition-colors flex items-center justify-between text-xs">
+                            <span><i class="fa-solid fa-shuffle text-indigo-500 mr-2"></i> 네로우벨트 소터 (NBS 상세)</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold">SEO</span>
+                        </a>
+                        <a href="products/cbs-wheel-sorter.html"
+                            class="block px-6 py-2.5 hover:bg-blue-50 hover:text-blue-700 border-b border-slate-100 font-semibold text-blue-600 bg-blue-50/30 transition-colors flex items-center justify-between text-xs">
+                            <span><i class="fa-solid fa-gauge-high text-blue-500 mr-2"></i> 크로스벨트(CBS)·고속 휠소터</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold">SEO</span>
+                        </a>
+                        <a href="products/telescopic-conveyor.html"
+                            class="block px-6 py-2.5 hover:bg-cyan-50 hover:text-cyan-700 border-b border-slate-100 font-semibold text-cyan-700 bg-cyan-50/30 transition-colors flex items-center justify-between text-xs">
+                            <span><i class="fa-solid fa-arrows-left-right-to-line text-cyan-600 mr-2"></i> 텔레스코픽 컨베이어·이송설비</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-700 font-semibold">SEO</span>
                         </a>
 
                         <a href="#" onclick="navigate('product', '택배차량 배송 자동화 시스템'); return false;"
@@ -1865,22 +1881,39 @@
                             data-i18n="nav_solution_all">전체 솔루션 보기</a>
 
                         <!-- [SEO 서브페이지 연계 1] 4분할 독립 구동 팝업 휠 방향전환장치 전문관 -->
-                        <a href="/popup-wheel-diverter"
+                        <a href="products/4-split-converter.html"
                             class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-sky-700 font-bold bg-sky-50/80 hover:bg-sky-100 active:bg-sky-100 transition-all text-sm">
                             <span class="flex items-center gap-2"><i class="fa-solid fa-cube text-sky-600 text-xs"></i>
-                                4분할 방향전환장치 (전문관)</span>
+                                4분할 방향전환장치 (사양·특허)</span>
                             <span
                                 class="text-[10px] px-2 py-0.5 rounded-full bg-sky-200 text-sky-800 font-semibold">특허</span>
                         </a>
 
                         <!-- [SEO 서브페이지 연계 2] 운송 차량 탑재형 화물 분류 시스템 전문관 -->
-                        <a href="/vehicle-mounted-sorting-system"
+                        <a href="products/vehicle-cargo-sorter.html"
                             class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-emerald-700 font-bold bg-emerald-50/80 hover:bg-emerald-100 active:bg-emerald-100 transition-all text-sm">
                             <span class="flex items-center gap-2"><i
                                     class="fa-solid fa-truck-fast text-emerald-600 text-xs"></i> 차량 탑재형 화물분류
-                                (전문관)</span>
+                                (KAIA)</span>
                             <span
                                 class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-800 font-semibold">KAIA</span>
+                        </a>
+
+                        <!-- [SEO 서브페이지 연계 3~5] 주력 소터 & 컨베이어 상세 사양 페이지 -->
+                        <a href="products/nbs-sorter.html"
+                            class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-indigo-700 font-semibold bg-indigo-50/70 hover:bg-indigo-100 transition-all text-xs">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-shuffle text-indigo-600"></i> 네로우벨트 소터 (NBS 상세)</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-200 text-indigo-800 font-semibold">사양</span>
+                        </a>
+                        <a href="products/cbs-wheel-sorter.html"
+                            class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-blue-700 font-semibold bg-blue-50/70 hover:bg-blue-100 transition-all text-xs">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-gauge-high text-blue-600"></i> 크로스벨트(CBS)·휠소터</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-200 text-blue-800 font-semibold">사양</span>
+                        </a>
+                        <a href="products/telescopic-conveyor.html"
+                            class="min-h-[44px] flex items-center justify-between py-2 px-3 rounded-xl text-cyan-800 font-semibold bg-cyan-50/70 hover:bg-cyan-100 transition-all text-xs">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-arrows-left-right-to-line text-cyan-600"></i> 텔레스코픽 컨베이어·이송설비</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-200 text-cyan-900 font-semibold">사양</span>
                         </a>
 
                         <a href="javascript:void(0)"
@@ -2972,7 +3005,40 @@
             </div>
 
             <!-- 제품 라인업 카드 그리드 (동적 렌더링 컨테이너) -->
-            <div id="product-lineup-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <div id="product-lineup-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            </div>
+
+            <!-- [SEO 정적 내부 링크] 5대 주력 설비별 전용 사양 및 기술 상세 페이지 바로가기 -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm mb-16">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+                    <div>
+                        <span class="text-xs font-extrabold text-blue-600 uppercase tracking-wider">TECHNICAL SPECIFICATION ARCHIVE</span>
+                        <h3 class="text-lg sm:text-xl font-black text-slate-900 mt-0.5">주력 설비별 상세 사양·특허 기술 전용 페이지</h3>
+                    </div>
+                    <span class="text-xs text-slate-500">각 설비의 처리 속도(BPH), 규격 및 인증 정보를 확인하세요.</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-sm">
+                    <a href="products/4-split-converter.html" class="p-3.5 rounded-xl border border-slate-200 hover:border-sky-400 hover:bg-sky-50/40 transition-all block">
+                        <div class="font-bold text-slate-900 mb-1">4분할 방향전환장치</div>
+                        <div class="text-xs text-slate-500">특허 제10-2782386호 · 4,500+ BPH</div>
+                    </a>
+                    <a href="products/vehicle-cargo-sorter.html" class="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/40 transition-all block">
+                        <div class="font-bold text-slate-900 mb-1">차량 탑재형 분류시스템</div>
+                        <div class="text-xs text-slate-500">KAIA 국토교통부 우수기술 인증</div>
+                    </a>
+                    <a href="products/nbs-sorter.html" class="p-3.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 transition-all block">
+                        <div class="font-bold text-slate-900 mb-1">네로우벨트 소터 (NBS)</div>
+                        <div class="text-xs text-slate-500">소형 화물·의류 고속 정밀 분기</div>
+                    </a>
+                    <a href="products/cbs-wheel-sorter.html" class="p-3.5 rounded-xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 transition-all block">
+                        <div class="font-bold text-slate-900 mb-1">크로스벨트·고속 휠소터</div>
+                        <div class="text-xs text-slate-500">CBS/NC CBS &amp; 30°·45°·90° 휠소터</div>
+                    </a>
+                    <a href="products/telescopic-conveyor.html" class="p-3.5 rounded-xl border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50/40 transition-all block">
+                        <div class="font-bold text-slate-900 mb-1">텔레스코픽 컨베이어</div>
+                        <div class="text-xs text-slate-500">상하차 신축 붐·모듈형 이송설비</div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
