@@ -1040,7 +1040,7 @@
         #mobile-menu {
             position: fixed !important;
             inset: 0 !important;
-            z-index: 9999 !important;
+            z-index: 10005 !important;
             background-color: #FFFFFF !important;
             -webkit-overflow-scrolling: touch !important;
         }
@@ -1749,10 +1749,10 @@
 
 
 
-        <!-- 모바일 전체 메뉴 (Z-index 9999, 부드러운 스크롤) -->
+        <!-- 모바일 전체 메뉴 (Z-index 10005, 풀스크린 오버레이 및 부드러운 스크롤) -->
 
         <div id="mobile-menu"
-            class="fixed inset-0 h-[100dvh] bg-white z-[9999] hidden flex-col pt-16 sm:pt-20 pb-8 px-5 sm:px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl overscroll-contain">
+            class="fixed inset-0 h-[100dvh] bg-white z-[10005] hidden flex-col pt-4 sm:pt-6 pb-8 px-5 sm:px-6 overflow-y-auto border-t border-slate-200 text-slate-800 shadow-2xl overscroll-contain">
 
             <div class="flex-1 overflow-y-auto custom-scrollbar pb-20 space-y-6">
 
@@ -3898,10 +3898,10 @@
 
     <!-- AI 챗봇 위젯 -->
 
-    <div id="ai-chat-widget" class="fixed bottom-6 right-6 z-[300] flex flex-col items-end">
+    <div id="ai-chat-widget" class="fixed bottom-6 right-6 z-[300] flex flex-col items-end pointer-events-none">
 
         <div id="ai-chat-panel"
-            class="bg-white text-slate-800 w-[90vw] sm:w-96 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col mb-4 transition-all duration-300 opacity-0 translate-y-4 pointer-events-none"
+            class="hidden bg-white text-slate-800 w-[90vw] sm:w-96 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex-col mb-4 transition-all duration-300 opacity-0 translate-y-4 pointer-events-none"
             style="height: 500px; max-height: calc(100vh - 120px);">
 
             <div
@@ -3972,7 +3972,7 @@
 
 
         <button id="ai-chat-btn" onclick="toggleChat()"
-            class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white w-14 h-14 rounded-full shadow-2xl hover:shadow-cyan-500/30 hover:scale-105 transition-all duration-300 flex items-center justify-center focus:outline-none ring-4 ring-cyan-500/20 border border-cyan-400/30">
+            class="pointer-events-auto bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white w-14 h-14 rounded-full shadow-2xl hover:shadow-cyan-500/30 hover:scale-105 transition-all duration-300 flex items-center justify-center focus:outline-none ring-4 ring-cyan-500/20 border border-cyan-400/30">
 
             <i class="fa-solid fa-comment-dots text-2xl"></i>
 
@@ -5685,35 +5685,30 @@
 
 
         function toggleChat() {
-
             const panel = document.getElementById('ai-chat-panel');
-
             const btnIcon = document.querySelector('#ai-chat-btn i');
-
+            if (!panel) return;
             isChatOpen = !isChatOpen;
 
-
-
             if (isChatOpen) {
-
-                panel.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-
-                panel.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-
-                btnIcon.classList.replace('fa-comment-dots', 'fa-xmark');
-
-                setTimeout(() => document.getElementById('ai-chat-input').focus(), 300);
-
+                panel.classList.remove('hidden', 'opacity-0', 'translate-y-4', 'pointer-events-none');
+                panel.classList.add('flex', 'opacity-100', 'translate-y-0', 'pointer-events-auto');
+                if (btnIcon) btnIcon.classList.replace('fa-comment-dots', 'fa-xmark');
+                setTimeout(() => {
+                    const inputEl = document.getElementById('ai-chat-input');
+                    if (inputEl) inputEl.focus();
+                }, 300);
             } else {
-
                 panel.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-
                 panel.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-
-                btnIcon.classList.replace('fa-xmark', 'fa-comment-dots');
-
+                if (btnIcon) btnIcon.classList.replace('fa-xmark', 'fa-comment-dots');
+                setTimeout(() => {
+                    if (!isChatOpen) {
+                        panel.classList.add('hidden');
+                        panel.classList.remove('flex');
+                    }
+                }, 300);
             }
-
         }
 
 
