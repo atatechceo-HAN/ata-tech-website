@@ -1,27 +1,26 @@
 # ==============================================================================
-# 주식회사 에이티에이기술 (ATA TECH) - _redirects
-# 
-# [역할 설명]
-# 이 파일은 Cloudflare Pages 및 모던 정적 호스팅 환경에서 구글 검색엔진 크롤러 및
-# 방문자가 이전 URL, .html 확장자 URL, 또는 삭제/이동된 페이지로 접근했을 때
-# HTTP 301 Permanent Redirect(영구 이동)를 반환하여 404 오류를 방지하고
-# 검색엔진 색인 점수(SEO PageRank)를 신규 정규 URL로 100% 보존·전달하는 표준 파일입니다.
+# 주식회사 에이티에이기술 (ATA TECH) - Cloudflare Pages _redirects
+#
+# [설계 원칙]
+# 1. http:// -> https:// 및 www.ata-tech.co.kr -> ata-tech.co.kr 도메인 정규화는
+#    Cloudflare 대시보드 Redirect Rules에 위임하여 중복/충돌 방지
+# 2. 실제 존재하는 정적 HTML 파일(index.html, popup-wheel-diverter.html,
+#    vehicle-mounted-sorting-system.html, products/*.html)의 Clean URL 정규화는
+#    Cloudflare Pages 기본 Pretty URLs에 위임하여 리디렉션 루프 원천 차단
+# 3. 실제 파일이 존재하지 않는 구 URL 및 /products 디렉터리 경로만 301로 안전 연결
 # ==============================================================================
 
-# 1. [리디렉션 포함 페이지 해결] /index.html 요청을 공식 대표 도메인 루트(/)로 301 영구 연결
-/index.html   /   301
+# /products 디렉터리 직접 접근 시 404 방지 -> 제품 라인업 섹션으로 301 영구 이동
+/products        /#product-lineup   301
+/products/       /#product-lineup   301
 
-# 2. [.html 확장자 Clean URL 정규화] 서브페이지의 .html 요청을 깨끗한 정규 URL로 영구 연결
-/popup-wheel-diverter.html   /popup-wheel-diverter   301
-/vehicle-mounted-sorting-system.html   /vehicle-mounted-sorting-system   301
-
-# 3. [404 오류 원천 차단] 과거 사이트 개편 전 존재했을 수 있는 구 URL들을 해당 섹션으로 301 영구 연결
-/solution.html   /#solutions   301
-/solutions.html   /#solutions   301
-/product.html   /#product-lineup   301
+# 과거 사이트 개편 전 존재했을 수 있는 구 URL(미존재 파일) 404 방지
+/solution.html   /#solutions        301
+/solutions.html  /#solutions        301
+/product.html    /#product-lineup   301
 /products.html   /#product-lineup   301
-/about.html   /#about   301
-/contact.html   /#contact   301
-/notice.html   /#notice   301
-/patents.html   /#patents   301
-/reference.html   /#reference   301
+/about.html      /#about            301
+/contact.html    /#contact          301
+/notice.html     /#notice           301
+/patents.html    /#patents          301
+/reference.html  /#reference        301

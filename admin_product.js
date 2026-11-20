@@ -824,15 +824,15 @@
                 html += '    </div>';
             }
 
-            // [SEO 매핑] 각 제품 카드 ID별 전용 정적 상세 페이지 링크
+            // [SEO 매핑] 각 제품 카드 ID별 전용 정적 상세 페이지 링크 (Cloudflare Pages Clean URL)
             var seoDetailUrlMap = {
-                'prod_delivery_1': 'products/vehicle-cargo-sorter.html',
-                'prod_delivery_2': 'products/telescopic-conveyor.html',
-                'prod_transfer_1': 'products/telescopic-conveyor.html',
-                'prod_sorting_1': 'products/cbs-wheel-sorter.html',
-                'prod_sorting_2': 'products/cbs-wheel-sorter.html',
-                'prod_sorting_3': 'products/nbs-sorter.html',
-                'prod_sorting_4': 'products/cbs-wheel-sorter.html'
+                'prod_delivery_1': '/products/vehicle-cargo-sorter',
+                'prod_delivery_2': '/products/telescopic-conveyor',
+                'prod_transfer_1': '/products/telescopic-conveyor',
+                'prod_sorting_1': '/products/cbs-wheel-sorter',
+                'prod_sorting_2': '/products/cbs-wheel-sorter',
+                'prod_sorting_3': '/products/nbs-sorter',
+                'prod_sorting_4': '/products/cbs-wheel-sorter'
             };
             var seoDetailUrl = seoDetailUrlMap[card.id] || '';
             var richAltText = safeTitle + ' - 주식회사 에이티에이기술 물류 자동화 설비 (ATA TECH Logistics Automation)';

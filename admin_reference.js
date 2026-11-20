@@ -473,7 +473,7 @@ var REFERENCE_GALLERY_DB = {
         ],
         "videoTemplates": [],
         "photoTemplates": [],
-        "videoCount": 27,
+        "videoCount": 26,
         "photoCount": 33,
         "videos": [
             {
@@ -545,25 +545,6 @@ var REFERENCE_GALLERY_DB = {
                 "clipCode": "CBS 영상 #07",
                 "title": "[CBS 영상 #07] CBS 현장 가동 및 고속 분류 실증",
                 "desc": "메인 루프 곡선 주행 및 직선 고속 분류 구간 연속 운전 테스트 영상입니다. 고속 주행 시에도 소음과 진동을 최소화한 메커니즘을 자랑합니다.",
-                "tags": [
-                    "Cross Belt Sorter",
-                    "고속 인덕션 투입",
-                    "양방향 슈트 분기",
-                    "풀필먼트 허브"
-                ]
-            },
-            {
-                "id": "CBS-vid-5",
-                "folder": "CBS",
-                "index": 5,
-                "fileName": "CBS_8.mp4",
-                "src": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_8.mp4",
-                "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_8.mp4",
-                "thumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
-                "fallbackThumb": "[ Insert Data ]/[ Movie & Photo ]/CBS/CBS_6.jpg",
-                "clipCode": "CBS 영상 #08",
-                "title": "[CBS 영상 #08] CBS 현장 가동 및 고속 분류 실증",
-                "desc": "상단 비전 바코드 스캐너(Barcode Scanner) 및 체적 측정기(DWS) 연동 고속 분류 제어 현장입니다.",
                 "tags": [
                     "Cross Belt Sorter",
                     "고속 인덕션 투입",
@@ -3060,8 +3041,8 @@ var REFERENCE_GALLERY_DB = {
                 "folder": "틸트트레이소터",
                 "index": 1,
                 "fileName": "Tilt Tray Sorter.png",
-                "src": "[ Insert Data ]/[ Movie & Photo ]/틸트트레이소터/Tilt Tray Sorter.png",
-                "fallbackSrc": "[ Insert Data ]/[ Movie & Photo ]/틸트트레이소터/Tilt Tray Sorter.png",
+                "src": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
+                "fallbackSrc": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
                 "thumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
                 "fallbackThumb": "[ Insert Data ]/SOLUTION/Tilt Tray Sorter.png",
                 "clipCode": "틸트트레이소터 현장포토 #01",

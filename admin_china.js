@@ -340,7 +340,7 @@
             title: "하드웨어-소프트웨어 융합 R&D",
             subtitle: "HW & SW Fusion Co-development",
             badge: "핵심 협력 01",
-            imageUrl: "assets/images/china_coop_rnd.jpg",
+            imageUrl: "[ Insert Data ]/중국 지사_제조사/렵력사업/1. 하드웨어-소프트웨어 융합 R&D.png",
             description: "제조사의 정밀 하드웨어 제조 역량과 (주)에이티에이기술의 지능형 WCS(창고제어시스템) 및 머신비전 제어 소프트웨어를 완벽하게 일체화하였습니다.\n설비 기구 설계 단계부터 제어 보드 펌웨어를 공동 최적화하여 현장 통신 딜레이를 0.001초 미만으로 단축하고, 다기종 복합 설비 간의 실시간 연동 성능을 극대화합니다.",
             features: [
                 "한·중 공동 연구진 연간 24회 교차 기술 워크숍 진행",
@@ -355,7 +355,7 @@
             title: "국내 대형 풀필먼트 공동 수주 및 구축",
             subtitle: "Mega Fulfillment Joint Project Execution",
             badge: "핵심 협력 02",
-            imageUrl: "assets/images/china_coop_project.jpg",
+            imageUrl: "[ Insert Data ]/중국 지사_제조사/렵력사업/2. 국내 대형 풀필먼트 공동 수주.png",
             description: "국내 굴지의 이커머스 메가 풀필먼트 센터 및 택배 간선 허브 터미널을 대상으로, 대량 설비 공급과 초고속 턴키 구축을 성공적으로 수행하고 있습니다.\n중국 대량 양산 클러스터를 통해 납기를 40% 이상 단축하고, 가격 경쟁력과 최고 등급의 기계적 내구성을 동시에 고객사에 제공합니다.",
             features: [
                 "시간당 20,000+ 개 화물 연속 고속 분류 크로스벨트 소터 라인 구축",
@@ -370,7 +370,7 @@
             title: "국내 전용 기술지원 및 A/S 센터 운영",
             subtitle: "Dedicated Korea Technical Service & Spare Parts Center",
             badge: "핵심 협력 03",
-            imageUrl: "assets/images/china_coop_as.jpg",
+            imageUrl: "[ Insert Data ]/중국 지사_제조사/렵력사업/3. 로컬라이징 및 AS 전담 센터.png",
             description: "(주)에이티에이기술 본사 및 국내 거점에 제조사 공식 인증 엔지니어가 상주하는 24/7 긴급 출동 기술지원 센터와 전용 예비 부품 창고를 운영합니다.\n모든 핵심 예비 부품을 국내에 항시 비축하여 외산 설비의 고질적 문제인 부품 수급 지연을 원천 차단하고, 2시간 이내 현장 출동 대응 체계를 가동합니다.",
             features: [
                 "국내 전용 정품 예비 부품 100% 상시 비축 물류센터 운영",
@@ -387,7 +387,7 @@
             title: "글로벌 R&D 센터 및 본사 통합 시험동",
             subtitle: "Global R&D Headquarters & Integration Test Tower",
             badge: "R&D 본사",
-            imageUrl: "assets/images/china_hq_tower.jpg",
+            imageUrl: "assets/images/china_factory_panorama.jpg",
             description: "120여 명의 로봇공학 및 기계제어 석·박사 연구진이 상주하는 글로벌 R&D 본부입니다. 30m 높이의 지능형 셔틀 테스트 타워와 실물 크기 크로스벨트 루프 테스트베드를 상시 가동하여 극한 환경에서의 신뢰성을 검증합니다.",
             features: [
                 "120+ 석·박사급 스마트 물류 하드웨어 & 로보틱스 전담 연구진",
@@ -402,7 +402,7 @@
             title: "제1 스마트 제조 메가 팩토리 (첨단 기구가공)",
             subtitle: "Smart Mega Factory #1 (Precision CNC & Machining)",
             badge: "제1 스마트공장",
-            imageUrl: "assets/images/china_factory_smart1.jpg",
+            imageUrl: "assets/images/china_factory_panorama.jpg",
             description: "20,000㎡ 부지에 독일 및 일본산 초정밀 5축 CNC 머시닝 센터와 레이저 자동 절단·절곡 라인을 완비한 제1 제조공장입니다. 소터 프레임과 고정밀 구동 롤러 등 핵심 기구 부품을 오차 0.01mm 이내로 가공 양산합니다.",
             features: [
                 "초정밀 5축 CNC 머시닝 센터 40대 연속 풀가동",
@@ -417,7 +417,7 @@
             title: "제2 자동화 조립 및 품질 전수 검사 센터",
             subtitle: "Automation Assembly & 100% Quality Assurance Center #2",
             badge: "제2 조립공장",
-            imageUrl: "assets/images/china_factory_smart2.jpg",
+            imageUrl: "assets/images/china_factory_panorama.jpg",
             description: "15,000㎡ 규모의 클린룸 SMT 전자보드 제조 라인과 최종 완제품 에이징(Aging) 테스트 라인이 결합된 제2 제조공장입니다. 출고되는 전 제품을 대상으로 72시간 무중단 연속 부하 테스트를 실시하여 불량률 제로를 실현합니다.",
             features: [
                 "무정전 클린 SMT 제어보드 전용 표면실장 양산 라인",

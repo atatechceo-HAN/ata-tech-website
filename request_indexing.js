@@ -41,7 +41,12 @@ const KEY_FILE_PATH = path.join(__dirname, 'service_account.json');
 const TARGET_URLS = [
     'https://ata-tech.co.kr/',                                // 1. 메인 포털 홈 (우선순위 1.0)
     'https://ata-tech.co.kr/popup-wheel-diverter',             // 2. [핵심 설비] 4분할 독립 구동 팝업 휠 방향전환장치 전문관
-    'https://ata-tech.co.kr/vehicle-mounted-sorting-system'    // 3. [핵심 설비] 차량 탑재형 화물 분류 시스템 전문관
+    'https://ata-tech.co.kr/vehicle-mounted-sorting-system',   // 3. [핵심 설비] 차량 탑재형 화물 분류 시스템 전문관
+    'https://ata-tech.co.kr/products/4-split-converter',       // 4. [제품 SEO 상세] 4분할 방향전환장치
+    'https://ata-tech.co.kr/products/vehicle-cargo-sorter',    // 5. [제품 SEO 상세] 차량 탑재형 화물 자동 분류 시스템
+    'https://ata-tech.co.kr/products/nbs-sorter',              // 6. [제품 SEO 상세] 네로우벨트 소터(NBS)
+    'https://ata-tech.co.kr/products/cbs-wheel-sorter',        // 7. [제품 SEO 상세] 크로스벨트·고속 휠소터
+    'https://ata-tech.co.kr/products/telescopic-conveyor'      // 8. [제품 SEO 상세] 텔레스코픽 컨베이어
 ];
 
 /**

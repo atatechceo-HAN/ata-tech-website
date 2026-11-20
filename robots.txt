@@ -12,5 +12,9 @@ User-agent: *
 # 사이트 내 모든 공개 페이지의 수집 및 크롤링 허용
 Allow: /
 
+# 작업용 임시 폴더 크롤링 차단
+Disallow: /[ Working ]/
+Disallow: /%5B%20Working%20%5D/
+
 # 검색 로봇이 사이트의 전체 구조를 빠르게 색인(인덱싱)할 수 있도록 사이트맵 위치 지정
 Sitemap: https://ata-tech.co.kr/sitemap.xml

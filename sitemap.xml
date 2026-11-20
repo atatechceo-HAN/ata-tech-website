@@ -8,15 +8,16 @@
   체계적으로 전달하여 검색 결과 반영 및 인덱싱을 가속화하는 W3C/Google 표준 사이트맵입니다.
   
   * 구글 웹마스터 가이드라인 준수:
-    1) 해시(#) 프래그먼트 URL 제거 (단일 페이지 내부 앵커는 사이트맵에 미포함)
-    2) 서버 308 리디렉션 방지를 위한 Clean URL(확장자 제거) 표준 적용
+    1) 해시(#) 프래그먼트 URL 미포함
+    2) Cloudflare Pages Pretty URLs(확장자 제거)와 100% 일치하는 HTTP 200 OK 최종 URL만 수록
+       (.html 확장자 요청 시 발생하는 301/308 리디렉션 오류 원천 방지)
 ================================================================================
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- 1. 메인 포털 홈 (최상위 우선순위) -->
   <url>
     <loc>https://ata-tech.co.kr/</loc>
-    <lastmod>2026-11-17</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -24,7 +25,7 @@
   <!-- 2. [핵심 설비 전문관] 4분할 독립 구동 팝업 휠 방향전환장치 서브페이지 -->
   <url>
     <loc>https://ata-tech.co.kr/popup-wheel-diverter</loc>
-    <lastmod>2026-11-17</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -32,47 +33,47 @@
   <!-- 3. [핵심 설비 전문관] 운송 차량 탑재형 화물 분류 시스템 서브페이지 (KAIA 우수기술) -->
   <url>
     <loc>https://ata-tech.co.kr/vehicle-mounted-sorting-system</loc>
-    <lastmod>2026-11-17</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <!-- 4. [제품 SEO 상세] 4분할 독립 구동 팝업 휠 방향전환장치 (특허 제10-2782386호) -->
   <url>
-    <loc>https://ata-tech.co.kr/products/4-split-converter.html</loc>
-    <lastmod>2026-11-17</lastmod>
+    <loc>https://ata-tech.co.kr/products/4-split-converter</loc>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- 5. [제품 SEO 상세] 운송 차량 탑재형 화물 자동 분류 및 이송 시스템 (KAIA 우수기술) -->
   <url>
-    <loc>https://ata-tech.co.kr/products/vehicle-cargo-sorter.html</loc>
-    <lastmod>2026-11-17</lastmod>
+    <loc>https://ata-tech.co.kr/products/vehicle-cargo-sorter</loc>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- 6. [제품 SEO 상세] 네로우벨트 소터 (Narrow Belt Sorter, NBS) -->
   <url>
-    <loc>https://ata-tech.co.kr/products/nbs-sorter.html</loc>
-    <lastmod>2026-11-17</lastmod>
+    <loc>https://ata-tech.co.kr/products/nbs-sorter</loc>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- 7. [제품 SEO 상세] 크로스벨트 소터(CBS) 및 고속 휠소터(Wheel Sorter) -->
   <url>
-    <loc>https://ata-tech.co.kr/products/cbs-wheel-sorter.html</loc>
-    <lastmod>2026-11-17</lastmod>
+    <loc>https://ata-tech.co.kr/products/cbs-wheel-sorter</loc>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- 8. [제품 SEO 상세] 텔레스코픽 컨베이어(Telescopic Conveyor) 및 물류 이송 설비 -->
   <url>
-    <loc>https://ata-tech.co.kr/products/telescopic-conveyor.html</loc>
-    <lastmod>2026-11-17</lastmod>
+    <loc>https://ata-tech.co.kr/products/telescopic-conveyor</loc>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
